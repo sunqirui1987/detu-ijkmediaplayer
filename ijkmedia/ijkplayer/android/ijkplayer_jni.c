@@ -37,6 +37,10 @@
 #include "ijksdl/android/ijksdl_android_jni.h"
 #include "ijksdl/android/ijksdl_codec_android_mediadef.h"
 #include "ijkplayer/ijkavformat/ijkavformat.h"
+#include "ijkplayer/ijkplayer_internal.h"
+
+#include <android/log.h>
+#include <android/bitmap.h>
 
 #define JNI_MODULE_PACKAGE      "tv/danmaku/ijk/media/player"
 #define JNI_CLASS_IJKPLAYER     "tv/danmaku/ijk/media/player/IjkMediaPlayer"
@@ -57,6 +61,88 @@ static player_fields_t g_clazz;
 
 static int inject_callback(void *opaque, int type, void *data, size_t data_size);
 static bool mediacodec_select_callback(void *opaque, ijkmp_mediacodecinfo_context *mcc);
+
+
+static  void fill_bitmap(FFPlayer *ffp, AndroidBitmapInfo*  info, void *pixels, Frame *vp)
+{
+    uint8_t *frameLine;
+    int linesize = vp->bmp->pitches[0];
+    uint8_t *src = vp->bmp->pixels[0];
+    int  yy;
+    for (yy = 0; yy < info->height; yy++) {
+        uint8_t*  line = (uint8_t*)pixels;
+        frameLine = (uint8_t *)src + (yy * linesize);
+
+        int xx;
+        for (xx = 0; xx < info->width; xx++) {
+            int out_offset = xx * 4;
+            int in_offset = xx;
+
+             
+            switch(ffp->overlay_format)
+            {
+                case SDL_FCC_I420:
+                     in_offset = in_offset;
+                     break;
+                case SDL_FCC_YV12:
+                     in_offset = in_offset;
+                     break;
+                case SDL_FCC_RV16:
+                     in_offset = in_offset * 2;
+                     break;
+                case SDL_FCC_RV24:
+                     in_offset = in_offset * 3;
+                     break;
+                case SDL_FCC_RV32:
+                     in_offset = in_offset * 4;
+                     break;
+                default:
+                     break;
+            }
+         
+            line[out_offset] = frameLine[in_offset];
+            line[out_offset+1] = frameLine[in_offset+1];
+            line[out_offset+2] = frameLine[in_offset+2];
+            line[out_offset+3] = 0;
+        }
+        pixels = (char*)pixels + info->stride;
+
+    }
+}
+static void ffp_get_current_frame(FFPlayer *ffp, AndroidBitmapInfo*  info,  void* frame_buf)
+{
+    ALOGD("start snapshot\n");
+
+    
+
+    VideoState *is = ffp->is;
+    Frame *vp;
+
+    if(is == NULL){
+        return;
+    }
+   
+    if(is->pictq.rindex < 0){
+        return;
+    }
+    vp = &is->pictq.queue[is->pictq.rindex];
+    if(vp == NULL){
+        return;
+    }
+
+
+    int height = vp->bmp->h;
+    int width = vp->bmp->w;
+    ALOGD("snapshot=============>%d X %d == %dx%d stride %d=== %d\n", width, height,info->width, info->height,info->stride, vp->bmp->pitches[0]);
+
+    
+  
+    fill_bitmap(ffp, info, frame_buf, vp);
+
+  
+    ALOGD("end snapshot\n");
+}
+
 
 static IjkMediaPlayer *jni_get_media_player(JNIEnv* env, jobject thiz)
 {
@@ -285,6 +371,43 @@ LABEL_RETURN:
     ijkmp_dec_ref_p(&mp);
     return retval;
 }
+
+
+
+static jboolean
+IjkMediaPlayer_getCurrentFrame(JNIEnv *env, jobject thiz, jobject bitmap)
+{
+    jboolean retval = JNI_TRUE;
+    IjkMediaPlayer *mp = jni_get_media_player(env, thiz);
+    JNI_CHECK_GOTO(mp, env, NULL, "mpjni: getCurrentFrame: null mp", LABEL_RETURN);
+
+    AndroidBitmapInfo  info;
+    void *frame_buffer = NULL;
+    int ret;
+    if ((ret = AndroidBitmap_getInfo(env, bitmap, &info)) < 0) {
+        (*env)->ThrowNew(env, "java/io/IOException", "AndroidBitmap_getInfo() failed !");
+        return JNI_FALSE;
+    }
+
+    if (0 > AndroidBitmap_lockPixels(env, bitmap, (void **)&frame_buffer)) {
+        (*env)->ThrowNew(env, "java/io/IOException", "Unable to lock pixels.");
+        return JNI_FALSE;
+    }
+    //
+    //pthread_mutex_lock(mp->mutex);
+    ffp_get_current_frame(mp->ffplayer, &info, frame_buffer);
+   // pthread_mutex_unlock(mp->mutex);
+    
+    if (0 > AndroidBitmap_unlockPixels(env, bitmap)) {
+        (*env)->ThrowNew(env, "java/io/IOException", "Unable to unlock pixels.");
+        return JNI_FALSE;
+    }
+
+    LABEL_RETURN:
+    ijkmp_dec_ref_p(&mp);
+    return retval;
+}
+
 
 static jlong
 IjkMediaPlayer_getCurrentPosition(JNIEnv *env, jobject thiz)
@@ -623,6 +746,20 @@ IjkMediaPlayer_getMediaMeta(JNIEnv *env, jobject thiz)
     fillMetaInternal(env, jlocal_bundle, meta, IJKM_KEY_VIDEO_STREAM, "-1");
     fillMetaInternal(env, jlocal_bundle, meta, IJKM_KEY_AUDIO_STREAM, "-1");
 
+    fillMetaInternal(env, jlocal_bundle, meta, "description", "");
+    fillMetaInternal(env, jlocal_bundle, meta, "major_brand", "");
+    fillMetaInternal(env, jlocal_bundle, meta, "minor_version", "");
+    fillMetaInternal(env, jlocal_bundle, meta, "compatible_brands", "");
+    fillMetaInternal(env, jlocal_bundle, meta, "detu_models", "");
+    fillMetaInternal(env, jlocal_bundle, meta, "detu_model", "");
+
+    fillMetaInternal(env, jlocal_bundle, meta, "creation_time", "");
+    fillMetaInternal(env, jlocal_bundle, meta, "original_format", "");
+    fillMetaInternal(env, jlocal_bundle, meta, "original_format-eng", "");
+    fillMetaInternal(env, jlocal_bundle, meta, "comment", "");
+    fillMetaInternal(env, jlocal_bundle, meta, "description", "");
+    fillMetaInternal(env, jlocal_bundle, meta, "comment-eng", "");
+
     jarray_list = J4AC_ArrayList__ArrayList(env);
     if (J4A_ExceptionCheck__throwAny(env)) {
         goto LABEL_RETURN;
@@ -639,6 +776,13 @@ IjkMediaPlayer_getMediaMeta(JNIEnv *env, jobject thiz)
 
             fillMetaInternal(env, jstream_bundle, streamRawMeta, IJKM_KEY_TYPE,     IJKM_VAL_TYPE__UNKNOWN);
             fillMetaInternal(env, jstream_bundle, streamRawMeta, IJKM_KEY_LANGUAGE, NULL);
+
+            fillMetaInternal(env, jstream_bundle, streamRawMeta, "description", "");
+            fillMetaInternal(env, jstream_bundle, streamRawMeta, "major_brand", "");
+            fillMetaInternal(env, jstream_bundle, streamRawMeta, "minor_version", "");
+            fillMetaInternal(env, jstream_bundle, streamRawMeta, "compatible_brands", "");
+
+
             const char *type = ijkmeta_get_string_l(streamRawMeta, IJKM_KEY_TYPE);
             if (type) {
                 fillMetaInternal(env, jstream_bundle, streamRawMeta, IJKM_KEY_CODEC_NAME, NULL );
@@ -988,6 +1132,9 @@ static JNINativeMethod g_methods[] = {
     { "native_init",            "()V",      (void *) IjkMediaPlayer_native_init },
     { "native_setup",           "(Ljava/lang/Object;)V", (void *) IjkMediaPlayer_native_setup },
     { "native_finalize",        "()V",      (void *) IjkMediaPlayer_native_finalize },
+
+  // snapshot
+    { "getCurrentFrame", "(Landroid/graphics/Bitmap;)Z", (void *) IjkMediaPlayer_getCurrentFrame },
 
     { "_setOption",             "(ILjava/lang/String;Ljava/lang/String;)V", (void *) IjkMediaPlayer_setOption },
     { "_setOption",             "(ILjava/lang/String;J)V",                  (void *) IjkMediaPlayer_setOptionLong },

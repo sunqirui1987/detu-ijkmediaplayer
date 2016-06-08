@@ -919,7 +919,8 @@ inline static void fillMetaInternal(NSMutableDictionary *meta, IjkMediaMeta *raw
                 fillMetaInternal(newMediaMeta, rawMeta, "major_brand", nil);
                 fillMetaInternal(newMediaMeta, rawMeta, "minor_version", nil);
                 fillMetaInternal(newMediaMeta, rawMeta, "compatible_brands", nil);
-                
+                fillMetaInternal(newMediaMeta, rawMeta, "detu_models", nil);
+                fillMetaInternal(newMediaMeta, rawMeta, "detu_model", nil);
                 fillMetaInternal(newMediaMeta, rawMeta, "creation_time", nil);
                 fillMetaInternal(newMediaMeta, rawMeta, "original_format", nil);
                 fillMetaInternal(newMediaMeta, rawMeta, "original_format-eng", nil);

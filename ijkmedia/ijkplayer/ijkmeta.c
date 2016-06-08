@@ -189,6 +189,12 @@ void ijkmeta_set_avformat_context_l(IjkMediaMeta *meta, AVFormatContext *ic)
 
     if (ic->bit_rate)
         ijkmeta_set_int64_l(meta, IJKM_KEY_BITRATE, ic->bit_rate);
+    
+    AVDictionaryEntry *tag = NULL;
+    while ((tag = av_dict_get(ic->metadata, "", tag, AV_DICT_IGNORE_SUFFIX))){
+        ijkmeta_set_string_l(meta, tag->key, tag->value);
+    }
+
 
     IjkMediaMeta *stream_meta = NULL;
     for (int i = 0; i < ic->nb_streams; i++) {
@@ -226,6 +232,12 @@ void ijkmeta_set_avformat_context_l(IjkMediaMeta *meta, AVFormatContext *ic)
             ijkmeta_set_int64_l(stream_meta, IJKM_KEY_BITRATE, bitrate);
         }
 
+        AVDictionaryEntry *tag2 = NULL;
+        while ((tag2 = av_dict_get(ic->metadata, "", tag2, AV_DICT_IGNORE_SUFFIX))){
+            ijkmeta_set_string_l(meta, tag2->key, tag2->value);
+        }
+
+        
         switch (avctx->codec_type) {
             case AVMEDIA_TYPE_VIDEO: {
                 ijkmeta_set_string_l(stream_meta, IJKM_KEY_TYPE, IJKM_VAL_TYPE__VIDEO);
