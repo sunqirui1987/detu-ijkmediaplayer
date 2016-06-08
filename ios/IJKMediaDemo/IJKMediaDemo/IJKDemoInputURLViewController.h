@@ -15,7 +15,16 @@
  */
 
 #import <UIKit/UIKit.h>
+#import "IJKPlayerMovieDecoder.h"
 
-@interface IJKDemoInputURLViewController : UIViewController
+@interface IJKDemoInputURLViewController : UIViewController<MovieDecoderDelegate>
+
+@property (nonatomic,readonly) float duration;
+@property (nonatomic,assign)   float currentTime;
+
+
+-(void)start;
+-(void)pause;
+-(void)stop;
 
 @end

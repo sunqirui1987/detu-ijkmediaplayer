@@ -78,7 +78,6 @@ static int vout_display_overlay_l(SDL_Vout *vout, SDL_VoutOverlay *overlay)
     IJKSDLGLView *gl_view = opaque->gl_view;
 
     if (!gl_view) {
-        ALOGE("vout_display_overlay_l: NULL gl_view\n");
         return -1;
     }
 

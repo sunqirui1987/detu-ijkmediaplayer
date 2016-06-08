@@ -13,12 +13,19 @@
 		55E809E41B143C85003E98A5 /* IJKDemoMainViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 55E809E31B143C85003E98A5 /* IJKDemoMainViewController.xib */; };
 		55E809E61B145B55003E98A5 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 55E809E51B145B55003E98A5 /* LaunchScreen.xib */; };
 		55E809EA1B145BC2003E98A5 /* IJKDemoInputURLViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 55E809E81B145BC2003E98A5 /* IJKDemoInputURLViewController.m */; };
-		55E809EB1B145BC2003E98A5 /* IJKDemoInputURLViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 55E809E91B145BC2003E98A5 /* IJKDemoInputURLViewController.xib */; };
 		55E809EE1B146C1E003E98A5 /* IJKQRCodeScanViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 55E809ED1B146C1E003E98A5 /* IJKQRCodeScanViewController.m */; };
 		55E809F11B146C80003E98A5 /* Barcode.m in Sources */ = {isa = PBXBuildFile; fileRef = 55E809F01B146C80003E98A5 /* Barcode.m */; };
 		55E809F31B146DE8003E98A5 /* IJKQRCodeScanViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 55E809F21B146DE8003E98A5 /* IJKQRCodeScanViewController.xib */; };
 		55E809F61B1480BC003E98A5 /* IJKDemoHistory.m in Sources */ = {isa = PBXBuildFile; fileRef = 55E809F51B1480BC003E98A5 /* IJKDemoHistory.m */; };
 		55E809F91B15A1DB003E98A5 /* IJKDemoLocalFolderViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 55E809F81B15A1DB003E98A5 /* IJKDemoLocalFolderViewController.m */; };
+		96DF71041D06DE29007E2A47 /* GLES2Renderer.m in Sources */ = {isa = PBXBuildFile; fileRef = 96DF71031D06DE29007E2A47 /* GLES2Renderer.m */; };
+		96DF71071D06DE6D007E2A47 /* GLESRenderer.m in Sources */ = {isa = PBXBuildFile; fileRef = 96DF71061D06DE6D007E2A47 /* GLESRenderer.m */; };
+		96DF710A1D06DEAD007E2A47 /* GLPlayerView.m in Sources */ = {isa = PBXBuildFile; fileRef = 96DF71091D06DEAD007E2A47 /* GLPlayerView.m */; };
+		96DF710C1D06DF1B007E2A47 /* sphere.fsh in Resources */ = {isa = PBXBuildFile; fileRef = 96DF710B1D06DF1B007E2A47 /* sphere.fsh */; };
+		96DF710E1D06DF3D007E2A47 /* sphere.vsh in Resources */ = {isa = PBXBuildFile; fileRef = 96DF710D1D06DF3D007E2A47 /* sphere.vsh */; };
+		96DF71131D06DF8D007E2A47 /* IJKPlayerMovieDecoder.m in Sources */ = {isa = PBXBuildFile; fileRef = 96DF71121D06DF8D007E2A47 /* IJKPlayerMovieDecoder.m */; };
+		96DF711A1D07A912007E2A47 /* Texture.m in Sources */ = {isa = PBXBuildFile; fileRef = 96DF71191D07A912007E2A47 /* Texture.m */; };
+		96DF711C1D07A96F007E2A47 /* GLKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 96DF711B1D07A96F007E2A47 /* GLKit.framework */; };
 		E60E8C2A19EF70BB005B5B6E /* CoreMedia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E60E8C2919EF70BB005B5B6E /* CoreMedia.framework */; };
 		E612EAE517F7E0F800BEE660 /* MediaPlayer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E612EAE417F7E0F800BEE660 /* MediaPlayer.framework */; };
 		E6166C9C17EDA4A20006B956 /* IJKMediaDemo-Prefix.pch in Resources */ = {isa = PBXBuildFile; fileRef = E6166C9B17EDA4A20006B956 /* IJKMediaDemo-Prefix.pch */; };
@@ -81,7 +88,6 @@
 		55E809E51B145B55003E98A5 /* LaunchScreen.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LaunchScreen.xib; sourceTree = "<group>"; };
 		55E809E71B145BC2003E98A5 /* IJKDemoInputURLViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IJKDemoInputURLViewController.h; sourceTree = "<group>"; };
 		55E809E81B145BC2003E98A5 /* IJKDemoInputURLViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IJKDemoInputURLViewController.m; sourceTree = "<group>"; };
-		55E809E91B145BC2003E98A5 /* IJKDemoInputURLViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = IJKDemoInputURLViewController.xib; sourceTree = "<group>"; };
 		55E809EC1B146C1E003E98A5 /* IJKQRCodeScanViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IJKQRCodeScanViewController.h; sourceTree = "<group>"; };
 		55E809ED1B146C1E003E98A5 /* IJKQRCodeScanViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IJKQRCodeScanViewController.m; sourceTree = "<group>"; };
 		55E809EF1B146C80003E98A5 /* Barcode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Barcode.h; sourceTree = "<group>"; };
@@ -91,6 +97,19 @@
 		55E809F51B1480BC003E98A5 /* IJKDemoHistory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IJKDemoHistory.m; sourceTree = "<group>"; };
 		55E809F71B15A1DB003E98A5 /* IJKDemoLocalFolderViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IJKDemoLocalFolderViewController.h; sourceTree = "<group>"; };
 		55E809F81B15A1DB003E98A5 /* IJKDemoLocalFolderViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IJKDemoLocalFolderViewController.m; sourceTree = "<group>"; };
+		96DF71021D06DE29007E2A47 /* GLES2Renderer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GLES2Renderer.h; sourceTree = "<group>"; };
+		96DF71031D06DE29007E2A47 /* GLES2Renderer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GLES2Renderer.m; sourceTree = "<group>"; };
+		96DF71051D06DE6D007E2A47 /* GLESRenderer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GLESRenderer.h; sourceTree = "<group>"; };
+		96DF71061D06DE6D007E2A47 /* GLESRenderer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GLESRenderer.m; sourceTree = "<group>"; };
+		96DF71081D06DEAD007E2A47 /* GLPlayerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GLPlayerView.h; sourceTree = "<group>"; };
+		96DF71091D06DEAD007E2A47 /* GLPlayerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GLPlayerView.m; sourceTree = "<group>"; };
+		96DF710B1D06DF1B007E2A47 /* sphere.fsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = sphere.fsh; sourceTree = "<group>"; };
+		96DF710D1D06DF3D007E2A47 /* sphere.vsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = sphere.vsh; sourceTree = "<group>"; };
+		96DF71111D06DF8D007E2A47 /* IJKPlayerMovieDecoder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IJKPlayerMovieDecoder.h; sourceTree = "<group>"; };
+		96DF71121D06DF8D007E2A47 /* IJKPlayerMovieDecoder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IJKPlayerMovieDecoder.m; sourceTree = "<group>"; };
+		96DF71181D07A912007E2A47 /* Texture.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Texture.h; sourceTree = "<group>"; };
+		96DF71191D07A912007E2A47 /* Texture.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Texture.m; sourceTree = "<group>"; };
+		96DF711B1D07A96F007E2A47 /* GLKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GLKit.framework; path = System/Library/Frameworks/GLKit.framework; sourceTree = SDKROOT; };
 		E60E8C2919EF70BB005B5B6E /* CoreMedia.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMedia.framework; path = System/Library/Frameworks/CoreMedia.framework; sourceTree = SDKROOT; };
 		E612EAE417F7E0F800BEE660 /* MediaPlayer.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MediaPlayer.framework; path = System/Library/Frameworks/MediaPlayer.framework; sourceTree = SDKROOT; };
 		E6166C9B17EDA4A20006B956 /* IJKMediaDemo-Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "IJKMediaDemo-Prefix.pch"; sourceTree = "<group>"; };
@@ -132,6 +151,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				96DF711C1D07A96F007E2A47 /* GLKit.framework in Frameworks */,
 				E63FC29117F04C83003551EB /* AudioToolbox.framework in Frameworks */,
 				E61B45AE19EF7021002792EC /* AVFoundation.framework in Frameworks */,
 				E64D4F4E1938CCCC00F1C75D /* CoreGraphics.framework in Frameworks */,
@@ -152,6 +172,25 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		96DF71001D06DE0B007E2A47 /* OpenGL */ = {
+			isa = PBXGroup;
+			children = (
+				96DF71021D06DE29007E2A47 /* GLES2Renderer.h */,
+				96DF71031D06DE29007E2A47 /* GLES2Renderer.m */,
+				96DF71051D06DE6D007E2A47 /* GLESRenderer.h */,
+				96DF71061D06DE6D007E2A47 /* GLESRenderer.m */,
+				96DF71081D06DEAD007E2A47 /* GLPlayerView.h */,
+				96DF71091D06DEAD007E2A47 /* GLPlayerView.m */,
+				96DF710B1D06DF1B007E2A47 /* sphere.fsh */,
+				96DF710D1D06DF3D007E2A47 /* sphere.vsh */,
+				96DF71111D06DF8D007E2A47 /* IJKPlayerMovieDecoder.h */,
+				96DF71121D06DF8D007E2A47 /* IJKPlayerMovieDecoder.m */,
+				96DF71181D07A912007E2A47 /* Texture.h */,
+				96DF71191D07A912007E2A47 /* Texture.m */,
+			);
+			name = OpenGL;
+			sourceTree = "<group>";
+		};
 		E63FC27717F032D9003551EB /* Misc */ = {
 			isa = PBXGroup;
 			children = (
@@ -196,6 +235,7 @@
 		E6903EFE17EAF70200CFD954 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				96DF711B1D07A96F007E2A47 /* GLKit.framework */,
 				E63FC28F17F04C83003551EB /* AudioToolbox.framework */,
 				E61B45AD19EF7021002792EC /* AVFoundation.framework */,
 				E64D4F4D1938CCCC00F1C75D /* CoreGraphics.framework */,
@@ -216,6 +256,7 @@
 		E6903F0517EAF70200CFD954 /* IJKMediaDemo */ = {
 			isa = PBXGroup;
 			children = (
+				96DF71001D06DE0B007E2A47 /* OpenGL */,
 				E6903F0E17EAF70200CFD954 /* IJKAppDelegate.h */,
 				E6903F0F17EAF70200CFD954 /* IJKAppDelegate.m */,
 				E6A9B55C17EDA6AC00A1A500 /* View Controllers */,
@@ -245,7 +286,6 @@
 			children = (
 				55E809E71B145BC2003E98A5 /* IJKDemoInputURLViewController.h */,
 				55E809E81B145BC2003E98A5 /* IJKDemoInputURLViewController.m */,
-				55E809E91B145BC2003E98A5 /* IJKDemoInputURLViewController.xib */,
 				55E809F71B15A1DB003E98A5 /* IJKDemoLocalFolderViewController.h */,
 				55E809F81B15A1DB003E98A5 /* IJKDemoLocalFolderViewController.m */,
 				55E809E01B143C47003E98A5 /* IJKDemoMainViewController.h */,
@@ -351,6 +391,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				96DF710E1D06DF3D007E2A47 /* sphere.vsh in Resources */,
 				E6903F0A17EAF70200CFD954 /* InfoPlist.strings in Resources */,
 				E67323AC1B69E76100CB9036 /* MoviePlayerImages.xcassets in Resources */,
 				E6903F1217EAF70200CFD954 /* Default.png in Resources */,
@@ -364,7 +405,7 @@
 				55E809F31B146DE8003E98A5 /* IJKQRCodeScanViewController.xib in Resources */,
 				55E809E61B145B55003E98A5 /* LaunchScreen.xib in Resources */,
 				E67323A81B69E6F800CB9036 /* LaunchImages.xcassets in Resources */,
-				55E809EB1B145BC2003E98A5 /* IJKDemoInputURLViewController.xib in Resources */,
+				96DF710C1D06DF1B007E2A47 /* sphere.fsh in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -377,12 +418,17 @@
 			files = (
 				55E809F91B15A1DB003E98A5 /* IJKDemoLocalFolderViewController.m in Sources */,
 				55E809F61B1480BC003E98A5 /* IJKDemoHistory.m in Sources */,
+				96DF71041D06DE29007E2A47 /* GLES2Renderer.m in Sources */,
 				E6903F0C17EAF70200CFD954 /* main.m in Sources */,
 				55E809E21B143C47003E98A5 /* IJKDemoMainViewController.m in Sources */,
+				96DF711A1D07A912007E2A47 /* Texture.m in Sources */,
 				E6903F1017EAF70200CFD954 /* IJKAppDelegate.m in Sources */,
 				E6F524EB1B183A0700B69DC7 /* IJKDemoSampleViewController.m in Sources */,
+				96DF71071D06DE6D007E2A47 /* GLESRenderer.m in Sources */,
+				96DF710A1D06DEAD007E2A47 /* GLPlayerView.m in Sources */,
 				E6A9B56417EDA72C00A1A500 /* IJKMoviePlayerViewController.m in Sources */,
 				55E809F11B146C80003E98A5 /* Barcode.m in Sources */,
+				96DF71131D06DF8D007E2A47 /* IJKPlayerMovieDecoder.m in Sources */,
 				E66F8DCB17EEDD8B00354D80 /* IJKMediaControl.m in Sources */,
 				55E809EA1B145BC2003E98A5 /* IJKDemoInputURLViewController.m in Sources */,
 				55E809EE1B146C1E003E98A5 /* IJKQRCodeScanViewController.m in Sources */,
@@ -479,6 +525,15 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "IJKMediaDemo/IJKMediaDemo-Prefix.pch";
+				HEADER_SEARCH_PATHS = (
+					../../ijkmedia,
+					../IJKMediaPlayer/IJKMediaPlayer/ijkmedia,
+					../../ijkmedia/ijksdl/ijkplayer,
+					../../ijkmedia/ijksdl/ffmpeg,
+					../../ijkmedia/ijksdl,
+					../build/universal/include,
+					../IJKMediaPlayer/IJKMediaPlayer/ijkmedia/ijksdl/ios,
+				);
 				INFOPLIST_FILE = "IJKMediaDemo/IJKMediaDemo-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
@@ -499,6 +554,15 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "IJKMediaDemo/IJKMediaDemo-Prefix.pch";
+				HEADER_SEARCH_PATHS = (
+					../../ijkmedia,
+					../IJKMediaPlayer/IJKMediaPlayer/ijkmedia,
+					../../ijkmedia/ijksdl/ijkplayer,
+					../../ijkmedia/ijksdl/ffmpeg,
+					../../ijkmedia/ijksdl,
+					../build/universal/include,
+					../IJKMediaPlayer/IJKMediaPlayer/ijkmedia/ijksdl/ios,
+				);
 				INFOPLIST_FILE = "IJKMediaDemo/IJKMediaDemo-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LIBRARY_SEARCH_PATHS = "$(inherited)";

@@ -23,6 +23,7 @@
 #import "IJKMediaPlayback.h"
 #import "IJKFFMonitor.h"
 #import "IJKFFOptions.h"
+#import "ijksdl.h"
 
 // media meta
 #define k_IJKM_KEY_FORMAT         @"format"
@@ -81,6 +82,7 @@ typedef enum IJKLogLevel {
 - (void)pause;
 - (void)stop;
 - (BOOL)isPlaying;
+-(SDL_VoutOverlay*)getCurrentFrame3;
 
 - (void)setPauseInBackground:(BOOL)pause;
 - (BOOL)isVideoToolboxOpen;

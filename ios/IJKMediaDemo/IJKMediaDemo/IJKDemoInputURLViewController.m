@@ -15,11 +15,22 @@
  */
 
 #import "IJKDemoInputURLViewController.h"
-#import "IJKMoviePlayerViewController.h"
+#import "GLPlayerView.h"
 
-@interface IJKDemoInputURLViewController () <UITextViewDelegate>
+@interface IJKDemoInputURLViewController () <UITextViewDelegate>{
+    
+    IJKPlayerMovieDecoder* decoder;
+    NSTimer *timer;
+    bool isloaded;
+    
+    int fixed_timer_count ;
+    bool fixed_timer;
+    bool isrstp;
+    
+    GLPlayerView *_panoplayer;
+}
 
-@property(nonatomic,strong) IBOutlet UITextView *textView;
+
 
 @end
 
@@ -37,21 +48,139 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
+    
+    
+    _panoplayer = [[GLPlayerView alloc] init];
+    _panoplayer.frame = CGRectMake(0, 30, self.view.frame.size.width, self.view.frame.size.height);
+    NSLog(@" frame size %f,%f",_panoplayer.frame.size.width,_panoplayer.frame.size.height);
+    [self.view addSubview:_panoplayer];
+    
 }
+
 
 - (void)onClickPlayButton {
-    NSURL *url = [NSURL URLWithString:self.textView.text];
-    NSString *scheme = [[url scheme] lowercaseString];
     
-    if ([scheme isEqualToString:@"http"] || [scheme isEqualToString:@"https"]) {
-        [IJKVideoViewController presentFromViewController:self withTitle:[NSString stringWithFormat:@"URL: %@", url] URL:url completion:^{
-//            [self.navigationController popViewControllerAnimated:NO];
-        }];
-    }
+    decoder=[IJKPlayerMovieDecoder movieDecoderWithMovie:@"rtsp://192.168.1.254/xxx.mov" isHardWare:false];
+    decoder.delegate=self;
+    [self innerstart];
 }
 
-- (void)textViewDidEndEditing:(UITextView *)textView {
-    [self onClickPlayButton];
+
+-(void)_startDraw{
+    if (!timer) {
+        timer=[NSTimer scheduledTimerWithTimeInterval:(1.0/60) target:decoder selector:@selector(captureNext) userInfo:nil repeats:YES];
+    }
+    
+}
+
+
+
+-(void)_stopDraw{
+    if (timer) {
+        [timer invalidate];
+        timer=nil;
+    }
+    
+}
+
+-(void)innerstart{
+    [self _startDraw];
+    [decoder start];
+    
+}
+
+-(void)start{
+    [self innerstart];
+    
+}
+
+-(void)_pauseAndStopDraw{
+    
+    if(self != nil && decoder != nil)
+    {
+        [self _stopDraw];
+        [self pause];
+    }
+    
+}
+
+-(void)innerpause{
+    [decoder pause];
+}
+
+-(void)pause{
+    [self innerpause];
+    
+}
+
+-(void)innerstop{
+    [self _stopDraw];
+    if (!decoder) {
+        return;
+    }
+    [decoder stop];
+    
+}
+
+-(void)stop{
+    [self innerstop];
+    
+}
+
+
+
+-(void)setCurrentTime:(float)currentTime{
+    decoder.currentTime=currentTime;
+}
+
+-(float)currentTime{
+    return decoder.currentTime;
+}
+
+-(float)duration{
+    return decoder.duration;
+}
+
+-(void)movieDecoderDidDecodeFrameSDL:(SDL_VoutOverlay*)frame{
+    
+    if (frame->w > 0) {
+        [_panoplayer setFrameSDL:frame];
+        [_panoplayer render];
+    }
+    
+}
+
+-(void)movieDecoderDidDecodeFrame:(CVPixelBufferRef)buffer{
+    NSLog(@"movieDecoderDidDecodeFrame");
+}
+-(void)movieDecoderDidDecodeFrameBuffer:(void*)buffer width:(int)width height:(int)height channel:(int)channel{
+    
+    NSLog(@"movieDecoderDidDecodeFrameBuffer");
+}
+
+
+-(void)movieDecoderDidFinishDecoding{
+}
+-(void)movieDecoderDidSeeked{
+}
+-(void)movieDecoderError:(NSError *)error{
+}
+-(void)moviceDecoderPlayItemState:(MovieDecoderPlayItemState)state{
+    
+}
+
+
+
+
+-(void)dealloc{
+    NSLog(@"video plugin deallo");
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+    [decoder stop];
+    [decoder cleargc];
+    decoder.delegate = nil;
+    decoder = nil;
+    timer = nil;
 }
 
 @end

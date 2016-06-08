@@ -34,6 +34,10 @@
 #include "ijkplayer/version.h"
 #include "ijkplayer/ijkavformat/ijkavformat.h"
 
+#include "ijkplayer/ijkplayer.h"
+#include "ijkplayer/ijkplayer_internal.h"
+#include "ijkplayer/ff_ffplay_def.h"
+
 static const char *kIJKFFRequiredFFmpegVersion = "ff3.0--ijk0.5.0--dev0.4.5--rc11";
 
 @interface IJKFFMoviePlayerController()
@@ -190,6 +194,7 @@ void IJKFFIOStatCompleteRegister(void (*cb)(const char *url,
         ijkmp_set_inject_opaque(_mediaPlayer, (__bridge void *) self);
         ijkmp_set_option_int(_mediaPlayer, IJKMP_OPT_CATEGORY_PLAYER, "start-on-prepared", _shouldAutoplay ? 1 : 0);
 
+        /*
         // init video sink
         _glView = [[IJKSDLGLView alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
         _glView.shouldShowHudView = NO;
@@ -208,13 +213,16 @@ void IJKFFIOStatCompleteRegister(void (*cb)(const char *url,
         
         self.shouldShowHudView = options.showHudView;
 
-        ijkmp_ios_set_glview(_mediaPlayer, _glView);
+       ijkmp_ios_set_glview(_mediaPlayer, _glView);
         ijkmp_set_option(_mediaPlayer, IJKMP_OPT_CATEGORY_PLAYER, "overlay-format", "fcc-_es2");
+         
+        
 #ifdef DEBUG
         [IJKFFMoviePlayerController setLogLevel:k_IJK_LOG_DEBUG];
 #else
         [IJKFFMoviePlayerController setLogLevel:k_IJK_LOG_SILENT];
 #endif
+         */
         // init audio sink
         [[IJKAudioKit sharedInstance] setupAudioSession];
 
@@ -284,6 +292,22 @@ void IJKFFIOStatCompleteRegister(void (*cb)(const char *url,
         });
     }
 }
+
+
+-(SDL_VoutOverlay*)getCurrentFrame3{
+    if (!_mediaPlayer)
+        return NULL;
+    
+    //    FrameQueue *f = &_mediaPlayer->ffplayer->is->pictq;
+    //    Frame *vp  = &f->queue[(f->rindex + f->rindex_shown) % f->max_size];
+    //    return vp->bmp;
+    
+    FrameQueue *f = &_mediaPlayer->ffplayer->is->pictq;
+    Frame *vp  = &f->queue[(f->rindex + f->rindex_shown) % f->max_size];
+    return vp->bmp;
+}
+
+
 
 - (void)play
 {
@@ -890,6 +914,18 @@ inline static void fillMetaInternal(NSMutableDictionary *meta, IjkMediaMeta *raw
                 fillMetaInternal(newMediaMeta, rawMeta, IJKM_KEY_VIDEO_STREAM, nil);
                 fillMetaInternal(newMediaMeta, rawMeta, IJKM_KEY_AUDIO_STREAM, nil);
 
+                
+                fillMetaInternal(newMediaMeta, rawMeta, "description", nil);
+                fillMetaInternal(newMediaMeta, rawMeta, "major_brand", nil);
+                fillMetaInternal(newMediaMeta, rawMeta, "minor_version", nil);
+                fillMetaInternal(newMediaMeta, rawMeta, "compatible_brands", nil);
+                
+                fillMetaInternal(newMediaMeta, rawMeta, "creation_time", nil);
+                fillMetaInternal(newMediaMeta, rawMeta, "original_format", nil);
+                fillMetaInternal(newMediaMeta, rawMeta, "original_format-eng", nil);
+                fillMetaInternal(newMediaMeta, rawMeta, "comment", nil);
+                fillMetaInternal(newMediaMeta, rawMeta, "comment-eng", nil);
+                
                 int64_t video_stream = ijkmeta_get_int64_l(rawMeta, IJKM_KEY_VIDEO_STREAM, -1);
                 int64_t audio_stream = ijkmeta_get_int64_l(rawMeta, IJKM_KEY_AUDIO_STREAM, -1);
 
