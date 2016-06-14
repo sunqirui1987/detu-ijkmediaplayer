@@ -50,17 +50,10 @@
     
     IJKFFOptions *options =  [[IJKFFOptions alloc] init];
     
-    [options setPlayerOptionIntValue:30     forKey:@"max-fps"];
-    [options setPlayerOptionIntValue:1     forKey:@"framedrop"];
-    [options setPlayerOptionIntValue:3      forKey:@"video-pictq-size"];
     [options setPlayerOptionIntValue:self.is_hardware?1:0      forKey:@"videotoolbox"];
     [options setPlayerOptionIntValue:2048    forKey:@"videotoolbox-max-frame-width"];
-    [options setFormatOptionIntValue:0                  forKey:@"auto_convert"];
-    [options setFormatOptionIntValue:1                  forKey:@"reconnect"];
-    [options setFormatOptionIntValue:30 * 1000 * 1000   forKey:@"timeout"];
-    [options setFormatOptionValue:@"ijkplayer"          forKey:@"user-agent"];
-    [options setCodecOptionIntValue:IJK_AVDISCARD_ALL       forKey:@"skip_loop_filter"];
-    [options setCodecOptionIntValue:IJK_AVDISCARD_NONREF    forKey:@"skip_frame"];
+    
+
     if(self.is_hardware){
         [options setPlayerOptionValue:@"fcc-_vtb"          forKey:@"overlay-format"];
     }else{
@@ -73,26 +66,10 @@
     [options setPlayerOptionValue:0        forKey:@"start-on-prepared"];
     
     if(  [path hasPrefix:@"rtsp://"] ){
-        [options setFormatOptionIntValue:0                  forKey:@"rtsp_transport"];
-        [options setFormatOptionIntValue:1                 forKey:@"udp"];
-        [options setFormatOptionIntValue:200000                  forKey:@"max_delay"];
-        [options setPlayerOptionIntValue:1      forKey:@"framedrop"];
-        [options setPlayerOptionIntValue:3  forKey:@"video-pictq-size"];
-        [options setPlayerOptionIntValue:3 * 30  forKey:@"max-buffer-size"];
-        [options setPlayerOptionIntValue:2   forKey:@"timeout"];
-        [options setPlayerOptionIntValue:3 * 30   forKey:@"buffer_size"];
-        [options setPlayerOptionIntValue:1   forKey:@"infbuf"];
-        [options setPlayerOptionIntValue:1   forKey:@"fast"];
-        [options setPlayerOptionIntValue:110   forKey:@"framedrop"];
-        [options setPlayerOptionIntValue:100 forKey:@"first-high-water-mark-ms"];
-        [options setPlayerOptionIntValue:100 forKey:@"next-high-water-mark-ms"];
-        [options setPlayerOptionIntValue:100 forKey:@"last-high-water-mark-ms"];
+
         [options setPlayerOptionIntValue:0 forKey:@"packet-buffering"];
-        [options setPlayerOptionIntValue:0 forKey:@"sync-av-start"];
-        [options setPlayerOptionIntValue:1 forKey:@"no-time-adjust"];
-        [options setPlayerOptionIntValue:1 forKey:@"an"];
-        [options setPlayerOptionIntValue:1 forKey:@"nodisp"];
-        [options setPlayerOptionIntValue:5 forKey:@"min-frames"];
+
+   
     }
     
     

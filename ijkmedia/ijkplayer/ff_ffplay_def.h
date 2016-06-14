@@ -147,6 +147,7 @@ typedef struct PacketQueue {
     MyAVPacketList *recycle_pkt;
     int recycle_count;
     int alloc_count;
+    int limit_packets;//
 
     int is_buffer_indicator;
 } PacketQueue;
