@@ -179,27 +179,36 @@ static int packet_queue_put(PacketQueue *q, AVPacket *pkt)
     int ret;
 
     SDL_LockMutex(q->mutex);
-    if (q->limit_packets != 0 && q->nb_packets > q->limit_packets) {
-        //delete firstptk
-        MyAVPacketList *pkt1 = q->first_pkt;
-        if (pkt1) {
-            q->first_pkt = pkt1->next;
-            if (!q->first_pkt)
-                q->last_pkt = NULL;
-            q->nb_packets--;
+    
+  
+    if (q->limit_packets != 0 && q->nb_packets >= q->limit_packets) {
+        int remain_n = q->limit_packets / 4;
+        if (remain_n < 1) {
+            remain_n = 1;
+        }
+        for (int i=0; i < remain_n; i++) {
+            //delete firstptk
+            MyAVPacketList *pkt1 = q->first_pkt;
+            if (pkt1) {
+                q->first_pkt = pkt1->next;
+                if (!q->first_pkt)
+                    q->last_pkt = NULL;
+                q->nb_packets--;
+                
+                av_log(NULL, AV_LOG_INFO, "packet delete firstptk %d \n", q->nb_packets);
+                
+                q->size -= pkt1->pkt.size + sizeof(*pkt1);
+                if (pkt1->pkt.duration > 0)
+                    q->duration -= pkt1->pkt.duration;
             
-            av_log(NULL, AV_LOG_INFO, "packet delete firstptk %d \n", q->nb_packets);
-            
-            q->size -= pkt1->pkt.size + sizeof(*pkt1);
-            if (pkt1->pkt.duration > 0)
-                q->duration -= pkt1->pkt.duration;
-            *pkt = pkt1->pkt;
 #ifdef FFP_MERGE
-            av_free(pkt1);
+                av_free(pkt1);
 #else
-            pkt1->next = q->recycle_pkt;
-            q->recycle_pkt = pkt1;
+                pkt1->next = q->recycle_pkt;
+                q->recycle_pkt = pkt1;
 #endif
+            }
+        
         }
     }
     ret = packet_queue_put_private(q, pkt);
@@ -2656,8 +2665,8 @@ static int read_thread(void *arg)
     is->audioq.limit_packets = 0;
     
     if (av_stristart(is->filename, "rtsp", NULL)) {
-      //  is->videoq.limit_packets = 13;
-    // is->audioq.limit_packets = 13;
+        is->videoq.limit_packets = ffp->limit_packets;
+        is->audioq.limit_packets = ffp->limit_packets;
     }
     
     for (;;) {

@@ -68,7 +68,7 @@
     if(  [path hasPrefix:@"rtsp://"] ){
 
         [options setPlayerOptionIntValue:0 forKey:@"packet-buffering"];
-
+        [options setPlayerOptionIntValue:25 forKey:@"limit_packets"];
    
     }
     
@@ -112,7 +112,7 @@
     //        _channel   = frame.channel;
     //        [self.delegate movieDecoderDidDecodeFrameBuffer: _framedata width:_videoWidth height:_videoHeight channel:_channel];
     //    }
-    
+   
     SDL_VoutOverlay* frame = [_player getCurrentFrame3];
     if (frame == NULL) {
         return;
