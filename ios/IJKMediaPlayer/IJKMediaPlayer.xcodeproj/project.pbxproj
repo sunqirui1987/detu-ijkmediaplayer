@@ -849,7 +849,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "cd ${PROJECT_DIR}\ncd ../\ncp -r build/universal/include/ ${TARGET_BUILD_DIR}/IJKMediaFramework.framework/Headers/\nmkdir ${TARGET_BUILD_DIR}/IJKMediaFramework.framework/Headers/ffmpeg\ncd ../\n\ncp -r ijkmedia/ijksdl/ffmpeg/*.h ${TARGET_BUILD_DIR}/IJKMediaFramework.framework/Headers/ffmpeg/";
+			shellScript = "cd ${PROJECT_DIR}\ncd ../\ncp -r build/universal/include/ ${TARGET_BUILD_DIR}/IJKMediaFramework.framework/Headers/\nmkdir ${TARGET_BUILD_DIR}/IJKMediaFramework.framework/Headers/ffmpeg\ncd ../\n\ncp -r ijkmedia/ijksdl/ffmpeg/*.h ${TARGET_BUILD_DIR}/IJKMediaFramework.framework/Headers/ffmpeg/\n\ncp -r ijkmedia/ijksdl/*.h ${TARGET_BUILD_DIR}/IJKMediaFramework.framework/Headers\n                             \ncp -r ios/IJKMediaPlayer/IJKMediaPlayer/ijkmedia/ijksdl/ios/ijksdl_vout_overlay_videotoolbox.h ${TARGET_BUILD_DIR}/IJKMediaFramework.framework/Headers\n                             \ncp -r ijkmedia/ijksdl/ffmpeg/*.h ${TARGET_BUILD_DIR}/IJKMediaFramework.framework/Headers\n\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
