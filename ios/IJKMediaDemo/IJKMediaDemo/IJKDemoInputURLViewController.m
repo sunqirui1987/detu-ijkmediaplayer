@@ -61,7 +61,7 @@
 
 - (void)onClickPlayButton {
     
-    decoder=[IJKPlayerMovieDecoder movieDecoderWithMovie:@"rtsp://192.168.1.254/xxx.mov" isHardWare:false];
+    decoder=[IJKPlayerMovieDecoder movieDecoderWithMovie:@"http://192.168.1.254:8192" isHardWare:false];
     decoder.delegate=self;
     [self innerstart];
 }
