@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		764D28371D1D3711006AE2BA /* libx264.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 764D28341D1D11A5006AE2BA /* libx264.a */; };
 		9675C7781D124CD900D8E0BF /* ijkremux.c in Sources */ = {isa = PBXBuildFile; fileRef = 9675C7761D124CD900D8E0BF /* ijkremux.c */; };
 		9675C7791D124CD900D8E0BF /* ijkremux.h in Headers */ = {isa = PBXBuildFile; fileRef = 9675C7771D124CD900D8E0BF /* ijkremux.h */; };
 		9675C77D1D12685E00D8E0BF /* ffmpeg.h in Headers */ = {isa = PBXBuildFile; fileRef = 9675C77C1D12685E00D8E0BF /* ffmpeg.h */; };
@@ -131,6 +132,8 @@
 		4543162A1A66497900676070 /* IJKVideoToolBox.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = IJKVideoToolBox.m; path = ijkmedia/ijkplayer/ios/pipeline/IJKVideoToolBox.m; sourceTree = "<group>"; };
 		45DB4AA71A5D52AE005CAD41 /* ijksdl_vout_overlay_videotoolbox.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ijksdl_vout_overlay_videotoolbox.h; sourceTree = "<group>"; };
 		45DB4AA81A5D52AE005CAD41 /* ijksdl_vout_overlay_videotoolbox.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ijksdl_vout_overlay_videotoolbox.m; sourceTree = "<group>"; };
+		764D28201D190A27006AE2BA /* ijkremux.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = ijkremux.h; path = ../../ijkmedia/ijkplayer/ijkremux.h; sourceTree = "<group>"; };
+		764D28341D1D11A5006AE2BA /* libx264.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libx264.a; path = "../fat-x264/lib/libx264.a"; sourceTree = "<group>"; };
 		9675C7761D124CD900D8E0BF /* ijkremux.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = ijkremux.c; sourceTree = "<group>"; };
 		9675C7771D124CD900D8E0BF /* ijkremux.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ijkremux.h; sourceTree = "<group>"; };
 		9675C77C1D12685E00D8E0BF /* ffmpeg.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ffmpeg.h; sourceTree = "<group>"; };
@@ -297,6 +300,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				764D28371D1D3711006AE2BA /* libx264.a in Frameworks */,
 				E653C6F61BCE5A750016835A /* libavcodec.a in Frameworks */,
 				E653C6F81BCE5A750016835A /* libavfilter.a in Frameworks */,
 				E653C6FA1BCE5A750016835A /* libavformat.a in Frameworks */,
@@ -431,6 +435,7 @@
 		E6903EB017EAF6C500CFD954 = {
 			isa = PBXGroup;
 			children = (
+				764D28201D190A27006AE2BA /* ijkremux.h */,
 				E66F8DBC17EEC2CF00354D80 /* Classes */,
 				E654EA8B1B6B27E600B0F2D0 /* IJKMediaFramework */,
 				E654EA981B6B27E600B0F2D0 /* IJKMediaFrameworkTests */,
@@ -451,6 +456,7 @@
 		E6903EBB17EAF6C500CFD954 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				764D28341D1D11A5006AE2BA /* libx264.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -745,11 +751,11 @@
 				E654EA8F1B6B27E600B0F2D0 /* IJKMediaFramework.h in Headers */,
 				E6C2E7BE1C92BD3600E59229 /* IJKKVOController.h in Headers */,
 				E69808A01C7EB2040048A46C /* IJKNotificationManager.h in Headers */,
+				9675C7791D124CD900D8E0BF /* ijkremux.h in Headers */,
 				9675C77D1D12685E00D8E0BF /* ffmpeg.h in Headers */,
 				E654EAE61B6B295200B0F2D0 /* IJKMediaModule.h in Headers */,
 				E69BE5571B93FED300AFBA3F /* opt.h in Headers */,
 				E654EAE71B6B295200B0F2D0 /* IJKMediaPlayback.h in Headers */,
-				9675C7791D124CD900D8E0BF /* ijkremux.h in Headers */,
 				E69BE5591B9405BD00AFBA3F /* ijkavformat.h in Headers */,
 				E654EAED1B6B29C100B0F2D0 /* IJKMediaPlayer.h in Headers */,
 				9675C77F1D126DAB00D8E0BF /* circlebuf.h in Headers */,
@@ -864,7 +870,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "cd ${PROJECT_DIR}\ncd ../\ncp -r build/universal/include/ ${TARGET_BUILD_DIR}/IJKMediaFramework.framework/Headers/\nmkdir -p ${TARGET_BUILD_DIR}/IJKMediaFramework.framework/Headers/ffmpeg\ncd ../\n\ncp -r ijkmedia/ijksdl/ffmpeg/*.h ${TARGET_BUILD_DIR}/IJKMediaFramework.framework/Headers/ffmpeg/\n\ncp -r ijkmedia/ijksdl/*.h ${TARGET_BUILD_DIR}/IJKMediaFramework.framework/Headers\n                             \ncp -r ios/IJKMediaPlayer/IJKMediaPlayer/ijkmedia/ijksdl/ios/ijksdl_vout_overlay_videotoolbox.h ${TARGET_BUILD_DIR}/IJKMediaFramework.framework/Headers\n                             \ncp -r ijkmedia/ijksdl/ffmpeg/*.h ${TARGET_BUILD_DIR}/IJKMediaFramework.framework/Headers\n\n";
+			shellScript = "cd ${PROJECT_DIR}\ncd ../\ncp -r build/universal/include/ ${TARGET_BUILD_DIR}/IJKMediaFramework.framework/Headers/\nmkdir -p ${TARGET_BUILD_DIR}/IJKMediaFramework.framework/Headers/ffmpeg\n\nmkdir -p ${TARGET_BUILD_DIR}/IJKMediaFramework.framework/Headers/ijksdl\ncd ../\n\ncp -r ijkmedia/ijksdl/ffmpeg/*.h ${TARGET_BUILD_DIR}/IJKMediaFramework.framework/Headers/ffmpeg/\n                             \ncp -r ijkmedia/ijkplayer/*.h ${TARGET_BUILD_DIR}/IJKMediaFramework.framework/Headers/\n                             \n\ncp -r ijkmedia/ijksdl/*.h ${TARGET_BUILD_DIR}/IJKMediaFramework.framework/Headers/\n                             \ncp -r ijkmedia/ijksdl/*.h ${TARGET_BUILD_DIR}/IJKMediaFramework.framework/Headers/ijksdl\n\n                             \ncp -r ios/IJKMediaPlayer/IJKMediaPlayer/ijkmedia/ijksdl/ios/ijksdl_vout_overlay_videotoolbox.h ${TARGET_BUILD_DIR}/IJKMediaFramework.framework/Headers/\n                             \ncp -r ijkmedia/ijksdl/ffmpeg/*.h ${TARGET_BUILD_DIR}/IJKMediaFramework.framework/Headers/\n\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -997,6 +1003,7 @@
 					../build/universal/include,
 					IJKMediaPlayer/ijkmedia,
 					../../ijkmedia,
+					"../fat-x264/include",
 				);
 				INFOPLIST_FILE = IJKMediaFramework/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
@@ -1005,6 +1012,7 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/../build/universal/lib\"",
+					"\"$(SRCROOT)/../fat-x264/lib\"",
 				);
 				MACH_O_TYPE = staticlib;
 				MTL_ENABLE_DEBUG_INFO = YES;
@@ -1012,6 +1020,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
 				TARGETED_DEVICE_FAMILY = "1,2";
+				VALID_ARCHS = "arm64 armv7";
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
 			};
@@ -1043,6 +1052,7 @@
 					../build/universal/include,
 					IJKMediaPlayer/ijkmedia,
 					../../ijkmedia,
+					"../fat-x264/include",
 				);
 				INFOPLIST_FILE = IJKMediaFramework/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
@@ -1051,6 +1061,7 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/../build/universal/lib\"",
+					"\"$(SRCROOT)/../fat-x264/lib\"",
 				);
 				MACH_O_TYPE = staticlib;
 				MTL_ENABLE_DEBUG_INFO = NO;
@@ -1058,6 +1069,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
 				TARGETED_DEVICE_FAMILY = "1,2";
+				VALID_ARCHS = "arm64 armv7";
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
 			};

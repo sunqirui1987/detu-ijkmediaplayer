@@ -18,6 +18,10 @@
 		55E809F31B146DE8003E98A5 /* IJKQRCodeScanViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 55E809F21B146DE8003E98A5 /* IJKQRCodeScanViewController.xib */; };
 		55E809F61B1480BC003E98A5 /* IJKDemoHistory.m in Sources */ = {isa = PBXBuildFile; fileRef = 55E809F51B1480BC003E98A5 /* IJKDemoHistory.m */; };
 		55E809F91B15A1DB003E98A5 /* IJKDemoLocalFolderViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 55E809F81B15A1DB003E98A5 /* IJKDemoLocalFolderViewController.m */; };
+		764D28231D191740006AE2BA /* ALAssetsLibrary+CustomPhotoAlbum.m in Sources */ = {isa = PBXBuildFile; fileRef = 764D28221D191740006AE2BA /* ALAssetsLibrary+CustomPhotoAlbum.m */; };
+		764D28261D191AE2006AE2BA /* AssetsLibrary.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 764D28251D191AE2006AE2BA /* AssetsLibrary.framework */; };
+		764D282C1D1A32C4006AE2BA /* aaa.png in Resources */ = {isa = PBXBuildFile; fileRef = 764D282B1D1A32C4006AE2BA /* aaa.png */; };
+		764D282D1D1A3B21006AE2BA /* aaa.png in Sources */ = {isa = PBXBuildFile; fileRef = 764D282B1D1A32C4006AE2BA /* aaa.png */; };
 		96DF71041D06DE29007E2A47 /* GLES2Renderer.m in Sources */ = {isa = PBXBuildFile; fileRef = 96DF71031D06DE29007E2A47 /* GLES2Renderer.m */; };
 		96DF71071D06DE6D007E2A47 /* GLESRenderer.m in Sources */ = {isa = PBXBuildFile; fileRef = 96DF71061D06DE6D007E2A47 /* GLESRenderer.m */; };
 		96DF710A1D06DEAD007E2A47 /* GLPlayerView.m in Sources */ = {isa = PBXBuildFile; fileRef = 96DF71091D06DEAD007E2A47 /* GLPlayerView.m */; };
@@ -97,6 +101,10 @@
 		55E809F51B1480BC003E98A5 /* IJKDemoHistory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IJKDemoHistory.m; sourceTree = "<group>"; };
 		55E809F71B15A1DB003E98A5 /* IJKDemoLocalFolderViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IJKDemoLocalFolderViewController.h; sourceTree = "<group>"; };
 		55E809F81B15A1DB003E98A5 /* IJKDemoLocalFolderViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IJKDemoLocalFolderViewController.m; sourceTree = "<group>"; };
+		764D28211D191740006AE2BA /* ALAssetsLibrary+CustomPhotoAlbum.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "ALAssetsLibrary+CustomPhotoAlbum.h"; sourceTree = "<group>"; };
+		764D28221D191740006AE2BA /* ALAssetsLibrary+CustomPhotoAlbum.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "ALAssetsLibrary+CustomPhotoAlbum.m"; sourceTree = "<group>"; };
+		764D28251D191AE2006AE2BA /* AssetsLibrary.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AssetsLibrary.framework; path = System/Library/Frameworks/AssetsLibrary.framework; sourceTree = SDKROOT; };
+		764D282B1D1A32C4006AE2BA /* aaa.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = aaa.png; sourceTree = "<group>"; };
 		96DF71021D06DE29007E2A47 /* GLES2Renderer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GLES2Renderer.h; sourceTree = "<group>"; };
 		96DF71031D06DE29007E2A47 /* GLES2Renderer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GLES2Renderer.m; sourceTree = "<group>"; };
 		96DF71051D06DE6D007E2A47 /* GLESRenderer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GLESRenderer.h; sourceTree = "<group>"; };
@@ -151,6 +159,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				764D28261D191AE2006AE2BA /* AssetsLibrary.framework in Frameworks */,
 				96DF711C1D07A96F007E2A47 /* GLKit.framework in Frameworks */,
 				E63FC29117F04C83003551EB /* AudioToolbox.framework in Frameworks */,
 				E61B45AE19EF7021002792EC /* AVFoundation.framework in Frameworks */,
@@ -175,6 +184,8 @@
 		96DF71001D06DE0B007E2A47 /* OpenGL */ = {
 			isa = PBXGroup;
 			children = (
+				764D28211D191740006AE2BA /* ALAssetsLibrary+CustomPhotoAlbum.h */,
+				764D28221D191740006AE2BA /* ALAssetsLibrary+CustomPhotoAlbum.m */,
 				96DF71021D06DE29007E2A47 /* GLES2Renderer.h */,
 				96DF71031D06DE29007E2A47 /* GLES2Renderer.m */,
 				96DF71051D06DE6D007E2A47 /* GLESRenderer.h */,
@@ -235,6 +246,7 @@
 		E6903EFE17EAF70200CFD954 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				764D28251D191AE2006AE2BA /* AssetsLibrary.framework */,
 				96DF711B1D07A96F007E2A47 /* GLKit.framework */,
 				E63FC28F17F04C83003551EB /* AudioToolbox.framework */,
 				E61B45AD19EF7021002792EC /* AVFoundation.framework */,
@@ -269,6 +281,7 @@
 		E6903F0617EAF70200CFD954 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				764D282B1D1A32C4006AE2BA /* aaa.png */,
 				E6903F0717EAF70200CFD954 /* IJKMediaDemo-Info.plist */,
 				E6903F0817EAF70200CFD954 /* InfoPlist.strings */,
 				E6903F0B17EAF70200CFD954 /* main.m */,
@@ -405,6 +418,7 @@
 				55E809E41B143C85003E98A5 /* IJKDemoMainViewController.xib in Resources */,
 				55E809F31B146DE8003E98A5 /* IJKQRCodeScanViewController.xib in Resources */,
 				55E809E61B145B55003E98A5 /* LaunchScreen.xib in Resources */,
+				764D282C1D1A32C4006AE2BA /* aaa.png in Resources */,
 				E67323A81B69E6F800CB9036 /* LaunchImages.xcassets in Resources */,
 				96DF710C1D06DF1B007E2A47 /* sphere.fsh in Resources */,
 			);
@@ -433,12 +447,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				764D282D1D1A3B21006AE2BA /* aaa.png in Sources */,
 				55E809F91B15A1DB003E98A5 /* IJKDemoLocalFolderViewController.m in Sources */,
 				55E809F61B1480BC003E98A5 /* IJKDemoHistory.m in Sources */,
 				96DF71041D06DE29007E2A47 /* GLES2Renderer.m in Sources */,
 				E6903F0C17EAF70200CFD954 /* main.m in Sources */,
 				55E809E21B143C47003E98A5 /* IJKDemoMainViewController.m in Sources */,
 				96DF711A1D07A912007E2A47 /* Texture.m in Sources */,
+				764D28231D191740006AE2BA /* ALAssetsLibrary+CustomPhotoAlbum.m in Sources */,
 				E6903F1017EAF70200CFD954 /* IJKAppDelegate.m in Sources */,
 				E6F524EB1B183A0700B69DC7 /* IJKDemoSampleViewController.m in Sources */,
 				96DF71071D06DE6D007E2A47 /* GLESRenderer.m in Sources */,
@@ -540,6 +556,7 @@
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				ENABLE_BITCODE = NO;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "IJKMediaDemo/IJKMediaDemo-Prefix.pch";
 				HEADER_SEARCH_PATHS = (
@@ -558,6 +575,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				TARGETED_DEVICE_FAMILY = 1;
+				VALID_ARCHS = "arm64 armv7";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -569,6 +587,7 @@
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				ENABLE_BITCODE = NO;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "IJKMediaDemo/IJKMediaDemo-Prefix.pch";
 				HEADER_SEARCH_PATHS = (
@@ -587,6 +606,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				TARGETED_DEVICE_FAMILY = 1;
+				VALID_ARCHS = "arm64 armv7";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;
