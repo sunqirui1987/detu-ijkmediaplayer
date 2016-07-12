@@ -215,7 +215,6 @@ basePath;\
     if (!timer_save) {
         timer_save=[NSTimer scheduledTimerWithTimeInterval:(1.0/30) target:self selector:@selector(saveFrame) userInfo:nil repeats:YES];
     }
-    
 }
 
 -(void)endSave{
@@ -284,6 +283,9 @@ basePath;\
   //  http://media.qicdn.detu.com/@/70955075-5571-986D-9DC4-450F13866573/2016-05-19/573d15dfa19f3-2048x1024.m3u8
     //rtsp://192.168.1.254/xxx.mov
     decoder=[IJKPlayerMovieDecoder movieDecoderWithMovie:@"http://media.qicdn.detu.com/@/70955075-5571-986D-9DC4-450F13866573/2016-05-19/573d15dfa19f3-2048x1024.m3u8" isHardWare:false];
+
+ //   decoder=[IJKPlayerMovieDecoder movieDecoderWithMovie:@"http://192.168.1.254:8192" isHardWare:false];
+
     decoder.delegate=self;
     [self innerstart];
 }

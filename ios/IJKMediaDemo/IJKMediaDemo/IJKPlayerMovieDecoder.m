@@ -72,8 +72,7 @@
    
     }
     
-    
-    
+   
     _player = [[IJKFFMoviePlayerController alloc] initWithContentURLString:path withOptions:options];
     // _player.ishardWare = self.is_hardware;
     [_player prepareToPlay];
