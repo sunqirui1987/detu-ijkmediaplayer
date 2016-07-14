@@ -1,4 +1,5 @@
 #include "ijkremux.h"
+#include "ff_cmdutils.h"
 
 /* ------------------------------------------------------------------------- */
 
@@ -26,7 +27,7 @@ static bool new_stream(struct ffmpeg_data *data, AVStream **stream,
     return true;
 }
 
-static bool open_video_codec(struct ffmpeg_data *data)
+bool open_video_codec(struct ffmpeg_data *data)
 {
     AVCodecContext *context = data->video->codec;
 
@@ -34,6 +35,8 @@ static bool open_video_codec(struct ffmpeg_data *data)
     
     if (strcmp(data->vcodec->name, "libx264") == 0)
         av_opt_set(context->priv_data, "preset", "veryfast", 0);
+    
+    av_opt_set(context->priv_data, "tune", "zerolatency", 0);
  
     
     ret = avcodec_open2(context, data->vcodec, NULL);
@@ -103,7 +106,7 @@ static bool create_video_stream(struct ffmpeg_data *data)
     context->bit_rate       = data->config.video_bitrate * 1000;
     context->width          = data->config.scale_width;
     context->height         = data->config.scale_height;
-    context->time_base      = (AVRational){ data->config.fps, 1};
+    context->time_base      = (AVRational){ 1,data->config.fps};
     context->gop_size       = 120;
     context->pix_fmt        = closest_format;
     context->colorspace     = data->config.color_space;
@@ -279,7 +282,7 @@ static void close_audio(struct ffmpeg_data *data)
     av_frame_free(&data->aframe);
 }
 
-static void ffmpeg_data_free(struct ffmpeg_data *data)
+void ffmpeg_data_free(struct ffmpeg_data *data)
 {
     if (data->initialized)
         av_write_trailer(data->output);
@@ -327,21 +330,19 @@ static void set_encoder_ids(struct ffmpeg_data *data)
                                                       data->config.audio_encoder_id);
 }
 
-static bool ffmpeg_data_init(struct ffmpeg_data *data,
-                             struct ffmpeg_cfg *config)
+bool ffmpeg_data_init(struct ffmpeg_data *data)
 {
     bool is_rtmp = false;
-    
-    memset(data, 0, sizeof(struct ffmpeg_data));
-    data->config = *config;
-    
-    if (!config->url || !*config->url)
+
+    if (!data->config.url || !*data->config.url)
         return false;
     
     av_register_all();
     avformat_network_init();
-    
+    avcodec_register_all();
     is_rtmp = false;
+    
+    print_codecs(1);
     
     AVOutputFormat *output_format = av_guess_format(
                                                     is_rtmp ? "flv" : data->config.format_name,
@@ -391,7 +392,7 @@ fail:
     return false;
 }
 
-static void ffmepg_write_video(struct ffmpeg_data *data, struct video_data *frame)
+void ffmepg_write_video(struct ffmpeg_data *data, struct video_data *frame)
 {
    
   
@@ -545,7 +546,7 @@ static bool prepare_audio(struct ffmpeg_data *data,
     return true;
 }
 
-static void ffmepg_write_audio(struct ffmpeg_data   *data , struct audio_data *frame)
+void ffmepg_write_audio(struct ffmpeg_data   *data , struct audio_data *frame)
 {
 
     size_t frame_size_bytes;
@@ -578,7 +579,7 @@ static void ffmepg_write_audio(struct ffmpeg_data   *data , struct audio_data *f
 }
 
 
-static void ffmepg_write_avpacket(struct ffmpeg_data   *data , AVPacket packet){
+void ffmepg_write_avpacket(struct ffmpeg_data   *data , AVPacket packet){
     int ret= av_interleaved_write_frame(data->output, &packet);
     if (ret < 0) {
         av_log(NULL, AV_LOG_WARNING, "send: Error writing packet:  %s", av_err2str(ret));

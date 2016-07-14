@@ -46,6 +46,7 @@ fi
 FF_BUILD_ROOT=`pwd`
 FF_TAGET_OS="darwin"
 
+X264=`pwd`/fat-x264
 
 # ffmpeg build params
 export COMMON_FF_CFG_FLAGS=
@@ -137,7 +138,7 @@ elif [ "$FF_ARCH" = "armv7" ]; then
     FF_BUILD_NAME="ffmpeg-armv7"
     FF_BUILD_NAME_OPENSSL=openssl-armv7
     FF_XCRUN_OSVERSION="-miphoneos-version-min=6.0"
-    FF_XCODE_BITCODE="-fembed-bitcode"
+ #   FF_XCODE_BITCODE="-fembed-bitcode"
     FFMPEG_CFG_FLAGS="$FFMPEG_CFG_FLAGS $FFMPEG_CFG_FLAGS_ARM"
 #    FFMPEG_CFG_CPU="--cpu=cortex-a8"
 elif [ "$FF_ARCH" = "armv7s" ]; then
@@ -145,13 +146,13 @@ elif [ "$FF_ARCH" = "armv7s" ]; then
     FF_BUILD_NAME_OPENSSL=openssl-armv7s
     FFMPEG_CFG_CPU="--cpu=swift"
     FF_XCRUN_OSVERSION="-miphoneos-version-min=6.0"
-    FF_XCODE_BITCODE="-fembed-bitcode"
+ #   FF_XCODE_BITCODE="-fembed-bitcode"
     FFMPEG_CFG_FLAGS="$FFMPEG_CFG_FLAGS $FFMPEG_CFG_FLAGS_ARM"
 elif [ "$FF_ARCH" = "arm64" ]; then
     FF_BUILD_NAME="ffmpeg-arm64"
     FF_BUILD_NAME_OPENSSL=openssl-arm64
     FF_XCRUN_OSVERSION="-miphoneos-version-min=7.0"
-    FF_XCODE_BITCODE="-fembed-bitcode"
+#    FF_XCODE_BITCODE="-fembed-bitcode"
     FFMPEG_CFG_FLAGS="$FFMPEG_CFG_FLAGS $FFMPEG_CFG_FLAGS_ARM"
     FF_GASPP_EXPORT="GASPP_FIX_XCODE5=1"
 else
@@ -210,6 +211,15 @@ if [ -f "${FFMPEG_DEP_OPENSSL_LIB}/libssl.a" ]; then
     FFMPEG_DEP_LIBS="$FFMPEG_CFLAGS -L${FFMPEG_DEP_OPENSSL_LIB} -lssl -lcrypto"
 fi
 
+# with x264
+
+    FFMPEG_CFG_FLAGS="$FFMPEG_CFG_FLAGS --enable-gpl --enable-libx264 "
+
+    FFMPEG_CFLAGS="$FFMPEG_CFLAGS -I$X264/include"
+    FFMPEG_DEP_LIBS="$FFMPEG_DEP_LIBS -L$X264/lib"
+
+
+
 #--------------------
 echo "\n--------------------"
 echo "[*] configure"
@@ -231,7 +241,7 @@ cd $FF_BUILD_SOURCE
 if [ -f "./config.h" ]; then
     echo 'reuse configure'
 else
-    echo "config: $FFMPEG_CFG_FLAGS $FF_XCRUN_CC"
+    echo "config: $FFMPEG_CFG_FLAGS $FF_XCRUN_CC $FFMPEG_CFLAGS >> dep $FFMPEG_DEP_LIBS"
     ./configure \
         $FFMPEG_CFG_FLAGS \
         --cc="$FF_XCRUN_CC" \

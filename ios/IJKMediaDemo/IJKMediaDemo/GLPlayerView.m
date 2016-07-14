@@ -245,4 +245,18 @@
     [_renderer destroyFramebuffer];
 }
 
+- (UIImage *)getScreenShot {
+    CGSize size = self.bounds.size;
+    
+    UIGraphicsBeginImageContextWithOptions(size, NO, [UIScreen mainScreen].scale);
+    
+    CGRect rec = CGRectMake(self.frame.origin.x, self.frame.origin.y, self.bounds.size.width, self.bounds.size.height);
+    [self drawViewHierarchyInRect:rec afterScreenUpdates:YES];
+    
+    UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    
+    return image;
+}
+
 @end

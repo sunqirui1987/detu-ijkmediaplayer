@@ -22,6 +22,7 @@
 
 -(void)setFrameSDL:(SDL_VoutOverlay*)frame;
 -(void)render;
+- (UIImage *)getScreenShot;
 
 
 @end
