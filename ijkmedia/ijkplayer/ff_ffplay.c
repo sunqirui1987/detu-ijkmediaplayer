@@ -2661,13 +2661,8 @@ static int read_thread(void *arg)
         ffp_seek_to_l(ffp, ffp->seek_at_start);
     }
     
-    is->videoq.limit_packets = 0;
-    is->audioq.limit_packets = 0;
-    
-    if (av_stristart(is->filename, "rtsp", NULL)) {
-        is->videoq.limit_packets = ffp->limit_packets;
-        is->audioq.limit_packets = ffp->limit_packets;
-    }
+    is->videoq.limit_packets = ffp->limit_packets;
+    is->audioq.limit_packets = ffp->limit_packets;
     
     for (;;) {
         if (is->abort_request)
