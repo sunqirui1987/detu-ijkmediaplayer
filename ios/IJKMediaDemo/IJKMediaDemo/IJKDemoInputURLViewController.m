@@ -282,9 +282,12 @@ basePath;\
 - (void)onClickPlayButton {
   //  http://media.qicdn.detu.com/@/70955075-5571-986D-9DC4-450F13866573/2016-05-19/573d15dfa19f3-2048x1024.m3u8
     //rtsp://192.168.1.254/xxx.mov
-    decoder=[IJKPlayerMovieDecoder movieDecoderWithMovie:@"http://media.qicdn.detu.com/@/70955075-5571-986D-9DC4-450F13866573/2016-05-19/573d15dfa19f3-2048x1024.m3u8" isHardWare:false];
+//    decoder=[IJKPlayerMovieDecoder movieDecoderWithMovie:@"http://media.qicdn.detu.com/@/70955075-5571-986D-9DC4-450F13866573/2016-05-19/573d15dfa19f3-2048x1024.m3u8" isHardWare:false];
 
  //   decoder=[IJKPlayerMovieDecoder movieDecoderWithMovie:@"http://192.168.1.254:8192" isHardWare:false];
+    
+    NSString *inputS = [NSString stringWithFormat:@"%@",[[NSBundle mainBundle] pathForResource:@"2016_0714_110943_008" ofType:@"MOV"]];
+    decoder=[IJKPlayerMovieDecoder movieDecoderWithMovie:inputS isHardWare:false];
 
     decoder.delegate=self;
     [self innerstart];
