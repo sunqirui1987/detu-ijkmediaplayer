@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		764D28371D1D3711006AE2BA /* libx264.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 764D28341D1D11A5006AE2BA /* libx264.a */; };
+		76B63A241D38D9C300D36CEA /* IjkStatic.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 76B63A231D38D9C300D36CEA /* IjkStatic.h */; };
+		76B63A261D38D9C300D36CEA /* IjkStatic.m in Sources */ = {isa = PBXBuildFile; fileRef = 76B63A251D38D9C300D36CEA /* IjkStatic.m */; };
 		9675C7781D124CD900D8E0BF /* ijkremux.c in Sources */ = {isa = PBXBuildFile; fileRef = 9675C7761D124CD900D8E0BF /* ijkremux.c */; };
 		9675C7791D124CD900D8E0BF /* ijkremux.h in Headers */ = {isa = PBXBuildFile; fileRef = 9675C7771D124CD900D8E0BF /* ijkremux.h */; };
 		9675C77D1D12685E00D8E0BF /* ffmpeg.h in Headers */ = {isa = PBXBuildFile; fileRef = 9675C77C1D12685E00D8E0BF /* ffmpeg.h */; };
@@ -123,6 +125,19 @@
 		};
 /* End PBXContainerItemProxy section */
 
+/* Begin PBXCopyFilesBuildPhase section */
+		76B63A1F1D38D9C300D36CEA /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "include/$(PRODUCT_NAME)";
+			dstSubfolderSpec = 16;
+			files = (
+				76B63A241D38D9C300D36CEA /* IjkStatic.h in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
 		454316201A66493700676070 /* ffpipeline_ios.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = ffpipeline_ios.c; path = ijkmedia/ijkplayer/ios/pipeline/ffpipeline_ios.c; sourceTree = "<group>"; };
 		454316211A66493700676070 /* ffpipeline_ios.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ffpipeline_ios.h; path = ijkmedia/ijkplayer/ios/pipeline/ffpipeline_ios.h; sourceTree = "<group>"; };
@@ -134,6 +149,9 @@
 		45DB4AA81A5D52AE005CAD41 /* ijksdl_vout_overlay_videotoolbox.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ijksdl_vout_overlay_videotoolbox.m; sourceTree = "<group>"; };
 		764D28201D190A27006AE2BA /* ijkremux.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = ijkremux.h; path = ../../ijkmedia/ijkplayer/ijkremux.h; sourceTree = "<group>"; };
 		764D28341D1D11A5006AE2BA /* libx264.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libx264.a; path = "../fat-x264/lib/libx264.a"; sourceTree = "<group>"; };
+		76B63A211D38D9C300D36CEA /* libIjkStatic.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libIjkStatic.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		76B63A231D38D9C300D36CEA /* IjkStatic.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = IjkStatic.h; sourceTree = "<group>"; };
+		76B63A251D38D9C300D36CEA /* IjkStatic.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = IjkStatic.m; sourceTree = "<group>"; };
 		9675C7761D124CD900D8E0BF /* ijkremux.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = ijkremux.c; sourceTree = "<group>"; };
 		9675C7771D124CD900D8E0BF /* ijkremux.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ijkremux.h; sourceTree = "<group>"; };
 		9675C77C1D12685E00D8E0BF /* ffmpeg.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ffmpeg.h; sourceTree = "<group>"; };
@@ -296,6 +314,13 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		76B63A1E1D38D9C300D36CEA /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		E654EA861B6B27E600B0F2D0 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -333,6 +358,15 @@
 				4543162A1A66497900676070 /* IJKVideoToolBox.m */,
 			);
 			name = pipeline;
+			sourceTree = "<group>";
+		};
+		76B63A221D38D9C300D36CEA /* IjkStatic */ = {
+			isa = PBXGroup;
+			children = (
+				76B63A231D38D9C300D36CEA /* IjkStatic.h */,
+				76B63A251D38D9C300D36CEA /* IjkStatic.m */,
+			);
+			path = IjkStatic;
 			sourceTree = "<group>";
 		};
 		E63FC27217F013DE003551EB /* dummy */ = {
@@ -439,6 +473,7 @@
 				E66F8DBC17EEC2CF00354D80 /* Classes */,
 				E654EA8B1B6B27E600B0F2D0 /* IJKMediaFramework */,
 				E654EA981B6B27E600B0F2D0 /* IJKMediaFrameworkTests */,
+				76B63A221D38D9C300D36CEA /* IjkStatic */,
 				E6903EBB17EAF6C500CFD954 /* Frameworks */,
 				E6903EBA17EAF6C500CFD954 /* Products */,
 			);
@@ -449,6 +484,7 @@
 			children = (
 				E654EA8A1B6B27E600B0F2D0 /* IJKMediaFramework.framework */,
 				E654EA941B6B27E600B0F2D0 /* IJKMediaFrameworkTests.xctest */,
+				76B63A211D38D9C300D36CEA /* libIjkStatic.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -769,6 +805,23 @@
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
+		76B63A201D38D9C300D36CEA /* IjkStatic */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 76B63A291D38D9C300D36CEA /* Build configuration list for PBXNativeTarget "IjkStatic" */;
+			buildPhases = (
+				76B63A1D1D38D9C300D36CEA /* Sources */,
+				76B63A1E1D38D9C300D36CEA /* Frameworks */,
+				76B63A1F1D38D9C300D36CEA /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = IjkStatic;
+			productName = IjkStatic;
+			productReference = 76B63A211D38D9C300D36CEA /* libIjkStatic.a */;
+			productType = "com.apple.product-type.library.static";
+		};
 		E654EA891B6B27E600B0F2D0 /* IJKMediaFramework */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = E654EAA11B6B27E600B0F2D0 /* Build configuration list for PBXNativeTarget "IJKMediaFramework" */;
@@ -815,6 +868,9 @@
 				LastUpgradeCheck = 0700;
 				ORGANIZATIONNAME = bilibili;
 				TargetAttributes = {
+					76B63A201D38D9C300D36CEA = {
+						CreatedOnToolsVersion = 7.3.1;
+					};
 					E654EA891B6B27E600B0F2D0 = {
 						CreatedOnToolsVersion = 6.4;
 					};
@@ -837,6 +893,7 @@
 			targets = (
 				E654EA891B6B27E600B0F2D0 /* IJKMediaFramework */,
 				E654EA931B6B27E600B0F2D0 /* IJKMediaFrameworkTests */,
+				76B63A201D38D9C300D36CEA /* IjkStatic */,
 			);
 		};
 /* End PBXProject section */
@@ -875,6 +932,14 @@
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		76B63A1D1D38D9C300D36CEA /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				76B63A261D38D9C300D36CEA /* IjkStatic.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		E654EA851B6B27E600B0F2D0 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -973,6 +1038,57 @@
 /* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
+		76B63A271D38D9C300D36CEA /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				OTHER_LDFLAGS = "-ObjC";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+			};
+			name = Debug;
+		};
+		76B63A281D38D9C300D36CEA /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				OTHER_LDFLAGS = "-ObjC";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+			};
+			name = Release;
+		};
 		E654EA9D1B6B27E600B0F2D0 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -1211,6 +1327,14 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		76B63A291D38D9C300D36CEA /* Build configuration list for PBXNativeTarget "IjkStatic" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				76B63A271D38D9C300D36CEA /* Debug */,
+				76B63A281D38D9C300D36CEA /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
 		E654EAA11B6B27E600B0F2D0 /* Build configuration list for PBXNativeTarget "IJKMediaFramework" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
