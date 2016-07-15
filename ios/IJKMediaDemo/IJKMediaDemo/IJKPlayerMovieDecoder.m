@@ -44,8 +44,8 @@
 -(BOOL)loadMovie:(NSString*)path
 {
     
-    [IJKFFMoviePlayerController setLogReport:YES];
-    [IJKFFMoviePlayerController setLogLevel:k_IJK_LOG_UNKNOWN];
+    [IJKFFMoviePlayerController setLogReport:NO];
+    [IJKFFMoviePlayerController setLogLevel:k_IJK_LOG_ERROR];
     
     
     IJKFFOptions *options =  [[IJKFFOptions alloc] init];
