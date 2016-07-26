@@ -269,6 +269,8 @@ static void packet_queue_flush(PacketQueue *q)
     q->size = 0;
     q->duration = 0;
     SDL_UnlockMutex(q->mutex);
+
+    av_log(NULL,AV_LOG_DEBUG,"packet_queue_flush nb_packets null");
 }
 
 static void packet_queue_destroy(PacketQueue *q)
