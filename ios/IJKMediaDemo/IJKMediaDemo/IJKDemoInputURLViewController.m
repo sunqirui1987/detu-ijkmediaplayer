@@ -16,7 +16,6 @@
 
 #import "IJKDemoInputURLViewController.h"
 #import "GLPlayerView.h"
-#import "ijkplayer/ijkremux.h"
 #import "ALAssetsLibrary+CustomPhotoAlbum.h"
 
 #define downloadBasePath ({\
@@ -39,9 +38,7 @@ basePath;\
     bool isrstp;
     
     GLPlayerView *_panoplayer;
-    
-    struct ffmpeg_data ffmdata;
-    struct ffmpeg_cfg sconfig;
+
     
     NSTimer *timer_save;
     Boolean isSavingNow;
@@ -157,57 +154,6 @@ basePath;\
 
 
 -(void)save{
-    if(isSavingNow){
-        [self endSave];
-        return;
-    }
-    path = [NSString stringWithFormat:@"%@/aa.mp4",kDownloadPath];
-    
-    memset(&ffmdata, 0, sizeof(struct ffmpeg_data));
-    memset(&sconfig, 0, sizeof(struct ffmpeg_cfg));
-    
-    sconfig.url = [path UTF8String];
-    sconfig.format_name = [@"mp4" UTF8String];
-    sconfig.format_mime_type = NULL;
-    sconfig.muxer_settings = NULL;
-    sconfig.video_bitrate = 2500;
-    sconfig.audio_bitrate = 128;
-
-    sconfig.video_encoder_id = AV_CODEC_ID_H264;
-    
-    sconfig.audio_encoder_id = AV_CODEC_ID_AAC;
-    sconfig.audio_encoder = "";
-    sconfig.audio_settings = "";
-    sconfig.format = AV_PIX_FMT_BGR24;//  AV_PIX_FMT_BGR24;
-    sconfig.color_range = AVCOL_RANGE_JPEG;
-    sconfig.color_space = AVCOL_SPC_BT709;
-    sconfig.muxer_settings = "";
-    sconfig.writeflag = 1;
-    
-    sconfig.scale_width = 400;
-    sconfig.scale_height = 300;
-    sconfig.width = 400;
-    sconfig.height = 300;
-    
-    sconfig.fps = 30;
-    sconfig.audio_samples_per_sec = 44100;
-    sconfig.audio_speakers = SPEAKERS_STEREO;
-    sconfig.audio_format = AUDIO_FORMAT_FLOAT_PLANAR;
-    ffmdata.config = sconfig;
-    
-    
-    bool initResult = ffmpeg_data_init(&(ffmdata));
-    
-    if(initResult){
-        [self startSave];
-    }else{
-        NSLog(@"init ffmpeg data error>>>>>>>>>>>>>>>>>>>>");
-        return;
-    }
-    
-    isSavingNow = YES;
-    [btn_save setTitle:isSavingNow?@"停止":@"保存" forState:UIControlStateNormal];
-    
     
 }
 
@@ -218,20 +164,6 @@ basePath;\
 }
 
 -(void)endSave{
-    if (timer_save) {
-        [timer_save invalidate];
-        timer_save=nil;
-    }
-    isSavingNow = NO;
-    [btn_save setTitle:isSavingNow?@"停止":@"保存" forState:UIControlStateNormal];
-    ffmpeg_data_free(&(ffmdata));
-    
-    if(!lib){
-        lib = [ALAssetsLibrary new];
-    }
-    [lib saveVedio:path toAlbum:@"转存" withCompletionBlock:^(NSError *error) {
-        NSLog(@"转存完毕");
-    }];
 }
 
 - (UIImage *)snapshot:(UIView *)theView
@@ -246,34 +178,7 @@ basePath;\
 }
 
 -(void)saveFrame{
-    struct video_data videoframe;
-    
-    NSLog(@"截图前》》》》》》》》》");
-    
-//    UIImage *image = [self snapshot:self.view];
-//    if(image == nil)
-//        return;
-    
-    UIImage *image = [UIImage imageNamed:@"qumengEnterPrise"];
-    if(image == nil)
-        return;
-    
-    
-    NSLog(@"截图后《《《《《《《《《");
-    
-    
-    
-//    ffmdata.config.scale_width = _panoplayer.frame.size.width;
-//    ffmdata.config.scale_height = _panoplayer.frame.size.height;
-//    ffmdata.config.width = _panoplayer.frame.size.width;
-//    ffmdata.config.height = _panoplayer.frame.size.height;
-    
-    videoframe.linesize[0] = 3;
-    videoframe.data[0] = (uint8_t *)(UIImageJPEGRepresentation(image,1).bytes);
-    
-    
-    ffmepg_write_video(&(ffmdata),&videoframe);
-    
+     
     
 }
 

@@ -174,7 +174,7 @@ IJK_GLES2_Renderer *IJK_GLES2_Renderer_create(SDL_VoutOverlay *overlay)
         case SDL_FCC_I420:      renderer = IJK_GLES2_Renderer_create_yuv420p(); break;
         case SDL_FCC_I444P10LE: renderer = IJK_GLES2_Renderer_create_yuv444p10le(); break;
         default:
-            ALOGE("[GLES2] unknown format %4s(%d)", (char *)&overlay->format, overlay->format);
+            ALOGE("[GLES2] unknown format %4s(%d)\n", (char *)&overlay->format, overlay->format);
             return NULL;
     }
 
@@ -248,15 +248,16 @@ static void IJK_GLES2_Renderer_Vertices_apply(IJK_GLES2_Renderer *renderer)
 
     float width     = renderer->frame_width;
     float height    = renderer->frame_height;
+
+    if (renderer->frame_sar_num > 0 && renderer->frame_sar_den > 0) {
+        width = width * renderer->frame_sar_num / renderer->frame_sar_den;
+    }
+
     const float dW  = (float)renderer->layer_width	/ width;
     const float dH  = (float)renderer->layer_height / height;
     float dd        = 1.0f;
     float nW        = 1.0f;
     float nH        = 1.0f;
-
-    if (renderer->frame_sar_num > 0 && renderer->frame_sar_den > 0) {
-        width = width * renderer->frame_sar_num / renderer->frame_sar_den;
-    }
 
     switch (renderer->gravity) {
         case IJK_GLES2_GRAVITY_RESIZE_ASPECT_FILL:  dd = FFMAX(dW, dH); break;
@@ -319,7 +320,7 @@ static void IJK_GLES2_Renderer_TexCoords_reset(IJK_GLES2_Renderer *renderer)
 
 static void IJK_GLES2_Renderer_TexCoords_cropRight(IJK_GLES2_Renderer *renderer, GLfloat cropRight)
 {
-    ALOGE("IJK_GLES2_Renderer_TexCoords_cropRight");
+    ALOGE("IJK_GLES2_Renderer_TexCoords_cropRight\n");
     renderer->texcoords[0] = 0.0f;
     renderer->texcoords[1] = 1.0f;
     renderer->texcoords[2] = 1.0f - cropRight;
@@ -385,6 +386,8 @@ GLboolean IJK_GLES2_Renderer_renderOverlay(IJK_GLES2_Renderer *renderer, SDL_Vou
             renderer->frame_height  = visible_height;
             renderer->frame_sar_num = overlay->sar_num;
             renderer->frame_sar_den = overlay->sar_den;
+
+            renderer->vertices_changed = 1;
         }
 
         renderer->last_buffer_width = renderer->func_getBufferWidth(renderer, overlay);
