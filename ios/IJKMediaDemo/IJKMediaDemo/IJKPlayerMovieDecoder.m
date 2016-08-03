@@ -44,8 +44,8 @@
 -(BOOL)loadMovie:(NSString*)path
 {
     
-    [IJKFFMoviePlayerController setLogReport:YES];
-    [IJKFFMoviePlayerController setLogLevel:k_IJK_LOG_UNKNOWN];
+    [IJKFFMoviePlayerController setLogReport:NO];
+    [IJKFFMoviePlayerController setLogLevel:k_IJK_LOG_SILENT];
     
     
     IJKFFOptions *options =  [[IJKFFOptions alloc] init];
@@ -124,8 +124,9 @@
 }
 
 -(void)captureNext{
+    [_lock lock];
     [self decodeFrame];
-    
+    [_lock unlock];
 }
 -(void)start{
     [_player play];
