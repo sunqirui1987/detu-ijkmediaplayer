@@ -305,7 +305,10 @@ void IJKFFIOStatCompleteRegister(void (*cb)(const char *url,
     //    return vp->bmp;
     
     FrameQueue *f = &_mediaPlayer->ffplayer->is->pictq;
-    Frame *vp  = &f->queue[(f->rindex + f->rindex_shown) % f->max_size];
+    // get video frame index error,frame display stuck
+    // modifier by hcm,2016-08-19
+    Frame *vp = &f->queue[(f->rindex) % f->max_size];
+    //Frame *vp  = &f->queue[(f->rindex + f->rindex_shown) % f->max_size];
     return vp->bmp;
 }
 
