@@ -37,7 +37,8 @@
 #include "ijksdl/android/ijksdl_android_jni.h"
 #include "ijksdl/android/ijksdl_codec_android_mediadef.h"
 
-#include "ijkplayer/ijkavformat/ijkavformat.h"
+//#include "ijkplayer/ijkavformat/ijkavformat.h"
+#include "libavformat/ijkavformat.h"
 #include "ijkplayer/ijkplayer_internal.h"
 
 #include <android/log.h>
