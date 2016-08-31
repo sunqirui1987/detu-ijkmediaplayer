@@ -150,6 +150,14 @@
     
 }
 
+-(void)stepFrame:(uint8_t *)frame :(int)w :(int)h{
+    
+    int width = w;
+    int height = h;
+    w_h_rate = width * 1.0f / height;
+    [texture updateWithFrameBuf:frame:width:height];
+    
+}
 
 -(void)render{
     

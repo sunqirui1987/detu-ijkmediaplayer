@@ -79,10 +79,13 @@ basePath;\
     
     //rtsp://192.168.1.254/xxx.mov http://192.168.1.254:8192 http://media.qicdn.detu.com/@/70955075-5571-986D-9DC4-450F13866573/2016-05-19/573d15dfa19f3-2048x1024.m3u8
     
-    NSString *path =  [[NSBundle mainBundle] pathForResource:@"IMG_5108" ofType:@"MOV"];
+//    NSString *path =  [[NSBundle mainBundle] pathForResource:@"test" ofType:@"MP4"];
+    
+    NSString *path =  @"rtsp://192.168.1.254:554/xxx.mov";
+    
     decoder=[IJKPlayerMovieDecoder movieDecoderWithMovie:path isHardWare:false];
 
-    decoder=[IJKPlayerMovieDecoder movieDecoderWithMovie:@"http://media.qicdn.detu.com/@/70955075-5571-986D-9DC4-450F13866573/2016-05-19/573d15dfa19f3-2048x1024.m3u8" isHardWare:false];
+//    decoder=[IJKPlayerMovieDecoder movieDecoderWithMovie:@"http://media.qicdn.detu.com/@/70955075-5571-986D-9DC4-450F13866573/2016-05-19/573d15dfa19f3-2048x1024.m3u8" isHardWare:false];
 
     decoder.delegate=self;
     [self innerstart];
@@ -167,6 +170,13 @@ basePath;\
 -(void)movieDecoderDidDecodeFrameSDL:(SDL_VoutOverlay*)frame{
     if (frame->w > 0) {
         [_panoplayer setFrameSDL:frame];
+        [_panoplayer render];
+    }
+}
+
+-(void)movieDecoderDidDecodeFrameRawbuf:(uint8_t *)frame :(int)w :(int)h{
+    if (frame) {
+        [_panoplayer stepFrame:frame :w :h];
         [_panoplayer render];
     }
 }

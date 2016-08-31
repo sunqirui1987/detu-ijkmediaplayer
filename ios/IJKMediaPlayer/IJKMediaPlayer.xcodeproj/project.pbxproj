@@ -192,6 +192,32 @@
 		E6DBD3891C8941EB0058E4FB /* IJKFFMonitor.h in Headers */ = {isa = PBXBuildFile; fileRef = E6DBD3871C8941EB0058E4FB /* IJKFFMonitor.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		E6DBD38A1C8941EB0058E4FB /* IJKFFMonitor.m in Sources */ = {isa = PBXBuildFile; fileRef = E6DBD3881C8941EB0058E4FB /* IJKFFMonitor.m */; };
 		E6E1B9A81C741F72000C6C72 /* renderer_yuv420sp_vtb.m in Sources */ = {isa = PBXBuildFile; fileRef = E6E1B9A71C741F72000C6C72 /* renderer_yuv420sp_vtb.m */; };
+		FCCA724D1D75986B002AF52C /* liveplayer in Resources */ = {isa = PBXBuildFile; fileRef = FCCA724C1D75986B002AF52C /* liveplayer */; };
+		FCCA72A01D759AC5002AF52C /* avqueue.c in Sources */ = {isa = PBXBuildFile; fileRef = FCCA72871D759AC5002AF52C /* avqueue.c */; };
+		FCCA72A11D759AC5002AF52C /* avqueue.h in Headers */ = {isa = PBXBuildFile; fileRef = FCCA72881D759AC5002AF52C /* avqueue.h */; };
+		FCCA72A21D759AC5002AF52C /* bufchan.c in Sources */ = {isa = PBXBuildFile; fileRef = FCCA72891D759AC5002AF52C /* bufchan.c */; };
+		FCCA72A31D759AC5002AF52C /* bufchan.h in Headers */ = {isa = PBXBuildFile; fileRef = FCCA728A1D759AC5002AF52C /* bufchan.h */; };
+		FCCA72A41D759AC5002AF52C /* decode.c in Sources */ = {isa = PBXBuildFile; fileRef = FCCA728B1D759AC5002AF52C /* decode.c */; };
+		FCCA72A51D759AC5002AF52C /* decode.h in Headers */ = {isa = PBXBuildFile; fileRef = FCCA728C1D759AC5002AF52C /* decode.h */; };
+		FCCA72A61D759AC5002AF52C /* fifo.c in Sources */ = {isa = PBXBuildFile; fileRef = FCCA728D1D759AC5002AF52C /* fifo.c */; };
+		FCCA72A71D759AC5002AF52C /* fifo.h in Headers */ = {isa = PBXBuildFile; fileRef = FCCA728E1D759AC5002AF52C /* fifo.h */; };
+		FCCA72A81D759AC5002AF52C /* frame.h in Headers */ = {isa = PBXBuildFile; fileRef = FCCA728F1D759AC5002AF52C /* frame.h */; };
+		FCCA72A91D759AC5002AF52C /* netio.c in Sources */ = {isa = PBXBuildFile; fileRef = FCCA72901D759AC5002AF52C /* netio.c */; };
+		FCCA72AA1D759AC5002AF52C /* netio.h in Headers */ = {isa = PBXBuildFile; fileRef = FCCA72911D759AC5002AF52C /* netio.h */; };
+		FCCA72AB1D759AC5002AF52C /* queue.c in Sources */ = {isa = PBXBuildFile; fileRef = FCCA72921D759AC5002AF52C /* queue.c */; };
+		FCCA72AC1D759AC5002AF52C /* queue.h in Headers */ = {isa = PBXBuildFile; fileRef = FCCA72931D759AC5002AF52C /* queue.h */; };
+		FCCA72AD1D759AC5002AF52C /* rtspdec.c in Sources */ = {isa = PBXBuildFile; fileRef = FCCA72941D759AC5002AF52C /* rtspdec.c */; };
+		FCCA72AE1D759AC5002AF52C /* rtspdec.h in Headers */ = {isa = PBXBuildFile; fileRef = FCCA72951D759AC5002AF52C /* rtspdec.h */; };
+		FCCA72AF1D759AC5002AF52C /* rtspsink.c in Sources */ = {isa = PBXBuildFile; fileRef = FCCA72961D759AC5002AF52C /* rtspsink.c */; };
+		FCCA72B01D759AC5002AF52C /* rtspsink.h in Headers */ = {isa = PBXBuildFile; fileRef = FCCA72971D759AC5002AF52C /* rtspsink.h */; };
+		FCCA72B11D759AC5002AF52C /* tcpsink.c in Sources */ = {isa = PBXBuildFile; fileRef = FCCA72981D759AC5002AF52C /* tcpsink.c */; };
+		FCCA72B21D759AC5002AF52C /* tcpsink.h in Headers */ = {isa = PBXBuildFile; fileRef = FCCA72991D759AC5002AF52C /* tcpsink.h */; };
+		FCCA72B31D759AC5002AF52C /* url.c in Sources */ = {isa = PBXBuildFile; fileRef = FCCA729A1D759AC5002AF52C /* url.c */; };
+		FCCA72B41D759AC5002AF52C /* url.h in Headers */ = {isa = PBXBuildFile; fileRef = FCCA729B1D759AC5002AF52C /* url.h */; };
+		FCCA72B51D759AC5002AF52C /* viddec.c in Sources */ = {isa = PBXBuildFile; fileRef = FCCA729C1D759AC5002AF52C /* viddec.c */; };
+		FCCA72B61D759AC5002AF52C /* viddec.h in Headers */ = {isa = PBXBuildFile; fileRef = FCCA729D1D759AC5002AF52C /* viddec.h */; };
+		FCCA72B71D759AC5002AF52C /* videosink.c in Sources */ = {isa = PBXBuildFile; fileRef = FCCA729E1D759AC5002AF52C /* videosink.c */; };
+		FCCA72B81D759AC5002AF52C /* videosink.h in Headers */ = {isa = PBXBuildFile; fileRef = FCCA729F1D759AC5002AF52C /* videosink.h */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -383,6 +409,32 @@
 		E6F727C117F7C9B90043623F /* IJKMediaPlayback.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = IJKMediaPlayback.m; path = IJKMediaPlayer/IJKMediaPlayback.m; sourceTree = "<group>"; };
 		E6FAD9551A515CE300725002 /* ijkmeta.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = ijkmeta.c; sourceTree = "<group>"; };
 		E6FAD9561A515CE300725002 /* ijkmeta.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ijkmeta.h; sourceTree = "<group>"; };
+		FCCA724C1D75986B002AF52C /* liveplayer */ = {isa = PBXFileReference; lastKnownFileType = folder; name = liveplayer; path = "/Users/mac-hcm/work/ijkplayer-dev/detu-ijkmediaplayer/ios/IJKMediaPlayer/IJKMediaPlayer/ijkmedia/ijkplayer/ios/liveplayer"; sourceTree = "<absolute>"; };
+		FCCA72871D759AC5002AF52C /* avqueue.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = avqueue.c; sourceTree = "<group>"; };
+		FCCA72881D759AC5002AF52C /* avqueue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = avqueue.h; sourceTree = "<group>"; };
+		FCCA72891D759AC5002AF52C /* bufchan.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = bufchan.c; sourceTree = "<group>"; };
+		FCCA728A1D759AC5002AF52C /* bufchan.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = bufchan.h; sourceTree = "<group>"; };
+		FCCA728B1D759AC5002AF52C /* decode.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = decode.c; sourceTree = "<group>"; };
+		FCCA728C1D759AC5002AF52C /* decode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = decode.h; sourceTree = "<group>"; };
+		FCCA728D1D759AC5002AF52C /* fifo.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = fifo.c; sourceTree = "<group>"; };
+		FCCA728E1D759AC5002AF52C /* fifo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = fifo.h; sourceTree = "<group>"; };
+		FCCA728F1D759AC5002AF52C /* frame.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = frame.h; sourceTree = "<group>"; };
+		FCCA72901D759AC5002AF52C /* netio.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = netio.c; sourceTree = "<group>"; };
+		FCCA72911D759AC5002AF52C /* netio.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = netio.h; sourceTree = "<group>"; };
+		FCCA72921D759AC5002AF52C /* queue.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = queue.c; sourceTree = "<group>"; };
+		FCCA72931D759AC5002AF52C /* queue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = queue.h; sourceTree = "<group>"; };
+		FCCA72941D759AC5002AF52C /* rtspdec.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = rtspdec.c; sourceTree = "<group>"; };
+		FCCA72951D759AC5002AF52C /* rtspdec.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = rtspdec.h; sourceTree = "<group>"; };
+		FCCA72961D759AC5002AF52C /* rtspsink.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = rtspsink.c; sourceTree = "<group>"; };
+		FCCA72971D759AC5002AF52C /* rtspsink.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = rtspsink.h; sourceTree = "<group>"; };
+		FCCA72981D759AC5002AF52C /* tcpsink.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = tcpsink.c; sourceTree = "<group>"; };
+		FCCA72991D759AC5002AF52C /* tcpsink.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = tcpsink.h; sourceTree = "<group>"; };
+		FCCA729A1D759AC5002AF52C /* url.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = url.c; sourceTree = "<group>"; };
+		FCCA729B1D759AC5002AF52C /* url.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = url.h; sourceTree = "<group>"; };
+		FCCA729C1D759AC5002AF52C /* viddec.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = viddec.c; sourceTree = "<group>"; };
+		FCCA729D1D759AC5002AF52C /* viddec.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = viddec.h; sourceTree = "<group>"; };
+		FCCA729E1D759AC5002AF52C /* videosink.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = videosink.c; sourceTree = "<group>"; };
+		FCCA729F1D759AC5002AF52C /* videosink.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = videosink.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -515,6 +567,7 @@
 		E66F8DF817EFEC1300354D80 /* ios */ = {
 			isa = PBXGroup;
 			children = (
+				FCCA72861D759AC5002AF52C /* liveplayer */,
 				4543161F1A66481600676070 /* pipeline */,
 				E66F8E0117EFEEA400354D80 /* ijkplayer_ios.m */,
 				E66F8E0217EFEEA400354D80 /* ijkplayer_ios.h */,
@@ -841,6 +894,39 @@
 			name = IJKMediaPlayer;
 			sourceTree = "<group>";
 		};
+		FCCA72861D759AC5002AF52C /* liveplayer */ = {
+			isa = PBXGroup;
+			children = (
+				FCCA72871D759AC5002AF52C /* avqueue.c */,
+				FCCA72881D759AC5002AF52C /* avqueue.h */,
+				FCCA72891D759AC5002AF52C /* bufchan.c */,
+				FCCA728A1D759AC5002AF52C /* bufchan.h */,
+				FCCA728B1D759AC5002AF52C /* decode.c */,
+				FCCA728C1D759AC5002AF52C /* decode.h */,
+				FCCA728D1D759AC5002AF52C /* fifo.c */,
+				FCCA728E1D759AC5002AF52C /* fifo.h */,
+				FCCA728F1D759AC5002AF52C /* frame.h */,
+				FCCA72901D759AC5002AF52C /* netio.c */,
+				FCCA72911D759AC5002AF52C /* netio.h */,
+				FCCA72921D759AC5002AF52C /* queue.c */,
+				FCCA72931D759AC5002AF52C /* queue.h */,
+				FCCA72941D759AC5002AF52C /* rtspdec.c */,
+				FCCA72951D759AC5002AF52C /* rtspdec.h */,
+				FCCA72961D759AC5002AF52C /* rtspsink.c */,
+				FCCA72971D759AC5002AF52C /* rtspsink.h */,
+				FCCA72981D759AC5002AF52C /* tcpsink.c */,
+				FCCA72991D759AC5002AF52C /* tcpsink.h */,
+				FCCA729A1D759AC5002AF52C /* url.c */,
+				FCCA729B1D759AC5002AF52C /* url.h */,
+				FCCA729C1D759AC5002AF52C /* viddec.c */,
+				FCCA729D1D759AC5002AF52C /* viddec.h */,
+				FCCA729E1D759AC5002AF52C /* videosink.c */,
+				FCCA729F1D759AC5002AF52C /* videosink.h */,
+			);
+			name = liveplayer;
+			path = ijkmedia/ijkplayer/ios/liveplayer;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
@@ -873,22 +959,35 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FCCA72A81D759AC5002AF52C /* frame.h in Headers */,
 				E6DBD3891C8941EB0058E4FB /* IJKFFMonitor.h in Headers */,
 				E654EAEA1B6B295200B0F2D0 /* IJKFFMoviePlayerController.h in Headers */,
+				FCCA72AE1D759AC5002AF52C /* rtspdec.h in Headers */,
 				E68B7AC51C1E7F20001DE241 /* IJKSDLHudViewController.h in Headers */,
 				E654EAEC1B6B295200B0F2D0 /* IJKFFOptions.h in Headers */,
+				FCCA72B41D759AC5002AF52C /* url.h in Headers */,
+				FCCA72A51D759AC5002AF52C /* decode.h in Headers */,
+				FCCA72AC1D759AC5002AF52C /* queue.h in Headers */,
 				E654EAE81B6B295200B0F2D0 /* IJKAVMoviePlayerController.h in Headers */,
 				E6C459841C7030AA004831EC /* ijksdl_gles2.h in Headers */,
 				E6C459BB1C706A13004831EC /* ijksdl_egl.h in Headers */,
+				FCCA72A71D759AC5002AF52C /* fifo.h in Headers */,
+				FCCA72B81D759AC5002AF52C /* videosink.h in Headers */,
 				E6C459BD1C7089AB004831EC /* ff_ffplay_options.h in Headers */,
+				FCCA72A31D759AC5002AF52C /* bufchan.h in Headers */,
 				E654EA8F1B6B27E600B0F2D0 /* IJKMediaFramework.h in Headers */,
+				FCCA72B61D759AC5002AF52C /* viddec.h in Headers */,
 				E6C2E7BE1C92BD3600E59229 /* IJKKVOController.h in Headers */,
 				E69808A01C7EB2040048A46C /* IJKNotificationManager.h in Headers */,
 				E654EAE61B6B295200B0F2D0 /* IJKMediaModule.h in Headers */,
 				E69BE5571B93FED300AFBA3F /* opt.h in Headers */,
+				FCCA72AA1D759AC5002AF52C /* netio.h in Headers */,
 				E654EAE71B6B295200B0F2D0 /* IJKMediaPlayback.h in Headers */,
 				E654EAED1B6B29C100B0F2D0 /* IJKMediaPlayer.h in Headers */,
+				FCCA72B01D759AC5002AF52C /* rtspsink.h in Headers */,
+				FCCA72A11D759AC5002AF52C /* avqueue.h in Headers */,
 				E6C459961C7030B6004831EC /* internal.h in Headers */,
+				FCCA72B21D759AC5002AF52C /* tcpsink.h in Headers */,
 				E654EAE91B6B295200B0F2D0 /* IJKMPMoviePlayerController.h in Headers */,
 				E68B7ACF1C1E97B0001DE241 /* IJKSDLHudViewCell.h in Headers */,
 				E698089B1C7EB13A0048A46C /* NSString+IJKMedia.h in Headers */,
@@ -998,6 +1097,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FCCA724D1D75986B002AF52C /* liveplayer in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1123,6 +1223,8 @@
 				E69BE5511B93FED300AFBA3F /* allformats.c in Sources */,
 				E654EABB1B6B286B00B0F2D0 /* ffpipenode_ffplay_vdec.c in Sources */,
 				E6C459981C7030B6004831EC /* renderer_yuv420p.c in Sources */,
+				FCCA72B31D759AC5002AF52C /* url.c in Sources */,
+				FCCA72B71D759AC5002AF52C /* videosink.c in Sources */,
 				E654EAA91B6B283D00B0F2D0 /* IJKAVMoviePlayerController.m in Sources */,
 				E654EAAC1B6B284C00B0F2D0 /* IJKFFMoviePlayerDef.m in Sources */,
 				E654EAB91B6B286700B0F2D0 /* ijkplayer_ios.m in Sources */,
@@ -1130,7 +1232,9 @@
 				E654EABD1B6B287000B0F2D0 /* ijksdl_vout_dummy.c in Sources */,
 				E6C459CC1C70967F004831EC /* renderer_yuv420sp.c in Sources */,
 				E6C459941C7030B6004831EC /* yuv420p.fsh.c in Sources */,
+				FCCA72A41D759AC5002AF52C /* decode.c in Sources */,
 				E654EAC21B6B287E00B0F2D0 /* ijksdl_error.c in Sources */,
+				FCCA72B51D759AC5002AF52C /* viddec.c in Sources */,
 				E607FFE11B7B62E3005F11A6 /* IJKDeviceModel.m in Sources */,
 				E6C459BA1C706A13004831EC /* ijksdl_egl.c in Sources */,
 				E654EAA31B6B283700B0F2D0 /* IJKAudioKit.m in Sources */,
@@ -1139,10 +1243,12 @@
 				E654EACB1B6B288A00B0F2D0 /* ijksdl_vout_overlay_videotoolbox.m in Sources */,
 				E654EAB11B6B285900B0F2D0 /* ff_ffpipenode.c in Sources */,
 				E654EAC41B6B287E00B0F2D0 /* ijksdl_stdinc.c in Sources */,
+				FCCA72A01D759AC5002AF52C /* avqueue.c in Sources */,
 				E654EAA61B6B283700B0F2D0 /* IJKMediaUtils.m in Sources */,
 				E6C459931C7030B6004831EC /* common.c in Sources */,
 				E654EAC81B6B288A00B0F2D0 /* ijksdl_aout_ios_audiounit.m in Sources */,
 				E69BE5721B946FF600AFBA3F /* ijklivehook.c in Sources */,
+				FCCA72A61D759AC5002AF52C /* fifo.c in Sources */,
 				E654EAA51B6B283700B0F2D0 /* IJKMediaPlayback.m in Sources */,
 				E654EAB01B6B285900B0F2D0 /* ff_ffpipeline.c in Sources */,
 				E654EACC1B6B288A00B0F2D0 /* IJKSDLAudioKit.m in Sources */,
@@ -1153,13 +1259,17 @@
 				E654EACD1B6B288A00B0F2D0 /* IJKSDLAudioQueueController.m in Sources */,
 				E654EAC51B6B287E00B0F2D0 /* ijksdl_thread.c in Sources */,
 				E6C459C81C7095E5004831EC /* yuv420sp.fsh.c in Sources */,
+				FCCA72AD1D759AC5002AF52C /* rtspdec.c in Sources */,
 				E654EAB21B6B285900B0F2D0 /* ff_ffplay.c in Sources */,
 				E654EAC01B6B287E00B0F2D0 /* ijksdl_aout.c in Sources */,
 				E6C459921C7030B6004831EC /* color.c in Sources */,
 				E654EAC11B6B287E00B0F2D0 /* ijksdl_audio.c in Sources */,
 				E654EAC91B6B288A00B0F2D0 /* ijksdl_thread_ios.m in Sources */,
 				E654EAB31B6B285900B0F2D0 /* ijkmeta.c in Sources */,
+				FCCA72AF1D759AC5002AF52C /* rtspsink.c in Sources */,
+				FCCA72A21D759AC5002AF52C /* bufchan.c in Sources */,
 				E6E1B9A81C741F72000C6C72 /* renderer_yuv420sp_vtb.m in Sources */,
+				FCCA72A91D759AC5002AF52C /* netio.c in Sources */,
 				E654EAD31B6B288A00B0F2D0 /* IJKSDLGLView.m in Sources */,
 				E654EAC61B6B287E00B0F2D0 /* ijksdl_timer.c in Sources */,
 				E6C4599A1C7030B6004831EC /* shader.c in Sources */,
@@ -1178,9 +1288,11 @@
 				E6C459C41C708E60004831EC /* rgb.fsh.c in Sources */,
 				E654EAB61B6B286400B0F2D0 /* ffpipenode_ios_videotoolbox_vdec.m in Sources */,
 				E654EAA81B6B283D00B0F2D0 /* IJKAVPlayerLayerView.m in Sources */,
+				FCCA72B11D759AC5002AF52C /* tcpsink.c in Sources */,
 				E68B7AC61C1E7F20001DE241 /* IJKSDLHudViewController.m in Sources */,
 				E654EACA1B6B288A00B0F2D0 /* ijksdl_vout_ios_gles2.m in Sources */,
 				E6C459C01C708CAF004831EC /* renderer_rgb.c in Sources */,
+				FCCA72AB1D759AC5002AF52C /* queue.c in Sources */,
 				E654EABA1B6B286B00B0F2D0 /* ffpipeline_ffplay.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -21,6 +21,8 @@
 @property  GLESRenderer* renderer;
 
 -(void)setFrameSDL:(SDL_VoutOverlay*)frame;
+//add for liveplayer by hcm
+-(void)stepFrame:(uint8_t*)frame:(int)w:(int)h;
 -(void)render;
 - (UIImage *)getScreenShot;
 

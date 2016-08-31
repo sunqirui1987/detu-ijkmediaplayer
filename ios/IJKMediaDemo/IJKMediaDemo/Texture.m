@@ -265,6 +265,10 @@
     [self softPrepare:overlay];
 }
 
+-(void)updateWithFrameBuf:(uint8_t*)frame:(int)w:(int)h{
+    [self softPrepare:frame:w:h];
+}
+
 -(void)hardPrepare:(SDL_VoutOverlay*)overlay{
     //    assert(overlay->planes);
     //    assert(overlay->format == SDL_FCC__VTB);
@@ -375,6 +379,64 @@
     const UInt8 *pixels[3] = { overlay->pixels[0], overlay->pixels[1], overlay->pixels[2] };
     const NSUInteger widths[3]  = { overlay->pitches[0], overlay->pitches[1], overlay->pitches[2] };
     const NSUInteger heights[3] = { frameHeight, frameHeight / 2, frameHeight / 2 };
+    
+    
+    //width = (int)widths[0];
+    //height = (int)heights[0];
+    
+    _xRange=1.0f;
+    _yRange=1.0f;
+    
+    
+    glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
+    
+    for (int i = 0; i < 3; ++i) {
+        
+        glBindTexture(GL_TEXTURE_2D, _textures[i]);
+        
+        glTexImage2D(GL_TEXTURE_2D,
+                     0,
+                     GL_LUMINANCE,
+                     (int)widths[i],
+                     (int)heights[i],
+                     0,
+                     GL_LUMINANCE,
+                     GL_UNSIGNED_BYTE,
+                     pixels[i]);
+        
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+        glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+        glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+    }
+}
+
+-(void)softPrepare:(uint8_t*)frame:(int)w:(int)h{
+    assert(frame);
+    // assert(yuvFrame.luma.length == yuvFrame.width * yuvFrame.height);
+    // assert(yuvFrame.chromaB.length == (yuvFrame.width * yuvFrame.height) / 4);
+    // assert(yuvFrame.chromaR.length == (yuvFrame.width * yuvFrame.height) / 4);
+    
+    const NSUInteger frameHeight = h;
+    
+    glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
+    
+    if (0 == _textures[0])
+        glGenTextures(3, _textures);
+    
+    _preferredConversion = kColorConversion709;
+    
+    const UInt8 *pixels[3];
+    
+    const char *y = (const char *)frame;
+    const char *u = y + w * h;
+    const char *v = u + w * h / 4;
+    
+    pixels[0] = y;
+    pixels[1] = u;
+    pixels[2] = v;
+    const NSUInteger widths[3]  = { w, w/2, w/2 };
+    const NSUInteger heights[3] = { h, h / 2, h / 2 };
     
     
     width = (int)widths[0];

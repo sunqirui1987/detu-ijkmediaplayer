@@ -39,6 +39,7 @@
 -(void)updateWithImage:(UIImage *)img;
 
 -(void)updateWithFrameSDL:(SDL_VoutOverlay*)overlay;
+-(void)updateWithFrameBuf:(uint8_t *)frame:(int)w:(int)h;
 
 -(void)bind;
 @end

@@ -301,6 +301,25 @@ SDL_VoutOverlay *SDL_VoutFFmpeg_CreateOverlay(int width, int height, int frame_f
             }
             break;
         }
+            
+            //add by hcm,support rtsp liveplayer
+        default:
+            switch (frame_format) {
+                case AV_PIX_FMT_YUV444P10LE:
+                    overlay_format = SDL_FCC_I444P10LE;
+                    break;
+                case AV_PIX_FMT_YUV420P:
+                case AV_PIX_FMT_YUVJ420P:
+                default:
+#if defined(__ANDROID__)
+                    overlay_format = SDL_FCC_YV12;
+#else
+                    overlay_format = SDL_FCC_I420;
+#endif
+                    break;
+            }
+            break;
+            //end add
     }
 
     SDLTRACE("SDL_VoutFFmpeg_CreateOverlay(w=%d, h=%d, fmt=%.4s(0x%x, dp=%p)\n",

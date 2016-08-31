@@ -45,7 +45,8 @@
 {
     
     [IJKFFMoviePlayerController setLogReport:NO];
-    [IJKFFMoviePlayerController setLogLevel:k_IJK_LOG_SILENT];
+    //[IJKFFMoviePlayerController setLogLevel:k_IJK_LOG_SILENT];
+    [IJKFFMoviePlayerController setLogLevel:k_IJK_LOG_INFO];
     
     
     IJKFFOptions *options =  [[IJKFFOptions alloc] init];
@@ -61,7 +62,9 @@
         [options setPlayerOptionValue:@"fcc-i420"          forKey:@"overlay-format"];
     }
     
-    
+    //disable audio
+    //[options setPlayerOptionIntValue:1 forKey:@"an"];
+
     
     [options setPlayerOptionValue:0        forKey:@"start-on-prepared"];
     
@@ -111,14 +114,17 @@
     //        _channel   = frame.channel;
     //        [self.delegate movieDecoderDidDecodeFrameBuffer: _framedata width:_videoWidth height:_videoHeight channel:_channel];
     //    }
-   
+    //int width, height;
+    //uint8_t *frame = NULL;
     SDL_VoutOverlay* frame = [_player getCurrentFrame3];
+    //frame = [_player getCurrentFrame4:&width:&height];
     if (frame == NULL) {
         return;
     }
     
     //   dispatch_async(dispatch_get_global_queue(0, 0), ^{
     [self.delegate movieDecoderDidDecodeFrameSDL: frame];
+    //[self.delegate movieDecoderDidDecodeFrameRawbuf:frame :width :height];
     //   });
     
 }
