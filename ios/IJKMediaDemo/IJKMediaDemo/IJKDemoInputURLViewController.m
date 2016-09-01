@@ -206,6 +206,7 @@ basePath;\
 -(void)dealloc{
     NSLog(@"video plugin deallo");
     [[NSNotificationCenter defaultCenter] removeObserver:self];
+    [self innerstop];
     [decoder stop];
     [decoder cleargc];
     decoder.delegate = nil;

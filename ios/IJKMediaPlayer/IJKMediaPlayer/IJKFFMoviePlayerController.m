@@ -456,13 +456,19 @@ void IJKFFIOStatCompleteRegister(void (*cb)(const char *url,
 - (void)stop
 {
     if (is_liveplayer) {
-        
         is_liveplayer = 0;
-        SDL_VoutFree(v_out);
-        SDL_VoutFreeYUVOverlay(v_outoverlay);
-        
-        if (dec_ctx)
-            Decode_CloseStream(dec_ctx);
+
+        if(dec_ctx){
+            if(v_out)
+                SDL_VoutFree(v_out);
+            if(v_outoverlay)
+                SDL_VoutFreeYUVOverlay(v_outoverlay);
+            
+            if (dec_ctx)
+                Decode_CloseStream(dec_ctx);
+            
+            dec_ctx = nil;
+        }
         
         Decode_Quit();
         return;
