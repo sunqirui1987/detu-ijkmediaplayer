@@ -456,6 +456,7 @@ void IJKFFIOStatCompleteRegister(void (*cb)(const char *url,
 - (void)stop
 {
     if (is_liveplayer) {
+        
         is_liveplayer = 0;
         SDL_VoutFree(v_out);
         SDL_VoutFreeYUVOverlay(v_outoverlay);
