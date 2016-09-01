@@ -46,7 +46,7 @@
 static const char *kIJKFFRequiredFFmpegVersion = "ff3.1--ijk0.6.0--20160718--001";
 
 //add for test liveplayer macro
-static int is_liveplayer = 0;
+int is_liveplayer = 0;
 
 @interface IJKFFMoviePlayerController()
 
@@ -181,6 +181,8 @@ void IJKFFIOStatCompleteRegister(void (*cb)(const char *url,
         return nil;
 
     self = [super init];
+    
+    is_liveplayer = 0;
     
     if([aUrlString isEqualToString:@"rtsp://192.168.1.254/xxx.mov"] || [aUrlString isEqualToString:@"rtsp://192.168.1.254:554/xxx.mov"])
         is_liveplayer = 1;
@@ -454,6 +456,7 @@ void IJKFFIOStatCompleteRegister(void (*cb)(const char *url,
 - (void)stop
 {
     if (is_liveplayer) {
+        is_liveplayer = 0;
         SDL_VoutFree(v_out);
         SDL_VoutFreeYUVOverlay(v_outoverlay);
         
