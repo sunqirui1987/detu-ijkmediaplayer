@@ -88,7 +88,7 @@ void *video_stream_thread(void *arg)
     
     while (!s->abort) {
         rtsp_service(s);
-        usleep(200);
+        sleep(1);
     }
     
     return NULL;
