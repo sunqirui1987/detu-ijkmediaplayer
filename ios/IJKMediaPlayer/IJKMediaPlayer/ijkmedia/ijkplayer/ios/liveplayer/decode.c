@@ -41,8 +41,8 @@ struct DecodeCtx {
     Queue *fullq;
     Queue *emptyq;
 
-    //VideoSink *videosink;
-    RtspSession_t *sess;
+    VideoSink *videosink;
+    //RtspSession_t *sess;
     VideoDec *viddec;
     
     av_queue *q;
@@ -90,20 +90,20 @@ static void *video_decode_thread(void *arg)
     
     while (!ctx->abort) {
         VideoPkt inpkt;
-        AVPacket pkt;
+//        AVPacket pkt;
         
-        int ret = rtsp_read(ctx->q, &pkt);
-//        int ret = VideoSink_ReadStream(ctx->videosink, &inpkt, 100);
+//        int ret = rtsp_read(ctx->q, &pkt);
+        int ret = VideoSink_ReadStream(ctx->videosink, &inpkt, 100);
         if (ret < 0)
             break;
         else if (ret == 0)
             continue;
 
-        inpkt.data = pkt.data;
-        inpkt.keyframe = pkt.flags;
-        inpkt.size = pkt.size;
-        inpkt.pts = pkt.pts;
-//        printf("new rtsp read pkt,pkt size:%d,pkt pts:%lld\n",pkt.size, pkt.pts);
+//        inpkt.data = pkt.data;
+//        inpkt.keyframe = pkt.flags;
+//        inpkt.size = pkt.size;
+//        inpkt.pts = pkt.pts;
+//        printf("new rtsp read pkt,pkt size:%d,pkt pts:%lld\n",inpkt.size, inpkt.pts);
 //        
 //        if (need_keyframe && !inpkt.keyframe)
 //            continue;
@@ -122,7 +122,6 @@ static void *video_decode_thread(void *arg)
 #endif
             continue;
         }
-        av_free_packet(&pkt);
         queue_insert(ctx->fullq, frame, 100);
     }
 
@@ -152,9 +151,9 @@ static int close_stream(DecodeCtx *ctx)
     if (ctx->decode_tid)
         pthread_join(ctx->decode_tid, NULL);
     
-    rtsp_stop(ctx->sess);
-    queue_flush(ctx->q);
-   // VideoSink_CloseStream(ctx->videosink);
+   // rtsp_stop(ctx->sess);
+   // queue_flush(ctx->q);
+    VideoSink_CloseStream(ctx->videosink);
     VideoDec_Destroy(ctx->viddec);
     if (ctx->fullq) {
         VideoFrame *vf;
@@ -200,14 +199,14 @@ DecodeCtx *Decode_OpenStream(char *url)
         return NULL;
     memset(ctx, 0, sizeof(DecodeCtx));
 
-    ctx->q = malloc(sizeof(av_queue));
-    queue_init(ctx->q);
-    
-    ctx->sess = rtsp_open(url, ctx->q);
-    
-//    ctx->videosink = VideoSink_OpenStream(url);
-//    if (!ctx->videosink)
-//        goto fail;
+//    ctx->q = malloc(sizeof(av_queue));
+//    queue_init(ctx->q);
+//    
+//    ctx->sess = rtsp_open(url, ctx->q);
+//    
+    ctx->videosink = VideoSink_OpenStream(url);
+    if (!ctx->videosink)
+        goto fail;
 
     ctx->viddec = VideoDec_Create();
     if (!ctx->viddec)
@@ -311,6 +310,7 @@ int Decode_ReadFrame(DecodeCtx *ctx, VideoFrame *frame)
     frame->size   = vf->size;
 
     queue_insert(ctx->emptyq, vf, 1000);
+//    printf("get yuv frame %d\n",vf->size);
 
     int time_ms = (int)needwait(ctx, frame->pts);
     if (time_ms > 0 && time_ms < 30){

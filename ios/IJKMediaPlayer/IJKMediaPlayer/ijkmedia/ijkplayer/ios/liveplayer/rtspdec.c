@@ -25,7 +25,7 @@
 #define LOGI(format, ...)  __android_log_print(ANDROID_LOG_INFO,  TAG, format, ##__VA_ARGS__)
 #endif
 
-#define MAX_FRAME_SIZE  (256 * 1024)
+#define MAX_FRAME_SIZE  (512 * 1024)
 
 #define min(x, y)   ((x) < (y) ? (x) : (y))
 
@@ -174,11 +174,9 @@ static int rtsp_service(RtspSession *s)
         iov[0].iov_len  = sizeof(RawFrame);
         iov[1].iov_base = pkt.data;
         iov[1].iov_len  = pkt.size;
-        printf("rtsp service recv pkt,pkt size:%d,pkt_no:%d,pkt data ptr:%p \n",pkt.size,pkt_cnt,pkt.data);
+        //printf("rtsp service recv pkt,pkt size:%d,pkt_no:%d,pkt data ptr:%p \n",pkt.size,pkt_cnt,pkt.data);
         ret = BufChan_WriteV(bufhndl, iov, 2);
-        if(ret < 0){
-            av_free_packet(&pkt);
-        }
+        av_free_packet(&pkt);
     }
 
 fail:
@@ -350,11 +348,9 @@ int RtspDec_CloseStream(RtspDec *dec)
 {
     printf("RtspDec_CloseStream#####\n");
     if (dec->bufhndl){
-        printf("bufchan close###1\n");
         BufChan_Close(dec->bufhndl);
     }
     if (dec->session){
-        printf("close rtsp session\n");
         rtsp_destroy_session(dec->session);
     }
     
@@ -399,7 +395,7 @@ int RtspDec_ReadStream(RtspDec *dec, RtspFrame *frame, int time_ms)
     frame->data     = dec->buffer + sizeof(RawFrame);
     frame->size     = len - sizeof(RawFrame);
     frame->pkt_num = rf->frame_cnt;
-    printf("RtspDec_ReadStream, get pkt size:%d,pkt num:%d",frame->size, frame->pkt_num);
+    //printf("RtspDec_ReadStream, get pkt size:%d,pkt num:%d",frame->size, frame->pkt_num);
 
     int wait_time = needwait(dec, rf->pts);
     if (wait_time > 0) {
