@@ -45,7 +45,7 @@ struct DecodeCtx {
     //RtspSession_t *sess;
     VideoDec *viddec;
     
-    av_queue *q;
+    //av_queue *q;
 
     pthread_t decode_tid;
 
@@ -99,18 +99,6 @@ static void *video_decode_thread(void *arg)
         else if (ret == 0)
             continue;
 
-//        inpkt.data = pkt.data;
-//        inpkt.keyframe = pkt.flags;
-//        inpkt.size = pkt.size;
-//        inpkt.pts = pkt.pts;
-//        printf("new rtsp read pkt,pkt size:%d,pkt pts:%lld\n",inpkt.size, inpkt.pts);
-//        
-//        if (need_keyframe && !inpkt.keyframe)
-//            continue;
-//
-//        if (inpkt.keyframe)
-//            need_keyframe = 0;
-
         VideoFrame *frame = obtain_empty_frame(ctx);
         if (!frame)
             continue;
@@ -130,15 +118,15 @@ static void *video_decode_thread(void *arg)
 
 int Decode_Init(void)
 {
-    //VideoSink_Init();
-    rtsp_init();
+    VideoSink_Init();
+    //rtsp_init();
 
     return 0;
 }
 
 int Decode_Quit(void)
 {
-    //VideoSink_Quit();
+    VideoSink_Quit();
 
     return 0;
 }

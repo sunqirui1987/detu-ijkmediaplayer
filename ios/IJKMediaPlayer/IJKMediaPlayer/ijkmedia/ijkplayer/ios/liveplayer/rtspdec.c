@@ -153,21 +153,13 @@ static int rtsp_service(RtspSession *s)
             av_free_packet(&pkt);
             continue;
         }
-        av_dup_packet(&pkt);
-//        RawFrame f = {
-//            .pts          = pkt.pts,
-//            .keyframe     = !!(pkt.flags & AV_PKT_FLAG_KEY),
-//            .stream_index = pkt.stream_index,
-//            .frame_cnt = pkt_cnt++,
-//            .refer = (.refer)++,
-//        };
-        RawFrame f;
-        memset(&f, 0, sizeof(RawFrame));
-        f.pts       = pkt.pts;
-        f.keyframe  = !!(pkt.flags & AV_PKT_FLAG_KEY);
-        f.frame_cnt = pkt_cnt++;
-        f.stream_index = pkt.stream_index;
-        f.refer++;
+        
+        RawFrame f = {
+            .pts          = pkt.pts,
+            .keyframe     = !!(pkt.flags & AV_PKT_FLAG_KEY),
+            .stream_index = pkt.stream_index,
+            .frame_cnt = pkt_cnt++,
+        };
        
         struct iovec iov[2];
         iov[0].iov_base = &f;
@@ -397,11 +389,11 @@ int RtspDec_ReadStream(RtspDec *dec, RtspFrame *frame, int time_ms)
     frame->pkt_num = rf->frame_cnt;
     //printf("RtspDec_ReadStream, get pkt size:%d,pkt num:%d",frame->size, frame->pkt_num);
 
-    int wait_time = needwait(dec, rf->pts);
-    if (wait_time > 0) {
-	//printf("read frame delay time:%d(ms)", wait_time);
-	usleep(wait_time);
-    }
+//    int wait_time = needwait(dec, rf->pts);
+//    if (wait_time > 0) {
+//        //printf("read frame delay time:%d(ms)", wait_time);
+//        usleep(wait_time);
+//    }
     return 1;
 }
 
