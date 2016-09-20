@@ -12,7 +12,7 @@
 
 typedef struct VideoDec VideoDec;
 
-VideoDec *VideoDec_Create(void);
+VideoDec *VideoDec_Create(int codec_id);
 int VideoDec_Destroy(VideoDec *dec);
 
 typedef struct {

@@ -44,7 +44,7 @@ static int64_t get_time(void)
     return (int64_t)tv.tv_sec * 1000 + (int64_t)tv.tv_usec / 1000;
 }
 
-VideoDec *VideoDec_Create(void)
+VideoDec *VideoDec_Create(int codec_id)
 {
     av_register_all();
     avformat_network_init();
@@ -54,7 +54,7 @@ VideoDec *VideoDec_Create(void)
         return NULL;
     memset(dec, 0, sizeof(VideoDec));
 
-    dec->codec = avcodec_find_decoder(AV_CODEC_ID_H264);
+    dec->codec = avcodec_find_decoder(codec_id);
     if (!dec->codec)
         goto fail;
 

@@ -24,7 +24,7 @@
 #include <libavformat/avformat.h>
 
 #define BUFFERED_RAWFRAME_NUMBER   (32)
-#define BUFFERED_YUVFRAME_NUMBER   (2)
+#define BUFFERED_YUVFRAME_NUMBER   (4)
 
 #ifdef ANDROID_APP
 #include <android/log.h>
@@ -173,10 +173,10 @@ static int close_stream(DecodeCtx *ctx)
 
 static int is_localhost(char *url)
 {
-    if (strstr(url, "rtsp://127.0.0.1"))
+    if (strstr(url, "rtsp://"))
         return 1;
-    if (strstr(url, "rtsp://localhost"))
-        return 1;
+    if (strstr(url, "http://"))
+        return 2;
     return 0;
 }
 
@@ -186,17 +186,27 @@ DecodeCtx *Decode_OpenStream(char *url)
     if (!ctx)
         return NULL;
     memset(ctx, 0, sizeof(DecodeCtx));
+    
+    int codec_id = 0;
 
 //    ctx->q = malloc(sizeof(av_queue));
 //    queue_init(ctx->q);
 //    
 //    ctx->sess = rtsp_open(url, ctx->q);
-//    
+    printf("%%%%%%%%%%stream url:%s\n",url);
+    if (strstr(url, "rtsp://"))
+    {
+        codec_id = AV_CODEC_ID_H264;
+    } else if(strstr(url, "http://"))
+    {
+        codec_id = AV_CODEC_ID_MJPEG;
+    }
+    
     ctx->videosink = VideoSink_OpenStream(url);
     if (!ctx->videosink)
         goto fail;
 
-    ctx->viddec = VideoDec_Create();
+    ctx->viddec = VideoDec_Create(codec_id);
     if (!ctx->viddec)
         goto fail;
 

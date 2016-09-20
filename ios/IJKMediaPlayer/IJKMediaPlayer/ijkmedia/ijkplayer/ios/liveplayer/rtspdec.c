@@ -101,7 +101,7 @@ static const AVIOInterruptCB int_cb = { interrupt_cb, NULL};
 
 static int rtsp_service(RtspSession *s)
 {
-    printf("rtsp service start\n");
+    printf("bitstream service start\n");
     long bufhndl = 0;
     int video_stream_idx = -1;
     AVFormatContext *fmt_ctx = NULL;
@@ -122,6 +122,7 @@ static int rtsp_service(RtspSession *s)
 //    fmt_ctx->flags |= AVFMT_FLAG_NONBLOCK;
 
 //    if (avformat_open_input(&fmt_ctx, s->url, NULL, &option) < 0)
+    printf("services stream url:%s\n",s->url);
     if (avformat_open_input(&fmt_ctx, s->url, NULL, NULL) < 0)
         goto fail;
 
@@ -166,7 +167,7 @@ static int rtsp_service(RtspSession *s)
         iov[0].iov_len  = sizeof(RawFrame);
         iov[1].iov_base = pkt.data;
         iov[1].iov_len  = pkt.size;
-        //printf("rtsp service recv pkt,pkt size:%d,pkt_no:%d,pkt data ptr:%p \n",pkt.size,pkt_cnt,pkt.data);
+//        printf("rtsp service recv pkt,pkt size:%d,pkt_no:%d,pkt data ptr:%p \n",pkt.size,pkt_cnt,pkt.data);
         ret = BufChan_WriteV(bufhndl, iov, 2);
         av_free_packet(&pkt);
     }
@@ -387,7 +388,7 @@ int RtspDec_ReadStream(RtspDec *dec, RtspFrame *frame, int time_ms)
     frame->data     = dec->buffer + sizeof(RawFrame);
     frame->size     = len - sizeof(RawFrame);
     frame->pkt_num = rf->frame_cnt;
-    //printf("RtspDec_ReadStream, get pkt size:%d,pkt num:%d",frame->size, frame->pkt_num);
+//    printf("RtspDec_ReadStream, get pkt size:%d,pkt num:%d\n",frame->size, frame->pkt_num);
 
 //    int wait_time = needwait(dec, rf->pts);
 //    if (wait_time > 0) {
