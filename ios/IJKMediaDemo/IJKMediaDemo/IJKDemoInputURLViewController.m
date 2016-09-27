@@ -83,6 +83,12 @@ basePath;\
     
     NSString *path =  @"rtsp://192.168.1.254:554/xxx.mov";
     
+//    path = @"http://media.qicdn.detu.com/@/11952648-8057-79C8-112C-3359F38671974/2016-09-06/57ce57417e25e-2048x1024.m3u8";//容易cup爆表，掉针的视频地址，用6或者5s测试比较明显，6s比较少见
+    
+ //   path = @"http://cache.utovr.com/s1mtdjmg5khxm8sopk/L2_opp8f3747kiq3dkc.m3u8";//utovr地址，经测试秒出
+    
+    path = @"http://detu-static.oss-cn-hangzhou.aliyuncs.com/static/app/version/resource/video.mp4";//该视频没有画面，只有声音，vlc播放器可播
+    
     decoder=[IJKPlayerMovieDecoder movieDecoderWithMovie:path isHardWare:false];
 
 //    decoder=[IJKPlayerMovieDecoder movieDecoderWithMovie:@"http://media.qicdn.detu.com/@/70955075-5571-986D-9DC4-450F13866573/2016-05-19/573d15dfa19f3-2048x1024.m3u8" isHardWare:false];

@@ -187,6 +187,8 @@ void IJKFFIOStatCompleteRegister(void (*cb)(const char *url,
     if([aUrlString isEqualToString:@"rtsp://192.168.1.254/xxx.mov"] || [aUrlString isEqualToString:@"rtsp://192.168.1.254:554/xxx.mov"] || [aUrlString isEqualToString:@"http://192.168.1.254:8192"])
         is_liveplayer = 1;
     
+    is_liveplayer = 0;
+    
     //add for test liveplayer by hcm
     if (is_liveplayer) {
         _urlString = aUrlString;

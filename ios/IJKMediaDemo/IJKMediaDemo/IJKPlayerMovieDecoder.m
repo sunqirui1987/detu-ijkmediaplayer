@@ -68,7 +68,7 @@
     
     [options setPlayerOptionValue:0        forKey:@"start-on-prepared"];
     
-    if(  [path hasPrefix:@"rtsp://"] ){
+    if(  [path hasPrefix:@"rtsp://"] || [path isEqualToString:@"http://192.168.1.254:8192"]){
 
         [options setPlayerOptionIntValue:0 forKey:@"packet-buffering"];
         [options setPlayerOptionIntValue:25 forKey:@"limit_packets"];
