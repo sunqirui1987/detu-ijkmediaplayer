@@ -45,8 +45,8 @@
 {
     
     [IJKFFMoviePlayerController setLogReport:NO];
-    //[IJKFFMoviePlayerController setLogLevel:k_IJK_LOG_SILENT];
-    [IJKFFMoviePlayerController setLogLevel:k_IJK_LOG_INFO];
+    [IJKFFMoviePlayerController setLogLevel:k_IJK_LOG_SILENT];
+  //  [IJKFFMoviePlayerController setLogLevel:k_IJK_LOG_INFO];
     
     
     IJKFFOptions *options =  [[IJKFFOptions alloc] init];
@@ -77,7 +77,6 @@
     
    
     _player = [[IJKFFMoviePlayerController alloc] initWithContentURLString:path withOptions:options];
-    // _player.ishardWare = self.is_hardware;
     [_player prepareToPlay];
     [self start];
     return TRUE;

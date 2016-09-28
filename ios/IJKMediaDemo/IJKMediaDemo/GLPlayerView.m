@@ -267,4 +267,12 @@
     return image;
 }
 
+-(void)layoutSubviews{
+    [super layoutSubviews];
+    if (self.bounds.size.width>0&&self.bounds.size.height>0) {
+        glClearColor(0,0,0,1);
+        [_renderer createFramebuffer:(CAEAGLLayer*)self.layer];
+    }
+}
+
 @end

@@ -34,6 +34,8 @@
     
     GLuint programHandler;
     
+    Boolean isCreate;
+    
 }
 @end
 
@@ -66,6 +68,7 @@
 
 
 - (BOOL)createFramebuffer:(CAEAGLLayer*)layer {
+    isCreate = NO;
     
     [self destroyFramebuffer];
     [EAGLContext setCurrentContext:self.context];
@@ -92,14 +95,13 @@
         return NO;
     }
     
+    isCreate = YES;
+    
     return YES;
 }
 
 - (void)destroyFramebuffer {
     if (self.context) {
-        [EAGLContext setCurrentContext:self.context];
-        
-        
         if (_framebuffer) {
             glDeleteFramebuffers(1, &_framebuffer);
             _framebuffer = 0;
@@ -109,6 +111,8 @@
             glDeleteRenderbuffers(1, &_renderbuffer);
             _renderbuffer = 0;
         }
+        
+        [EAGLContext setCurrentContext:nil];
         
         //        if(msaaFramebuffer)
         //        {
@@ -135,18 +139,15 @@
 
 - (void)setFramebuffer:(CAEAGLLayer*)layer {
     
-    if (self.context) {
-        [EAGLContext setCurrentContext:self.context];
-        
-        if (!_framebuffer)
-            [self createFramebuffer:layer];
+    if (self.context && isCreate) {
+        //    [EAGLContext setCurrentContext:self.context];
         
         
         
         //  glBindFramebuffer(GL_FRAMEBUFFER, _framebuffer); //Bind MSAA
         //glClear(GL_COLOR_BUFFER_BIT);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-        glEnable(GL_DEPTH_TEST);
+        //       glEnable(GL_DEPTH_TEST);
         
         
         
@@ -159,8 +160,10 @@
 
 - (BOOL)presentFramebuffer {
     BOOL success = FALSE;
-    if (self.context) {
-        [EAGLContext setCurrentContext:self.context];
+    if (self.context && isCreate) {
+        //      [EAGLContext setCurrentContext:self.context];
+        glGetRenderbufferParameteriv(GL_RENDERBUFFER, GL_RENDERBUFFER_WIDTH, &_backingWidth);
+        glGetRenderbufferParameteriv(GL_RENDERBUFFER, GL_RENDERBUFFER_HEIGHT, &_backingHeight);
         
         //        glBindFramebuffer(GL_READ_FRAMEBUFFER_APPLE, _framebuffer);
         //        glBindFramebuffer(GL_DRAW_FRAMEBUFFER_APPLE, _renderbuffer);
