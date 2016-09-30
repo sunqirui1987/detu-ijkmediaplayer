@@ -258,6 +258,12 @@ if [ -f "${FF_DEP_LIBSOXR_LIB}/libsoxr.a" ]; then
     FF_DEP_LIBS="$FF_DEP_LIBS -L${FF_DEP_LIBSOXR_LIB} -lsoxr"
 fi
 
+# with x264
+    X264=`pwd`/x264
+    FF_CFG_FLAGS="$FF_CFG_FLAGS --enable-gpl --enable-libx264 "
+    FF_CFLAGS="$FF_CFLAGS -I$X264/include"
+    FF_DEP_LIBS="$FF_DEP_LIBS -L$X264/lib"
+
 FF_CFG_FLAGS="$FF_CFG_FLAGS $COMMON_FF_CFG_FLAGS"
 
 #--------------------

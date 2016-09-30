@@ -48,11 +48,11 @@
     [IJKFFMoviePlayerController setLogLevel:k_IJK_LOG_SILENT];
   //  [IJKFFMoviePlayerController setLogLevel:k_IJK_LOG_INFO];
     
-    
+    self.is_hardware = true;
     IJKFFOptions *options =  [[IJKFFOptions alloc] init];
     
-    [options setPlayerOptionIntValue:self.is_hardware?1:0      forKey:@"videotoolbox"];
-    [options setPlayerOptionIntValue:2048    forKey:@"videotoolbox-max-frame-width"];
+    [options setPlayerOptionIntValue:1      forKey:@"videotoolbox"];
+    [options setPlayerOptionIntValue:4096    forKey:@"videotoolbox-max-frame-width"];
     
 
     if(self.is_hardware){
@@ -77,6 +77,7 @@
     
    
     _player = [[IJKFFMoviePlayerController alloc] initWithContentURLString:path withOptions:options];
+    
     [_player prepareToPlay];
     [self start];
     return TRUE;
@@ -120,7 +121,7 @@
     if (frame == NULL) {
         return;
     }
-    
+    return;
     //   dispatch_async(dispatch_get_global_queue(0, 0), ^{
     [self.delegate movieDecoderDidDecodeFrameSDL: frame];
     //[self.delegate movieDecoderDidDecodeFrameRawbuf:frame :width :height];

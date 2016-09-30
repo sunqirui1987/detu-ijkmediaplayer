@@ -7,99 +7,37 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		63A8C5841D59762100F03DF8 /* IJKAudioKit.m in Sources */ = {isa = PBXBuildFile; fileRef = E6EE92A2187810C5009EAB56 /* IJKAudioKit.m */; };
-		63A8C5851D59762100F03DF8 /* IJKDeviceModel.m in Sources */ = {isa = PBXBuildFile; fileRef = E607FFDF1B7B60F9005F11A6 /* IJKDeviceModel.m */; };
-		63A8C5861D59762100F03DF8 /* IJKKVOController.m in Sources */ = {isa = PBXBuildFile; fileRef = E65DC3B819D93D5F004F8A08 /* IJKKVOController.m */; };
-		63A8C5871D59762100F03DF8 /* IJKMediaModule.m in Sources */ = {isa = PBXBuildFile; fileRef = E672D6F218D3445100C51FF9 /* IJKMediaModule.m */; };
-		63A8C5881D59762100F03DF8 /* IJKMediaPlayback.m in Sources */ = {isa = PBXBuildFile; fileRef = E6F727C117F7C9B90043623F /* IJKMediaPlayback.m */; };
-		63A8C5891D59762100F03DF8 /* IJKMediaUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = E6716E4A1807E5FC00B3FBC1 /* IJKMediaUtils.m */; };
-		63A8C58A1D59762100F03DF8 /* IJKNotificationManager.m in Sources */ = {isa = PBXBuildFile; fileRef = E698089F1C7EB2040048A46C /* IJKNotificationManager.m */; };
-		63A8C58B1D59762100F03DF8 /* NSString+IJKMedia.m in Sources */ = {isa = PBXBuildFile; fileRef = E698089A1C7EB13A0048A46C /* NSString+IJKMedia.m */; };
-		63A8C58C1D59762100F03DF8 /* IJKAVPlayerLayerView.m in Sources */ = {isa = PBXBuildFile; fileRef = E67C4E0419D15B3200415CEE /* IJKAVPlayerLayerView.m */; };
-		63A8C58D1D59762100F03DF8 /* IJKAVMoviePlayerController.m in Sources */ = {isa = PBXBuildFile; fileRef = E67C4E0719D15EEA00415CEE /* IJKAVMoviePlayerController.m */; };
-		63A8C58E1D59762100F03DF8 /* IJKMPMoviePlayerController.m in Sources */ = {isa = PBXBuildFile; fileRef = E66F8DC017EEC65200354D80 /* IJKMPMoviePlayerController.m */; };
-		63A8C58F1D59762100F03DF8 /* IJKFFMonitor.m in Sources */ = {isa = PBXBuildFile; fileRef = E6DBD3881C8941EB0058E4FB /* IJKFFMonitor.m */; };
-		63A8C5901D59762100F03DF8 /* IJKFFMoviePlayerController.m in Sources */ = {isa = PBXBuildFile; fileRef = E66F8DE617EFD9C300354D80 /* IJKFFMoviePlayerController.m */; };
-		63A8C5911D59762100F03DF8 /* IJKFFMoviePlayerDef.m in Sources */ = {isa = PBXBuildFile; fileRef = E6F727BA17F2D9D30043623F /* IJKFFMoviePlayerDef.m */; };
-		63A8C5921D59762100F03DF8 /* IJKFFOptions.m in Sources */ = {isa = PBXBuildFile; fileRef = E62139BD180FA89A00553533 /* IJKFFOptions.m */; };
-		63A8C5931D59762100F03DF8 /* ffpipenode_ios_videotoolbox_vdec.m in Sources */ = {isa = PBXBuildFile; fileRef = 454316231A66493700676070 /* ffpipenode_ios_videotoolbox_vdec.m */; };
-		63A8C5941D59762100F03DF8 /* IJKVideoToolBox.m in Sources */ = {isa = PBXBuildFile; fileRef = 4543162A1A66497900676070 /* IJKVideoToolBox.m */; };
-		63A8C5951D59762100F03DF8 /* ijkplayer_ios.m in Sources */ = {isa = PBXBuildFile; fileRef = E66F8E0117EFEEA400354D80 /* ijkplayer_ios.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		63A8C5961D59762100F03DF8 /* renderer_yuv420sp_vtb.m in Sources */ = {isa = PBXBuildFile; fileRef = E6E1B9A71C741F72000C6C72 /* renderer_yuv420sp_vtb.m */; };
-		63A8C5971D59762100F03DF8 /* ijksdl_aout_ios_audiounit.m in Sources */ = {isa = PBXBuildFile; fileRef = E6EE92A71878230C009EAB56 /* ijksdl_aout_ios_audiounit.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		63A8C5981D59762100F03DF8 /* ijksdl_thread_ios.m in Sources */ = {isa = PBXBuildFile; fileRef = E6EE92AA1878230C009EAB56 /* ijksdl_thread_ios.m */; };
-		63A8C5991D59762100F03DF8 /* ijksdl_vout_ios_gles2.m in Sources */ = {isa = PBXBuildFile; fileRef = E6EE92AC1878230C009EAB56 /* ijksdl_vout_ios_gles2.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		63A8C59A1D59762100F03DF8 /* ijksdl_vout_overlay_videotoolbox.m in Sources */ = {isa = PBXBuildFile; fileRef = 45DB4AA81A5D52AE005CAD41 /* ijksdl_vout_overlay_videotoolbox.m */; };
-		63A8C59B1D59762100F03DF8 /* IJKSDLAudioKit.m in Sources */ = {isa = PBXBuildFile; fileRef = E6EE92C718782770009EAB56 /* IJKSDLAudioKit.m */; };
-		63A8C59C1D59762100F03DF8 /* IJKSDLAudioQueueController.m in Sources */ = {isa = PBXBuildFile; fileRef = E6EE92C11878236A009EAB56 /* IJKSDLAudioQueueController.m */; };
-		63A8C59D1D59762100F03DF8 /* IJKSDLAudioUnitController.m in Sources */ = {isa = PBXBuildFile; fileRef = E6EE92AE1878230C009EAB56 /* IJKSDLAudioUnitController.m */; };
-		63A8C59E1D59762100F03DF8 /* IJKSDLGLView.m in Sources */ = {isa = PBXBuildFile; fileRef = E6EE92B71878230C009EAB56 /* IJKSDLGLView.m */; };
-		63A8C59F1D59762100F03DF8 /* IJKSDLHudViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = E68B7ACE1C1E97B0001DE241 /* IJKSDLHudViewCell.m */; };
-		63A8C5A01D59762100F03DF8 /* IJKSDLHudViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E68B7AC41C1E7F20001DE241 /* IJKSDLHudViewController.m */; };
-		63A8C5A11D59767200F03DF8 /* ff_cmdutils.c in Sources */ = {isa = PBXBuildFile; fileRef = E6903FD517EAFC6100CFD954 /* ff_cmdutils.c */; };
-		63A8C5A21D59767200F03DF8 /* ff_ffpipeline.c in Sources */ = {isa = PBXBuildFile; fileRef = E67B91AB1A3801DB00717EA9 /* ff_ffpipeline.c */; };
-		63A8C5A31D59767200F03DF8 /* ff_ffpipenode.c in Sources */ = {isa = PBXBuildFile; fileRef = E67B91AD1A3801DB00717EA9 /* ff_ffpipenode.c */; };
-		63A8C5A41D59767200F03DF8 /* ff_ffplay.c in Sources */ = {isa = PBXBuildFile; fileRef = E6903FDB17EAFC6100CFD954 /* ff_ffplay.c */; };
-		63A8C5A51D59767200F03DF8 /* allformats.c in Sources */ = {isa = PBXBuildFile; fileRef = E69BE54A1B93FED300AFBA3F /* allformats.c */; };
-		63A8C5A61D59767200F03DF8 /* ijklivehook.c in Sources */ = {isa = PBXBuildFile; fileRef = E69BE5701B946FF600AFBA3F /* ijklivehook.c */; };
-		63A8C5A71D59767200F03DF8 /* ijkmeta.c in Sources */ = {isa = PBXBuildFile; fileRef = E6FAD9551A515CE300725002 /* ijkmeta.c */; };
-		63A8C5A81D59767200F03DF8 /* ijkplayer.c in Sources */ = {isa = PBXBuildFile; fileRef = E66F8DEF17EFEA9400354D80 /* ijkplayer.c */; };
-		63A8C5A91D59767200F03DF8 /* ffpipeline_ios.c in Sources */ = {isa = PBXBuildFile; fileRef = 454316201A66493700676070 /* ffpipeline_ios.c */; };
-		63A8C5AA1D59767200F03DF8 /* ffpipeline_ffplay.c in Sources */ = {isa = PBXBuildFile; fileRef = E67B91B21A3801E600717EA9 /* ffpipeline_ffplay.c */; };
-		63A8C5AB1D59767200F03DF8 /* ffpipenode_ffplay_vdec.c in Sources */ = {isa = PBXBuildFile; fileRef = E67B91B41A3801E600717EA9 /* ffpipenode_ffplay_vdec.c */; };
-		63A8C5AC1D59767200F03DF8 /* ijksdl_vout_dummy.c in Sources */ = {isa = PBXBuildFile; fileRef = E63FC27417F013DE003551EB /* ijksdl_vout_dummy.c */; };
-		63A8C5AD1D59767200F03DF8 /* image_convert.c in Sources */ = {isa = PBXBuildFile; fileRef = E6903FF117EAFC6100CFD954 /* image_convert.c */; };
-		63A8C5AE1D59767200F03DF8 /* ijksdl_vout_overlay_ffmpeg.c in Sources */ = {isa = PBXBuildFile; fileRef = E6903FFB17EAFC6100CFD954 /* ijksdl_vout_overlay_ffmpeg.c */; };
-		63A8C5AF1D59767200F03DF8 /* color.c in Sources */ = {isa = PBXBuildFile; fileRef = E6C459861C7030B6004831EC /* color.c */; };
-		63A8C5B01D59767200F03DF8 /* common.c in Sources */ = {isa = PBXBuildFile; fileRef = E6C459871C7030B6004831EC /* common.c */; };
-		63A8C5B11D59767200F03DF8 /* rgb.fsh.c in Sources */ = {isa = PBXBuildFile; fileRef = E6C459C21C708E60004831EC /* rgb.fsh.c */; };
-		63A8C5B21D59767200F03DF8 /* yuv420p.fsh.c in Sources */ = {isa = PBXBuildFile; fileRef = E6C459891C7030B6004831EC /* yuv420p.fsh.c */; };
-		63A8C5B31D59767200F03DF8 /* yuv420sp.fsh.c in Sources */ = {isa = PBXBuildFile; fileRef = E6C459C61C7095E5004831EC /* yuv420sp.fsh.c */; };
-		63A8C5B41D59767200F03DF8 /* yuv444p10le.fsh.c in Sources */ = {isa = PBXBuildFile; fileRef = E6C4598A1C7030B6004831EC /* yuv444p10le.fsh.c */; };
-		63A8C5B51D59767200F03DF8 /* renderer_rgb.c in Sources */ = {isa = PBXBuildFile; fileRef = E6C459BE1C708CAF004831EC /* renderer_rgb.c */; };
-		63A8C5B61D59767200F03DF8 /* renderer_yuv420p.c in Sources */ = {isa = PBXBuildFile; fileRef = E6C4598D1C7030B6004831EC /* renderer_yuv420p.c */; };
-		63A8C5B71D59767200F03DF8 /* renderer_yuv420sp.c in Sources */ = {isa = PBXBuildFile; fileRef = E6C459CA1C70967F004831EC /* renderer_yuv420sp.c */; };
-		63A8C5B81D59767200F03DF8 /* renderer_yuv444p10le.c in Sources */ = {isa = PBXBuildFile; fileRef = E6C4598E1C7030B6004831EC /* renderer_yuv444p10le.c */; };
-		63A8C5B91D59767200F03DF8 /* renderer.c in Sources */ = {isa = PBXBuildFile; fileRef = E6C4598C1C7030B6004831EC /* renderer.c */; };
-		63A8C5BA1D59767200F03DF8 /* shader.c in Sources */ = {isa = PBXBuildFile; fileRef = E6C4598F1C7030B6004831EC /* shader.c */; };
-		63A8C5BB1D59767200F03DF8 /* mvp.vsh.c in Sources */ = {isa = PBXBuildFile; fileRef = E6C459911C7030B6004831EC /* mvp.vsh.c */; };
-		63A8C5BC1D59767200F03DF8 /* ijksdl_aout.c in Sources */ = {isa = PBXBuildFile; fileRef = E6903FFF17EAFC6100CFD954 /* ijksdl_aout.c */; };
-		63A8C5BD1D59767200F03DF8 /* ijksdl_audio.c in Sources */ = {isa = PBXBuildFile; fileRef = E63FC27017F01143003551EB /* ijksdl_audio.c */; };
-		63A8C5BE1D59767200F03DF8 /* ijksdl_egl.c in Sources */ = {isa = PBXBuildFile; fileRef = E6C459B81C706A13004831EC /* ijksdl_egl.c */; };
-		63A8C5BF1D59767200F03DF8 /* ijksdl_error.c in Sources */ = {isa = PBXBuildFile; fileRef = E690400417EAFC6100CFD954 /* ijksdl_error.c */; };
-		63A8C5C01D59767200F03DF8 /* ijksdl_mutex.c in Sources */ = {isa = PBXBuildFile; fileRef = E690400817EAFC6100CFD954 /* ijksdl_mutex.c */; };
-		63A8C5C11D59767200F03DF8 /* ijksdl_stdinc.c in Sources */ = {isa = PBXBuildFile; fileRef = E690400A17EAFC6100CFD954 /* ijksdl_stdinc.c */; };
-		63A8C5C21D59767200F03DF8 /* ijksdl_thread.c in Sources */ = {isa = PBXBuildFile; fileRef = E690400C17EAFC6100CFD954 /* ijksdl_thread.c */; };
-		63A8C5C31D59767200F03DF8 /* ijksdl_timer.c in Sources */ = {isa = PBXBuildFile; fileRef = E690400E17EAFC6100CFD954 /* ijksdl_timer.c */; };
-		63A8C5C41D59767200F03DF8 /* ijksdl_vout.c in Sources */ = {isa = PBXBuildFile; fileRef = E690401117EAFC6100CFD954 /* ijksdl_vout.c */; };
-		63A8C5C51D59775B00F03DF8 /* libx264.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 764D28341D1D11A5006AE2BA /* libx264.a */; };
-		63A8C5C71D59784400F03DF8 /* IJKFFMonitor.h in Headers */ = {isa = PBXBuildFile; fileRef = E6DBD3871C8941EB0058E4FB /* IJKFFMonitor.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		63A8C5C81D59785600F03DF8 /* IJKFFMoviePlayerController.h in Headers */ = {isa = PBXBuildFile; fileRef = E66F8DE517EFD9C300354D80 /* IJKFFMoviePlayerController.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		63A8C5C91D5978A000F03DF8 /* IJKFFOptions.h in Headers */ = {isa = PBXBuildFile; fileRef = E62139BC180FA89A00553533 /* IJKFFOptions.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		63A8C5CA1D5978B800F03DF8 /* IJKAVMoviePlayerController.h in Headers */ = {isa = PBXBuildFile; fileRef = E67C4E0619D15EEA00415CEE /* IJKAVMoviePlayerController.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		63A8C5CB1D5978B800F03DF8 /* IJKMPMoviePlayerController.h in Headers */ = {isa = PBXBuildFile; fileRef = E66F8DBF17EEC65200354D80 /* IJKMPMoviePlayerController.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		63A8C5CC1D5978C300F03DF8 /* IJKMediaFramework.h in Headers */ = {isa = PBXBuildFile; fileRef = E654EA8E1B6B27E600B0F2D0 /* IJKMediaFramework.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		63A8C5CD1D5978D500F03DF8 /* IJKKVOController.h in Headers */ = {isa = PBXBuildFile; fileRef = E65DC3B719D93D5F004F8A08 /* IJKKVOController.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		63A8C5CE1D5978E000F03DF8 /* IJKNotificationManager.h in Headers */ = {isa = PBXBuildFile; fileRef = E698089E1C7EB2040048A46C /* IJKNotificationManager.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		63A8C5CF1D5978EB00F03DF8 /* IJKMediaModule.h in Headers */ = {isa = PBXBuildFile; fileRef = E672D6F118D3445100C51FF9 /* IJKMediaModule.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		63A8C5D01D5978F700F03DF8 /* IJKMediaPlayback.h in Headers */ = {isa = PBXBuildFile; fileRef = E6903EC117EAF6C500CFD954 /* IJKMediaPlayback.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		63A8C5D11D59790100F03DF8 /* IJKMediaPlayer.h in Headers */ = {isa = PBXBuildFile; fileRef = E66F8DC217EECB1E00354D80 /* IJKMediaPlayer.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		63A8C5D21D59792100F03DF8 /* IJKSDLHudViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = E68B7AC31C1E7F20001DE241 /* IJKSDLHudViewController.h */; };
-		63A8C5D31D59792B00F03DF8 /* ijksdl_gles2.h in Headers */ = {isa = PBXBuildFile; fileRef = E6C459831C7030AA004831EC /* ijksdl_gles2.h */; };
-		63A8C5D41D59793200F03DF8 /* ff_ffplay_options.h in Headers */ = {isa = PBXBuildFile; fileRef = E6C459BC1C7089AB004831EC /* ff_ffplay_options.h */; };
-		63A8C5D51D59793A00F03DF8 /* opt.h in Headers */ = {isa = PBXBuildFile; fileRef = E69BE54F1B93FED300AFBA3F /* opt.h */; };
-		63A8C5D61D59794500F03DF8 /* internal.h in Headers */ = {isa = PBXBuildFile; fileRef = E6C4598B1C7030B6004831EC /* internal.h */; };
-		63A8C5D71D59795000F03DF8 /* IJKSDLHudViewCell.h in Headers */ = {isa = PBXBuildFile; fileRef = E68B7ACD1C1E97B0001DE241 /* IJKSDLHudViewCell.h */; };
-		63A8C5D81D59796300F03DF8 /* NSString+IJKMedia.h in Headers */ = {isa = PBXBuildFile; fileRef = E69808991C7EB13A0048A46C /* NSString+IJKMedia.h */; };
-		63A8C5E01D597EDB00F03DF8 /* libavcodec.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 63A8C5DA1D597EDB00F03DF8 /* libavcodec.a */; };
-		63A8C5E11D597EDB00F03DF8 /* libavfilter.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 63A8C5DB1D597EDB00F03DF8 /* libavfilter.a */; };
-		63A8C5E21D597EDB00F03DF8 /* libavformat.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 63A8C5DC1D597EDB00F03DF8 /* libavformat.a */; };
-		63A8C5E31D597EDB00F03DF8 /* libavutil.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 63A8C5DD1D597EDB00F03DF8 /* libavutil.a */; };
-		63A8C5E41D597EDB00F03DF8 /* libswresample.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 63A8C5DE1D597EDB00F03DF8 /* libswresample.a */; };
-		63A8C5E51D597EDB00F03DF8 /* libswscale.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 63A8C5DF1D597EDB00F03DF8 /* libswscale.a */; };
-		764D28371D1D3711006AE2BA /* libx264.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 764D28341D1D11A5006AE2BA /* libx264.a */; };
-		76B63A241D38D9C300D36CEA /* IjkStatic.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 76B63A231D38D9C300D36CEA /* IjkStatic.h */; };
-		76B63A261D38D9C300D36CEA /* IjkStatic.m in Sources */ = {isa = PBXBuildFile; fileRef = 76B63A251D38D9C300D36CEA /* IjkStatic.m */; };
+		54A029B61D4700E6001C61C1 /* ijkasync.c in Sources */ = {isa = PBXBuildFile; fileRef = 54A029B11D4700E6001C61C1 /* ijkasync.c */; };
+		54A029B71D4700E6001C61C1 /* ijkavformat.h in Headers */ = {isa = PBXBuildFile; fileRef = 54A029B21D4700E6001C61C1 /* ijkavformat.h */; };
+		54A029B81D4700E6001C61C1 /* ijklongurl.c in Sources */ = {isa = PBXBuildFile; fileRef = 54A029B31D4700E6001C61C1 /* ijklongurl.c */; };
+		54A029B91D4700E6001C61C1 /* ijksegment.c in Sources */ = {isa = PBXBuildFile; fileRef = 54A029B41D4700E6001C61C1 /* ijksegment.c */; };
+		54A029BA1D4700E6001C61C1 /* ijkurlhook.c in Sources */ = {isa = PBXBuildFile; fileRef = 54A029B51D4700E6001C61C1 /* ijkurlhook.c */; };
+		9642C6991D9E0BE2007AB390 /* avqueue.c in Sources */ = {isa = PBXBuildFile; fileRef = 9642C6801D9E0BE2007AB390 /* avqueue.c */; };
+		9642C69A1D9E0BE2007AB390 /* avqueue.h in Headers */ = {isa = PBXBuildFile; fileRef = 9642C6811D9E0BE2007AB390 /* avqueue.h */; };
+		9642C69B1D9E0BE2007AB390 /* bufchan.c in Sources */ = {isa = PBXBuildFile; fileRef = 9642C6821D9E0BE2007AB390 /* bufchan.c */; };
+		9642C69C1D9E0BE2007AB390 /* bufchan.h in Headers */ = {isa = PBXBuildFile; fileRef = 9642C6831D9E0BE2007AB390 /* bufchan.h */; };
+		9642C69D1D9E0BE2007AB390 /* decode.c in Sources */ = {isa = PBXBuildFile; fileRef = 9642C6841D9E0BE2007AB390 /* decode.c */; };
+		9642C69E1D9E0BE2007AB390 /* decode.h in Headers */ = {isa = PBXBuildFile; fileRef = 9642C6851D9E0BE2007AB390 /* decode.h */; };
+		9642C69F1D9E0BE2007AB390 /* fifo.c in Sources */ = {isa = PBXBuildFile; fileRef = 9642C6861D9E0BE2007AB390 /* fifo.c */; };
+		9642C6A01D9E0BE2007AB390 /* fifo.h in Headers */ = {isa = PBXBuildFile; fileRef = 9642C6871D9E0BE2007AB390 /* fifo.h */; };
+		9642C6A11D9E0BE2007AB390 /* frame.h in Headers */ = {isa = PBXBuildFile; fileRef = 9642C6881D9E0BE2007AB390 /* frame.h */; };
+		9642C6A21D9E0BE2007AB390 /* netio.c in Sources */ = {isa = PBXBuildFile; fileRef = 9642C6891D9E0BE2007AB390 /* netio.c */; };
+		9642C6A31D9E0BE2007AB390 /* netio.h in Headers */ = {isa = PBXBuildFile; fileRef = 9642C68A1D9E0BE2007AB390 /* netio.h */; };
+		9642C6A41D9E0BE2007AB390 /* queue.c in Sources */ = {isa = PBXBuildFile; fileRef = 9642C68B1D9E0BE2007AB390 /* queue.c */; };
+		9642C6A51D9E0BE2007AB390 /* queue.h in Headers */ = {isa = PBXBuildFile; fileRef = 9642C68C1D9E0BE2007AB390 /* queue.h */; };
+		9642C6A61D9E0BE2007AB390 /* rtspdec.c in Sources */ = {isa = PBXBuildFile; fileRef = 9642C68D1D9E0BE2007AB390 /* rtspdec.c */; };
+		9642C6A71D9E0BE2007AB390 /* rtspdec.h in Headers */ = {isa = PBXBuildFile; fileRef = 9642C68E1D9E0BE2007AB390 /* rtspdec.h */; };
+		9642C6A81D9E0BE2007AB390 /* rtspsink.c in Sources */ = {isa = PBXBuildFile; fileRef = 9642C68F1D9E0BE2007AB390 /* rtspsink.c */; };
+		9642C6A91D9E0BE2007AB390 /* rtspsink.h in Headers */ = {isa = PBXBuildFile; fileRef = 9642C6901D9E0BE2007AB390 /* rtspsink.h */; };
+		9642C6AA1D9E0BE2007AB390 /* tcpsink.c in Sources */ = {isa = PBXBuildFile; fileRef = 9642C6911D9E0BE2007AB390 /* tcpsink.c */; };
+		9642C6AB1D9E0BE2007AB390 /* tcpsink.h in Headers */ = {isa = PBXBuildFile; fileRef = 9642C6921D9E0BE2007AB390 /* tcpsink.h */; };
+		9642C6AC1D9E0BE2007AB390 /* url.c in Sources */ = {isa = PBXBuildFile; fileRef = 9642C6931D9E0BE2007AB390 /* url.c */; };
+		9642C6AD1D9E0BE2007AB390 /* url.h in Headers */ = {isa = PBXBuildFile; fileRef = 9642C6941D9E0BE2007AB390 /* url.h */; };
+		9642C6AE1D9E0BE2007AB390 /* viddec.c in Sources */ = {isa = PBXBuildFile; fileRef = 9642C6951D9E0BE2007AB390 /* viddec.c */; };
+		9642C6AF1D9E0BE2007AB390 /* viddec.h in Headers */ = {isa = PBXBuildFile; fileRef = 9642C6961D9E0BE2007AB390 /* viddec.h */; };
+		9642C6B01D9E0BE2007AB390 /* videosink.c in Sources */ = {isa = PBXBuildFile; fileRef = 9642C6971D9E0BE2007AB390 /* videosink.c */; };
+		9642C6B11D9E0BE2007AB390 /* videosink.h in Headers */ = {isa = PBXBuildFile; fileRef = 9642C6981D9E0BE2007AB390 /* videosink.h */; };
+		9642C6B31D9E107C007AB390 /* libx264.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9642C6B21D9E107C007AB390 /* libx264.a */; };
 		E607FFE11B7B62E3005F11A6 /* IJKDeviceModel.m in Sources */ = {isa = PBXBuildFile; fileRef = E607FFDF1B7B60F9005F11A6 /* IJKDeviceModel.m */; };
 		E653C6F61BCE5A750016835A /* libavcodec.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E653C6EF1BCE5A750016835A /* libavcodec.a */; };
 		E653C6F81BCE5A750016835A /* libavfilter.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E653C6F01BCE5A750016835A /* libavfilter.a */; };
@@ -192,31 +130,6 @@
 		E6DBD3891C8941EB0058E4FB /* IJKFFMonitor.h in Headers */ = {isa = PBXBuildFile; fileRef = E6DBD3871C8941EB0058E4FB /* IJKFFMonitor.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		E6DBD38A1C8941EB0058E4FB /* IJKFFMonitor.m in Sources */ = {isa = PBXBuildFile; fileRef = E6DBD3881C8941EB0058E4FB /* IJKFFMonitor.m */; };
 		E6E1B9A81C741F72000C6C72 /* renderer_yuv420sp_vtb.m in Sources */ = {isa = PBXBuildFile; fileRef = E6E1B9A71C741F72000C6C72 /* renderer_yuv420sp_vtb.m */; };
-		FCCA72A01D759AC5002AF52C /* avqueue.c in Sources */ = {isa = PBXBuildFile; fileRef = FCCA72871D759AC5002AF52C /* avqueue.c */; };
-		FCCA72A11D759AC5002AF52C /* avqueue.h in Headers */ = {isa = PBXBuildFile; fileRef = FCCA72881D759AC5002AF52C /* avqueue.h */; };
-		FCCA72A21D759AC5002AF52C /* bufchan.c in Sources */ = {isa = PBXBuildFile; fileRef = FCCA72891D759AC5002AF52C /* bufchan.c */; };
-		FCCA72A31D759AC5002AF52C /* bufchan.h in Headers */ = {isa = PBXBuildFile; fileRef = FCCA728A1D759AC5002AF52C /* bufchan.h */; };
-		FCCA72A41D759AC5002AF52C /* decode.c in Sources */ = {isa = PBXBuildFile; fileRef = FCCA728B1D759AC5002AF52C /* decode.c */; };
-		FCCA72A51D759AC5002AF52C /* decode.h in Headers */ = {isa = PBXBuildFile; fileRef = FCCA728C1D759AC5002AF52C /* decode.h */; };
-		FCCA72A61D759AC5002AF52C /* fifo.c in Sources */ = {isa = PBXBuildFile; fileRef = FCCA728D1D759AC5002AF52C /* fifo.c */; };
-		FCCA72A71D759AC5002AF52C /* fifo.h in Headers */ = {isa = PBXBuildFile; fileRef = FCCA728E1D759AC5002AF52C /* fifo.h */; };
-		FCCA72A81D759AC5002AF52C /* frame.h in Headers */ = {isa = PBXBuildFile; fileRef = FCCA728F1D759AC5002AF52C /* frame.h */; };
-		FCCA72A91D759AC5002AF52C /* netio.c in Sources */ = {isa = PBXBuildFile; fileRef = FCCA72901D759AC5002AF52C /* netio.c */; };
-		FCCA72AA1D759AC5002AF52C /* netio.h in Headers */ = {isa = PBXBuildFile; fileRef = FCCA72911D759AC5002AF52C /* netio.h */; };
-		FCCA72AB1D759AC5002AF52C /* queue.c in Sources */ = {isa = PBXBuildFile; fileRef = FCCA72921D759AC5002AF52C /* queue.c */; };
-		FCCA72AC1D759AC5002AF52C /* queue.h in Headers */ = {isa = PBXBuildFile; fileRef = FCCA72931D759AC5002AF52C /* queue.h */; };
-		FCCA72AD1D759AC5002AF52C /* rtspdec.c in Sources */ = {isa = PBXBuildFile; fileRef = FCCA72941D759AC5002AF52C /* rtspdec.c */; };
-		FCCA72AE1D759AC5002AF52C /* rtspdec.h in Headers */ = {isa = PBXBuildFile; fileRef = FCCA72951D759AC5002AF52C /* rtspdec.h */; };
-		FCCA72AF1D759AC5002AF52C /* rtspsink.c in Sources */ = {isa = PBXBuildFile; fileRef = FCCA72961D759AC5002AF52C /* rtspsink.c */; };
-		FCCA72B01D759AC5002AF52C /* rtspsink.h in Headers */ = {isa = PBXBuildFile; fileRef = FCCA72971D759AC5002AF52C /* rtspsink.h */; };
-		FCCA72B11D759AC5002AF52C /* tcpsink.c in Sources */ = {isa = PBXBuildFile; fileRef = FCCA72981D759AC5002AF52C /* tcpsink.c */; };
-		FCCA72B21D759AC5002AF52C /* tcpsink.h in Headers */ = {isa = PBXBuildFile; fileRef = FCCA72991D759AC5002AF52C /* tcpsink.h */; };
-		FCCA72B31D759AC5002AF52C /* url.c in Sources */ = {isa = PBXBuildFile; fileRef = FCCA729A1D759AC5002AF52C /* url.c */; };
-		FCCA72B41D759AC5002AF52C /* url.h in Headers */ = {isa = PBXBuildFile; fileRef = FCCA729B1D759AC5002AF52C /* url.h */; };
-		FCCA72B51D759AC5002AF52C /* viddec.c in Sources */ = {isa = PBXBuildFile; fileRef = FCCA729C1D759AC5002AF52C /* viddec.c */; };
-		FCCA72B61D759AC5002AF52C /* viddec.h in Headers */ = {isa = PBXBuildFile; fileRef = FCCA729D1D759AC5002AF52C /* viddec.h */; };
-		FCCA72B71D759AC5002AF52C /* videosink.c in Sources */ = {isa = PBXBuildFile; fileRef = FCCA729E1D759AC5002AF52C /* videosink.c */; };
-		FCCA72B81D759AC5002AF52C /* videosink.h in Headers */ = {isa = PBXBuildFile; fileRef = FCCA729F1D759AC5002AF52C /* videosink.h */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -229,19 +142,6 @@
 		};
 /* End PBXContainerItemProxy section */
 
-/* Begin PBXCopyFilesBuildPhase section */
-		76B63A1F1D38D9C300D36CEA /* CopyFiles */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = "include/$(PRODUCT_NAME)";
-			dstSubfolderSpec = 16;
-			files = (
-				76B63A241D38D9C300D36CEA /* IjkStatic.h in CopyFiles */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-/* End PBXCopyFilesBuildPhase section */
-
 /* Begin PBXFileReference section */
 		454316201A66493700676070 /* ffpipeline_ios.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = ffpipeline_ios.c; path = ijkmedia/ijkplayer/ios/pipeline/ffpipeline_ios.c; sourceTree = "<group>"; };
 		454316211A66493700676070 /* ffpipeline_ios.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ffpipeline_ios.h; path = ijkmedia/ijkplayer/ios/pipeline/ffpipeline_ios.h; sourceTree = "<group>"; };
@@ -251,16 +151,37 @@
 		4543162A1A66497900676070 /* IJKVideoToolBox.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = IJKVideoToolBox.m; path = ijkmedia/ijkplayer/ios/pipeline/IJKVideoToolBox.m; sourceTree = "<group>"; };
 		45DB4AA71A5D52AE005CAD41 /* ijksdl_vout_overlay_videotoolbox.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ijksdl_vout_overlay_videotoolbox.h; sourceTree = "<group>"; };
 		45DB4AA81A5D52AE005CAD41 /* ijksdl_vout_overlay_videotoolbox.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ijksdl_vout_overlay_videotoolbox.m; sourceTree = "<group>"; };
-		63A8C5DA1D597EDB00F03DF8 /* libavcodec.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libavcodec.a; path = ../build/universal/lib/libavcodec.a; sourceTree = "<group>"; };
-		63A8C5DB1D597EDB00F03DF8 /* libavfilter.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libavfilter.a; path = ../build/universal/lib/libavfilter.a; sourceTree = "<group>"; };
-		63A8C5DC1D597EDB00F03DF8 /* libavformat.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libavformat.a; path = ../build/universal/lib/libavformat.a; sourceTree = "<group>"; };
-		63A8C5DD1D597EDB00F03DF8 /* libavutil.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libavutil.a; path = ../build/universal/lib/libavutil.a; sourceTree = "<group>"; };
-		63A8C5DE1D597EDB00F03DF8 /* libswresample.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libswresample.a; path = ../build/universal/lib/libswresample.a; sourceTree = "<group>"; };
-		63A8C5DF1D597EDB00F03DF8 /* libswscale.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libswscale.a; path = ../build/universal/lib/libswscale.a; sourceTree = "<group>"; };
-		764D28341D1D11A5006AE2BA /* libx264.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libx264.a; path = "../fat-x264/lib/libx264.a"; sourceTree = "<group>"; };
-		76B63A211D38D9C300D36CEA /* libIjkStatic.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libIjkStatic.a; sourceTree = BUILT_PRODUCTS_DIR; };
-		76B63A231D38D9C300D36CEA /* IjkStatic.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = IjkStatic.h; sourceTree = "<group>"; };
-		76B63A251D38D9C300D36CEA /* IjkStatic.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = IjkStatic.m; sourceTree = "<group>"; };
+		54A029B11D4700E6001C61C1 /* ijkasync.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = ijkasync.c; sourceTree = "<group>"; };
+		54A029B21D4700E6001C61C1 /* ijkavformat.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ijkavformat.h; sourceTree = "<group>"; };
+		54A029B31D4700E6001C61C1 /* ijklongurl.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = ijklongurl.c; sourceTree = "<group>"; };
+		54A029B41D4700E6001C61C1 /* ijksegment.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = ijksegment.c; sourceTree = "<group>"; };
+		54A029B51D4700E6001C61C1 /* ijkurlhook.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = ijkurlhook.c; sourceTree = "<group>"; };
+		9642C6801D9E0BE2007AB390 /* avqueue.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = avqueue.c; sourceTree = "<group>"; };
+		9642C6811D9E0BE2007AB390 /* avqueue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = avqueue.h; sourceTree = "<group>"; };
+		9642C6821D9E0BE2007AB390 /* bufchan.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = bufchan.c; sourceTree = "<group>"; };
+		9642C6831D9E0BE2007AB390 /* bufchan.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = bufchan.h; sourceTree = "<group>"; };
+		9642C6841D9E0BE2007AB390 /* decode.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = decode.c; sourceTree = "<group>"; };
+		9642C6851D9E0BE2007AB390 /* decode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = decode.h; sourceTree = "<group>"; };
+		9642C6861D9E0BE2007AB390 /* fifo.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = fifo.c; sourceTree = "<group>"; };
+		9642C6871D9E0BE2007AB390 /* fifo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = fifo.h; sourceTree = "<group>"; };
+		9642C6881D9E0BE2007AB390 /* frame.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = frame.h; sourceTree = "<group>"; };
+		9642C6891D9E0BE2007AB390 /* netio.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = netio.c; sourceTree = "<group>"; };
+		9642C68A1D9E0BE2007AB390 /* netio.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = netio.h; sourceTree = "<group>"; };
+		9642C68B1D9E0BE2007AB390 /* queue.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = queue.c; sourceTree = "<group>"; };
+		9642C68C1D9E0BE2007AB390 /* queue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = queue.h; sourceTree = "<group>"; };
+		9642C68D1D9E0BE2007AB390 /* rtspdec.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = rtspdec.c; sourceTree = "<group>"; };
+		9642C68E1D9E0BE2007AB390 /* rtspdec.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = rtspdec.h; sourceTree = "<group>"; };
+		9642C68F1D9E0BE2007AB390 /* rtspsink.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = rtspsink.c; sourceTree = "<group>"; };
+		9642C6901D9E0BE2007AB390 /* rtspsink.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = rtspsink.h; sourceTree = "<group>"; };
+		9642C6911D9E0BE2007AB390 /* tcpsink.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = tcpsink.c; sourceTree = "<group>"; };
+		9642C6921D9E0BE2007AB390 /* tcpsink.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = tcpsink.h; sourceTree = "<group>"; };
+		9642C6931D9E0BE2007AB390 /* url.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = url.c; sourceTree = "<group>"; };
+		9642C6941D9E0BE2007AB390 /* url.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = url.h; sourceTree = "<group>"; };
+		9642C6951D9E0BE2007AB390 /* viddec.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = viddec.c; sourceTree = "<group>"; };
+		9642C6961D9E0BE2007AB390 /* viddec.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = viddec.h; sourceTree = "<group>"; };
+		9642C6971D9E0BE2007AB390 /* videosink.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = videosink.c; sourceTree = "<group>"; };
+		9642C6981D9E0BE2007AB390 /* videosink.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = videosink.h; sourceTree = "<group>"; };
+		9642C6B21D9E107C007AB390 /* libx264.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libx264.a; path = "../fat-x264/lib/libx264.a"; sourceTree = "<group>"; };
 		E607FFDE1B7B60F9005F11A6 /* IJKDeviceModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = IJKDeviceModel.h; path = IJKMediaPlayer/IJKDeviceModel.h; sourceTree = "<group>"; };
 		E607FFDF1B7B60F9005F11A6 /* IJKDeviceModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = IJKDeviceModel.m; path = IJKMediaPlayer/IJKDeviceModel.m; sourceTree = "<group>"; };
 		E62139BC180FA89A00553533 /* IJKFFOptions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IJKFFOptions.h; sourceTree = "<group>"; };
@@ -408,53 +329,14 @@
 		E6F727C117F7C9B90043623F /* IJKMediaPlayback.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = IJKMediaPlayback.m; path = IJKMediaPlayer/IJKMediaPlayback.m; sourceTree = "<group>"; };
 		E6FAD9551A515CE300725002 /* ijkmeta.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = ijkmeta.c; sourceTree = "<group>"; };
 		E6FAD9561A515CE300725002 /* ijkmeta.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ijkmeta.h; sourceTree = "<group>"; };
-		FCCA72871D759AC5002AF52C /* avqueue.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = avqueue.c; sourceTree = "<group>"; };
-		FCCA72881D759AC5002AF52C /* avqueue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = avqueue.h; sourceTree = "<group>"; };
-		FCCA72891D759AC5002AF52C /* bufchan.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = bufchan.c; sourceTree = "<group>"; };
-		FCCA728A1D759AC5002AF52C /* bufchan.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = bufchan.h; sourceTree = "<group>"; };
-		FCCA728B1D759AC5002AF52C /* decode.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = decode.c; sourceTree = "<group>"; };
-		FCCA728C1D759AC5002AF52C /* decode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = decode.h; sourceTree = "<group>"; };
-		FCCA728D1D759AC5002AF52C /* fifo.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = fifo.c; sourceTree = "<group>"; };
-		FCCA728E1D759AC5002AF52C /* fifo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = fifo.h; sourceTree = "<group>"; };
-		FCCA728F1D759AC5002AF52C /* frame.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = frame.h; sourceTree = "<group>"; };
-		FCCA72901D759AC5002AF52C /* netio.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = netio.c; sourceTree = "<group>"; };
-		FCCA72911D759AC5002AF52C /* netio.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = netio.h; sourceTree = "<group>"; };
-		FCCA72921D759AC5002AF52C /* queue.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = queue.c; sourceTree = "<group>"; };
-		FCCA72931D759AC5002AF52C /* queue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = queue.h; sourceTree = "<group>"; };
-		FCCA72941D759AC5002AF52C /* rtspdec.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = rtspdec.c; sourceTree = "<group>"; };
-		FCCA72951D759AC5002AF52C /* rtspdec.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = rtspdec.h; sourceTree = "<group>"; };
-		FCCA72961D759AC5002AF52C /* rtspsink.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = rtspsink.c; sourceTree = "<group>"; };
-		FCCA72971D759AC5002AF52C /* rtspsink.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = rtspsink.h; sourceTree = "<group>"; };
-		FCCA72981D759AC5002AF52C /* tcpsink.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = tcpsink.c; sourceTree = "<group>"; };
-		FCCA72991D759AC5002AF52C /* tcpsink.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = tcpsink.h; sourceTree = "<group>"; };
-		FCCA729A1D759AC5002AF52C /* url.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = url.c; sourceTree = "<group>"; };
-		FCCA729B1D759AC5002AF52C /* url.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = url.h; sourceTree = "<group>"; };
-		FCCA729C1D759AC5002AF52C /* viddec.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = viddec.c; sourceTree = "<group>"; };
-		FCCA729D1D759AC5002AF52C /* viddec.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = viddec.h; sourceTree = "<group>"; };
-		FCCA729E1D759AC5002AF52C /* videosink.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = videosink.c; sourceTree = "<group>"; };
-		FCCA729F1D759AC5002AF52C /* videosink.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = videosink.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
-		76B63A1E1D38D9C300D36CEA /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				63A8C5E01D597EDB00F03DF8 /* libavcodec.a in Frameworks */,
-				63A8C5E11D597EDB00F03DF8 /* libavfilter.a in Frameworks */,
-				63A8C5E21D597EDB00F03DF8 /* libavformat.a in Frameworks */,
-				63A8C5E31D597EDB00F03DF8 /* libavutil.a in Frameworks */,
-				63A8C5E41D597EDB00F03DF8 /* libswresample.a in Frameworks */,
-				63A8C5E51D597EDB00F03DF8 /* libswscale.a in Frameworks */,
-				63A8C5C51D59775B00F03DF8 /* libx264.a in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		E654EA861B6B27E600B0F2D0 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				764D28371D1D3711006AE2BA /* libx264.a in Frameworks */,
+				9642C6B31D9E107C007AB390 /* libx264.a in Frameworks */,
 				E653C6F61BCE5A750016835A /* libavcodec.a in Frameworks */,
 				E653C6F81BCE5A750016835A /* libavfilter.a in Frameworks */,
 				E653C6FA1BCE5A750016835A /* libavformat.a in Frameworks */,
@@ -489,13 +371,37 @@
 			name = pipeline;
 			sourceTree = "<group>";
 		};
-		76B63A221D38D9C300D36CEA /* IjkStatic */ = {
+		9642C67F1D9E0BE2007AB390 /* liveplayer */ = {
 			isa = PBXGroup;
 			children = (
-				76B63A231D38D9C300D36CEA /* IjkStatic.h */,
-				76B63A251D38D9C300D36CEA /* IjkStatic.m */,
+				9642C6801D9E0BE2007AB390 /* avqueue.c */,
+				9642C6811D9E0BE2007AB390 /* avqueue.h */,
+				9642C6821D9E0BE2007AB390 /* bufchan.c */,
+				9642C6831D9E0BE2007AB390 /* bufchan.h */,
+				9642C6841D9E0BE2007AB390 /* decode.c */,
+				9642C6851D9E0BE2007AB390 /* decode.h */,
+				9642C6861D9E0BE2007AB390 /* fifo.c */,
+				9642C6871D9E0BE2007AB390 /* fifo.h */,
+				9642C6881D9E0BE2007AB390 /* frame.h */,
+				9642C6891D9E0BE2007AB390 /* netio.c */,
+				9642C68A1D9E0BE2007AB390 /* netio.h */,
+				9642C68B1D9E0BE2007AB390 /* queue.c */,
+				9642C68C1D9E0BE2007AB390 /* queue.h */,
+				9642C68D1D9E0BE2007AB390 /* rtspdec.c */,
+				9642C68E1D9E0BE2007AB390 /* rtspdec.h */,
+				9642C68F1D9E0BE2007AB390 /* rtspsink.c */,
+				9642C6901D9E0BE2007AB390 /* rtspsink.h */,
+				9642C6911D9E0BE2007AB390 /* tcpsink.c */,
+				9642C6921D9E0BE2007AB390 /* tcpsink.h */,
+				9642C6931D9E0BE2007AB390 /* url.c */,
+				9642C6941D9E0BE2007AB390 /* url.h */,
+				9642C6951D9E0BE2007AB390 /* viddec.c */,
+				9642C6961D9E0BE2007AB390 /* viddec.h */,
+				9642C6971D9E0BE2007AB390 /* videosink.c */,
+				9642C6981D9E0BE2007AB390 /* videosink.h */,
 			);
-			path = IjkStatic;
+			name = liveplayer;
+			path = ijkmedia/ijkplayer/ios/liveplayer;
 			sourceTree = "<group>";
 		};
 		E63FC27217F013DE003551EB /* dummy */ = {
@@ -565,7 +471,7 @@
 		E66F8DF817EFEC1300354D80 /* ios */ = {
 			isa = PBXGroup;
 			children = (
-				FCCA72861D759AC5002AF52C /* liveplayer */,
+				9642C67F1D9E0BE2007AB390 /* liveplayer */,
 				4543161F1A66481600676070 /* pipeline */,
 				E66F8E0117EFEEA400354D80 /* ijkplayer_ios.m */,
 				E66F8E0217EFEEA400354D80 /* ijkplayer_ios.h */,
@@ -602,7 +508,6 @@
 				E66F8DBC17EEC2CF00354D80 /* Classes */,
 				E654EA8B1B6B27E600B0F2D0 /* IJKMediaFramework */,
 				E654EA981B6B27E600B0F2D0 /* IJKMediaFrameworkTests */,
-				76B63A221D38D9C300D36CEA /* IjkStatic */,
 				E6903EBB17EAF6C500CFD954 /* Frameworks */,
 				E6903EBA17EAF6C500CFD954 /* Products */,
 			);
@@ -613,7 +518,6 @@
 			children = (
 				E654EA8A1B6B27E600B0F2D0 /* IJKMediaFramework.framework */,
 				E654EA941B6B27E600B0F2D0 /* IJKMediaFrameworkTests.xctest */,
-				76B63A211D38D9C300D36CEA /* libIjkStatic.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -621,13 +525,7 @@
 		E6903EBB17EAF6C500CFD954 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				63A8C5DA1D597EDB00F03DF8 /* libavcodec.a */,
-				63A8C5DB1D597EDB00F03DF8 /* libavfilter.a */,
-				63A8C5DC1D597EDB00F03DF8 /* libavformat.a */,
-				63A8C5DD1D597EDB00F03DF8 /* libavutil.a */,
-				63A8C5DE1D597EDB00F03DF8 /* libswresample.a */,
-				63A8C5DF1D597EDB00F03DF8 /* libswscale.a */,
-				764D28341D1D11A5006AE2BA /* libx264.a */,
+				9642C6B21D9E107C007AB390 /* libx264.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -787,6 +685,11 @@
 		E69BE5491B93FED300AFBA3F /* ijkavformat */ = {
 			isa = PBXGroup;
 			children = (
+				54A029B11D4700E6001C61C1 /* ijkasync.c */,
+				54A029B21D4700E6001C61C1 /* ijkavformat.h */,
+				54A029B31D4700E6001C61C1 /* ijklongurl.c */,
+				54A029B41D4700E6001C61C1 /* ijksegment.c */,
+				54A029B51D4700E6001C61C1 /* ijkurlhook.c */,
 				E69BE54A1B93FED300AFBA3F /* allformats.c */,
 				E69BE5701B946FF600AFBA3F /* ijklivehook.c */,
 			);
@@ -892,101 +795,44 @@
 			name = IJKMediaPlayer;
 			sourceTree = "<group>";
 		};
-		FCCA72861D759AC5002AF52C /* liveplayer */ = {
-			isa = PBXGroup;
-			children = (
-				FCCA72871D759AC5002AF52C /* avqueue.c */,
-				FCCA72881D759AC5002AF52C /* avqueue.h */,
-				FCCA72891D759AC5002AF52C /* bufchan.c */,
-				FCCA728A1D759AC5002AF52C /* bufchan.h */,
-				FCCA728B1D759AC5002AF52C /* decode.c */,
-				FCCA728C1D759AC5002AF52C /* decode.h */,
-				FCCA728D1D759AC5002AF52C /* fifo.c */,
-				FCCA728E1D759AC5002AF52C /* fifo.h */,
-				FCCA728F1D759AC5002AF52C /* frame.h */,
-				FCCA72901D759AC5002AF52C /* netio.c */,
-				FCCA72911D759AC5002AF52C /* netio.h */,
-				FCCA72921D759AC5002AF52C /* queue.c */,
-				FCCA72931D759AC5002AF52C /* queue.h */,
-				FCCA72941D759AC5002AF52C /* rtspdec.c */,
-				FCCA72951D759AC5002AF52C /* rtspdec.h */,
-				FCCA72961D759AC5002AF52C /* rtspsink.c */,
-				FCCA72971D759AC5002AF52C /* rtspsink.h */,
-				FCCA72981D759AC5002AF52C /* tcpsink.c */,
-				FCCA72991D759AC5002AF52C /* tcpsink.h */,
-				FCCA729A1D759AC5002AF52C /* url.c */,
-				FCCA729B1D759AC5002AF52C /* url.h */,
-				FCCA729C1D759AC5002AF52C /* viddec.c */,
-				FCCA729D1D759AC5002AF52C /* viddec.h */,
-				FCCA729E1D759AC5002AF52C /* videosink.c */,
-				FCCA729F1D759AC5002AF52C /* videosink.h */,
-			);
-			name = liveplayer;
-			path = ijkmedia/ijkplayer/ios/liveplayer;
-			sourceTree = "<group>";
-		};
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
-		63A8C5C61D59776A00F03DF8 /* Headers */ = {
-			isa = PBXHeadersBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				63A8C5D11D59790100F03DF8 /* IJKMediaPlayer.h in Headers */,
-				63A8C5D01D5978F700F03DF8 /* IJKMediaPlayback.h in Headers */,
-				63A8C5CF1D5978EB00F03DF8 /* IJKMediaModule.h in Headers */,
-				63A8C5CE1D5978E000F03DF8 /* IJKNotificationManager.h in Headers */,
-				63A8C5CD1D5978D500F03DF8 /* IJKKVOController.h in Headers */,
-				63A8C5CC1D5978C300F03DF8 /* IJKMediaFramework.h in Headers */,
-				63A8C5CA1D5978B800F03DF8 /* IJKAVMoviePlayerController.h in Headers */,
-				63A8C5CB1D5978B800F03DF8 /* IJKMPMoviePlayerController.h in Headers */,
-				63A8C5C91D5978A000F03DF8 /* IJKFFOptions.h in Headers */,
-				63A8C5C81D59785600F03DF8 /* IJKFFMoviePlayerController.h in Headers */,
-				63A8C5C71D59784400F03DF8 /* IJKFFMonitor.h in Headers */,
-				63A8C5D81D59796300F03DF8 /* NSString+IJKMedia.h in Headers */,
-				63A8C5D71D59795000F03DF8 /* IJKSDLHudViewCell.h in Headers */,
-				63A8C5D61D59794500F03DF8 /* internal.h in Headers */,
-				63A8C5D51D59793A00F03DF8 /* opt.h in Headers */,
-				63A8C5D41D59793200F03DF8 /* ff_ffplay_options.h in Headers */,
-				63A8C5D31D59792B00F03DF8 /* ijksdl_gles2.h in Headers */,
-				63A8C5D21D59792100F03DF8 /* IJKSDLHudViewController.h in Headers */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		E654EA871B6B27E600B0F2D0 /* Headers */ = {
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				FCCA72A81D759AC5002AF52C /* frame.h in Headers */,
+				9642C6A71D9E0BE2007AB390 /* rtspdec.h in Headers */,
+				9642C69E1D9E0BE2007AB390 /* decode.h in Headers */,
+				9642C69C1D9E0BE2007AB390 /* bufchan.h in Headers */,
 				E6DBD3891C8941EB0058E4FB /* IJKFFMonitor.h in Headers */,
 				E654EAEA1B6B295200B0F2D0 /* IJKFFMoviePlayerController.h in Headers */,
-				FCCA72AE1D759AC5002AF52C /* rtspdec.h in Headers */,
+				9642C6A31D9E0BE2007AB390 /* netio.h in Headers */,
 				E68B7AC51C1E7F20001DE241 /* IJKSDLHudViewController.h in Headers */,
 				E654EAEC1B6B295200B0F2D0 /* IJKFFOptions.h in Headers */,
-				FCCA72B41D759AC5002AF52C /* url.h in Headers */,
-				FCCA72A51D759AC5002AF52C /* decode.h in Headers */,
-				FCCA72AC1D759AC5002AF52C /* queue.h in Headers */,
 				E654EAE81B6B295200B0F2D0 /* IJKAVMoviePlayerController.h in Headers */,
 				E6C459841C7030AA004831EC /* ijksdl_gles2.h in Headers */,
+				9642C6A01D9E0BE2007AB390 /* fifo.h in Headers */,
+				9642C6B11D9E0BE2007AB390 /* videosink.h in Headers */,
+				9642C6AB1D9E0BE2007AB390 /* tcpsink.h in Headers */,
 				E6C459BB1C706A13004831EC /* ijksdl_egl.h in Headers */,
-				FCCA72A71D759AC5002AF52C /* fifo.h in Headers */,
-				FCCA72B81D759AC5002AF52C /* videosink.h in Headers */,
+				9642C6AF1D9E0BE2007AB390 /* viddec.h in Headers */,
 				E6C459BD1C7089AB004831EC /* ff_ffplay_options.h in Headers */,
-				FCCA72A31D759AC5002AF52C /* bufchan.h in Headers */,
 				E654EA8F1B6B27E600B0F2D0 /* IJKMediaFramework.h in Headers */,
-				FCCA72B61D759AC5002AF52C /* viddec.h in Headers */,
 				E6C2E7BE1C92BD3600E59229 /* IJKKVOController.h in Headers */,
 				E69808A01C7EB2040048A46C /* IJKNotificationManager.h in Headers */,
 				E654EAE61B6B295200B0F2D0 /* IJKMediaModule.h in Headers */,
+				9642C6A11D9E0BE2007AB390 /* frame.h in Headers */,
 				E69BE5571B93FED300AFBA3F /* opt.h in Headers */,
-				FCCA72AA1D759AC5002AF52C /* netio.h in Headers */,
+				9642C6A91D9E0BE2007AB390 /* rtspsink.h in Headers */,
+				9642C69A1D9E0BE2007AB390 /* avqueue.h in Headers */,
 				E654EAE71B6B295200B0F2D0 /* IJKMediaPlayback.h in Headers */,
 				E654EAED1B6B29C100B0F2D0 /* IJKMediaPlayer.h in Headers */,
-				FCCA72B01D759AC5002AF52C /* rtspsink.h in Headers */,
-				FCCA72A11D759AC5002AF52C /* avqueue.h in Headers */,
+				9642C6A51D9E0BE2007AB390 /* queue.h in Headers */,
 				E6C459961C7030B6004831EC /* internal.h in Headers */,
-				FCCA72B21D759AC5002AF52C /* tcpsink.h in Headers */,
 				E654EAE91B6B295200B0F2D0 /* IJKMPMoviePlayerController.h in Headers */,
+				54A029B71D4700E6001C61C1 /* ijkavformat.h in Headers */,
+				9642C6AD1D9E0BE2007AB390 /* url.h in Headers */,
 				E68B7ACF1C1E97B0001DE241 /* IJKSDLHudViewCell.h in Headers */,
 				E698089B1C7EB13A0048A46C /* NSString+IJKMedia.h in Headers */,
 			);
@@ -995,34 +841,15 @@
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
-		76B63A201D38D9C300D36CEA /* IjkStatic */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 76B63A291D38D9C300D36CEA /* Build configuration list for PBXNativeTarget "IjkStatic" */;
-			buildPhases = (
-				76B63A1D1D38D9C300D36CEA /* Sources */,
-				76B63A1E1D38D9C300D36CEA /* Frameworks */,
-				76B63A1F1D38D9C300D36CEA /* CopyFiles */,
-				63A8C5C61D59776A00F03DF8 /* Headers */,
-				63A8C5D91D59796B00F03DF8 /* ShellScript */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-			);
-			name = IjkStatic;
-			productName = IjkStatic;
-			productReference = 76B63A211D38D9C300D36CEA /* libIjkStatic.a */;
-			productType = "com.apple.product-type.library.static";
-		};
 		E654EA891B6B27E600B0F2D0 /* IJKMediaFramework */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = E654EAA11B6B27E600B0F2D0 /* Build configuration list for PBXNativeTarget "IJKMediaFramework" */;
 			buildPhases = (
+				544E73271D93DEF4005CA5D9 /* ijkversion.h */,
 				E654EA851B6B27E600B0F2D0 /* Sources */,
 				E654EA861B6B27E600B0F2D0 /* Frameworks */,
 				E654EA871B6B27E600B0F2D0 /* Headers */,
 				E654EA881B6B27E600B0F2D0 /* Resources */,
-				9675C7731D10033A00D8E0BF /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -1060,9 +887,6 @@
 				LastUpgradeCheck = 0700;
 				ORGANIZATIONNAME = bilibili;
 				TargetAttributes = {
-					76B63A201D38D9C300D36CEA = {
-						CreatedOnToolsVersion = 7.3.1;
-					};
 					E654EA891B6B27E600B0F2D0 = {
 						CreatedOnToolsVersion = 6.4;
 					};
@@ -1085,7 +909,6 @@
 			targets = (
 				E654EA891B6B27E600B0F2D0 /* IJKMediaFramework */,
 				E654EA931B6B27E600B0F2D0 /* IJKMediaFrameworkTests */,
-				76B63A201D38D9C300D36CEA /* IjkStatic */,
 			);
 		};
 /* End PBXProject section */
@@ -1108,130 +931,45 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		63A8C5D91D59796B00F03DF8 /* ShellScript */ = {
+		544E73271D93DEF4005CA5D9 /* ijkversion.h */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
+			name = ijkversion.h;
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "cd ${PROJECT_DIR}\ncd ../\ncp -r build/universal/include/ ${TARGET_BUILD_DIR}/include/\nmkdir -p ${TARGET_BUILD_DIR}/include/ffmpeg\n\nmkdir -p ${TARGET_BUILD_DIR}/include/ijksdl\ncd ../\n\ncp -r ijkmedia/ijksdl/ffmpeg/*.h ${TARGET_BUILD_DIR}/include/ffmpeg/\n                             \n                             cp -r ijkmedia/ijkplayer/*.h ${TARGET_BUILD_DIR}/include/\n                             \n                             \n                             cp -r ijkmedia/ijksdl/*.h ${TARGET_BUILD_DIR}/include/\n                             \n                             cp -r ijkmedia/ijksdl/*.h ${TARGET_BUILD_DIR}/include/ijksdl\n                             \n                             \n                             cp -r ios/IJKMediaPlayer/IJKMediaPlayer/ijkmedia/ijksdl/ios/ijksdl_vout_overlay_videotoolbox.h ${TARGET_BUILD_DIR}/include/\n                             \n                             cp -r ijkmedia/ijksdl/ffmpeg/*.h ${TARGET_BUILD_DIR}/include/\n                             \n";
-		};
-		9675C7731D10033A00D8E0BF /* ShellScript */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "cd ${PROJECT_DIR}\ncd ../\ncp -r build/universal/include/ ${TARGET_BUILD_DIR}/IJKMediaFramework.framework/Headers/\nmkdir -p ${TARGET_BUILD_DIR}/IJKMediaFramework.framework/Headers/ffmpeg\n\nmkdir -p ${TARGET_BUILD_DIR}/IJKMediaFramework.framework/Headers/ijksdl\ncd ../\n\ncp -r ijkmedia/ijksdl/ffmpeg/*.h ${TARGET_BUILD_DIR}/IJKMediaFramework.framework/Headers/ffmpeg/\n                             \ncp -r ijkmedia/ijkplayer/*.h ${TARGET_BUILD_DIR}/IJKMediaFramework.framework/Headers/\n                             \n\ncp -r ijkmedia/ijksdl/*.h ${TARGET_BUILD_DIR}/IJKMediaFramework.framework/Headers/\n                             \ncp -r ijkmedia/ijksdl/*.h ${TARGET_BUILD_DIR}/IJKMediaFramework.framework/Headers/ijksdl\n\n                             \ncp -r ios/IJKMediaPlayer/IJKMediaPlayer/ijkmedia/ijksdl/ios/ijksdl_vout_overlay_videotoolbox.h ${TARGET_BUILD_DIR}/IJKMediaFramework.framework/Headers/\n                             \ncp -r ijkmedia/ijksdl/ffmpeg/*.h ${TARGET_BUILD_DIR}/IJKMediaFramework.framework/Headers/\n\n";
+			shellScript = "sh \"${PROJECT_DIR}/../../ijkmedia/ijkplayer/version.sh\" \"${PROJECT_DIR}/../../ijkmedia/ijkplayer\" \"ijkversion.h\"";
 		};
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
-		76B63A1D1D38D9C300D36CEA /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				63A8C5A11D59767200F03DF8 /* ff_cmdutils.c in Sources */,
-				63A8C5A21D59767200F03DF8 /* ff_ffpipeline.c in Sources */,
-				63A8C5A31D59767200F03DF8 /* ff_ffpipenode.c in Sources */,
-				63A8C5A41D59767200F03DF8 /* ff_ffplay.c in Sources */,
-				63A8C5A51D59767200F03DF8 /* allformats.c in Sources */,
-				63A8C5A61D59767200F03DF8 /* ijklivehook.c in Sources */,
-				63A8C5A71D59767200F03DF8 /* ijkmeta.c in Sources */,
-				63A8C5A81D59767200F03DF8 /* ijkplayer.c in Sources */,
-				63A8C5A91D59767200F03DF8 /* ffpipeline_ios.c in Sources */,
-				63A8C5AA1D59767200F03DF8 /* ffpipeline_ffplay.c in Sources */,
-				63A8C5AB1D59767200F03DF8 /* ffpipenode_ffplay_vdec.c in Sources */,
-				63A8C5AC1D59767200F03DF8 /* ijksdl_vout_dummy.c in Sources */,
-				63A8C5AD1D59767200F03DF8 /* image_convert.c in Sources */,
-				63A8C5AE1D59767200F03DF8 /* ijksdl_vout_overlay_ffmpeg.c in Sources */,
-				63A8C5AF1D59767200F03DF8 /* color.c in Sources */,
-				63A8C5B01D59767200F03DF8 /* common.c in Sources */,
-				63A8C5B11D59767200F03DF8 /* rgb.fsh.c in Sources */,
-				63A8C5B21D59767200F03DF8 /* yuv420p.fsh.c in Sources */,
-				63A8C5B31D59767200F03DF8 /* yuv420sp.fsh.c in Sources */,
-				63A8C5B41D59767200F03DF8 /* yuv444p10le.fsh.c in Sources */,
-				63A8C5B51D59767200F03DF8 /* renderer_rgb.c in Sources */,
-				63A8C5B61D59767200F03DF8 /* renderer_yuv420p.c in Sources */,
-				63A8C5B71D59767200F03DF8 /* renderer_yuv420sp.c in Sources */,
-				63A8C5B81D59767200F03DF8 /* renderer_yuv444p10le.c in Sources */,
-				63A8C5B91D59767200F03DF8 /* renderer.c in Sources */,
-				63A8C5BA1D59767200F03DF8 /* shader.c in Sources */,
-				63A8C5BB1D59767200F03DF8 /* mvp.vsh.c in Sources */,
-				63A8C5BC1D59767200F03DF8 /* ijksdl_aout.c in Sources */,
-				63A8C5BD1D59767200F03DF8 /* ijksdl_audio.c in Sources */,
-				63A8C5BE1D59767200F03DF8 /* ijksdl_egl.c in Sources */,
-				63A8C5BF1D59767200F03DF8 /* ijksdl_error.c in Sources */,
-				63A8C5C01D59767200F03DF8 /* ijksdl_mutex.c in Sources */,
-				63A8C5C11D59767200F03DF8 /* ijksdl_stdinc.c in Sources */,
-				63A8C5C21D59767200F03DF8 /* ijksdl_thread.c in Sources */,
-				63A8C5C31D59767200F03DF8 /* ijksdl_timer.c in Sources */,
-				63A8C5C41D59767200F03DF8 /* ijksdl_vout.c in Sources */,
-				63A8C5841D59762100F03DF8 /* IJKAudioKit.m in Sources */,
-				63A8C5851D59762100F03DF8 /* IJKDeviceModel.m in Sources */,
-				63A8C5861D59762100F03DF8 /* IJKKVOController.m in Sources */,
-				63A8C5871D59762100F03DF8 /* IJKMediaModule.m in Sources */,
-				63A8C5881D59762100F03DF8 /* IJKMediaPlayback.m in Sources */,
-				63A8C5891D59762100F03DF8 /* IJKMediaUtils.m in Sources */,
-				63A8C58A1D59762100F03DF8 /* IJKNotificationManager.m in Sources */,
-				63A8C58B1D59762100F03DF8 /* NSString+IJKMedia.m in Sources */,
-				63A8C58C1D59762100F03DF8 /* IJKAVPlayerLayerView.m in Sources */,
-				63A8C58D1D59762100F03DF8 /* IJKAVMoviePlayerController.m in Sources */,
-				63A8C58E1D59762100F03DF8 /* IJKMPMoviePlayerController.m in Sources */,
-				63A8C58F1D59762100F03DF8 /* IJKFFMonitor.m in Sources */,
-				63A8C5901D59762100F03DF8 /* IJKFFMoviePlayerController.m in Sources */,
-				63A8C5911D59762100F03DF8 /* IJKFFMoviePlayerDef.m in Sources */,
-				63A8C5921D59762100F03DF8 /* IJKFFOptions.m in Sources */,
-				63A8C5931D59762100F03DF8 /* ffpipenode_ios_videotoolbox_vdec.m in Sources */,
-				63A8C5941D59762100F03DF8 /* IJKVideoToolBox.m in Sources */,
-				63A8C5951D59762100F03DF8 /* ijkplayer_ios.m in Sources */,
-				63A8C5961D59762100F03DF8 /* renderer_yuv420sp_vtb.m in Sources */,
-				63A8C5971D59762100F03DF8 /* ijksdl_aout_ios_audiounit.m in Sources */,
-				63A8C5981D59762100F03DF8 /* ijksdl_thread_ios.m in Sources */,
-				63A8C5991D59762100F03DF8 /* ijksdl_vout_ios_gles2.m in Sources */,
-				63A8C59A1D59762100F03DF8 /* ijksdl_vout_overlay_videotoolbox.m in Sources */,
-				63A8C59B1D59762100F03DF8 /* IJKSDLAudioKit.m in Sources */,
-				63A8C59C1D59762100F03DF8 /* IJKSDLAudioQueueController.m in Sources */,
-				63A8C59D1D59762100F03DF8 /* IJKSDLAudioUnitController.m in Sources */,
-				63A8C59E1D59762100F03DF8 /* IJKSDLGLView.m in Sources */,
-				63A8C59F1D59762100F03DF8 /* IJKSDLHudViewCell.m in Sources */,
-				63A8C5A01D59762100F03DF8 /* IJKSDLHudViewController.m in Sources */,
-				76B63A261D38D9C300D36CEA /* IjkStatic.m in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		E654EA851B6B27E600B0F2D0 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 				E654EAA71B6B283700B0F2D0 /* IJKKVOController.m in Sources */,
+				9642C6A21D9E0BE2007AB390 /* netio.c in Sources */,
 				E654EAC71B6B287E00B0F2D0 /* ijksdl_vout.c in Sources */,
 				E6C459951C7030B6004831EC /* yuv444p10le.fsh.c in Sources */,
 				E69BE5511B93FED300AFBA3F /* allformats.c in Sources */,
 				E654EABB1B6B286B00B0F2D0 /* ffpipenode_ffplay_vdec.c in Sources */,
 				E6C459981C7030B6004831EC /* renderer_yuv420p.c in Sources */,
-				FCCA72B31D759AC5002AF52C /* url.c in Sources */,
-				FCCA72B71D759AC5002AF52C /* videosink.c in Sources */,
 				E654EAA91B6B283D00B0F2D0 /* IJKAVMoviePlayerController.m in Sources */,
+				9642C6AE1D9E0BE2007AB390 /* viddec.c in Sources */,
 				E654EAAC1B6B284C00B0F2D0 /* IJKFFMoviePlayerDef.m in Sources */,
 				E654EAB91B6B286700B0F2D0 /* ijkplayer_ios.m in Sources */,
 				E654EAB51B6B286400B0F2D0 /* ffpipeline_ios.c in Sources */,
+				9642C6991D9E0BE2007AB390 /* avqueue.c in Sources */,
 				E654EABD1B6B287000B0F2D0 /* ijksdl_vout_dummy.c in Sources */,
 				E6C459CC1C70967F004831EC /* renderer_yuv420sp.c in Sources */,
+				9642C69D1D9E0BE2007AB390 /* decode.c in Sources */,
 				E6C459941C7030B6004831EC /* yuv420p.fsh.c in Sources */,
-				FCCA72A41D759AC5002AF52C /* decode.c in Sources */,
 				E654EAC21B6B287E00B0F2D0 /* ijksdl_error.c in Sources */,
-				FCCA72B51D759AC5002AF52C /* viddec.c in Sources */,
 				E607FFE11B7B62E3005F11A6 /* IJKDeviceModel.m in Sources */,
 				E6C459BA1C706A13004831EC /* ijksdl_egl.c in Sources */,
 				E654EAA31B6B283700B0F2D0 /* IJKAudioKit.m in Sources */,
@@ -1240,14 +978,16 @@
 				E654EACB1B6B288A00B0F2D0 /* ijksdl_vout_overlay_videotoolbox.m in Sources */,
 				E654EAB11B6B285900B0F2D0 /* ff_ffpipenode.c in Sources */,
 				E654EAC41B6B287E00B0F2D0 /* ijksdl_stdinc.c in Sources */,
-				FCCA72A01D759AC5002AF52C /* avqueue.c in Sources */,
+				54A029B91D4700E6001C61C1 /* ijksegment.c in Sources */,
 				E654EAA61B6B283700B0F2D0 /* IJKMediaUtils.m in Sources */,
+				9642C6A41D9E0BE2007AB390 /* queue.c in Sources */,
 				E6C459931C7030B6004831EC /* common.c in Sources */,
 				E654EAC81B6B288A00B0F2D0 /* ijksdl_aout_ios_audiounit.m in Sources */,
 				E69BE5721B946FF600AFBA3F /* ijklivehook.c in Sources */,
-				FCCA72A61D759AC5002AF52C /* fifo.c in Sources */,
+				54A029BA1D4700E6001C61C1 /* ijkurlhook.c in Sources */,
 				E654EAA51B6B283700B0F2D0 /* IJKMediaPlayback.m in Sources */,
 				E654EAB01B6B285900B0F2D0 /* ff_ffpipeline.c in Sources */,
+				9642C6B01D9E0BE2007AB390 /* videosink.c in Sources */,
 				E654EACC1B6B288A00B0F2D0 /* IJKSDLAudioKit.m in Sources */,
 				E6C4599B1C7030B6004831EC /* mvp.vsh.c in Sources */,
 				E698089C1C7EB13A0048A46C /* NSString+IJKMedia.m in Sources */,
@@ -1256,17 +996,18 @@
 				E654EACD1B6B288A00B0F2D0 /* IJKSDLAudioQueueController.m in Sources */,
 				E654EAC51B6B287E00B0F2D0 /* ijksdl_thread.c in Sources */,
 				E6C459C81C7095E5004831EC /* yuv420sp.fsh.c in Sources */,
-				FCCA72AD1D759AC5002AF52C /* rtspdec.c in Sources */,
 				E654EAB21B6B285900B0F2D0 /* ff_ffplay.c in Sources */,
 				E654EAC01B6B287E00B0F2D0 /* ijksdl_aout.c in Sources */,
+				9642C6AA1D9E0BE2007AB390 /* tcpsink.c in Sources */,
 				E6C459921C7030B6004831EC /* color.c in Sources */,
 				E654EAC11B6B287E00B0F2D0 /* ijksdl_audio.c in Sources */,
+				9642C69B1D9E0BE2007AB390 /* bufchan.c in Sources */,
+				9642C6A61D9E0BE2007AB390 /* rtspdec.c in Sources */,
 				E654EAC91B6B288A00B0F2D0 /* ijksdl_thread_ios.m in Sources */,
+				9642C6A81D9E0BE2007AB390 /* rtspsink.c in Sources */,
 				E654EAB31B6B285900B0F2D0 /* ijkmeta.c in Sources */,
-				FCCA72AF1D759AC5002AF52C /* rtspsink.c in Sources */,
-				FCCA72A21D759AC5002AF52C /* bufchan.c in Sources */,
+				54A029B61D4700E6001C61C1 /* ijkasync.c in Sources */,
 				E6E1B9A81C741F72000C6C72 /* renderer_yuv420sp_vtb.m in Sources */,
-				FCCA72A91D759AC5002AF52C /* netio.c in Sources */,
 				E654EAD31B6B288A00B0F2D0 /* IJKSDLGLView.m in Sources */,
 				E654EAC61B6B287E00B0F2D0 /* ijksdl_timer.c in Sources */,
 				E6C4599A1C7030B6004831EC /* shader.c in Sources */,
@@ -1275,6 +1016,7 @@
 				E654EAAE1B6B284C00B0F2D0 /* IJKFFOptions.m in Sources */,
 				E654EACE1B6B288A00B0F2D0 /* IJKSDLAudioUnitController.m in Sources */,
 				E6DBD38A1C8941EB0058E4FB /* IJKFFMonitor.m in Sources */,
+				9642C6AC1D9E0BE2007AB390 /* url.c in Sources */,
 				E654EAAB1B6B284C00B0F2D0 /* IJKFFMoviePlayerController.m in Sources */,
 				E69808A11C7EB2040048A46C /* IJKNotificationManager.m in Sources */,
 				E654EAA41B6B283700B0F2D0 /* IJKMediaModule.m in Sources */,
@@ -1285,11 +1027,11 @@
 				E6C459C41C708E60004831EC /* rgb.fsh.c in Sources */,
 				E654EAB61B6B286400B0F2D0 /* ffpipenode_ios_videotoolbox_vdec.m in Sources */,
 				E654EAA81B6B283D00B0F2D0 /* IJKAVPlayerLayerView.m in Sources */,
-				FCCA72B11D759AC5002AF52C /* tcpsink.c in Sources */,
 				E68B7AC61C1E7F20001DE241 /* IJKSDLHudViewController.m in Sources */,
 				E654EACA1B6B288A00B0F2D0 /* ijksdl_vout_ios_gles2.m in Sources */,
+				54A029B81D4700E6001C61C1 /* ijklongurl.c in Sources */,
+				9642C69F1D9E0BE2007AB390 /* fifo.c in Sources */,
 				E6C459C01C708CAF004831EC /* renderer_rgb.c in Sources */,
-				FCCA72AB1D759AC5002AF52C /* queue.c in Sources */,
 				E654EABA1B6B286B00B0F2D0 /* ffpipeline_ffplay.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1313,81 +1055,6 @@
 /* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
-		76B63A271D38D9C300D36CEA /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CLANG_ANALYZER_NONNULL = YES;
-				CLANG_ENABLE_MODULES = YES;
-				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
-				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
-				CLANG_WARN_UNREACHABLE_CODE = YES;
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				DEBUG_INFORMATION_FORMAT = dwarf;
-				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				GCC_NO_COMMON_BLOCKS = YES;
-				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
-				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
-				GCC_WARN_UNDECLARED_SELECTOR = YES;
-				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
-				GCC_WARN_UNUSED_FUNCTION = YES;
-				HEADER_SEARCH_PATHS = (
-					"\"$(SRCROOT)/../build/universal/include\"",
-					"\"$(SRCROOT)/../../ijkmedia/ijksdl\"",
-					"../fat-x264/include",
-					../../ijkmedia,
-					IJKMediaPlayer/ijkmedia,
-				);
-				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-					"\"$(SRCROOT)/../build/universal/lib\"",
-					"\"$(SRCROOT)/../fat-x264/lib\"",
-				);
-				MTL_ENABLE_DEBUG_INFO = YES;
-				OTHER_LDFLAGS = "-ObjC";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SKIP_INSTALL = YES;
-			};
-			name = Debug;
-		};
-		76B63A281D38D9C300D36CEA /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CLANG_ANALYZER_NONNULL = YES;
-				CLANG_ENABLE_MODULES = YES;
-				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
-				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
-				CLANG_WARN_UNREACHABLE_CODE = YES;
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				ENABLE_NS_ASSERTIONS = NO;
-				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				GCC_NO_COMMON_BLOCKS = YES;
-				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
-				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
-				GCC_WARN_UNDECLARED_SELECTOR = YES;
-				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
-				GCC_WARN_UNUSED_FUNCTION = YES;
-				HEADER_SEARCH_PATHS = (
-					"\"$(SRCROOT)/../build/universal/include\"",
-					"\"$(SRCROOT)/../../ijkmedia/ijksdl\"",
-					"../fat-x264/include",
-					../../ijkmedia,
-					IJKMediaPlayer/ijkmedia,
-				);
-				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-					"\"$(SRCROOT)/../build/universal/lib\"",
-					"\"$(SRCROOT)/../fat-x264/lib\"",
-				);
-				MTL_ENABLE_DEBUG_INFO = NO;
-				OTHER_LDFLAGS = "-ObjC";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SKIP_INSTALL = YES;
-			};
-			name = Release;
-		};
 		E654EA9D1B6B27E600B0F2D0 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -1418,7 +1085,6 @@
 					../build/universal/include,
 					IJKMediaPlayer/ijkmedia,
 					../../ijkmedia,
-					"../fat-x264/include",
 				);
 				INFOPLIST_FILE = IJKMediaFramework/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
@@ -1427,7 +1093,6 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/../build/universal/lib\"",
-					"\"$(SRCROOT)/../fat-x264/lib\"",
 				);
 				MACH_O_TYPE = staticlib;
 				MTL_ENABLE_DEBUG_INFO = YES;
@@ -1435,7 +1100,6 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
 				TARGETED_DEVICE_FAMILY = "1,2";
-				VALID_ARCHS = "arm64 armv7";
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
 			};
@@ -1467,7 +1131,6 @@
 					../build/universal/include,
 					IJKMediaPlayer/ijkmedia,
 					../../ijkmedia,
-					"../fat-x264/include",
 				);
 				INFOPLIST_FILE = IJKMediaFramework/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
@@ -1476,7 +1139,6 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/../build/universal/lib\"",
-					"\"$(SRCROOT)/../fat-x264/lib\"",
 				);
 				MACH_O_TYPE = staticlib;
 				MTL_ENABLE_DEBUG_INFO = NO;
@@ -1484,7 +1146,6 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
 				TARGETED_DEVICE_FAMILY = "1,2";
-				VALID_ARCHS = "arm64 armv7";
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
 			};
@@ -1626,15 +1287,6 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		76B63A291D38D9C300D36CEA /* Build configuration list for PBXNativeTarget "IjkStatic" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				76B63A271D38D9C300D36CEA /* Debug */,
-				76B63A281D38D9C300D36CEA /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
 		E654EAA11B6B27E600B0F2D0 /* Build configuration list for PBXNativeTarget "IJKMediaFramework" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (

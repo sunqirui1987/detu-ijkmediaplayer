@@ -32,7 +32,7 @@
 
 #include "string.h"
 #include "ijkplayer/version.h"
-#include "libavformat/ijkavformat.h"
+
 
 
 #include "ijkplayer/ijkplayer.h"
@@ -43,7 +43,9 @@
 #include "ijksdl_vout_ios_gles2.h"
 //end
 
-static const char *kIJKFFRequiredFFmpegVersion = "ff3.1--ijk0.6.0--20160718--001";
+
+static const char *kIJKFFRequiredFFmpegVersion = "ff3.1--ijk0.6.2--20160926--001";
+
 
 //add for test liveplayer macro
 int is_liveplayer = 0;
@@ -82,7 +84,7 @@ int is_liveplayer = 0;
 
     IJKNotificationManager *_notificationManager;
 
-    IJKAVInject_AsyncStatistic _asyncStat;
+    AVAppAsyncStatistic _asyncStat;
     BOOL _shouldShowHudView;
     NSTimer *_hudTimer;
     
@@ -241,6 +243,7 @@ void IJKFFIOStatCompleteRegister(void (*cb)(const char *url,
         [_glView setHudValue:nil forKey:@"host"];
         [_glView setHudValue:nil forKey:@"path"];
         [_glView setHudValue:nil forKey:@"ip"];
+        [_glView setHudValue:nil forKey:@"tcp-info"];
         [_glView setHudValue:nil forKey:@"http"];
         [_glView setHudValue:nil forKey:@"tcp-spd"];
         [_glView setHudValue:nil forKey:@"t-prepared"];
@@ -266,6 +269,9 @@ void IJKFFIOStatCompleteRegister(void (*cb)(const char *url,
 
         [options applyTo:_mediaPlayer];
         _pauseInBackground = NO;
+        
+        _mediaPlayer->ffplayer->videotoolbox = 1;
+        _mediaPlayer->ffplayer->vtb_max_frame_width = 4096;
 
         // init extra
         _keepScreenOnWhilePlaying = YES;
@@ -1347,7 +1353,6 @@ int media_player_msg_loop(void* arg)
 
                 // block-get should never return 0
                 assert(retval > 0);
-
                 [ffpController performSelectorOnMainThread:@selector(postEvent:) withObject:msg waitUntilDone:NO];
             }
         }
@@ -1360,11 +1365,11 @@ int media_player_msg_loop(void* arg)
 
 #pragma mark av_format_control_message
 
-static int onInjectUrlOpen(IJKFFMoviePlayerController *mpc, id<IJKMediaUrlOpenDelegate> delegate, int type, void *data, size_t data_size)
+static int onInjectIOControl(IJKFFMoviePlayerController *mpc, id<IJKMediaUrlOpenDelegate> delegate, int type, void *data, size_t data_size)
 {
-    IJKAVInject_OnUrlOpenData *realData = data;
+    AVAppIOControl *realData = data;
     assert(realData);
-    assert(sizeof(IJKAVInject_OnUrlOpenData) == data_size);
+    assert(sizeof(AVAppIOControl) == data_size);
     realData->is_handled     = NO;
     realData->is_url_changed = NO;
 
@@ -1396,26 +1401,52 @@ static int onInjectUrlOpen(IJKFFMoviePlayerController *mpc, id<IJKMediaUrlOpenDe
     return 0;
 }
 
-static int onInjectAsyncStatistic(IJKFFMoviePlayerController *mpc, int type, void *data, size_t data_size)
+static int onInjectTcpIOControl(IJKFFMoviePlayerController *mpc, id<IJKMediaUrlOpenDelegate> delegate, int type, void *data, size_t data_size)
 {
-    IJKAVInject_AsyncStatistic *realData = data;
+    AVAppTcpIOControl *realData = data;
     assert(realData);
-    assert(sizeof(IJKAVInject_AsyncStatistic) == data_size);
+    assert(sizeof(AVAppTcpIOControl) == data_size);
 
-    mpc->_asyncStat = *realData;
+    switch (type) {
+        case IJKMediaCtrl_WillTcpOpen:
+
+            break;
+        case IJKMediaCtrl_DidTcpOpen:
+            mpc->_monitor.tcpError = realData->error;
+            mpc->_monitor.remoteIp = [NSString stringWithUTF8String:realData->ip];
+            [mpc->_glView setHudValue: mpc->_monitor.remoteIp forKey:@"ip"];
+            break;
+        default:
+            assert(!"unexcepted type for tcp io control");
+            break;
+    }
+
+    if (delegate == nil)
+        return 0;
+
+    NSString *urlString = [NSString stringWithUTF8String:realData->ip];
+
+    IJKMediaUrlOpenData *openData =
+    [[IJKMediaUrlOpenData alloc] initWithUrl:urlString
+                                       event:(IJKMediaEvent)type
+                                segmentIndex:0
+                                retryCounter:0];
+    openData.fd = realData->fd;
+
+    [delegate willOpenUrl:openData];
+    if (openData.error < 0)
+        return -1;
+    [mpc->_glView setHudValue: [NSString stringWithFormat:@"fd:%d %@", openData.fd, openData.msg?:@"unknown"] forKey:@"tcp-info"];
     return 0;
 }
 
-static int onInjectDidTcpConnect(IJKFFMoviePlayerController *mpc, int type, void *data, size_t data_size)
+static int onInjectAsyncStatistic(IJKFFMoviePlayerController *mpc, int type, void *data, size_t data_size)
 {
-    IJKAVInject_IpAddress *realData = data;
+    AVAppAsyncStatistic *realData = data;
     assert(realData);
-    assert(sizeof(IJKAVInject_IpAddress) == data_size);
+    assert(sizeof(AVAppAsyncStatistic) == data_size);
 
-    mpc->_monitor.tcpError = realData->error;
-    mpc->_monitor.remoteIp = [NSString stringWithUTF8String:realData->ip];
-    [mpc->_glView setHudValue: mpc->_monitor.remoteIp forKey:@"ip"];
-
+    mpc->_asyncStat = *realData;
     return 0;
 }
 
@@ -1446,7 +1477,7 @@ static int onInjectOnHttpEvent(IJKFFMoviePlayerController *mpc, int type, void *
     id<IJKMediaNativeInvokeDelegate> delegate = mpc.nativeInvokeDelegate;
 
     switch (type) {
-        case IJKAVINJECT_WILL_HTTP_OPEN:
+        case AVAPP_EVENT_WILL_HTTP_OPEN:
             url   = [NSString stringWithUTF8String:realData->url];
             nsurl = [NSURL URLWithString:url];
             host  = nsurl.host;
@@ -1461,7 +1492,7 @@ static int onInjectOnHttpEvent(IJKFFMoviePlayerController *mpc, int type, void *
                 [delegate invoke:type attributes:dict];
             }
             break;
-        case IJKAVINJECT_DID_HTTP_OPEN:
+        case AVAPP_EVENT_DID_HTTP_OPEN:
             elapsed = calculateElapsed(monitor.httpOpenTick, SDL_GetTickHR());
             monitor.httpError = realData->error;
             monitor.httpCode  = realData->http_code;
@@ -1479,7 +1510,7 @@ static int onInjectOnHttpEvent(IJKFFMoviePlayerController *mpc, int type, void *
                 [delegate invoke:type attributes:dict];
             }
             break;
-        case IJKAVINJECT_WILL_HTTP_SEEK:
+        case AVAPP_EVENT_WILL_HTTP_SEEK:
             monitor.httpSeekTick = SDL_GetTickHR();
 
             if (delegate != nil) {
@@ -1488,7 +1519,7 @@ static int onInjectOnHttpEvent(IJKFFMoviePlayerController *mpc, int type, void *
                 [delegate invoke:type attributes:dict];
             }
             break;
-        case IJKAVINJECT_DID_HTTP_SEEK:
+        case AVAPP_EVENT_DID_HTTP_SEEK:
             elapsed = calculateElapsed(monitor.httpSeekTick, SDL_GetTickHR());
             monitor.httpError = realData->error;
             monitor.httpCode  = realData->http_code;
@@ -1518,27 +1549,23 @@ static int ijkff_inject_callback(void *opaque, int message, void *data, size_t d
     IJKFFMoviePlayerController *mpc = (__bridge IJKFFMoviePlayerController*)opaque;
 
     switch (message) {
-        case IJKAVINJECT_CONCAT_RESOLVE_SEGMENT:
-            return onInjectUrlOpen(mpc, mpc.segmentOpenDelegate, message, data, data_size);
-        case IJKAVINJECT_ON_TCP_OPEN:
-            return onInjectUrlOpen(mpc, mpc.tcpOpenDelegate, message, data, data_size);
-        case IJKAVINJECT_ON_HTTP_OPEN:
-            return onInjectUrlOpen(mpc, mpc.httpOpenDelegate, message, data, data_size);
-        case IJKAVINJECT_ON_LIVE_RETRY:
-            return onInjectUrlOpen(mpc, mpc.liveOpenDelegate, message, data, data_size);
-        case IJKAVINJECT_ASYNC_STATISTIC:
+        case AVAPP_CTRL_WILL_CONCAT_SEGMENT_OPEN:
+            return onInjectIOControl(mpc, mpc.segmentOpenDelegate, message, data, data_size);
+        case AVAPP_CTRL_WILL_TCP_OPEN:
+            return onInjectTcpIOControl(mpc, mpc.tcpOpenDelegate, message, data, data_size);
+        case AVAPP_CTRL_WILL_HTTP_OPEN:
+            return onInjectIOControl(mpc, mpc.httpOpenDelegate, message, data, data_size);
+        case AVAPP_CTRL_WILL_LIVE_OPEN:
+            return onInjectIOControl(mpc, mpc.liveOpenDelegate, message, data, data_size);
+        case AVAPP_EVENT_ASYNC_STATISTIC:
             return onInjectAsyncStatistic(mpc, message, data, data_size);
-        case IJKAVINJECT_ASYNC_READ_SPEED:
-            return 0;
-        case IJKAVINJECT_DID_TCP_CONNECT:
-            return onInjectDidTcpConnect(mpc, message, data, data_size);
-        case IJKAVINJECT_WILL_HTTP_OPEN:
-        case IJKAVINJECT_DID_HTTP_OPEN:
-        case IJKAVINJECT_WILL_HTTP_SEEK:
-        case IJKAVINJECT_DID_HTTP_SEEK:
+        case AVAPP_CTRL_DID_TCP_OPEN:
+            return onInjectTcpIOControl(mpc, mpc.tcpOpenDelegate, message, data, data_size);
+        case AVAPP_EVENT_WILL_HTTP_OPEN:
+        case AVAPP_EVENT_DID_HTTP_OPEN:
+        case AVAPP_EVENT_WILL_HTTP_SEEK:
+        case AVAPP_EVENT_DID_HTTP_SEEK:
             return onInjectOnHttpEvent(mpc, message, data, data_size);
-        case IJKAVINJECT_ON_IO_TRAFFIC:
-            return 0;
         default: {
             return 0;
         }
