@@ -44,22 +44,22 @@
 -(BOOL)loadMovie:(NSString*)path
 {
     
-    [IJKFFMoviePlayerController setLogReport:NO];
-    [IJKFFMoviePlayerController setLogLevel:k_IJK_LOG_SILENT];
+    [IJKFFMoviePlayerController setLogReport:YES];
+    [IJKFFMoviePlayerController setLogLevel:k_IJK_LOG_UNKNOWN];
   //  [IJKFFMoviePlayerController setLogLevel:k_IJK_LOG_INFO];
     
-    self.is_hardware = true;
     IJKFFOptions *options =  [[IJKFFOptions alloc] init];
     
-    [options setPlayerOptionIntValue:1      forKey:@"videotoolbox"];
-    [options setPlayerOptionIntValue:4096    forKey:@"videotoolbox-max-frame-width"];
-    
-
+    [options setPlayerOptionValue:0          forKey:@"first-high-water-mark-ms"];
     if(self.is_hardware){
-        [options setPlayerOptionValue:@"fcc-_vtb"          forKey:@"overlay-format"];
+        [options setPlayerOptionValue:@"fcc-_es2"          forKey:@"overlay-format"];
+        [options setPlayerOptionIntValue:1      forKey:@"videotoolbox"];
+        [options setPlayerOptionIntValue:4096    forKey:@"videotoolbox-max-frame-width"];
     }else{
         //     [options setPlayerOptionValue:@"fcc-rv24"          forKey:@"overlay-format"];
         [options setPlayerOptionValue:@"fcc-i420"          forKey:@"overlay-format"];
+       
+        
     }
     
     //disable audio
@@ -69,15 +69,26 @@
     [options setPlayerOptionValue:0        forKey:@"start-on-prepared"];
     
     if(  [path hasPrefix:@"rtsp://"] || [path isEqualToString:@"http://192.168.1.254:8192"]){
-
         [options setPlayerOptionIntValue:0 forKey:@"packet-buffering"];
         [options setPlayerOptionIntValue:25 forKey:@"limit_packets"];
-   
+    }else{
+//        [options setPlayerOptionIntValue:10*1024*1024 forKey:@"max-buffer-size"];
+//        [options setPlayerOptionIntValue:200         forKey:@"limit_packets"];
     }
     
    
-    _player = [[IJKFFMoviePlayerController alloc] initWithContentURLString:path withOptions:options];
+    _player = [[IJKFFMoviePlayerController alloc] initWithContentURLString:path withOptions:options isVideotoolbox:self.is_hardware];
+    [_player setFormatOptionIntValue:1000000 forKey:@"analyzeduration"];
+    [_player setFormatOptionIntValue:100 forKey:@"probsize"];
     
+    __weak IJKPlayerMovieDecoder* weakSelf = self;
+    _player.displayFrameBlock = ^(SDL_VoutOverlay* overlay){
+        if (overlay == NULL) {
+            return;
+        }
+        [weakSelf.delegate movieDecoderDidDecodeFrameSDL: overlay];
+
+    };
     [_player prepareToPlay];
     [self start];
     return TRUE;
@@ -121,7 +132,7 @@
     if (frame == NULL) {
         return;
     }
-    return;
+    
     //   dispatch_async(dispatch_get_global_queue(0, 0), ^{
     [self.delegate movieDecoderDidDecodeFrameSDL: frame];
     //[self.delegate movieDecoderDidDecodeFrameRawbuf:frame :width :height];

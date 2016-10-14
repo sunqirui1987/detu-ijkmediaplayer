@@ -156,6 +156,8 @@
 		54A029B31D4700E6001C61C1 /* ijklongurl.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = ijklongurl.c; sourceTree = "<group>"; };
 		54A029B41D4700E6001C61C1 /* ijksegment.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = ijksegment.c; sourceTree = "<group>"; };
 		54A029B51D4700E6001C61C1 /* ijkurlhook.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = ijkurlhook.c; sourceTree = "<group>"; };
+		7699FDA51DAA327E00F195D7 /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
+		7699FDA71DAA329600F195D7 /* libbz2.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libbz2.tbd; path = usr/lib/libbz2.tbd; sourceTree = SDKROOT; };
 		9642C6801D9E0BE2007AB390 /* avqueue.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = avqueue.c; sourceTree = "<group>"; };
 		9642C6811D9E0BE2007AB390 /* avqueue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = avqueue.h; sourceTree = "<group>"; };
 		9642C6821D9E0BE2007AB390 /* bufchan.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = bufchan.c; sourceTree = "<group>"; };
@@ -525,6 +527,8 @@
 		E6903EBB17EAF6C500CFD954 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				7699FDA71DAA329600F195D7 /* libbz2.tbd */,
+				7699FDA51DAA327E00F195D7 /* libz.tbd */,
 				9642C6B21D9E107C007AB390 /* libx264.a */,
 			);
 			name = Frameworks;
@@ -850,6 +854,7 @@
 				E654EA861B6B27E600B0F2D0 /* Frameworks */,
 				E654EA871B6B27E600B0F2D0 /* Headers */,
 				E654EA881B6B27E600B0F2D0 /* Resources */,
+				7699FDA41DAA2E6A00F195D7 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -944,6 +949,19 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "sh \"${PROJECT_DIR}/../../ijkmedia/ijkplayer/version.sh\" \"${PROJECT_DIR}/../../ijkmedia/ijkplayer\" \"ijkversion.h\"";
+		};
+		7699FDA41DAA2E6A00F195D7 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "cd ${PROJECT_DIR}\ncd ../\ncp -r build/universal/include/ ${TARGET_BUILD_DIR}/IJKMediaFramework.framework/Headers/\nmkdir -p ${TARGET_BUILD_DIR}/IJKMediaFramework.framework/Headers/ffmpeg\nmkdir -p ${TARGET_BUILD_DIR}/IJKMediaFramework.framework/Headers/ijksdl\ncd ../\ncp -r ijkmedia/ijksdl/ffmpeg/*.h ${TARGET_BUILD_DIR}/IJKMediaFramework.framework/Headers/ffmpeg/\n\ncp -r ijkmedia/ijkplayer/*.h ${TARGET_BUILD_DIR}/IJKMediaFramework.framework/Headers/\ncp -r ijkmedia/ijksdl/*.h ${TARGET_BUILD_DIR}/IJKMediaFramework.framework/Headers/\ncp -r ijkmedia/ijksdl/*.h ${TARGET_BUILD_DIR}/IJKMediaFramework.framework/Headers/ijksdl\ncp -r ios/IJKMediaPlayer/IJKMediaPlayer/ijkmedia/ijksdl/ios/ijksdl_vout_overlay_videotoolbox.h ${TARGET_BUILD_DIR}/IJKMediaFramework.framework/Headers/\ncp -r ijkmedia/ijksdl/ffmpeg/*.h ${TARGET_BUILD_DIR}/IJKMediaFramework.framework/Headers/\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -1058,6 +1076,7 @@
 		E654EA9D1B6B27E600B0F2D0 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES = YES;
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
@@ -1108,6 +1127,7 @@
 		E654EA9E1B6B27E600B0F2D0 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES = YES;
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;

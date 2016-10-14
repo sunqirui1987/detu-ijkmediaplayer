@@ -167,6 +167,9 @@ static int packet_queue_put_private(PacketQueue *q, AVPacket *pkt)
         q->last_pkt->next = pkt1;
     q->last_pkt = pkt1;
     q->nb_packets++;
+    
+    av_log(NULL, AV_LOG_DEBUG, "nb_packets add <<< %d \n",q->nb_packets);
+    
     q->size += pkt1->pkt.size + sizeof(*pkt1);
 
     q->duration += pkt1->pkt.duration;
@@ -2490,7 +2493,20 @@ static int read_thread(void *arg)
     }
     if (ffp->iformat_name)
         is->iformat = av_find_input_format(ffp->iformat_name);
+    
+    
+      av_dict_set(&ffp->format_opts, "probesize", "2 * 1024", 0);
+    
+//    ic->probesize = 2 * 1024;//1*1024;
+//    ic->max_analyze_duration = 2 * AV_TIME_BASE;
+//    ic->format_probesize = 2 * 1024;
+    
+    av_log(NULL, AV_LOG_INFO, ">>>>>>>>>>>>>>>>>>>>>>>>avformat_open_input@@@@@@@@@@@@@");
+    
     err = avformat_open_input(&ic, is->filename, is->iformat, &ffp->format_opts);
+    
+    av_log(NULL, AV_LOG_INFO, "<<<<<<<<<<<<<<<<<<<<<<<<<avformat_open_input@@@@@@@@@@@@@");
+    
     if (err < 0) {
         print_error(is->filename, err);
         ret = -1;
@@ -3148,7 +3164,17 @@ static void ffp_log_callback_brief(void *ptr, int level, const char *fmt, va_lis
         return;
 
     int ffplv __unused = log_level_av_to_ijk(level);
-    VLOG(ffplv, IJK_LOG_TAG, fmt, vl);
+    
+    char fmt_str[500];
+    
+    long long time = av_gettime();
+    
+    int seconde = time/1000/1000%60;
+    
+    sprintf(fmt_str, "%d_%s",seconde,fmt);
+    
+    
+    VLOG(ffplv, IJK_LOG_TAG, fmt_str, vl);
 }
 
 static void ffp_log_callback_report(void *ptr, int level, const char *fmt, va_list vl)
@@ -3166,8 +3192,16 @@ static void ffp_log_callback_report(void *ptr, int level, const char *fmt, va_li
     // av_log_default_callback(ptr, level, fmt, vl);
     av_log_format_line(ptr, level, fmt, vl2, line, sizeof(line), &print_prefix);
     va_end(vl2);
+    
+    
+    char fmt_str[500];
+    long long time = av_gettime();
+    
+    int seconde = time/1000/1000%60;
+    
+    sprintf(fmt_str, "%d_%s",seconde,fmt);
 
-    ALOG(ffplv, IJK_LOG_TAG, "%s", line);
+    ALOG(ffplv, IJK_LOG_TAG, "%s_%s", fmt_str,line);
 }
 
 int ijkav_register_all(void);

@@ -44,6 +44,10 @@
     
     GLint _uniformSamplers[3];
     GLint _uniform[1];
+    
+    GLuint isHardDecoderHandle;
+    
+    Boolean isFirstFrameReaded;
 }
 @end
 
@@ -57,6 +61,7 @@
 -(id)initWithFrame:(CGRect)frame
 {
     if ((self = [super initWithFrame:frame])) {
+        self.isHardDecoder = YES;
         [self _initLayer];
     }
     return self;
@@ -89,24 +94,9 @@
     
     mProgramHandle = [_renderer loadShaders:@"sphere"];
     
-    mMVPMatrixHandle = glGetUniformLocation(mProgramHandle, "u_MVPMatrix");
-    mTextureUniformHandle = glGetUniformLocation(mProgramHandle, "u_Texture");
-    mPositionHandle = glGetAttribLocation(mProgramHandle, "a_Position");
-    mTextureCoordinateHandle = glGetAttribLocation(mProgramHandle, "a_TexCoordinate");
-    misforwardHandle = glGetUniformLocation(mProgramHandle,
-                                            "forward");
+    [self checkGLError:YES];
     
     
-    //    texture->_uniformSamplers[0] = glGetUniformLocation(mProgramHandle, "SamplerY1");
-    //    texture->_uniformSamplers[1] = glGetUniformLocation(mProgramHandle, "SamplerUV");
-    //    texture->_uniform[0] = glGetUniformLocation(mProgramHandle, "colorConversionMatrix");
-    //    texture->_uniformIsHardWare = glGetUniformLocation(mProgramHandle,
-    //                                            "ishardware");
-    
-    texture->_uniformSamplers[0] = glGetUniformLocation(mProgramHandle, "SamplerY");
-    texture->_uniformSamplers[1] = glGetUniformLocation(mProgramHandle, "SamplerU");
-    texture->_uniformSamplers[2] = glGetUniformLocation(mProgramHandle, "SamplerV");
-    texture->_uniform[0] = glGetUniformLocation(mProgramHandle, "colorConversionMatrix");
     
     
     
@@ -141,7 +131,55 @@
     }
 }
 
+-(void)setupGL{
+    if(self.isHardDecoder){
+        texture->_uniformHardSamplers[0] = glGetUniformLocation(mProgramHandle, "us2_SamplerX");
+        texture->_uniformHardSamplers[1] = glGetUniformLocation(mProgramHandle, "us2_SamplerY");
+        texture->_uniform[0] = glGetUniformLocation(mProgramHandle, "colorConversionMatrix");
+        
+        CVReturn err = 0;
+        err = CVOpenGLESTextureCacheCreate(kCFAllocatorDefault, NULL, _renderer.context, NULL, &texture->hard_textureCache);
+        if (err || texture->hard_textureCache == nil) {
+            NSLog(@"Error at CVOpenGLESTextureCacheCreate %d\n", err);
+        }
+        
+        
+    }else{
+        texture->_uniformSamplers[0] = glGetUniformLocation(mProgramHandle, "SamplerY");
+        texture->_uniformSamplers[1] = glGetUniformLocation(mProgramHandle, "SamplerU");
+        texture->_uniformSamplers[2] = glGetUniformLocation(mProgramHandle, "SamplerV");
+        texture->_uniform[0] = glGetUniformLocation(mProgramHandle, "colorConversionMatrix");
+    }
+    
+    mMVPMatrixHandle = glGetUniformLocation(mProgramHandle, "u_MVPMatrix");
+    mTextureUniformHandle = glGetUniformLocation(mProgramHandle, "u_Texture");
+    mPositionHandle = glGetAttribLocation(mProgramHandle, "a_Position");
+    mTextureCoordinateHandle = glGetAttribLocation(mProgramHandle, "a_TexCoordinate");
+    misforwardHandle = glGetUniformLocation(mProgramHandle,
+                                            "forward");
+    isHardDecoderHandle = glGetUniformLocation(mProgramHandle,
+                                               "ishardware");
+    
+    
+    [self checkGLError:YES];
+}
+
 -(void)setFrameSDL:(SDL_VoutOverlay*)frame{
+    
+    if(!isFirstFrameReaded){
+        switch (frame->format) {
+            case SDL_FCC__VTB:
+                self.isHardDecoder = YES;
+                break;
+            default:
+                self.isHardDecoder = NO;
+                break;
+        }
+        isFirstFrameReaded = YES;
+        [self setupGL];
+    }
+    
+    
     
     int width = frame->w;
     int height = frame->h;
@@ -152,6 +190,7 @@
 
 -(void)stepFrame:(uint8_t *)frame :(int)w :(int)h{
     
+  
     int width = w;
     int height = h;
     w_h_rate = width * 1.0f / height;
@@ -161,7 +200,7 @@
 
 -(void)render{
     
-    if(texture->_textures == NULL || w_h_rate == 0){
+    if(!isFirstFrameReaded || (self.isHardDecoder && texture->hard_cvTexturesRef == NULL) || (!self.isHardDecoder && texture->_textures == NULL) || w_h_rate == 0){
         return;
     }
     [_renderer setFramebuffer:(CAEAGLLayer*)self.layer];
@@ -173,17 +212,26 @@
     
     glViewport(0,0,view_w*OPENGL_SCALE,view_h*OPENGL_SCALE);
     
-    
+    glUniform1f(isHardDecoderHandle, self.isHardDecoder?1:0);
     
     
     modelMatrix = GLKMatrix4Identity;
     projectionMatrix =GLKMatrix4Identity;
     
-    for (int i = 0; i < 3; ++i) {
-        glActiveTexture(GL_TEXTURE0 + i);
-        glBindTexture(GL_TEXTURE_2D, texture->_textures[i]);
-        glUniform1i(texture->_uniformSamplers[i], i);
+    if(self.isHardDecoder){
+        for (int i = 0; i < 2; ++i) {
+            glUniform1i(texture->_uniformHardSamplers[i], i);
+        }
+    }else{
+        for (int i = 0; i < 3; ++i) {
+            glActiveTexture(GL_TEXTURE0 + i);
+            glBindTexture(GL_TEXTURE_2D, texture->_textures[i]);
+            glUniform1i(texture->_uniformSamplers[i], i);
+        } 
     }
+    
+    
+    
     
     glUniformMatrix3fv(texture->_uniform[0], 1, GL_FALSE, texture->_preferredConversion);
     
@@ -200,11 +248,7 @@
     
     
     
-    float xr = 1.0,yr=1.0;
-    if (texture != nil) {
-        xr = texture.xRange;
-        yr = texture.yRange;
-    }
+    
     
     float x=1.0;
     float y=1.0;
@@ -224,6 +268,13 @@
         -x,-y,
         x,-y
     };
+    
+    float xr = 1.0,yr=1.0;
+    if (texture != nil) {
+        xr = texture.xRange;
+        yr = texture.yRange;
+    }
+    
     float s_plane_spriteTexcoords[8] = {
         0,0,
         xr,0,

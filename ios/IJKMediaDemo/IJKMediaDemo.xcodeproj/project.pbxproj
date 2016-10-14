@@ -18,6 +18,7 @@
 		55E809F31B146DE8003E98A5 /* IJKQRCodeScanViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 55E809F21B146DE8003E98A5 /* IJKQRCodeScanViewController.xib */; };
 		55E809F61B1480BC003E98A5 /* IJKDemoHistory.m in Sources */ = {isa = PBXBuildFile; fileRef = 55E809F51B1480BC003E98A5 /* IJKDemoHistory.m */; };
 		55E809F91B15A1DB003E98A5 /* IJKDemoLocalFolderViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 55E809F81B15A1DB003E98A5 /* IJKDemoLocalFolderViewController.m */; };
+		760D58231DAB889E0072BF06 /* aaa.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = 760D58221DAB889E0072BF06 /* aaa.mp4 */; };
 		764D28231D191740006AE2BA /* ALAssetsLibrary+CustomPhotoAlbum.m in Sources */ = {isa = PBXBuildFile; fileRef = 764D28221D191740006AE2BA /* ALAssetsLibrary+CustomPhotoAlbum.m */; };
 		764D28261D191AE2006AE2BA /* AssetsLibrary.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 764D28251D191AE2006AE2BA /* AssetsLibrary.framework */; };
 		764D282C1D1A32C4006AE2BA /* aaa.png in Resources */ = {isa = PBXBuildFile; fileRef = 764D282B1D1A32C4006AE2BA /* aaa.png */; };
@@ -60,13 +61,6 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		763650DC1D508BFC00CFD2DF /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = E6D74F2918A5F94B00165BFD /* IJKMediaPlayer.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 76B63A211D38D9C300D36CEA;
-			remoteInfo = IjkStatic;
-		};
 		E654EAD61B6B28B100B0F2D0 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = E6D74F2918A5F94B00165BFD /* IJKMediaPlayer.xcodeproj */;
@@ -108,11 +102,11 @@
 		55E809F51B1480BC003E98A5 /* IJKDemoHistory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IJKDemoHistory.m; sourceTree = "<group>"; };
 		55E809F71B15A1DB003E98A5 /* IJKDemoLocalFolderViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IJKDemoLocalFolderViewController.h; sourceTree = "<group>"; };
 		55E809F81B15A1DB003E98A5 /* IJKDemoLocalFolderViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IJKDemoLocalFolderViewController.m; sourceTree = "<group>"; };
+		760D58221DAB889E0072BF06 /* aaa.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = aaa.mp4; sourceTree = "<group>"; };
 		764D28211D191740006AE2BA /* ALAssetsLibrary+CustomPhotoAlbum.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "ALAssetsLibrary+CustomPhotoAlbum.h"; sourceTree = "<group>"; };
 		764D28221D191740006AE2BA /* ALAssetsLibrary+CustomPhotoAlbum.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "ALAssetsLibrary+CustomPhotoAlbum.m"; sourceTree = "<group>"; };
 		764D28251D191AE2006AE2BA /* AssetsLibrary.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AssetsLibrary.framework; path = System/Library/Frameworks/AssetsLibrary.framework; sourceTree = SDKROOT; };
 		764D282B1D1A32C4006AE2BA /* aaa.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = aaa.png; sourceTree = "<group>"; };
-		967EF97E1D4717AC00C3E87A /* IMG_5108.MOV */ = {isa = PBXFileReference; lastKnownFileType = video.quicktime; path = IMG_5108.MOV; sourceTree = "<group>"; };
 		96DF71021D06DE29007E2A47 /* GLES2Renderer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GLES2Renderer.h; sourceTree = "<group>"; };
 		96DF71031D06DE29007E2A47 /* GLES2Renderer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GLES2Renderer.m; sourceTree = "<group>"; };
 		96DF71051D06DE6D007E2A47 /* GLESRenderer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GLESRenderer.h; sourceTree = "<group>"; };
@@ -289,7 +283,7 @@
 		E6903F0617EAF70200CFD954 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				967EF97E1D4717AC00C3E87A /* IMG_5108.MOV */,
+				760D58221DAB889E0072BF06 /* aaa.mp4 */,
 				764D282B1D1A32C4006AE2BA /* aaa.png */,
 				E6903F0717EAF70200CFD954 /* IJKMediaDemo-Info.plist */,
 				E6903F0817EAF70200CFD954 /* InfoPlist.strings */,
@@ -333,7 +327,6 @@
 			children = (
 				E654EAD71B6B28B100B0F2D0 /* IJKMediaFramework.framework */,
 				E654EAD91B6B28B100B0F2D0 /* IJKMediaFrameworkTests.xctest */,
-				763650DD1D508BFC00CFD2DF /* libIjkStatic.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -399,13 +392,6 @@
 /* End PBXProject section */
 
 /* Begin PBXReferenceProxy section */
-		763650DD1D508BFC00CFD2DF /* libIjkStatic.a */ = {
-			isa = PBXReferenceProxy;
-			fileType = archive.ar;
-			path = libIjkStatic.a;
-			remoteRef = 763650DC1D508BFC00CFD2DF /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
 		E654EAD71B6B28B100B0F2D0 /* IJKMediaFramework.framework */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.framework;
@@ -438,6 +424,7 @@
 				E6A9B56517EDA72C00A1A500 /* IJKMoviePlayerViewController.xib in Resources */,
 				E6F524EC1B183A0700B69DC7 /* IJKDemoSampleViewController.xib in Resources */,
 				55E809E41B143C85003E98A5 /* IJKDemoMainViewController.xib in Resources */,
+				760D58231DAB889E0072BF06 /* aaa.mp4 in Resources */,
 				55E809F31B146DE8003E98A5 /* IJKQRCodeScanViewController.xib in Resources */,
 				55E809E61B145B55003E98A5 /* LaunchScreen.xib in Resources */,
 				764D282C1D1A32C4006AE2BA /* aaa.png in Resources */,

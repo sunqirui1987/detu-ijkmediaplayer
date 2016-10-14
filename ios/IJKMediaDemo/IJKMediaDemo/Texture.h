@@ -12,13 +12,11 @@
 
 @interface Texture : NSObject{
 @public
+
+    CVOpenGLESTextureCacheRef hard_textureCache;
+    CVOpenGLESTextureRef      hard_cvTexturesRef[2];
     
-    //    GLuint textures[2];
-    //    GLint _uniformSamplers[2];
-    //
-    //    CVOpenGLESTextureCacheRef textureCache;
-    //    CVOpenGLESTextureRef      cvTexturesRef[2];
-    //    GLint _uniformIsHardWare;
+    GLint _uniformHardSamplers[2];
     
     
     const GLfloat *_preferredConversion;

@@ -43,6 +43,7 @@
 #include "ijksdl_vout_ios_gles2.h"
 //end
 
+IJKFFMoviePlayerController *wself;
 
 static const char *kIJKFFRequiredFFmpegVersion = "ff3.1--ijk0.6.2--20160926--001";
 
@@ -87,6 +88,7 @@ int is_liveplayer = 0;
     AVAppAsyncStatistic _asyncStat;
     BOOL _shouldShowHudView;
     NSTimer *_hudTimer;
+    
     
 }
 
@@ -178,11 +180,23 @@ void IJKFFIOStatCompleteRegister(void (*cb)(const char *url,
 
 - (id)initWithContentURLString:(NSString *)aUrlString
                    withOptions:(IJKFFOptions *)options
+                isVideotoolbox:(Boolean)isVideotoolbox{
+    self.isVideotoolbox = isVideotoolbox;
+    return [self initWithContentURLString:aUrlString
+                              withOptions:options];
+}
+
+- (id)initWithContentURLString:(NSString *)aUrlString
+                   withOptions:(IJKFFOptions *)options
 {
     if (aUrlString == nil)
         return nil;
+    
+    
 
     self = [super init];
+    
+    wself = self;
     
     is_liveplayer = 0;
     
@@ -264,14 +278,22 @@ void IJKFFIOStatCompleteRegister(void (*cb)(const char *url,
         [IJKFFMoviePlayerController setLogLevel:k_IJK_LOG_SILENT];
 #endif
          */
+        
+        _mediaPlayer->ffplayer->vout->display_overlay = display_overlay;
+        
         // init audio sink
         [[IJKAudioKit sharedInstance] setupAudioSession];
 
         [options applyTo:_mediaPlayer];
         _pauseInBackground = NO;
         
-        _mediaPlayer->ffplayer->videotoolbox = 1;
-        _mediaPlayer->ffplayer->vtb_max_frame_width = 4096;
+//        NSLog(@"_mediaPlayer->ffplayer->videotoolbox = %d",_mediaPlayer->ffplayer->videotoolbox);
+//        NSLog(@"videotoolbox-max-frame-width = %d",_mediaPlayer->ffplayer->vtb_max_frame_width);
+        if(self.isVideotoolbox){
+            _mediaPlayer->ffplayer->videotoolbox = 1;
+            _mediaPlayer->ffplayer->vtb_max_frame_width = 4*1024;
+ //           av_dict_set_int(&tmp_opts, "probesize",         avf->probesize, 0);
+        }
 
         // init extra
         _keepScreenOnWhilePlaying = YES;
@@ -281,6 +303,13 @@ void IJKFFIOStatCompleteRegister(void (*cb)(const char *url,
         [self registerApplicationObservers];
     }
     return self;
+}
+
+int display_overlay(SDL_Vout *vout, SDL_VoutOverlay *overlay){
+    if(wself.displayFrameBlock != nil){
+       wself. displayFrameBlock(overlay);
+    }
+    return 0;
 }
 
 - (void)setScreenOn: (BOOL)on

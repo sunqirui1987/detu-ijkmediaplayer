@@ -39,6 +39,10 @@ basePath;\
     
     GLPlayerView *_panoplayer;
     
+    SDL_VoutOverlay* cur_overlay;
+    
+    NSRecursiveLock *_lock;
+    long long index;
 }
 
 
@@ -98,28 +102,46 @@ basePath;\
     
     path = @"http://media.qicdn.detu.com/@/11952648-8057-79C8-112C-3359F38671974/2016-09-06/57ce57417e25e-2048x1024.m3u8";//容易cup爆表，掉针的视频地址，用6或者5s测试比较明显，6s比较少见
     
- //   path = @"http://cache.utovr.com/s1rtqwszpusjowqhui/L2_dphr42xukiougcgk.m3u8";//utovr地址，经测试秒出
+//    path = @"http://cache.utovr.com/s1rtqwszpusjowqhui/L2_dphr42xukiougcgk.m3u8";//utovr地址，经测试秒出
     
  //   path = @"http://detu-static.oss-cn-hangzhou.aliyuncs.com/static/app/version/resource/video.mp4";//该视频没有画面，只有声音，vlc播放器可播
     
-    decoder=[IJKPlayerMovieDecoder movieDecoderWithMovie:path isHardWare:false];
+//    path=@"http://media.qicdn.detu.com/@/70955075-5571-986D-9DC4-450F13866573/2016-05-19/573d15dfa19f3-2048x1024.m3u8";
+    
+    path=@"http://media.qicdn.detu.com/@/31957945-57B6-63AE-B02B-95F74469962/2016-10-07/57f714f005dbf-2880x1440.m3u8";
+    
+//    path =  [[NSBundle mainBundle] pathForResource:@"aaa" ofType:@"mp4"];
+    
+    decoder=[IJKPlayerMovieDecoder movieDecoderWithMovie:path isHardWare:_panoplayer.isHardDecoder];
 
-//    decoder=[IJKPlayerMovieDecoder movieDecoderWithMovie:@"http://media.qicdn.detu.com/@/70955075-5571-986D-9DC4-450F13866573/2016-05-19/573d15dfa19f3-2048x1024.m3u8" isHardWare:false];
+ //  decoder=[IJKPlayerMovieDecoder movieDecoderWithMovie:@"http://media.qicdn.detu.com/@/70955075-5571-986D-9DC4-450F13866573/2016-05-19/573d15dfa19f3-2048x1024.m3u8" isHardWare:false];
+    
+    _lock = [[NSRecursiveLock alloc] init];
+    index = -1;
+
 
     decoder.delegate=self;
     [self innerstart];
-}
+    
+    }
 
 
 -(void)_startDraw{
     if (!timer) {
-        timer=[NSTimer scheduledTimerWithTimeInterval:(1.0/60) target:self selector:@selector(captureNext) userInfo:nil repeats:YES];
+        timer=[NSTimer scheduledTimerWithTimeInterval:(1.0/60) target:_panoplayer selector:@selector(render) userInfo:nil repeats:YES];
     }
     
 }
 
 -(void)captureNext{
+    return;
     [decoder captureNext];
+//    if(cur_overlay && cur_overlay->w>0){
+//        index = cur_overlay->sar_num;
+//   //     dispatch_async(dispatch_get_main_queue(), ^{
+//            [_panoplayer setFrameSDL:cur_overlay];
+//   //     });
+//    }
     [_panoplayer render];
 }
 
@@ -191,8 +213,13 @@ basePath;\
 }
 
 -(void)movieDecoderDidDecodeFrameSDL:(SDL_VoutOverlay*)frame{
+//    cur_overlay = frame;
+//    return;
     if (frame->w > 0) {
-        [_panoplayer setFrameSDL:frame];
+        dispatch_sync(dispatch_get_main_queue(), ^{
+            [_panoplayer setFrameSDL:frame];
+        });
+  //      [self innerstop];
     }
 }
 
@@ -235,5 +262,6 @@ basePath;\
     decoder = nil;
     timer = nil;
 }
+
 
 @end

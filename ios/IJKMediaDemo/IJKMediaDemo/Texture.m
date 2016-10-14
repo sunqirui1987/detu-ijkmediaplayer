@@ -29,10 +29,6 @@
 -(id)initWithContext:(EAGLContext*)context{
     self=[super init];
     [self clear];
-    //    CVReturn err = CVOpenGLESTextureCacheCreate(kCFAllocatorDefault, NULL, context, NULL, &textureCache);
-    //    if (err) {
-    //        NSLog(@"Error at CVOpenGLESTextureCacheCreate %d\n", err);
-    //    }
     return self;
 }
 
@@ -144,16 +140,16 @@
     glDeleteTextures(1,&textureId);
     textureId=0;
     
-    //    for (int i = 0; i < 2; ++i) {
-    //        if (cvTexturesRef[i]) {
-    //            CFRelease(cvTexturesRef[i]);
-    //            cvTexturesRef[i] = 0;
-    //            textures[i] = 0;
-    //        }
-    //    }
-    //
-    //    if (textures[0])
-    //        glDeleteTextures(2, textures);
+    for (int i = 0; i < 2; ++i) {
+        if (hard_cvTexturesRef[i]) {
+            CFRelease(hard_cvTexturesRef[i]);
+            hard_cvTexturesRef[i] = 0;
+        }
+    }
+    if(hard_textureCache){
+        CFRelease(hard_textureCache);
+        hard_textureCache = nil;
+    }
     
     if (_textures[0])
         glDeleteTextures(3, _textures);
@@ -262,7 +258,21 @@
 }
 
 -(void)updateWithFrameSDL:(SDL_VoutOverlay*)overlay{
-    [self softPrepare:overlay];
+    switch (overlay->format) {
+        case SDL_FCC__VTB:
+//            @try {
+                [self hardPrepare:overlay];
+//            } @catch (NSException *exception) {
+//                NSLog(@"%@",exception);
+//            } @finally {
+//                
+//            }
+    
+            break;
+        default:
+            [self softPrepare:overlay];
+            break;
+    }
 }
 
 -(void)updateWithFrameBuf:(uint8_t*)frame:(int)w:(int)h{
@@ -270,92 +280,103 @@
 }
 
 -(void)hardPrepare:(SDL_VoutOverlay*)overlay{
-    //    assert(overlay->planes);
-    //    assert(overlay->format == SDL_FCC__VTB);
-    //    assert(overlay->planes == 2);
-    //
-    //    if (!overlay->is_private)
-    //        return;
-    //
-    //    if (!textureCache) {
-    //        NSLog(@"nil textureCache\n");
-    //        return;
-    //    }
-    //
-    //    CVPixelBufferRef pixelBuffer = SDL_VoutOverlayVideoToolBox_GetCVPixelBufferRef(overlay);
-    //    if (!pixelBuffer) {
-    //        NSLog(@"nil pixelBuffer in overlay\n");
-    //        return;
-    //    }
-    //
-    //    CFTypeRef colorAttachments = CVBufferGetAttachment(pixelBuffer, kCVImageBufferYCbCrMatrixKey, NULL);
-    //    if (colorAttachments == kCVImageBufferYCbCrMatrix_ITU_R_601_4) {
-    //        _preferredConversion = kColorConversion601;
-    //    } else if (colorAttachments == kCVImageBufferYCbCrMatrix_ITU_R_709_2){
-    //        _preferredConversion = kColorConversion709;
-    //    } else {
-    //        _preferredConversion = kColorConversion709;
-    //    }
-    //
-    //    for (int i = 0; i < 2; ++i) {
-    //        if (cvTexturesRef[i]) {
-    //            CFRelease(cvTexturesRef[i]);
-    //            cvTexturesRef[i] = 0;
-    //            textures[i] = 0;
-    //        }
-    //    }
-    //
-    //    // Periodic texture cache flush every frame
-    //    if (textureCache)
-    //        CVOpenGLESTextureCacheFlush(textureCache, 0);
-    //
-    //    if (textures[0])
-    //        glDeleteTextures(2, textures);
-    //
-    //    size_t frameWidth  = CVPixelBufferGetWidth(pixelBuffer);
-    //    size_t frameHeight = CVPixelBufferGetHeight(pixelBuffer);
-    //
-    //    glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
-    //
-    //    CVOpenGLESTextureCacheCreateTextureFromImage(kCFAllocatorDefault,
-    //                                                 textureCache,
-    //                                                 pixelBuffer,
-    //                                                 NULL,
-    //                                                 GL_TEXTURE_2D,
-    //                                                 GL_RED_EXT,
-    //                                                 (GLsizei)frameWidth,
-    //                                                 (GLsizei)frameHeight,
-    //                                                 GL_RED_EXT,
-    //                                                 GL_UNSIGNED_BYTE,
-    //                                                 0,
-    //                                                 &cvTexturesRef[0]);
-    //
-    //    textures[0] = CVOpenGLESTextureGetName(cvTexturesRef[0]);
-    //    glBindTexture(CVOpenGLESTextureGetTarget(cvTexturesRef[0]), textures[0]);
-    //    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-    //    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-    //    glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-    //    glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-    //
-    //
-    //    CVOpenGLESTextureCacheCreateTextureFromImage(kCFAllocatorDefault,
-    //                                                 textureCache,
-    //                                                 pixelBuffer,
-    //                                                 NULL,
-    //                                                 GL_TEXTURE_2D,
-    //                                                 GL_RG_EXT,
-    //                                                 (GLsizei)frameWidth / 2,
-    //                                                 (GLsizei)frameHeight / 2,
-    //                                                 GL_RG_EXT,
-    //                                                 GL_UNSIGNED_BYTE,
-    //                                                 1,
-    //                                                 &cvTexturesRef[1]);
-    //    textures[1] = CVOpenGLESTextureGetName(cvTexturesRef[1]);
-    //    glBindTexture(CVOpenGLESTextureGetTarget(cvTexturesRef[1]), textures[1]);
-    //    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-    //    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-    //    glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-    //    glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+    assert(overlay->format == SDL_FCC__VTB);
+    assert(overlay->planes == 2);
+
+    CVPixelBufferRef pixel_buffer = SDL_VoutOverlayVideoToolBox_GetCVPixelBufferRef(overlay);
+    if (!pixel_buffer) {
+        NSLog(@"nil pixelBuffer in overlay\n");
+        return;
+    }
+    
+    
+    
+    
+    for (int i = 0; i < 2; ++i) {
+        if (hard_cvTexturesRef[i]) {
+            CFRelease(hard_cvTexturesRef[i]);
+            hard_cvTexturesRef[i] = nil;
+        }
+    }
+    
+    // Periodic texture cache flush every frame
+    if (hard_textureCache)
+        CVOpenGLESTextureCacheFlush(hard_textureCache, 0);
+    
+    
+    glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
+
+    _preferredConversion = kColorConversion601;
+    
+    
+//    CVReturn result = CVPixelBufferLockBaseAddress(pixel_buffer, 0);
+//    NSLog(@"pixelBuffer result = %d",result);
+    
+    GLsizei frame_width  = (GLsizei)CVPixelBufferGetWidth(pixel_buffer);
+    GLsizei frame_height = (GLsizei)CVPixelBufferGetHeight(pixel_buffer);
+    
+    _xRange=1.0f;
+    _yRange=1.0f;
+    width = (int)frame_width;
+    height = (int)frame_height;
+    
+//    [self checkGLError:YES];
+    
+    glActiveTexture(GL_TEXTURE0);
+    CVReturn err = CVOpenGLESTextureCacheCreateTextureFromImage(kCFAllocatorDefault,
+                                                 hard_textureCache,
+                                                 pixel_buffer,
+                                                 NULL,
+                                                 GL_TEXTURE_2D,
+                                                 GL_RED_EXT,
+                                                 (GLsizei)frame_width,
+                                                 (GLsizei)frame_height,
+                                                 GL_RED_EXT,
+                                                 GL_UNSIGNED_BYTE,
+                                                 0,
+                                                 &hard_cvTexturesRef[0]);
+    if (err) {
+        NSLog(@"Error at CVOpenGLESTextureCacheCreateTextureFromImage %d", err);
+    }
+
+    glBindTexture(CVOpenGLESTextureGetTarget(hard_cvTexturesRef[0]), CVOpenGLESTextureGetName(hard_cvTexturesRef[0]));
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+    glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+    glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+    
+ //   [self checkGLError:YES];
+    
+    
+    glActiveTexture(GL_TEXTURE1);
+    err = CVOpenGLESTextureCacheCreateTextureFromImage(kCFAllocatorDefault,
+                                                 hard_textureCache,
+                                                 pixel_buffer,
+                                                 NULL,
+                                                 GL_TEXTURE_2D,
+                                                 GL_RG_EXT,
+                                                 (GLsizei)frame_width / 2,
+                                                 (GLsizei)frame_height / 2,
+                                                 GL_RG_EXT,
+                                                 GL_UNSIGNED_BYTE,
+                                                 1,
+                                                 &hard_cvTexturesRef[1]);
+    if (err) {
+        NSLog(@"Error at CVOpenGLESTextureCacheCreateTextureFromImage %d", err);
+    }
+
+    
+    glBindTexture(CVOpenGLESTextureGetTarget(hard_cvTexturesRef[1]), CVOpenGLESTextureGetName(hard_cvTexturesRef[1]));
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+    glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+    glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+    
+    
+    
+//    if (pixel_buffer != NULL) {  // 不加，会导致纹理没释放，id 不断上升
+//        CFRelease(pixel_buffer);
+//    }
 }
 
 -(void)softPrepare:(SDL_VoutOverlay*)overlay{
@@ -472,5 +493,33 @@
 -(void)dealloc{
     [self delete];
 }
+
+- (void)checkGLError:(BOOL)visibleCheck {
+    GLenum error = glGetError();
+    
+    switch (error) {
+        case GL_INVALID_ENUM:
+            NSLog(@"GL Error: Enum argument is out of range");
+            break;
+        case GL_INVALID_VALUE:
+            NSLog(@"GL Error: Numeric value is out of range");
+            break;
+        case GL_INVALID_OPERATION:
+            NSLog(@"GL Error: Operation illegal in current state");
+            break;
+        case GL_OUT_OF_MEMORY:
+            NSLog(@"GL Error: Not enough memory to execute command");
+            break;
+        case GL_NO_ERROR:
+            if (visibleCheck) {
+                NSLog(@"No GL Error");
+            }
+            break;
+        default:
+            NSLog(@"Unknown GL Error %d",error);
+            break;
+    }
+}
+
 
 @end
