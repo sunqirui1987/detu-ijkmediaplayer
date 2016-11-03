@@ -259,10 +259,10 @@ if [ -f "${FF_DEP_LIBSOXR_LIB}/libsoxr.a" ]; then
 fi
 
 # with x264
-    X264=`pwd`/x264
-    FF_CFG_FLAGS="$FF_CFG_FLAGS --enable-gpl --enable-libx264 "
-    FF_CFLAGS="$FF_CFLAGS -I$X264/include"
-    FF_DEP_LIBS="$FF_DEP_LIBS -L$X264/lib"
+X264=`pwd`/x264
+FF_CFG_FLAGS="$FF_CFG_FLAGS --enable-gpl --enable-libx264"
+FF_CFLAGS="$FF_CFLAGS -I$X264/include"
+FF_DEP_LIBS="$FF_DEP_LIBS -L$X264/lib -lx264"
 
 FF_CFG_FLAGS="$FF_CFG_FLAGS $COMMON_FF_CFG_FLAGS"
 
@@ -309,6 +309,10 @@ else
         --extra-ldflags="$FF_DEP_LIBS $FF_EXTRA_LDFLAGS"
     make clean
 fi
+
+echo "$FF_CFLAGS $FF_EXTRA_CFLAGS"
+echo "$FF_DEP_LIBS $FF_EXTRA_LDFLAGS"
+
 
 #--------------------
 echo ""
