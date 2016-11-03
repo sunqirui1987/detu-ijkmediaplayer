@@ -2489,7 +2489,7 @@ static int read_thread(void *arg)
         av_stristart(is->filename, "rtsp", NULL)) {
         // There is total different meaning for 'timeout' option in rtmp
         av_log(ffp, AV_LOG_WARNING, "remove 'timeout' option for rtmp.\n");
-        av_dict_set(&ffp->format_opts, "timeout", NULL, 0);
+        //av_dict_set(&ffp->format_opts, "timeout", NULL, 0);
     }
     if (ffp->iformat_name)
         is->iformat = av_find_input_format(ffp->iformat_name);
@@ -2712,6 +2712,9 @@ static int read_thread(void *arg)
     is->videoq.limit_packets = ffp->limit_packets;
     is->audioq.limit_packets = ffp->limit_packets;
     
+    
+    int time_out_num = 0;
+    
     for (;;) {
         if (is->abort_request)
             break;
@@ -2870,6 +2873,7 @@ static int read_thread(void *arg)
         pkt->flags = 0;
         ret = av_read_frame(ic, pkt);
         if (ret < 0) {
+            av_log(ffp, AV_LOG_ERROR, " av_read_frame ret %s \n",av_err2str(ret));
             int pb_eof = 0;
             int pb_error = 0;
             if ((ret == AVERROR_EOF || avio_feof(ic->pb)) && !is->eof) {
@@ -2881,6 +2885,15 @@ static int read_thread(void *arg)
                 pb_error = ic->pb->error;
             }
             if (ret == AVERROR_EXIT) {
+                pb_eof = 1;
+                pb_error = AVERROR_EXIT;
+            }
+            
+            if(ret == -60 && is->realtime == true ){
+                time_out_num ++;
+            }
+            if(time_out_num > 2 && is->realtime == true ){
+                time_out_num = 0;
                 pb_eof = 1;
                 pb_error = AVERROR_EXIT;
             }
