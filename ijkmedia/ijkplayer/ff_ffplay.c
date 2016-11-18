@@ -2491,21 +2491,24 @@ static int read_thread(void *arg)
         av_log(ffp, AV_LOG_WARNING, "remove 'timeout' option for rtmp.\n");
         av_dict_set(&ffp->format_opts, "timeout", NULL, 0);
     }
+    
+   
+    
     if (ffp->iformat_name)
         is->iformat = av_find_input_format(ffp->iformat_name);
     
     
-      av_dict_set(&ffp->format_opts, "probesize", "2 * 1024", 0);
+ //     av_dict_set_int(&ffp->format_opts, "probesize", 1024, 0);
     
-//    ic->probesize = 2 * 1024;//1*1024;
+ //  ic->probesize = 2 * 1024;//1*1024;
 //    ic->max_analyze_duration = 2 * AV_TIME_BASE;
 //    ic->format_probesize = 2 * 1024;
     
-    av_log(NULL, AV_LOG_INFO, ">>>>>>>>>>>>>>>>>>>>>>>>avformat_open_input@@@@@@@@@@@@@");
+//    av_log(NULL, AV_LOG_INFO, ">>>>>>>>>>>>>>>>>>>>>>>>avformat_open_input@@@@@@@@@@@@@");
     
     err = avformat_open_input(&ic, is->filename, is->iformat, &ffp->format_opts);
     
-    av_log(NULL, AV_LOG_INFO, "<<<<<<<<<<<<<<<<<<<<<<<<<avformat_open_input@@@@@@@@@@@@@");
+//    av_log(NULL, AV_LOG_INFO, "<<<<<<<<<<<<<<<<<<<<<<<<<avformat_open_input@@@@@@@@@@@@@");
     
     if (err < 0) {
         print_error(is->filename, err);

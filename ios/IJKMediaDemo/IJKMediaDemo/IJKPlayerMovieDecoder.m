@@ -44,8 +44,8 @@
 -(BOOL)loadMovie:(NSString*)path
 {
     
-    [IJKFFMoviePlayerController setLogReport:YES];
-    [IJKFFMoviePlayerController setLogLevel:k_IJK_LOG_UNKNOWN];
+    [IJKFFMoviePlayerController setLogReport:NO];
+    [IJKFFMoviePlayerController setLogLevel:k_IJK_LOG_SILENT];
   //  [IJKFFMoviePlayerController setLogLevel:k_IJK_LOG_INFO];
     
     IJKFFOptions *options =  [[IJKFFOptions alloc] init];
@@ -78,14 +78,15 @@
     
    
     _player = [[IJKFFMoviePlayerController alloc] initWithContentURLString:path withOptions:options isVideotoolbox:self.is_hardware];
-    [_player setFormatOptionIntValue:1000000 forKey:@"analyzeduration"];
-    [_player setFormatOptionIntValue:100 forKey:@"probsize"];
+//    [_player setFormatOptionIntValue:1000000 forKey:@"analyzeduration"];
+//    [_player setFormatOptionIntValue:100 forKey:@"probsize"];
     
     __weak IJKPlayerMovieDecoder* weakSelf = self;
     _player.displayFrameBlock = ^(SDL_VoutOverlay* overlay){
         if (overlay == NULL) {
             return;
         }
+  //      NSLog(@"displayFrameBlock>>>>>>>>>>>>>>>>>");
         [weakSelf.delegate movieDecoderDidDecodeFrameSDL: overlay];
 
     };
