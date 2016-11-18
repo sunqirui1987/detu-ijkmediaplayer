@@ -1,11 +1,11 @@
-prefix=./libx264
+prefix=/home/chao/workspace/x264/libx264/armv7a
 exec_prefix=${prefix}
 libdir=${exec_prefix}/lib
 includedir=${prefix}/include
 
 Name: x264
 Description: H.264 (MPEG4 AVC) encoder library
-Version: 0.148.4M cf3c3af
+Version: 0.148.5M 60896f2
 Libs: -L${exec_prefix}/lib -lx264 
 Libs.private: -lm -ldl
 Cflags: -I${prefix}/include

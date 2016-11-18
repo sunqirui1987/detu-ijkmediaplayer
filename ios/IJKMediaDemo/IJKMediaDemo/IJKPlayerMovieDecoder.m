@@ -44,12 +44,12 @@
 -(BOOL)loadMovie:(NSString*)path
 {
     
-    [IJKFFMoviePlayerController setLogReport:NO];
-    [IJKFFMoviePlayerController setLogLevel:k_IJK_LOG_SILENT];
+    [IJKFFMoviePlayerController setLogReport:YES];
+    [IJKFFMoviePlayerController setLogLevel:k_IJK_LOG_DEBUG];
   //  [IJKFFMoviePlayerController setLogLevel:k_IJK_LOG_INFO];
     
     IJKFFOptions *options =  [[IJKFFOptions alloc] init];
-    
+    self.is_hardware = false;
     [options setPlayerOptionValue:0          forKey:@"first-high-water-mark-ms"];
     if(self.is_hardware){
         [options setPlayerOptionValue:@"fcc-_es2"          forKey:@"overlay-format"];
@@ -78,15 +78,14 @@
     
    
     _player = [[IJKFFMoviePlayerController alloc] initWithContentURLString:path withOptions:options isVideotoolbox:self.is_hardware];
-//    [_player setFormatOptionIntValue:1000000 forKey:@"analyzeduration"];
-//    [_player setFormatOptionIntValue:100 forKey:@"probsize"];
+    [_player setFormatOptionIntValue:1000000 forKey:@"analyzeduration"];
+    [_player setFormatOptionIntValue:100 forKey:@"probsize"];
     
     __weak IJKPlayerMovieDecoder* weakSelf = self;
     _player.displayFrameBlock = ^(SDL_VoutOverlay* overlay){
         if (overlay == NULL) {
             return;
         }
-  //      NSLog(@"displayFrameBlock>>>>>>>>>>>>>>>>>");
         [weakSelf.delegate movieDecoderDidDecodeFrameSDL: overlay];
 
     };
