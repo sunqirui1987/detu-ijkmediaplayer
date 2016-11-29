@@ -110,6 +110,14 @@ basePath;\
     
  //   path=@"http://media.qicdn.detu.com/@/31957945-57B6-63AE-B02B-95F74469962/2016-10-07/57f714f005dbf-2880x1440.m3u8";
     
+    path = @"http://media.qicdn.detu.com/@/70955075-5571-986D-9DC4-450F13866573/2016-05-19/573d15dfa19f3-2048x1024.m3u8";
+    
+//    path = @"rtmp://live.yueyetv.com/JTChatRoomFuns/funs10170/7e8d290e-8c35-4818-8a2d-45d487f3bc33";
+//    
+//    path = @"rtmp://live.yueyetv.com/JTChatRoomFuns/funs10170/7e8d290e-8c35-4818-8a2d-45d487f3bc33";
+    
+// path = @"rtmp://13306.lssplay.aodianyun.com/hundun001/stream";
+    
 //    path =  [[NSBundle mainBundle] pathForResource:@"aaa" ofType:@"mp4"];
     
     decoder=[IJKPlayerMovieDecoder movieDecoderWithMovie:path isHardWare:_panoplayer.isHardDecoder];
