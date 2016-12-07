@@ -11,15 +11,31 @@
 #include "libswscale/swscale.h"
 #include "libavfilter/avfilter.h"
 #include "libavutil/imgutils.h"
+#include "libavutil/time.h"
 #include "log.h"
+
+static int64_t preTime;
+
+static int decode_interrupt_cb(void *ctx)
+{
+    if(preTime != 0 && av_gettime() - preTime >= 3000000) {
+        ALOGE("find circle get bitmap read timeout");
+        preTime = 0;
+        return 1;
+    }
+    return 0;
+}
 
 bool videoGetThumb(const char *fileAbsolutePath, void **outData, int *outSize, int *outWidth,
                    int *outHeight) {
     if (strlen(fileAbsolutePath) == 0) {
         return false;
     }
+    preTime = av_gettime();
     av_register_all();
     AVFormatContext *pFormatContext = avformat_alloc_context();
+    pFormatContext->interrupt_callback.callback = decode_interrupt_cb;
+    pFormatContext->interrupt_callback.opaque = NULL;
     if (avformat_open_input(&pFormatContext, fileAbsolutePath, NULL, NULL) != 0) {
         return false;
     }
@@ -65,7 +81,13 @@ bool videoGetThumb(const char *fileAbsolutePath, void **outData, int *outSize, i
                                                     picWidth, picHeight, AV_PIX_FMT_RGBA,
                                                     SWS_BICUBIC, NULL, NULL, NULL);
     int gotPicture = -1;
-    while (av_read_frame(pFormatContext, pPacket) >= 0) {
+    int resultCode = 0;
+    do {
+        resultCode = av_read_frame(pFormatContext, pPacket);
+        ALOGE("find circle get bitmap av_read_frame:ret:%d", resultCode);
+        if(resultCode < 0) {
+            goto finish;
+        }
         if (pPacket->stream_index != posVideoStream) {
             continue;
         }
@@ -82,7 +104,7 @@ bool videoGetThumb(const char *fileAbsolutePath, void **outData, int *outSize, i
             memcpy(*outData, pFrameYuv->data[0], bufferSize);
             goto finish;
         }
-    }
+    } while(resultCode >= 0);
     finish:
     sws_freeContext(pSwsContext);
     av_free(pPacket);
@@ -90,5 +112,5 @@ bool videoGetThumb(const char *fileAbsolutePath, void **outData, int *outSize, i
     av_frame_free(&pFrameYuv);
     avcodec_close(pCodecContext);
     avformat_close_input(&pFormatContext);
-    return true;
+    return resultCode >= 0;
 }
