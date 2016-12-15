@@ -45,7 +45,7 @@
 {
     
     [IJKFFMoviePlayerController setLogReport:YES];
-    [IJKFFMoviePlayerController setLogLevel:k_IJK_LOG_DEBUG];
+    [IJKFFMoviePlayerController setLogLevel:k_IJK_LOG_WARN];
   //  [IJKFFMoviePlayerController setLogLevel:k_IJK_LOG_INFO];
     
     IJKFFOptions *options =  [[IJKFFOptions alloc] init];
@@ -70,11 +70,25 @@
     
     if(  [path hasPrefix:@"rtsp://"] || [path isEqualToString:@"http://192.168.1.254:8192"]){
         [options setPlayerOptionIntValue:0 forKey:@"packet-buffering"];
-        [options setPlayerOptionIntValue:25 forKey:@"limit_packets"];
+        [options setPlayerOptionIntValue:15 forKey:@"limit_packets"];
+       [options setFormatOptionValue:@"tcp" forKey:@"rtsp_transport"];
+        [options setFormatOptionValue:@"video" forKey:@"allowed_media_types"];
+        
+       
+
     }else{
 //        [options setPlayerOptionIntValue:10*1024*1024 forKey:@"max-buffer-size"];
 //        [options setPlayerOptionIntValue:200         forKey:@"limit_packets"];
     }
+    
+    
+    if([path isEqualToString:@"rtsp://192.168.42.1/live"]){
+ 
+        [options setFormatOptionValue:@"tcp" forKey:@"rtsp_transport"];
+        [options setFormatOptionValue:@"video" forKey:@"allowed_media_types"];
+        
+    }
+     
     
    
     _player = [[IJKFFMoviePlayerController alloc] initWithContentURLString:path withOptions:options isVideotoolbox:self.is_hardware];

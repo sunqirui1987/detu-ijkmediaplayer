@@ -434,6 +434,7 @@ static int decoder_decode_frame(FFPlayer *ffp, Decoder *d, AVFrame *frame, AVSub
         switch (d->avctx->codec_type) {
             case AVMEDIA_TYPE_VIDEO: {
                 ret = avcodec_decode_video2(d->avctx, frame, &got_frame, &d->pkt_temp);
+                av_log(ffp, AV_LOG_WARNING, "avcodec_decode_video2  got_frame %d ret %d h %d w %d \n ",got_frame,ret, frame->height, frame->width);
                 if (got_frame) {
                     ffp->stat.vdps = SDL_SpeedSamplerAdd(&ffp->vdps_sampler, FFP_SHOW_VDPS_AVCODEC, "vdps[avcodec]");
                     if (ffp->decoder_reorder_pts == -1) {
@@ -2715,6 +2716,15 @@ static int read_thread(void *arg)
     
     int time_out_num = 0;
     
+    int gop_num = 0;
+    bool is_first_idr = false;
+    
+    AVPacket tmp_packetlist[120];
+    for(int index=0;index<120;index++){
+        av_init_packet( &tmp_packetlist[index] );
+        tmp_packetlist[index].size = 0;
+    }
+    
     for (;;) {
         if (is->abort_request)
             break;
@@ -2969,7 +2979,34 @@ static int read_thread(void *arg)
             packet_queue_put(&is->audioq, pkt);
         } else if (pkt->stream_index == is->video_stream && pkt_in_play_range
                    && !(is->video_st && (is->video_st->disposition & AV_DISPOSITION_ATTACHED_PIC))) {
-            packet_queue_put(&is->videoq, pkt);
+            
+            
+            if (strcmp(ic->iformat->name, "rtsp://192.168.42.1/live")) {
+                
+                if(pkt->flags & AV_PKT_FLAG_KEY){
+                
+                    int ft = frame_queue_nb_remaining(&is->pictq);
+                    av_log(ffp, AV_LOG_WARNING, "av_read_frame gop_num %d, qz %d ft %d \n" ,gop_num, is->videoq.nb_packets, ft);
+                    
+                    if( (gop_num != 30 ) ){
+                        packet_queue_flush(&is->videoq);
+                    }
+                    
+                    gop_num = 0;
+                    is_first_idr = true;
+                    
+                }
+                
+                if(is_first_idr == true){
+                    packet_queue_put(&is->videoq, pkt);
+                    gop_num ++;
+                }
+             
+                
+            }else{
+                packet_queue_put(&is->videoq, pkt);
+            }
+            
 #ifdef FFP_MERGE
         } else if (pkt->stream_index == is->subtitle_stream && pkt_in_play_range) {
             packet_queue_put(&is->subtitleq, pkt);
