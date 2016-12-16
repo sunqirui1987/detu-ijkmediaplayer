@@ -100,6 +100,8 @@ basePath;\
     
     NSString *path =  @"rtsp://192.168.42.1/live";
     
+   path = @"rtsp://192.168.42.1/tmp/SD0/DCIM/161216000/150303AB.MP4";
+    
    // path = @"http://media.qicdn.detu.com/@/11952648-8057-79C8-112C-3359F38671974/2016-09-06/57ce57417e25e-2048x1024.m3u8";//容易cup爆表，掉针的视频地址，用6或者5s测试比较明显，6s比较少见
     
 //    path = @"http://cache.utovr.com/s1rtqwszpusjowqhui/L2_dphr42xukiougcgk.m3u8";//utovr地址，经测试秒出

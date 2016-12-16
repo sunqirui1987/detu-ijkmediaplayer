@@ -434,7 +434,7 @@ static int decoder_decode_frame(FFPlayer *ffp, Decoder *d, AVFrame *frame, AVSub
         switch (d->avctx->codec_type) {
             case AVMEDIA_TYPE_VIDEO: {
                 ret = avcodec_decode_video2(d->avctx, frame, &got_frame, &d->pkt_temp);
-                av_log(ffp, AV_LOG_WARNING, "avcodec_decode_video2  got_frame %d ret %d h %d w %d \n ",got_frame,ret, frame->height, frame->width);
+               // av_log(ffp, AV_LOG_WARNING, "avcodec_decode_video2  got_frame %d ret %d h %d w %d \n ",got_frame,ret, frame->height, frame->width);
                 if (got_frame) {
                     ffp->stat.vdps = SDL_SpeedSamplerAdd(&ffp->vdps_sampler, FFP_SHOW_VDPS_AVCODEC, "vdps[avcodec]");
                     if (ffp->decoder_reorder_pts == -1) {
@@ -2715,7 +2715,7 @@ static int read_thread(void *arg)
     
     
     int time_out_num = 0;
-    
+    int g_pb_error = -1;
     int gop_num = 0;
     bool is_first_idr = false;
     
@@ -2844,9 +2844,15 @@ static int read_thread(void *arg)
             SDL_UnlockMutex(wait_mutex);
             continue;
         }
-        if ((!is->paused || completed) &&
+        if (
+            (
+             (!is->paused || completed) &&
             (!is->audio_st || (is->auddec.finished == is->audioq.serial && frame_queue_nb_remaining(&is->sampq) == 0)) &&
-            (!is->video_st || (is->viddec.finished == is->videoq.serial && frame_queue_nb_remaining(&is->pictq) == 0))) {
+            (!is->video_st || (is->viddec.finished == is->videoq.serial && frame_queue_nb_remaining(&is->pictq) == 0))
+            )
+            ||
+            g_pb_error == AVERROR_EXIT
+        ) {
             if (ffp->loop != 1 && (!ffp->loop || --ffp->loop)) {
                 stream_seek(is, ffp->start_time != AV_NOPTS_VALUE ? ffp->start_time : 0, 0, 0);
             } else if (ffp->autoexit) {
@@ -2882,14 +2888,19 @@ static int read_thread(void *arg)
         }
         pkt->flags = 0;
         ret = av_read_frame(ic, pkt);
+                av_log(ffp, AV_LOG_ERROR, " av_read_frame ret %s \n",av_err2str(ret));
+                
         if (ret < 0) {
-            av_log(ffp, AV_LOG_ERROR, " av_read_frame ret %s \n",av_err2str(ret));
+            av_log(ffp, AV_LOG_ERROR, "error av_read_frame ret %s \n",av_err2str(ret));
             int pb_eof = 0;
             int pb_error = 0;
             if ((ret == AVERROR_EOF || avio_feof(ic->pb)) && !is->eof) {
                 pb_eof = 1;
                 // check error later
             }
+            
+            
+            
             if (ic->pb && ic->pb->error) {
                 pb_eof = 1;
                 pb_error = ic->pb->error;
@@ -2906,6 +2917,12 @@ static int read_thread(void *arg)
                 time_out_num = 0;
                 pb_eof = 1;
                 pb_error = AVERROR_EXIT;
+            }
+            
+            
+            if (pb_error ==AVERROR_EXIT && strcmp(ic->filename, "rtsp://192.168.42.1/tmp/")) {
+                pb_eof = 1;
+                g_pb_error = AVERROR_EXIT;
             }
 
             if (pb_eof) {
@@ -2981,7 +2998,7 @@ static int read_thread(void *arg)
                    && !(is->video_st && (is->video_st->disposition & AV_DISPOSITION_ATTACHED_PIC))) {
             
             
-            if (strcmp(ic->iformat->name, "rtsp://192.168.42.1/live")) {
+            if (strcmp(ic->filename, "rtsp://192.168.42.1/live")) {
                 
                 if(pkt->flags & AV_PKT_FLAG_KEY){
                 
@@ -3575,10 +3592,13 @@ int ffp_prepare_async_l(FFPlayer *ffp, const char *file_name)
     assert(!ffp->is);
     assert(file_name);
 
-    if (av_stristart(file_name, "rtmp", NULL) ||
-        av_stristart(file_name, "rtsp", NULL)) {
+    if (av_stristart(file_name, "rtmp", NULL)  ||
+        ( av_stristart(file_name, "rtsp", NULL) &&
+           !av_stristart(file_name, "rtsp://192.168.42.1/tmp", NULL)
+         )
+    ) {
         // There is total different meaning for 'timeout' option in rtmp
-        av_log(ffp, AV_LOG_WARNING, "remove 'timeout' option for rtmp.\n");
+        av_log(ffp, AV_LOG_WARNING, "remove %s 'timeout' option for rtmp.\n",file_name);
         av_dict_set(&ffp->format_opts, "timeout", NULL, 0);
     }
 
