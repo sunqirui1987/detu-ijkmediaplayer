@@ -2891,7 +2891,7 @@ static int read_thread(void *arg)
         }
         pkt->flags = 0;
         ret = av_read_frame(ic, pkt);
-                av_log(ffp, AV_LOG_ERROR, " av_read_frame ret %s \n",av_err2str(ret));
+              //  av_log(ffp, AV_LOG_ERROR, " av_read_frame ret %s \n",av_err2str(ret));
                 
         if (ret < 0) {
             av_log(ffp, AV_LOG_ERROR, "error av_read_frame ret %s \n",av_err2str(ret));
@@ -2923,7 +2923,7 @@ static int read_thread(void *arg)
             }
             
             
-            if (pb_error ==AVERROR_EXIT && strcmp(ic->filename, "rtsp://192.168.42.1/tmp/")) {
+            if (pb_error ==AVERROR_EXIT && av_stristart(ic->filename, "rtsp://192.168.42.1/live",NULL)) {
                 pb_eof = 1;
                 g_pb_error = AVERROR_EXIT;
             }
@@ -3001,7 +3001,7 @@ static int read_thread(void *arg)
                    && !(is->video_st && (is->video_st->disposition & AV_DISPOSITION_ATTACHED_PIC))) {
             
             
-            if (strcmp(ic->filename, "rtsp://192.168.42.1/live")) {
+            if (av_stristart(ic->filename, "rtsp://192.168.42.1/live",NULL)) {
                 
                 if(pkt->flags & AV_PKT_FLAG_KEY){
                 

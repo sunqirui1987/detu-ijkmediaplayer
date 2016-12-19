@@ -22,6 +22,7 @@
 		764D28261D191AE2006AE2BA /* AssetsLibrary.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 764D28251D191AE2006AE2BA /* AssetsLibrary.framework */; };
 		764D282C1D1A32C4006AE2BA /* aaa.png in Resources */ = {isa = PBXBuildFile; fileRef = 764D282B1D1A32C4006AE2BA /* aaa.png */; };
 		764D282D1D1A3B21006AE2BA /* aaa.png in Sources */ = {isa = PBXBuildFile; fileRef = 764D282B1D1A32C4006AE2BA /* aaa.png */; };
+		96CBDEBA1E03FC6F004CB369 /* video_1440.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = 96CBDEB91E03FC6F004CB369 /* video_1440.mp4 */; };
 		96DF71041D06DE29007E2A47 /* GLES2Renderer.m in Sources */ = {isa = PBXBuildFile; fileRef = 96DF71031D06DE29007E2A47 /* GLES2Renderer.m */; };
 		96DF71071D06DE6D007E2A47 /* GLESRenderer.m in Sources */ = {isa = PBXBuildFile; fileRef = 96DF71061D06DE6D007E2A47 /* GLESRenderer.m */; };
 		96DF710A1D06DEAD007E2A47 /* GLPlayerView.m in Sources */ = {isa = PBXBuildFile; fileRef = 96DF71091D06DEAD007E2A47 /* GLPlayerView.m */; };
@@ -105,6 +106,7 @@
 		764D28221D191740006AE2BA /* ALAssetsLibrary+CustomPhotoAlbum.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "ALAssetsLibrary+CustomPhotoAlbum.m"; sourceTree = "<group>"; };
 		764D28251D191AE2006AE2BA /* AssetsLibrary.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AssetsLibrary.framework; path = System/Library/Frameworks/AssetsLibrary.framework; sourceTree = SDKROOT; };
 		764D282B1D1A32C4006AE2BA /* aaa.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = aaa.png; sourceTree = "<group>"; };
+		96CBDEB91E03FC6F004CB369 /* video_1440.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = video_1440.mp4; sourceTree = "<group>"; };
 		96DF71021D06DE29007E2A47 /* GLES2Renderer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GLES2Renderer.h; sourceTree = "<group>"; };
 		96DF71031D06DE29007E2A47 /* GLES2Renderer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GLES2Renderer.m; sourceTree = "<group>"; };
 		96DF71051D06DE6D007E2A47 /* GLESRenderer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GLESRenderer.h; sourceTree = "<group>"; };
@@ -297,6 +299,7 @@
 		E6A9B55C17EDA6AC00A1A500 /* View Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				96CBDEB91E03FC6F004CB369 /* video_1440.mp4 */,
 				55E809E71B145BC2003E98A5 /* IJKDemoInputURLViewController.h */,
 				55E809E81B145BC2003E98A5 /* IJKDemoInputURLViewController.m */,
 				55E809F71B15A1DB003E98A5 /* IJKDemoLocalFolderViewController.h */,
@@ -421,6 +424,7 @@
 				E6A9B56517EDA72C00A1A500 /* IJKMoviePlayerViewController.xib in Resources */,
 				E6F524EC1B183A0700B69DC7 /* IJKDemoSampleViewController.xib in Resources */,
 				55E809E41B143C85003E98A5 /* IJKDemoMainViewController.xib in Resources */,
+				96CBDEBA1E03FC6F004CB369 /* video_1440.mp4 in Resources */,
 				55E809F31B146DE8003E98A5 /* IJKQRCodeScanViewController.xib in Resources */,
 				55E809E61B145B55003E98A5 /* LaunchScreen.xib in Resources */,
 				764D282C1D1A32C4006AE2BA /* aaa.png in Resources */,
