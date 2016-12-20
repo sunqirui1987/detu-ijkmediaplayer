@@ -1,0 +1,110 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="12.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{8BCAFCDF-C461-4CF7-BA3E-1F9D2E04108F}</ProjectGuid>
+    <RootNamespace>win</RootNamespace>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v120</PlatformToolset>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v120</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);../../ijkmedia;../../ijkmedia/ijkplayer;../../ijkmedia/ijksdl;$(VSDEPENDENIES)\boost\1580\include;$(VC_IncludePath);$(WindowsSDK_IncludePath);$(VSDEPENDENIES)/include;$(VSDEPENDENIES)/include/pthread</IncludePath>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>_MBCS;WIN32;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ClCompile>
+    <Link>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+    </ClCompile>
+    <Link>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\ijkmedia\ijkplayer\ff_cmdutils.c" />
+    <ClCompile Include="..\..\ijkmedia\ijkplayer\ff_ffpipeline.c" />
+    <ClCompile Include="..\..\ijkmedia\ijkplayer\ff_ffpipenode.c" />
+    <ClCompile Include="..\..\ijkmedia\ijkplayer\ff_ffplay.c" />
+    <ClCompile Include="..\..\ijkmedia\ijkplayer\ijkavformat\allformats.c" />
+    <ClCompile Include="..\..\ijkmedia\ijkplayer\ijkavformat\ijkasync.c" />
+    <ClCompile Include="..\..\ijkmedia\ijkplayer\ijkavformat\ijklivehook.c" />
+    <ClCompile Include="..\..\ijkmedia\ijkplayer\ijkavformat\ijklongurl.c" />
+    <ClCompile Include="..\..\ijkmedia\ijkplayer\ijkavformat\ijkmediadatasource.c" />
+    <ClCompile Include="..\..\ijkmedia\ijkplayer\ijkavformat\ijksegment.c" />
+    <ClCompile Include="..\..\ijkmedia\ijkplayer\ijkavformat\ijkurlhook.c" />
+    <ClCompile Include="..\..\ijkmedia\ijkplayer\ijkmeta.c" />
+    <ClCompile Include="..\..\ijkmedia\ijkplayer\ijkplayer.c" />
+    <ClCompile Include="..\..\ijkmedia\ijkplayer\pipeline\ffpipeline_ffplay.c" />
+    <ClCompile Include="..\..\ijkmedia\ijkplayer\pipeline\ffpipenode_ffplay_vdec.c" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\ijkmedia\ijkplayer\config.h" />
+    <ClInclude Include="..\..\ijkmedia\ijkplayer\ff_cmdutils.h" />
+    <ClInclude Include="..\..\ijkmedia\ijkplayer\ff_fferror.h" />
+    <ClInclude Include="..\..\ijkmedia\ijkplayer\ff_ffinc.h" />
+    <ClInclude Include="..\..\ijkmedia\ijkplayer\ff_ffmsg.h" />
+    <ClInclude Include="..\..\ijkmedia\ijkplayer\ff_ffmsg_queue.h" />
+    <ClInclude Include="..\..\ijkmedia\ijkplayer\ff_ffpipeline.h" />
+    <ClInclude Include="..\..\ijkmedia\ijkplayer\ff_ffpipenode.h" />
+    <ClInclude Include="..\..\ijkmedia\ijkplayer\ff_ffplay.h" />
+    <ClInclude Include="..\..\ijkmedia\ijkplayer\ff_ffplay_debug.h" />
+    <ClInclude Include="..\..\ijkmedia\ijkplayer\ff_ffplay_def.h" />
+    <ClInclude Include="..\..\ijkmedia\ijkplayer\ff_ffplay_options.h" />
+    <ClInclude Include="..\..\ijkmedia\ijkplayer\ijkavformat\ijkavformat.h" />
+    <ClInclude Include="..\..\ijkmedia\ijkplayer\ijkavutil\opt.h" />
+    <ClInclude Include="..\..\ijkmedia\ijkplayer\ijkmeta.h" />
+    <ClInclude Include="..\..\ijkmedia\ijkplayer\ijkplayer.h" />
+    <ClInclude Include="..\..\ijkmedia\ijkplayer\ijkplayer_internal.h" />
+    <ClInclude Include="..\..\ijkmedia\ijkplayer\pipeline\ffpipeline_ffplay.h" />
+    <ClInclude Include="..\..\ijkmedia\ijkplayer\pipeline\ffpipenode_ffplay_vdec.h" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>
