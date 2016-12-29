@@ -44,8 +44,8 @@
 -(BOOL)loadMovie:(NSString*)path
 {
     
-    [IJKFFMoviePlayerController setLogReport:YES];
-    [IJKFFMoviePlayerController setLogLevel:k_IJK_LOG_DEBUG];
+    [IJKFFMoviePlayerController setLogReport:NO];
+    [IJKFFMoviePlayerController setLogLevel:k_IJK_LOG_WARN];
   //  [IJKFFMoviePlayerController setLogLevel:k_IJK_LOG_INFO];
     
     IJKFFOptions *options =  [[IJKFFOptions alloc] init];
@@ -110,6 +110,7 @@
         if (overlay == NULL) {
             return;
         }
+      //  NSLog(@"displayFrameBlock  End");
         [weakSelf.delegate movieDecoderDidDecodeFrameSDL: overlay];
 
     };

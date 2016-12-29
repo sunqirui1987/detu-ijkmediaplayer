@@ -69,6 +69,7 @@
 #include "version.h"
 #include "ijkmeta.h"
 #include "ijkversion.h"
+#include <time.h>
 
 #ifndef AV_CODEC_FLAG2_FAST
 #define AV_CODEC_FLAG2_FAST CODEC_FLAG2_FAST
@@ -433,8 +434,9 @@ static int decoder_decode_frame(FFPlayer *ffp, Decoder *d, AVFrame *frame, AVSub
 
         switch (d->avctx->codec_type) {
             case AVMEDIA_TYPE_VIDEO: {
+               
                 ret = avcodec_decode_video2(d->avctx, frame, &got_frame, &d->pkt_temp);
-               // av_log(ffp, AV_LOG_WARNING, "avcodec_decode_video2  got_frame %d ret %d h %d w %d \n ",got_frame,ret, frame->height, frame->width);
+               // av_log(ffp, AV_LOG_WARNING, "avcodec_decode_video2  got_frame %d ret %d h %d w %d, time %lld \n ",got_frame,ret, frame->height, frame->width, (av_gettime_relative()) / 1000);
                 if (got_frame) {
                     ffp->stat.vdps = SDL_SpeedSamplerAdd(&ffp->vdps_sampler, FFP_SHOW_VDPS_AVCODEC, "vdps[avcodec]");
                     if (ffp->decoder_reorder_pts == -1) {
@@ -2501,15 +2503,25 @@ static int read_thread(void *arg)
     
  //     av_dict_set_int(&ffp->format_opts, "probesize", 1024, 0);
     
- //  ic->probesize = 2 * 1024;//1*1024;
-//    ic->max_analyze_duration = 2 * AV_TIME_BASE;
-//    ic->format_probesize = 2 * 1024;
     
-//    av_log(NULL, AV_LOG_INFO, ">>>>>>>>>>>>>>>>>>>>>>>>avformat_open_input@@@@@@@@@@@@@");
+    if (av_stristart(is->filename, "rtmp", NULL) ||
+        av_stristart(is->filename, "rtsp", NULL)) {
+        ic->probesize = 1 * 1020;//1*1024;
+        ic->max_analyze_duration = 0.7 * AV_TIME_BASE;
+    }else{
+        ic->probesize = 1 * 1024;//1*1024;
+        ic->max_analyze_duration = 1 * AV_TIME_BASE;
+    }
+    
+    
+   
+
+    int64_t s_t =  av_gettime();
+    av_log(NULL, AV_LOG_WARNING, ">>>>>>>>>>>>>>>>>>>>>>>>avformat_open_input@@@@@@@@@@@@@  %lld-- ",s_t);
     
     err = avformat_open_input(&ic, is->filename, is->iformat, &ffp->format_opts);
     
-//    av_log(NULL, AV_LOG_INFO, "<<<<<<<<<<<<<<<<<<<<<<<<<avformat_open_input@@@@@@@@@@@@@");
+    av_log(NULL, AV_LOG_WARNING, "<<<<<<<<<<<<<<<<<<<<<<<<<avformat_open_input@@@@@@@@@@@@@ %lld-- ", (av_gettime() - s_t) / 1000 );
     
     if (err < 0) {
         print_error(is->filename, err);
@@ -2536,7 +2548,12 @@ static int read_thread(void *arg)
     opts = setup_find_stream_info_opts(ic, ffp->codec_opts);
     orig_nb_streams = ic->nb_streams;
 
-    err = avformat_find_stream_info(ic, opts);
+
+    if (av_stristart(ic->filename, "rtsp://192.168.42.1/live",NULL) == 0) {
+        err = avformat_find_stream_info(ic, opts);
+    }
+
+  
 
     for (i = 0; i < orig_nb_streams; i++)
         av_dict_free(&opts[i]);
@@ -2722,11 +2739,9 @@ static int read_thread(void *arg)
     int gop_num = 0;
     bool is_first_idr = false;
     
-    AVPacket tmp_packetlist[120];
-    for(int index=0;index<120;index++){
-        av_init_packet( &tmp_packetlist[index] );
-        tmp_packetlist[index].size = 0;
-    }
+    
+    
+    av_log(NULL, AV_LOG_WARNING, " Start read frame");
     
     for (;;) {
         if (is->abort_request)
@@ -2890,8 +2905,10 @@ static int read_thread(void *arg)
             }
         }
         pkt->flags = 0;
+               // int64_t ss = av_gettime();
+              //   av_log(ffp, AV_LOG_ERROR, " av_read_frame ret %lld\n",ss);
         ret = av_read_frame(ic, pkt);
-              //  av_log(ffp, AV_LOG_ERROR, " av_read_frame ret %s \n",av_err2str(ret));
+               //av_log(ffp, AV_LOG_ERROR, " av_read_frame ret %lld \n", (av_gettime() - ss ) /1000);
                 
         if (ret < 0) {
             av_log(ffp, AV_LOG_ERROR, "error av_read_frame ret %s \n",av_err2str(ret));
@@ -3016,7 +3033,6 @@ static int read_thread(void *arg)
                     is_first_idr = true;
                     
                 }
-                
                 if(is_first_idr == true){
                     packet_queue_put(&is->videoq, pkt);
                     gop_num ++;
@@ -3230,18 +3246,26 @@ inline static int log_level_ijk_to_av(int ijk_level)
 
 static void ffp_log_callback_brief(void *ptr, int level, const char *fmt, va_list vl)
 {
+  
     if (level > av_log_get_level())
         return;
 
     int ffplv __unused = log_level_av_to_ijk(level);
     
     char fmt_str[500];
+  
     
-    long long time = av_gettime();
+    time_t rawtime;
+    struct tm * timeinfo;
     
-    int seconde = time/1000/1000%60;
+    time ( &rawtime );
+    timeinfo = localtime ( &rawtime );
     
-    sprintf(fmt_str, "%d_%s",seconde,fmt);
+    
+    char tmpBuf[100];
+    strftime(tmpBuf, 100, "%Y-%m-%d %H:%M:%S", timeinfo); //format date and time.
+    
+    sprintf(fmt_str, "%s-%s\n", tmpBuf,fmt);
     
     
     VLOG(ffplv, IJK_LOG_TAG, fmt_str, vl);
@@ -3265,13 +3289,22 @@ static void ffp_log_callback_report(void *ptr, int level, const char *fmt, va_li
     
     
     char fmt_str[500];
-    long long time = av_gettime();
     
-    int seconde = time/1000/1000%60;
     
-    sprintf(fmt_str, "%d_%s",seconde,fmt);
-
-    ALOG(ffplv, IJK_LOG_TAG, "%s_%s", fmt_str,line);
+    time_t rawtime;
+    struct tm * timeinfo;
+    
+    time ( &rawtime );
+    timeinfo = localtime ( &rawtime );
+    
+    
+    char tmpBuf[100];
+    strftime(tmpBuf, 100, "%Y-%m-%d %H:%M:%S", timeinfo); //format date and time.
+    
+    sprintf(fmt_str, "%s-%s\n", tmpBuf,fmt);
+    
+    
+    VLOG(ffplv, IJK_LOG_TAG, fmt_str, vl);
 }
 
 int ijkav_register_all(void);
@@ -4070,6 +4103,7 @@ void ffp_check_buffering_l(FFPlayer *ffp)
 
 int ffp_video_thread(FFPlayer *ffp)
 {
+    av_log(ffp, AV_LOG_WARNING, "ffp_video_thread start");
     return ffplay_video_thread(ffp);
 }
 
