@@ -44,13 +44,13 @@
 -(BOOL)loadMovie:(NSString*)path
 {
     
-    [IJKFFMoviePlayerController setLogReport:NO];
-    [IJKFFMoviePlayerController setLogLevel:k_IJK_LOG_WARN];
+    [IJKFFMoviePlayerController setLogReport:YES];
+    [IJKFFMoviePlayerController setLogLevel:k_IJK_LOG_DEBUG];
   //  [IJKFFMoviePlayerController setLogLevel:k_IJK_LOG_INFO];
     
     IJKFFOptions *options =  [[IJKFFOptions alloc] init];
     self.is_hardware = false;
-    [options setPlayerOptionValue:0          forKey:@"first-high-water-mark-ms"];
+   // [options setPlayerOptionValue:0          forKey:@"first-high-water-mark-ms"];
     if(self.is_hardware){
         [options setPlayerOptionValue:@"fcc-_es2"          forKey:@"overlay-format"];
         [options setPlayerOptionIntValue:1      forKey:@"videotoolbox"];

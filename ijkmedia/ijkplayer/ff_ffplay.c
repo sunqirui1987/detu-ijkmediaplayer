@@ -168,8 +168,8 @@ static int packet_queue_put_private(PacketQueue *q, AVPacket *pkt)
         q->last_pkt->next = pkt1;
     q->last_pkt = pkt1;
     q->nb_packets++;
-    
-    av_log(NULL, AV_LOG_DEBUG, "nb_packets add <<< %d \n",q->nb_packets);
+ 
+    av_log(NULL, AV_LOG_DEBUG, "queue name %d nb_packets size %d \n",pkt->stream_index , q->nb_packets);
     
     q->size += pkt1->pkt.size + sizeof(*pkt1);
 
@@ -336,7 +336,9 @@ static int packet_queue_get(PacketQueue *q, AVPacket *pkt, int block, int *seria
                 q->last_pkt = NULL;
             q->nb_packets--;
             
-            av_log(NULL, AV_LOG_INFO, "packet queue remain %d \n", q->nb_packets);
+            if(q->first_pkt != NULL){
+                av_log(NULL, AV_LOG_INFO, "packet name %d packet queue remain %d \n",q->first_pkt->pkt.stream_index, q->nb_packets);
+            }
             
             q->size -= pkt1->pkt.size + sizeof(*pkt1);
             q->duration -= pkt1->pkt.duration;
@@ -2504,13 +2506,12 @@ static int read_thread(void *arg)
  //     av_dict_set_int(&ffp->format_opts, "probesize", 1024, 0);
     
     
-    if (av_stristart(is->filename, "rtmp", NULL) ||
-        av_stristart(is->filename, "rtsp", NULL)) {
+    if (av_stristart(is->filename, "rtmp", NULL)) {
         ic->probesize = 1 * 1020;//1*1024;
         ic->max_analyze_duration = 0.7 * AV_TIME_BASE;
     }else{
-        ic->probesize = 1 * 1024;//1*1024;
-        ic->max_analyze_duration = 1 * AV_TIME_BASE;
+        ic->probesize = 3 * 1024;//1*1024;
+        ic->max_analyze_duration = 3 * AV_TIME_BASE;
     }
     
     
@@ -3040,6 +3041,14 @@ static int read_thread(void *arg)
              
                 
             }else{
+                
+                if(pkt->flags & AV_PKT_FLAG_KEY){
+                    
+                    int ft = frame_queue_nb_remaining(&is->pictq);
+                    av_log(ffp, AV_LOG_WARNING, "av_read_frame AV_PKT_FLAG_KEY gop_num %d, qz %d ft %d \n" ,gop_num, is->videoq.nb_packets, ft);
+                }
+                
+                
                 packet_queue_put(&is->videoq, pkt);
             }
             
