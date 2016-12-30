@@ -2506,7 +2506,7 @@ static int read_thread(void *arg)
  //     av_dict_set_int(&ffp->format_opts, "probesize", 1024, 0);
     
     
-    if (av_stristart(is->filename, "rtmp", NULL)) {
+    if (av_stristart(is->filename, "rtsp", NULL)) {
         ic->probesize = 1 * 1020;//1*1024;
         ic->max_analyze_duration = 0.7 * AV_TIME_BASE;
     }else{
