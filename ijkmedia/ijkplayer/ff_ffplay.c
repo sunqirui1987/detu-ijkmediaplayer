@@ -2506,12 +2506,12 @@ static int read_thread(void *arg)
  //     av_dict_set_int(&ffp->format_opts, "probesize", 1024, 0);
     
     
-    if (av_stristart(is->filename, "rtsp", NULL)) {
+    if (av_stristart(ic->filename, "rtsp://192.168.42.1/live",NULL)) {
         ic->probesize = 1 * 1020;//1*1024;
         ic->max_analyze_duration = 0.7 * AV_TIME_BASE;
     }else{
-        ic->probesize = 3 * 1024;//1*1024;
-        ic->max_analyze_duration = 3 * AV_TIME_BASE;
+       ic->probesize = 3 * 1024;//1*1024;
+       // ic->max_analyze_duration = 3 * AV_TIME_BASE;
     }
     
     
