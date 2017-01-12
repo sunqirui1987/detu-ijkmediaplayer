@@ -45,7 +45,7 @@
 {
     
     [IJKFFMoviePlayerController setLogReport:YES];
-    [IJKFFMoviePlayerController setLogLevel:k_IJK_LOG_DEBUG];
+    [IJKFFMoviePlayerController setLogLevel:k_IJK_LOG_WARN];
   //  [IJKFFMoviePlayerController setLogLevel:k_IJK_LOG_INFO];
     
     IJKFFOptions *options =  [[IJKFFOptions alloc] init];
@@ -69,7 +69,7 @@
     [options setPlayerOptionValue:0        forKey:@"start-on-prepared"];
     
     if(  ( [path hasPrefix:@"rtsp://"] && ![path hasPrefix:@"rtsp://192.168.42.1/tmp/"]  )
-         || [path isEqualToString:@"http://192.168.1.254:8192"]
+       
      ){
         [options setPlayerOptionIntValue:0 forKey:@"packet-buffering"];
         [options setPlayerOptionIntValue:15 forKey:@"limit_packets"];
@@ -100,6 +100,16 @@
         
     }
     
+    if([path isEqualToString:@"http://192.168.1.254:8192"]){
+        
+        [options setPlayerOptionIntValue:0 forKey:@"packet-buffering"];
+       // [options setPlayerOptionIntValue:15 forKey:@"max-fps"];
+     //   [options setPlayerOptionIntValue:15 forKey:@"limit_packets"];
+        
+    }
+    
+    
+    _is_hardware = false;
    
     _player = [[IJKFFMoviePlayerController alloc] initWithContentURLString:path withOptions:options isVideotoolbox:self.is_hardware];
     [_player setFormatOptionIntValue:1000000 forKey:@"analyzeduration"];

@@ -1097,8 +1097,14 @@ retry:
             if (isnan(is->frame_timer) || time < is->frame_timer)
                 is->frame_timer = time;
             if (time < is->frame_timer + delay) {
-                *remaining_time = FFMIN(is->frame_timer + delay - time, *remaining_time);
-                goto display;
+                //2017.1.12 优化播放速度 没有声音的时候
+
+                if (is->audio_st != NULL ) {
+                    *remaining_time = FFMIN(is->frame_timer + delay - time, *remaining_time);
+                       goto display;
+                }
+                            //    *remaining_time = FFMIN(is->frame_timer + delay - time, *remaining_time);
+             //   goto display;
             }
 
             is->frame_timer += delay;
