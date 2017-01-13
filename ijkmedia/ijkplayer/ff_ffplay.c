@@ -2513,10 +2513,10 @@ static int read_thread(void *arg)
     
     
     if (av_stristart(ic->filename, "rtsp://192.168.42.1/live",NULL)) {
-        ic->probesize = 1 * 1020;//1*1024;
-        ic->max_analyze_duration = 0.7 * AV_TIME_BASE;
+        ic->probesize = 3 * 1024;//1*1024;
+        ic->max_analyze_duration = 5 * AV_TIME_BASE;
     }else{
-       ic->probesize = 3 * 1024;//1*1024;
+      // ic->probesize = 3 * 1024;//1*1024;
        // ic->max_analyze_duration = 3 * AV_TIME_BASE;
     }
     
