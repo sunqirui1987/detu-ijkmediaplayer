@@ -68,52 +68,37 @@
     
     [options setPlayerOptionValue:0        forKey:@"start-on-prepared"];
     
-    if(  ( [path hasPrefix:@"rtsp://"] && ![path hasPrefix:@"rtsp://192.168.42.1/tmp/"]  )
-       
-     ){
-        [options setPlayerOptionIntValue:0 forKey:@"packet-buffering"];
-        [options setPlayerOptionIntValue:15 forKey:@"limit_packets"];
-
-
-    }else{
-//        [options setPlayerOptionIntValue:10*1024*1024 forKey:@"max-buffer-size"];
-//        [options setPlayerOptionIntValue:200         forKey:@"limit_packets"];
-    }
-    
     
     if([path isEqualToString:@"rtsp://192.168.42.1/live"]){
- 
+        
+        [options setPlayerOptionIntValue:0 forKey:@"packet-buffering"];
+        [options setPlayerOptionIntValue:15 forKey:@"limit_packets"];
         [options setFormatOptionValue:@"tcp" forKey:@"rtsp_transport"];
         [options setFormatOptionValue:@"video" forKey:@"allowed_media_types"];
         
-    }
-    
-    
-    if([path hasPrefix:@"rtsp://192.168.42.1/tmp"]){
+    }else  if([path hasPrefix:@"rtsp://192.168.42.1/tmp"]){
+        
+        //[options setPlayerOptionIntValue:0 forKey:@"packet-buffering"];
+        //[options setFormatOptionIntValue:5000000 forKey:@"max_delay"];
+        // [options setFormatOptionValue:@"tcp" forKey:@"rtsp_transport"];
+        
+        
+    }else  if([path hasPrefix:@"http://192.168.1.254:8192"]){
         
         [options setPlayerOptionIntValue:0 forKey:@"packet-buffering"];
-       //  [options setPlayerOptionIntValue:15 forKey:@"limit_packets"];
         
-        [options setFormatOptionIntValue:6000 forKey:@"stimeout"];
-
-        [options setFormatOptionValue:@"tcp" forKey:@"rtsp_transport"];
-        
-    }
-    
-    if([path isEqualToString:@"http://192.168.1.254:8192"]){
+    }else if(  [path hasPrefix:@"rtsp://"] ){
         
         [options setPlayerOptionIntValue:0 forKey:@"packet-buffering"];
-       // [options setPlayerOptionIntValue:15 forKey:@"max-fps"];
-     //   [options setPlayerOptionIntValue:15 forKey:@"limit_packets"];
+        [options setPlayerOptionIntValue:15 forKey:@"limit_packets"];
+        
         
     }
     
     
-    _is_hardware = false;
    
     _player = [[IJKFFMoviePlayerController alloc] initWithContentURLString:path withOptions:options isVideotoolbox:self.is_hardware];
-    [_player setFormatOptionIntValue:1000000 forKey:@"analyzeduration"];
-    [_player setFormatOptionIntValue:100 forKey:@"probsize"];
+
     
     __weak IJKPlayerMovieDecoder* weakSelf = self;
     _player.displayFrameBlock = ^(SDL_VoutOverlay* overlay){
