@@ -369,28 +369,49 @@ static int packet_queue_get_or_buffering(FFPlayer *ffp, PacketQueue *q, AVPacket
     assert(finished);
     if (!ffp->packet_buffering)
         return packet_queue_get(q, pkt, 1, serial);
-
     while (1) {
-        int new_packet = packet_queue_get(q, pkt, 0, serial);
+        
+        int new_packet = packet_queue_get(q, pkt, 1, serial);
+        
         if (new_packet < 0)
-            return -1;
-        else if (new_packet == 0) {
-            if (q->is_buffer_indicator && !*finished)
-                ffp_toggle_buffering(ffp, 1);
-            new_packet = packet_queue_get(q, pkt, 1, serial);
-            if (new_packet < 0)
+            
+        {
+            
+            new_packet = packet_queue_get(q, pkt, 0, serial);
+            
+            if(new_packet < 0)
+                
                 return -1;
+            
         }
-
-        if (*finished == *serial) {
-            av_packet_unref(pkt);
+        else if (new_packet == 0) {
+            
+            if (!finished)
+                
+                ffp_toggle_buffering(ffp, 1);
+            
+            new_packet = packet_queue_get(q, pkt, 1, serial);
+            
+            if (new_packet < 0)
+                
+                return -1;
+            
+        }
+        if (finished == *serial) {
+            
+            av_free_packet(pkt);
+            
             continue;
+            
         }
         else
+            
             break;
+        
     }
-
     return 1;
+    
+
 }
 
 static void decoder_init(Decoder *d, AVCodecContext *avctx, PacketQueue *queue, SDL_cond *empty_queue_cond) {
@@ -1099,12 +1120,12 @@ retry:
             if (time < is->frame_timer + delay) {
                 //2017.1.12 优化播放速度 没有声音的时候
 
-                if (is->audio_st != NULL ) {
-                    *remaining_time = FFMIN(is->frame_timer + delay - time, *remaining_time);
-                       goto display;
-                }
-                            //    *remaining_time = FFMIN(is->frame_timer + delay - time, *remaining_time);
-             //   goto display;
+//                if (is->audio_st != NULL ) {
+//                    *remaining_time = FFMIN(is->frame_timer + delay - time, *remaining_time);
+//                       goto display;
+//                }
+                *remaining_time = FFMIN(is->frame_timer + delay - time, *remaining_time);
+                goto display;
             }
 
             is->frame_timer += delay;
@@ -2557,8 +2578,9 @@ static int read_thread(void *arg)
 
 
     if (av_stristart(ic->filename, "rtsp://192.168.42.1/live",NULL) == 0) {
-        err = avformat_find_stream_info(ic, opts);
+        
     }
+    err = avformat_find_stream_info(ic, opts);
 
   
 
@@ -2869,7 +2891,22 @@ static int read_thread(void *arg)
             SDL_UnlockMutex(wait_mutex);
             continue;
         }
-        if (
+        //临时解决rtsp回放没有完成回调的问题
+        bool isRtsp = av_stristart(ic->filename, "rtsp://192.168.42.1/tmp", NULL);
+        long playTime = ffp_get_playable_duration_l(ffp);
+        long duration = ffp_get_duration_l(ffp);
+        //av_log(ffp, AV_LOG_ERROR, "playtime:%ld,duration:%ld\n", playTime, duration);
+        if(playTime != -1 && duration != -1 && playTime > duration / 2) {
+            long halfTotal = duration / 1000;
+            bool isRtspFakeQuit = isRtsp && (playTime / 1000 == halfTotal || (playTime + 500) / 1000 == halfTotal);
+            if(isRtspFakeQuit) {
+                g_pb_error = AVERROR_EXIT;
+                SDL_LockMutex(wait_mutex);
+                SDL_CondWaitTimeout(is->continue_read_thread, wait_mutex, 500);
+                SDL_UnlockMutex(wait_mutex);
+            }
+        }
+               if (
             (
              (!is->paused || completed) &&
             (!is->audio_st || (is->auddec.finished == is->audioq.serial && frame_queue_nb_remaining(&is->sampq) == 0)) &&
