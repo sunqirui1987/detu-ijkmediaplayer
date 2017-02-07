@@ -72,7 +72,7 @@
     if([path isEqualToString:@"rtsp://192.168.42.1/live"]){
         
         [options setPlayerOptionIntValue:0 forKey:@"packet-buffering"];
-        [options setPlayerOptionIntValue:15 forKey:@"limit_packets"];
+       // [options setPlayerOptionIntValue:15 forKey:@"limit_packets"];
         [options setFormatOptionValue:@"tcp" forKey:@"rtsp_transport"];
         [options setFormatOptionValue:@"video" forKey:@"allowed_media_types"];
         
@@ -99,7 +99,7 @@
     if(  [path hasPrefix:@"rtmp://"] ){
         
         [options setPlayerOptionIntValue:0 forKey:@"packet-buffering"];
-       // [options setPlayerOptionIntValue:15 forKey:@"limit_packets"];
+        //[options setPlayerOptionIntValue:15 forKey:@"limit_packets"];
         
         
     }
@@ -114,6 +114,7 @@
         }
       //  NSLog(@"displayFrameBlock  End");
         [weakSelf.delegate movieDecoderDidDecodeFrameSDL: overlay];
+       
 
     };
     [_player prepareToPlay];

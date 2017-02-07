@@ -1120,12 +1120,12 @@ retry:
             if (time < is->frame_timer + delay) {
                 //2017.1.12 优化播放速度 没有声音的时候
 
-//                if (is->audio_st != NULL ) {
-//                    *remaining_time = FFMIN(is->frame_timer + delay - time, *remaining_time);
-//                       goto display;
-//                }
-                *remaining_time = FFMIN(is->frame_timer + delay - time, *remaining_time);
-                goto display;
+               if (is->audio_st != NULL ) {
+                    *remaining_time = FFMIN(is->frame_timer + delay - time, *remaining_time);
+                    goto display;
+                }
+             //   *remaining_time = FFMIN(is->frame_timer + delay - time, *remaining_time);
+              //  goto display;
             }
 
             is->frame_timer += delay;
@@ -3069,7 +3069,7 @@ static int read_thread(void *arg)
                     int ft = frame_queue_nb_remaining(&is->pictq);
                     av_log(ffp, AV_LOG_WARNING, "rtsp av_read_frame gop_num %d, qz %d ft %d \n" ,gop_num, is->videoq.nb_packets, ft);
                     
-                    if( (gop_num != 30 ) ){
+                    if( (gop_num != 30) ){
                         packet_queue_flush(&is->videoq);
                     }
                     
