@@ -201,7 +201,7 @@ static int packet_queue_put(PacketQueue *q, AVPacket *pkt)
                     q->last_pkt = NULL;
                 q->nb_packets--;
                 
-                av_log(NULL, AV_LOG_INFO, "packet delete firstptk %d \n", q->nb_packets);
+                av_log(NULL, AV_LOG_WARNING, "packet delete firstptk %d \n", q->nb_packets);
                 
                 q->size -= pkt1->pkt.size + sizeof(*pkt1);
                 if (pkt1->pkt.duration > 0)

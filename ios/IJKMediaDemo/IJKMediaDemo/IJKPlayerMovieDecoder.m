@@ -45,7 +45,7 @@
 {
     
     [IJKFFMoviePlayerController setLogReport:YES];
-    [IJKFFMoviePlayerController setLogLevel:k_IJK_LOG_UNKNOWN];
+    [IJKFFMoviePlayerController setLogLevel:k_IJK_LOG_WARN];
   //  [IJKFFMoviePlayerController setLogLevel:k_IJK_LOG_INFO];
     
     IJKFFOptions *options =  [[IJKFFOptions alloc] init];
@@ -96,7 +96,13 @@
         
     }
     
-    
+    if(  [path hasPrefix:@"rtmp://"] ){
+        
+        [options setPlayerOptionIntValue:0 forKey:@"packet-buffering"];
+       // [options setPlayerOptionIntValue:15 forKey:@"limit_packets"];
+        
+        
+    }
    
     _player = [[IJKFFMoviePlayerController alloc] initWithContentURLString:path withOptions:options isVideotoolbox:self.is_hardware];
 
