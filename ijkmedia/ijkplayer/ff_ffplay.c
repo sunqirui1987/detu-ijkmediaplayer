@@ -3069,7 +3069,7 @@ static int read_thread(void *arg)
                     int ft = frame_queue_nb_remaining(&is->pictq);
                     av_log(ffp, AV_LOG_WARNING, "rtsp av_read_frame gop_num %d, qz %d ft %d \n" ,gop_num, is->videoq.nb_packets, ft);
                     
-                    if( (gop_num != 30) ){
+                    if( (gop_num != is->video_st->codec->gop_size) ){
                         packet_queue_flush(&is->videoq);
                     }
                     
