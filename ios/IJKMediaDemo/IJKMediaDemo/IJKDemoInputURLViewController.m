@@ -99,7 +99,7 @@ basePath;\
 //    NSString *path =  [[NSBundle mainBundle] pathForResource:@"test" ofType:@"MP4"];
     
     NSString *path =  @"rtsp://192.168.42.1/live";
-   // path = @"rtmp://pili-live-rtmp.live.detu.com/detulive/123";
+  //  path = @"http://192.168.1.254/DokiCamera/Movie/2017_0215_175055_001.MP4";
     
   // path = @"rtsp://192.168.42.1/tmp/SD0/DCIM/161216000/150303AB.MP4";
     
