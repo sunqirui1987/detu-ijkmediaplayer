@@ -45,7 +45,7 @@
 {
     
     [IJKFFMoviePlayerController setLogReport:YES];
-    [IJKFFMoviePlayerController setLogLevel:k_IJK_LOG_INFO];
+    [IJKFFMoviePlayerController setLogLevel:k_IJK_LOG_WARN];
   //  [IJKFFMoviePlayerController setLogLevel:k_IJK_LOG_INFO];
     
     IJKFFOptions *options =  [[IJKFFOptions alloc] init];
@@ -72,8 +72,8 @@
     if([path isEqualToString:@"rtsp://192.168.42.1/live"]){
         
         [options setPlayerOptionIntValue:0 forKey:@"packet-buffering"];
-       // [options setPlayerOptionIntValue:15 forKey:@"limit_packets"];
-        [options setFormatOptionValue:@"tcp" forKey:@"rtsp_transport"];
+        [options setPlayerOptionIntValue:15 forKey:@"limit_packets"];
+       // [options setFormatOptionValue:@"tcp" forKey:@"rtsp_transport"];
         [options setFormatOptionValue:@"video" forKey:@"allowed_media_types"];
         
     

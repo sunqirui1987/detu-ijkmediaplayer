@@ -99,6 +99,7 @@ basePath;\
 //    NSString *path =  [[NSBundle mainBundle] pathForResource:@"test" ofType:@"MP4"];
     
     NSString *path =  @"rtsp://192.168.42.1/live";
+  //  path =  @"rtsp://192.168.1.254/xxx.mov";
   //  path = @"http://192.168.1.254/DokiCamera/Movie/2017_0215_175055_001.MP4";
     
   // path = @"rtsp://192.168.42.1/tmp/SD0/DCIM/161216000/150303AB.MP4";
@@ -132,6 +133,12 @@ basePath;\
     
 //    path =  [[NSBundle mainBundle] pathForResource:@"aaa" ofType:@"mp4"];
     
+    if (decoder!= nil) {
+        [decoder cleargc];
+        sleep(1);
+    }
+    
+    
     decoder=[IJKPlayerMovieDecoder movieDecoderWithMovie:path isHardWare:_panoplayer.isHardDecoder];
 
  //  decoder=[IJKPlayerMovieDecoder movieDecoderWithMovie:@"http://media.qicdn.detu.com/@/70955075-5571-986D-9DC4-450F13866573/2016-05-19/573d15dfa19f3-2048x1024.m3u8" isHardWare:false];
@@ -139,7 +146,8 @@ basePath;\
     _lock = [[NSRecursiveLock alloc] init];
     index = -1;
 
-
+  
+    
     decoder.delegate=self;
     [self innerstart];
     
