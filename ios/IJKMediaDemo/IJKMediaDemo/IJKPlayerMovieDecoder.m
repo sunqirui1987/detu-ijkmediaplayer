@@ -49,7 +49,7 @@
   //  [IJKFFMoviePlayerController setLogLevel:k_IJK_LOG_INFO];
     
     IJKFFOptions *options =  [[IJKFFOptions alloc] init];
-    self.is_hardware = false;
+    self.is_hardware = true;
 
     if(self.is_hardware){
         [options setPlayerOptionValue:@"fcc-_es2"          forKey:@"overlay-format"];
@@ -73,7 +73,7 @@
         
         [options setPlayerOptionIntValue:0 forKey:@"packet-buffering"];
         [options setPlayerOptionIntValue:15 forKey:@"limit_packets"];
-       // [options setFormatOptionValue:@"tcp" forKey:@"rtsp_transport"];
+        [options setFormatOptionValue:@"tcp" forKey:@"rtsp_transport"];
         [options setFormatOptionValue:@"video" forKey:@"allowed_media_types"];
         
     
