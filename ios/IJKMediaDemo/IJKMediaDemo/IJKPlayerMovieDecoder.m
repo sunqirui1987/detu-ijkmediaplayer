@@ -45,11 +45,11 @@
 {
     
     [IJKFFMoviePlayerController setLogReport:YES];
-    [IJKFFMoviePlayerController setLogLevel:k_IJK_LOG_WARN];
+    [IJKFFMoviePlayerController setLogLevel:k_IJK_LOG_INFO];
   //  [IJKFFMoviePlayerController setLogLevel:k_IJK_LOG_INFO];
     
     IJKFFOptions *options =  [[IJKFFOptions alloc] init];
-    self.is_hardware = true;
+    self.is_hardware = false;
 
     if(self.is_hardware){
         [options setPlayerOptionValue:@"fcc-_es2"          forKey:@"overlay-format"];

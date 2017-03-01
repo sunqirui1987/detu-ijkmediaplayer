@@ -103,7 +103,7 @@ basePath;\
   //  path =  @"rtsp://192.168.1.254/xxx.mov";
   //  path = @"http://192.168.1.254/DokiCamera/Movie/2017_0215_175055_001.MP4";
     
-  // path = @"rtsp://192.168.42.1/tmp/SD0/DCIM/161216000/150303AB.MP4";
+path = @"rtsp://192.168.42.1/tmp/SD0/DCIM/170301000/154513AB.MP4";
     
   //  path =  [[NSBundle mainBundle] pathForResource:@"IMG_1060" ofType:@"MP4"];
 //   path = [NSString stringWithFormat:@"file://%@",path];

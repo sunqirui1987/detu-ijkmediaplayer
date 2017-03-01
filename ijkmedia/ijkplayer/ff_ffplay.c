@@ -2576,10 +2576,14 @@ static int read_thread(void *arg)
     opts = setup_find_stream_info_opts(ic, ffp->codec_opts);
     orig_nb_streams = ic->nb_streams;
 
-
-    if (av_stristart(ic->filename, "rtsp://192.168.42.1/live",NULL) == 0) {
-        
+    ic->probesize =  100* 1024;//1*1024;
+    ic->max_analyze_duration = 5 * AV_TIME_BASE;
+    
+    if (av_stristart(ic->filename, "rtsp://192.168.42.1/",NULL)) {
+        ic->probesize =  30* 1024;//1*1024;
+        ic->max_analyze_duration = 5 * AV_TIME_BASE;
     }
+    
     err = avformat_find_stream_info(ic, opts);
 
   
