@@ -2896,21 +2896,22 @@ static int read_thread(void *arg)
             continue;
         }
         //临时解决rtsp回放没有完成回调的问题
-        bool isRtsp = av_stristart(ic->filename, "rtsp://192.168.42.1/tmp", NULL);
-        long playTime = ffp_get_playable_duration_l(ffp);
-        long duration = ffp_get_duration_l(ffp);
-        //av_log(ffp, AV_LOG_ERROR, "playtime:%ld,duration:%ld\n", playTime, duration);
-        if(playTime != -1 && duration != -1 && playTime > duration / 2) {
-            long halfTotal = duration / 1000;
-            bool isRtspFakeQuit = isRtsp && (playTime / 1000 == halfTotal || (playTime + 500) / 1000 == halfTotal);
-            if(isRtspFakeQuit) {
-                g_pb_error = AVERROR_EXIT;
-                SDL_LockMutex(wait_mutex);
-                SDL_CondWaitTimeout(is->continue_read_thread, wait_mutex, 500);
-                SDL_UnlockMutex(wait_mutex);
+        bool isRtspPlayBack = av_stristart(ic->filename, "rtsp://192.168.42.1/tmp", NULL);
+        if(isRtspPlayBack) {
+            long playTime = ffp_get_playable_duration_l(ffp);
+            long duration = ffp_get_duration_l(ffp);
+            av_log(ffp, AV_LOG_ERROR, "playtime:%ld,duration:%ld\n", playTime, duration);
+            if(playTime != -1 && duration != -1 && playTime > duration / 2) {
+                bool isRtspFakeQuit = (duration - playTime < 800);
+                if(isRtspFakeQuit) {
+                    g_pb_error = AVERROR_EXIT;
+                    SDL_LockMutex(wait_mutex);
+                    SDL_CondWaitTimeout(is->continue_read_thread, wait_mutex, 800);
+                    SDL_UnlockMutex(wait_mutex);
+                }
             }
         }
-               if (
+        if (
             (
              (!is->paused || completed) &&
             (!is->audio_st || (is->auddec.finished == is->audioq.serial && frame_queue_nb_remaining(&is->sampq) == 0)) &&
