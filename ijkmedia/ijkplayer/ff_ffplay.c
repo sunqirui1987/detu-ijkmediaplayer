@@ -2523,8 +2523,13 @@ static int read_thread(void *arg)
         av_log(ffp, AV_LOG_WARNING, "remove 'timeout' option for rtmp.\n");
         //av_dict_set(&ffp->format_opts, "timeout", NULL, 0);
     }
-    
-   
+    if(av_stristart(is->filename, "rtsp", NULL)) {
+        //这里为了解决android设置rtsp设置tcp连接无效的问题
+        AVDictionaryEntry * entry = av_dict_get(ffp->format_opts, "rtsp_transport", NULL, AV_DICT_MATCH_CASE);
+        if(entry != NULL) {
+            av_dict_set(&ffp->format_opts, entry->key, entry->value, 0);
+        }
+    }
     
     if (ffp->iformat_name)
         is->iformat = av_find_input_format(ffp->iformat_name);
@@ -2900,21 +2905,22 @@ static int read_thread(void *arg)
             continue;
         }
         //临时解决rtsp回放没有完成回调的问题
-        bool isRtsp = av_stristart(ic->filename, "rtsp://192.168.42.1/tmp", NULL);
-        long playTime = ffp_get_playable_duration_l(ffp);
-        long duration = ffp_get_duration_l(ffp);
-        //av_log(ffp, AV_LOG_ERROR, "playtime:%ld,duration:%ld\n", playTime, duration);
-        if(playTime != -1 && duration != -1 && playTime > duration / 2) {
-            long halfTotal = duration / 1000;
-            bool isRtspFakeQuit = isRtsp && (playTime / 1000 == halfTotal || (playTime + 500) / 1000 == halfTotal);
-            if(isRtspFakeQuit) {
-                g_pb_error = AVERROR_EXIT;
-                SDL_LockMutex(wait_mutex);
-                SDL_CondWaitTimeout(is->continue_read_thread, wait_mutex, 500);
-                SDL_UnlockMutex(wait_mutex);
+        bool isRtspPlayBack = av_stristart(ic->filename, "rtsp://192.168.42.1/tmp", NULL);
+        if(isRtspPlayBack) {
+            long playTime = ffp_get_playable_duration_l(ffp);
+            long duration = ffp_get_duration_l(ffp);
+            av_log(ffp, AV_LOG_ERROR, "playtime:%ld,duration:%ld\n", playTime, duration);
+            if(playTime != -1 && duration != -1 && playTime > duration / 2) {
+                bool isRtspFakeQuit = (duration - playTime < 800);
+                if(isRtspFakeQuit) {
+                    g_pb_error = AVERROR_EXIT;
+                    SDL_LockMutex(wait_mutex);
+                    SDL_CondWaitTimeout(is->continue_read_thread, wait_mutex, 800);
+                    SDL_UnlockMutex(wait_mutex);
+                }
             }
         }
-               if (
+        if (
             (
              (!is->paused || completed) &&
             (!is->audio_st || (is->auddec.finished == is->audioq.serial && frame_queue_nb_remaining(&is->sampq) == 0)) &&
