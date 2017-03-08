@@ -2533,12 +2533,14 @@ static int read_thread(void *arg)
  //     av_dict_set_int(&ffp->format_opts, "probesize", 1024, 0);
     
     
-    if (av_stristart(ic->filename, "rtsp://192.168.42.1/live",NULL)) {
-        ic->probesize = 3 * 1024;//1*1024;
+    if (av_stristart(ic->filename, "rtsp://192.168.42.1/live",NULL) || av_stristart(ic->filename, "rtsp://192.168.1.254",NULL) ) {
+        ic->probesize = 10 * 1024;//1*1024;
         ic->max_analyze_duration = 5 * AV_TIME_BASE;
+        av_dict_set(&ffp->format_opts, "rtsp_transport", "tcp", 0);
+      //  av_dict_set(&ffp->format_opts, "buffer_size", "655360", 0);
     }else{
-      // ic->probesize = 3 * 1024;//1*1024;
-       // ic->max_analyze_duration = 3 * AV_TIME_BASE;
+       ic->probesize = 100 * 1024;//1*1024;
+        ic->max_analyze_duration = 3 * AV_TIME_BASE;
     }
     
     
@@ -2579,9 +2581,11 @@ static int read_thread(void *arg)
     ic->probesize =  100* 1024;//1*1024;
     ic->max_analyze_duration = 5 * AV_TIME_BASE;
     
-    if (av_stristart(ic->filename, "rtsp://192.168.42.1/",NULL)) {
+   if (av_stristart(ic->filename, "rtsp://192.168.42.1/",NULL) || av_stristart(ic->filename, "rtsp://192.168.1.254",NULL) ) {
         ic->probesize =  30* 1024;//1*1024;
         ic->max_analyze_duration = 5 * AV_TIME_BASE;
+        av_dict_set(opts, "rtsp_transport", "tcp", 0);
+      //  av_dict_set(opts, "buffer_size", "655360", 0);
     }
     
     err = avformat_find_stream_info(ic, opts);
