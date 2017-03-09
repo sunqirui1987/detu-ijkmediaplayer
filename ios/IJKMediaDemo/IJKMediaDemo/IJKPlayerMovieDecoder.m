@@ -67,7 +67,7 @@
 
     
     [options setPlayerOptionValue:0        forKey:@"start-on-prepared"];
-    
+    [options setCodecOptionIntValue:1 forKey:@"is_avc"];
     
     if([path isEqualToString:@"rtsp://192.168.42.1/live"]){
         

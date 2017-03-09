@@ -459,7 +459,7 @@ static int decoder_decode_frame(FFPlayer *ffp, Decoder *d, AVFrame *frame, AVSub
             case AVMEDIA_TYPE_VIDEO: {
                
                 ret = avcodec_decode_video2(d->avctx, frame, &got_frame, &d->pkt_temp);
-               // av_log(ffp, AV_LOG_WARNING, "avcodec_decode_video2  got_frame %d ret %d h %d w %d, time %lld \n ",got_frame,ret, frame->height, frame->width, (av_gettime_relative()) / 1000);
+                //av_log(ffp, AV_LOG_DEBUG, "avcodec_decode_video2  got_frame %d ret %d h %d w %d, time %lld \n ",got_frame,ret, frame->height, frame->width, (av_gettime_relative()) / 1000);
                 if (got_frame) {
                     ffp->stat.vdps = SDL_SpeedSamplerAdd(&ffp->vdps_sampler, FFP_SHOW_VDPS_AVCODEC, "vdps[avcodec]");
                     if (ffp->decoder_reorder_pts == -1) {

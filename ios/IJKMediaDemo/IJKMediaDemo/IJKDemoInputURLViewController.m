@@ -106,8 +106,8 @@ basePath;\
     
 //path = @"rtsp://192.168.42.1/tmp/SD0/DCIM/170301000/154513AB.MP4";
     
-  //  path =  [[NSBundle mainBundle] pathForResource:@"IMG_1060" ofType:@"MP4"];
-//   path = [NSString stringWithFormat:@"file://%@",path];
+   // path =  [[NSBundle mainBundle] pathForResource:@"175601AA" ofType:@"MP4"];
+  // path = [NSString stringWithFormat:@"file://%@",path];
     
 //    path =  @"http://192.168.1.254:8192";
     
