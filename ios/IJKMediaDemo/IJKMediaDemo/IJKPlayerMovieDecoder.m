@@ -92,8 +92,9 @@
         
         [options setPlayerOptionIntValue:0 forKey:@"packet-buffering"];
         [options setPlayerOptionIntValue:15 forKey:@"limit_packets"];
+       
         
-        
+          [options setFormatOptionValue:@"udp" forKey:@"rtsp_transport"];
     }
     
     if(  [path hasPrefix:@"rtmp://"] ){
