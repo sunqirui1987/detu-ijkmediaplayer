@@ -101,7 +101,7 @@ basePath;\
     NSString *path =  @"rtsp://192.168.42.1/live";
     //path=@"http://detu-static.oss-cn-hangzhou.aliyuncs.com/install/212806AA.MP4";
    // path = @"rtmp://pili-live-rtmp.live.detu.com/detulive/sunqirui";
-  //  path =  @"rtsp://192.168.1.254/xxx.mov";
+    path =  @"rtsp://192.168.1.254/xxx.mov";
   //  path = @"http://192.168.1.254/DokiCamera/Movie/2017_0215_175055_001.MP4";
     
 //path = @"rtsp://192.168.42.1/tmp/SD0/DCIM/170301000/154513AB.MP4";
