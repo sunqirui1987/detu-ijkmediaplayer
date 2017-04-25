@@ -1868,6 +1868,12 @@ static int video_thread(void *arg)
     if (ffp->node_vdec) {
         ret = ffpipenode_run_sync(ffp->node_vdec);
     }
+#if defined(__ANDROID__)
+    //2017-04-25，硬解失败回调，java层接到消息会销毁播放器，切换为软解
+    if (ret == -1000) {
+        ffp_notify_msg2(ffp, FFP_MSG_ERROR, ret);
+    }
+#endif
     return ret;
 }
 

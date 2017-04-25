@@ -10,6 +10,9 @@ android {
     defaultConfig {
         minSdkVersion 9
         targetSdkVersion rootProject.ext.targetSdkVersion
+        ndk {
+            abiFilters "armeabi-v7a"
+        }
     }
     buildTypes {
         release {
@@ -20,6 +23,12 @@ android {
     sourceSets.main {
         jniLibs.srcDirs 'src/main/libs'
         jni.srcDirs = [] // This prevents the auto generation of Android.mk
+    }
+    buildToolsVersion '25.0.0'
+    externalNativeBuild {
+        ndkBuild {
+            path file("src/main/jni/Android.mk")
+        }
     }
 }
 

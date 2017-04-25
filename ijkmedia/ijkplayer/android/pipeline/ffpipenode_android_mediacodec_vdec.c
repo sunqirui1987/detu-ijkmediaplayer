@@ -768,6 +768,9 @@ static int drain_output_buffer_l(JNIEnv *env, IJKFF_Pipenode *node, int64_t time
     SDL_AMediaCodecBufferInfo bufferInfo;
     ssize_t                   output_buffer_index = 0;
 
+    //2017-04-25, 为硬解失败没有错误回调添加
+    int forceError = 0;
+
     if (dequeue_count)
         *dequeue_count = 0;
 
@@ -832,6 +835,7 @@ static int drain_output_buffer_l(JNIEnv *env, IJKFF_Pipenode *node, int64_t time
         SDL_LockMutex(opaque->any_input_mutex);
         SDL_CondWaitTimeout(opaque->any_input_cond, opaque->any_input_mutex, 1000);
         SDL_UnlockMutex(opaque->any_input_mutex);
+        forceError = output_buffer_index;
 
         goto done;
     } else if (output_buffer_index >= 0) {
@@ -929,7 +933,7 @@ done:
     if (opaque->decoder->queue->abort_request)
         ret = -1;
     else
-        ret = 0;
+        ret = forceError ? forceError : 0;
 fail:
     return ret;
 }
@@ -1035,7 +1039,7 @@ static int func_run_sync(IJKFF_Pipenode *node)
             SDL_UnlockMutex(opaque->acodec_first_dequeue_output_mutex);
         }
         if (ret != 0) {
-            ret = -1;
+            //ret = -1;
             if (got_frame && frame->opaque)
                 SDL_VoutAndroid_releaseBufferProxyP(opaque->weak_vout, (SDL_AMediaCodecBufferProxy **)&frame->opaque, false);
             goto fail;
