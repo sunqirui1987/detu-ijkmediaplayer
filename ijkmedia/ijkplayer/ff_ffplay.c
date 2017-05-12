@@ -1119,7 +1119,7 @@ retry:
                 is->frame_timer = time;
             if (time < is->frame_timer + delay) {
                 //2017.1.12 优化播放速度 没有声音的时候
-                bool isLiveStream = av_stristart(is->filename, "rtsp://",NULL) || av_stristart(is->filename, "rtmp://",NULL);
+                bool isLiveStream = av_stristart(is->filename, "rtsp://",NULL) || av_stristart(is->filename, "rtmp://",NULL) || av_stristart(is->filename, "http://",NULL);
                 if(!(isLiveStream && is->audio_st == NULL)) {
                     *remaining_time = FFMIN(is->frame_timer + delay - time, *remaining_time);
                     goto display;
