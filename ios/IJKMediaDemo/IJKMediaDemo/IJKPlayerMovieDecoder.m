@@ -343,7 +343,6 @@
 
 - (void)mediaPlayOnStatisticsInfoUpdated:(NSNotification*)notification {
     NSDictionary* dic = notification.userInfo;
-    NSLog(@"bitrate:%d, gopSize:%d", (int)[dic objectForKey:@"detu_video_bitrate"], (int)[dic objectForKey:@"detu_gop_size"]);
     if(self.delegate != nil && [self.delegate respondsToSelector:@selector(movieDecoderOnStatisticsUpdated:)]) {
         [self.delegate movieDecoderOnStatisticsUpdated:dic];
     }
@@ -355,6 +354,9 @@
 /* Register observers for the various movie object notifications. */
 -(void)installMovieNotificationObservers
 {
+    
+    [self removeMovieNotificationObservers];
+    
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(loadStateDidChange:)
                                                  name:IJKMPMoviePlayerLoadStateDidChangeNotification

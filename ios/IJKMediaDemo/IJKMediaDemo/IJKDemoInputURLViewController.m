@@ -130,6 +130,8 @@ basePath;\
     //path = @"rtmp://pili-live-rtmp.live.detu.com/detulive/586df51e75b625198b2599fc";
     //path =  @"rtsp://192.168.42.1/live";
     
+     //path =  @"http://192.168.1.254:8192";
+    
 //    path = @"rtmp://live.yueyetv.com/JTChatRoomFuns/funs10170/7e8d290e-8c35-4818-8a2d-45d487f3bc33";
 //    
 //    path = @"rtmp://live.yueyetv.com/JTChatRoomFuns/funs10170/7e8d290e-8c35-4818-8a2d-45d487f3bc33";
@@ -269,6 +271,12 @@ basePath;\
 -(void)movieDecoderDidDecodeFrameBuffer:(void*)buffer width:(int)width height:(int)height channel:(int)channel{
     
     NSLog(@"movieDecoderDidDecodeFrameBuffer");
+}
+
+-(void)movieDecoderOnStatisticsUpdated:(NSDictionary *)dic {
+    NSLog(@"inputController:bitrate:%d, gopSize:%d\n", [[dic objectForKey:@"detu_video_bitrate"] intValue], [[dic objectForKey:@"detu_gop_size"]intValue]);
+    
+    
 }
 
 
