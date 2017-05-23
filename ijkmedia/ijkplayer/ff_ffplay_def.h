@@ -668,6 +668,10 @@ typedef struct FFPlayer {
     FFDemuxCacheControl dcc;
 
     AVApplicationContext *app_ctx;
+    
+    //detu
+    int gopSize;
+    int64_t packetSize;
 } FFPlayer;
 
 #define fftime_to_milliseconds(ts) (av_rescale(ts, 1000, AV_TIME_BASE))

@@ -1348,6 +1348,17 @@ inline static void fillMetaInternal(NSMutableDictionary *meta, IjkMediaMeta *raw
              object:self];
             break;
         }
+        case FFP_MSG_DETU_STATISTICS_DATA:{
+            NSLog(@"bitrate:%d, gopSize:%d", avmsg->arg1, avmsg->arg2);
+            NSDictionary *dic = [NSDictionary dictionaryWithObjectsAndKeys:
+                                  [NSNumber numberWithInt:avmsg->arg1], @"detu_video_bitrate",
+                                  [NSNumber numberWithInt:avmsg->arg2], @"detu_gop_size",
+                                  nil];
+            [[NSNotificationCenter defaultCenter]
+             postNotificationName:IJKMPMoviePlayerDetuStatisticsNotification
+             object:self userInfo:dic];
+            break;
+        }
         default:
             // NSLog(@"unknown FFP_MSG_xxx(%d)\n", avmsg->what);
             break;

@@ -43,6 +43,11 @@ NSString *const IJKMPMoviePlayerDidSeekCompleteNotification = @"IJKMPMoviePlayer
 NSString *const IJKMPMoviePlayerDidSeekCompleteTargetKey = @"IJKMPMoviePlayerDidSeekCompleteTargetKey";
 NSString *const IJKMPMoviePlayerDidSeekCompleteErrorKey = @"IJKMPMoviePlayerDidSeekCompleteErrorKey";
 
+//detu, 自定义统计数据
+NSString *const IJKMPMoviePlayerDetuStatisticsNotification = @"IJKMPMoviePlayerDetuStatisticsNotification";
+NSString *const IJKMPMoviePlayerDetuStatisticsKey = @"IJKMPMoviePlayerDetuStatisticsKey";
+
+
 @implementation IJKMediaUrlOpenData {
     NSString *_url;
     BOOL _handled;

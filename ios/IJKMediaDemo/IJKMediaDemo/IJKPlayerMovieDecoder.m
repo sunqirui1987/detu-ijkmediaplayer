@@ -114,6 +114,10 @@
             return;
         }
       //  NSLog(@"displayFrameBlock  End");
+        
+     //fopen yuv
+        
+     
         [weakSelf.delegate movieDecoderDidDecodeFrameSDL: overlay];
        
 
@@ -337,6 +341,15 @@
     }
 }
 
+- (void)mediaPlayOnStatisticsInfoUpdated:(NSNotification*)notification {
+    NSDictionary* dic = notification.userInfo;
+    NSLog(@"bitrate:%d, gopSize:%d", (int)[dic objectForKey:@"detu_video_bitrate"], (int)[dic objectForKey:@"detu_gop_size"]);
+    if(self.delegate != nil && [self.delegate respondsToSelector:@selector(movieDecoderOnStatisticsUpdated:)]) {
+        [self.delegate movieDecoderOnStatisticsUpdated:dic];
+    }
+}
+
+
 #pragma mark Install Movie Notifications
 
 /* Register observers for the various movie object notifications. */
@@ -361,7 +374,10 @@
                                              selector:@selector(moviePlayBackStateDidChange:)
                                                  name:IJKMPMoviePlayerPlaybackStateDidChangeNotification
                                                object:_player];
-    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(mediaPlayOnStatisticsInfoUpdated:)
+                                                 name:IJKMPMoviePlayerDetuStatisticsNotification
+                                               object:_player];
 }
 
 #pragma mark Remove Movie Notification Handlers
@@ -373,6 +389,7 @@
     [[NSNotificationCenter defaultCenter]removeObserver:self name:IJKMPMoviePlayerPlaybackDidFinishNotification object:_player];
     [[NSNotificationCenter defaultCenter]removeObserver:self name:IJKMPMediaPlaybackIsPreparedToPlayDidChangeNotification object:_player];
     [[NSNotificationCenter defaultCenter]removeObserver:self name:IJKMPMoviePlayerPlaybackStateDidChangeNotification object:_player];
+    [[NSNotificationCenter defaultCenter]removeObserver:self name:IJKMPMoviePlayerDetuStatisticsNotification object:_player];
 }
 
 

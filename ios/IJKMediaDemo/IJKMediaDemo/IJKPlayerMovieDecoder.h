@@ -60,6 +60,7 @@ typedef enum {
 -(void)movieDecoderDidDecodeFrameBuffer:(void*)buffer width:(int)width height:(int)height channel:(int)channel;
 -(void)movieDecoderDidDecodeFrameSDL:(SDL_VoutOverlay*)frame;
 -(void)movieDecoderDidDecodeFrameRawbuf:(uint8_t*)frame:(int)w:(int)h;
+-(void)movieDecoderOnStatisticsUpdated:(NSDictionary*)dic;
 
 @end
 

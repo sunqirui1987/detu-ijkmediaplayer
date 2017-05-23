@@ -2796,7 +2796,7 @@ static int read_thread(void *arg)
     
     
     av_log(NULL, AV_LOG_WARNING, " Start read frame");
-    
+    int64_t statisticsStartTime = av_gettime_relative();
     for (;;) {
         if (is->abort_request)
             break;
@@ -3118,8 +3118,20 @@ static int read_thread(void *arg)
                     int ft = frame_queue_nb_remaining(&is->pictq);
                     av_log(ffp, AV_LOG_WARNING, "av_read_frame AV_PKT_FLAG_KEY gop_num %d, qz %d ft %d \n" ,gop_num, is->videoq.nb_packets, ft);
                 }
+                else{
                 
+                    ffp->gopSize ++;
+                }
                 
+                //此处为了统计dragon丢包率，每秒图像码率，每秒B、P帧数量和
+                ffp->packetSize+= pkt->size;
+                int64_t current = av_gettime_relative();
+                if(current - statisticsStartTime >= 1000000) {
+                    statisticsStartTime = current;
+                    ffp_notify_msg3(ffp, FFP_MSG_DETU_STATISTICS_DATA, ffp->packetSize, ffp->gopSize);
+                    ffp->packetSize = 0;
+                    ffp->gopSize = 0;
+                }
              //    av_log(ffp, AV_LOG_WARNING, "av_read_frame  gop_num %d, packetsize %d  key %ds\n" ,gop_num,pkt->size,pkt->flags);
                 
                 packet_queue_put(&is->videoq, pkt);

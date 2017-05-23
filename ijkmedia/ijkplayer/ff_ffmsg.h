@@ -41,6 +41,10 @@
 #define FFP_MSG_SEEK_COMPLETE               600     /* arg1 = seek position,                   arg2 = error */
 #define FFP_MSG_PLAYBACK_STATE_CHANGED      700
 
+//by detu
+#define FFP_MSG_DETU_STATISTICS_DATA        800
+
+
 #define FFP_MSG_VIDEO_DECODER_OPEN          10001
 
 #define FFP_REQ_START                       20001
