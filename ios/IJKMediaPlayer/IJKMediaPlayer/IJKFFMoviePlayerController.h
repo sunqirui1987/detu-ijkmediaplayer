@@ -56,8 +56,8 @@
 
 #define kk_IJKM_KEY_STREAMS       @"streams"
 
-
 typedef void (^DisplayFrameBlock)(SDL_VoutOverlay* overlay);
+
 
 typedef enum IJKLogLevel {
     k_IJK_LOG_UNKNOWN = 0,
@@ -74,7 +74,6 @@ typedef enum IJKLogLevel {
 
 @interface IJKFFMoviePlayerController : NSObject <IJKMediaPlayback>
 
-@property DisplayFrameBlock displayFrameBlock;
 
 - (id)initWithContentURL:(NSURL *)aUrl
              withOptions:(IJKFFOptions *)options;
@@ -83,6 +82,7 @@ typedef enum IJKLogLevel {
                    withOptions:(IJKFFOptions *)options;
 
 @property(nonatomic,assign) Boolean isVideotoolbox;
+@property(nonatomic) DisplayFrameBlock displayFrameBlock;
 - (id)initWithContentURLString:(NSString *)aUrlString
                    withOptions:(IJKFFOptions *)options
                 isVideotoolbox:(Boolean)isVideotoolbox;

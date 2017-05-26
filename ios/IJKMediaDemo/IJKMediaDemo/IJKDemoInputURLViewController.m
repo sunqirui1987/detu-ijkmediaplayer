@@ -275,8 +275,6 @@ basePath;\
 
 -(void)movieDecoderOnStatisticsUpdated:(NSDictionary *)dic {
     NSLog(@"inputController:bitrate:%d, gopSize:%d\n", [[dic objectForKey:@"detu_video_bitrate"] intValue], [[dic objectForKey:@"detu_gop_size"]intValue]);
-    
-    
 }
 
 

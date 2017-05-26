@@ -43,16 +43,10 @@
 #include "ijksdl_vout_ios_gles2.h"
 //end
 
-IJKFFMoviePlayerController *wself;
-
 static const char *kIJKFFRequiredFFmpegVersion = "ff3.1--ijk0.6.2--20160926--001";
 
 
-//add for test liveplayer macro
-int is_liveplayer = 0;
-
 @interface IJKFFMoviePlayerController()
-
 @end
 
 @implementation IJKFFMoviePlayerController {
@@ -61,8 +55,6 @@ int is_liveplayer = 0;
     DecodeCtx *dec_ctx;
 //    VideoFrame *frame;
 //    Frame *vframe;
-    SDL_Vout *v_out;
-    SDL_VoutOverlay *v_outoverlay;
     //end add
     
     IJKSDLGLView *_glView;
@@ -114,7 +106,6 @@ int is_liveplayer = 0;
 @synthesize isDanmakuMediaAirPlay = _isDanmakuMediaAirPlay;
 
 @synthesize monitor = _monitor;
-
 #define FFP_IO_STAT_STEP (50 * 1024)
 
 // as an example
@@ -186,37 +177,20 @@ void IJKFFIOStatCompleteRegister(void (*cb)(const char *url,
                               withOptions:options];
 }
 
+void voutFreeL(SDL_Vout *vout) {
+    if(vout != NULL) {
+        vout->opaque = NULL;
+        free(vout);
+    }
+}
+
 - (id)initWithContentURLString:(NSString *)aUrlString
                    withOptions:(IJKFFOptions *)options
 {
     if (aUrlString == nil)
         return nil;
     
-    
-
     self = [super init];
-    
-    wself = self;
-    
-    is_liveplayer = 0;
-    
-    if([aUrlString isEqualToString:@"rtsp://192.168.1.254/xxx.mov"] || [aUrlString isEqualToString:@"rtsp://192.168.1.254:554/xxx.mov"] || [aUrlString isEqualToString:@"http://192.168.1.254:8192"])
-        is_liveplayer = 1;
-    
-    is_liveplayer = 0;
-    
-    //add for test liveplayer by hcm
-    if (is_liveplayer) {
-        _urlString = aUrlString;
-        Decode_Init();
-        
-        v_out = SDL_VoutIos_CreateForGLES2();
-        
-        v_outoverlay = SDL_Vout_CreateOverlay(940, 720, SDL_FCC_I420, v_out);
-        if (!v_outoverlay)
-            printf("new SDL_VoutOverlay failed ######\n");
-        return self;
-    }
     
     if (self) {
         ijkmp_global_init();
@@ -280,6 +254,8 @@ void IJKFFIOStatCompleteRegister(void (*cb)(const char *url,
          */
         
         _mediaPlayer->ffplayer->vout->display_overlay = display_overlay;
+        _mediaPlayer->ffplayer->vout->opaque = (__bridge void *) self;
+        _mediaPlayer->ffplayer->vout->free_l = voutFreeL;
         
         // init audio sink
         [[IJKAudioKit sharedInstance] setupAudioSession];
@@ -306,8 +282,9 @@ void IJKFFIOStatCompleteRegister(void (*cb)(const char *url,
 }
 
 int display_overlay(SDL_Vout *vout, SDL_VoutOverlay *overlay){
-    if(wself.displayFrameBlock != nil){
-       wself. displayFrameBlock(overlay);
+    IJKFFMoviePlayerController* controller = (__bridge IJKFFMoviePlayerController *)vout->opaque;
+    if(controller.displayFrameBlock != nil){
+        controller.displayFrameBlock(overlay);
     }
     return 0;
 }
@@ -325,10 +302,6 @@ int display_overlay(SDL_Vout *vout, SDL_VoutOverlay *overlay){
 
 - (void)setShouldAutoplay:(BOOL)shouldAutoplay
 {
-    if (is_liveplayer)
-        return;
-    
-    
     _shouldAutoplay = shouldAutoplay;
 
     if (!_mediaPlayer)
@@ -344,16 +317,6 @@ int display_overlay(SDL_Vout *vout, SDL_VoutOverlay *overlay){
 
 - (void)prepareToPlay
 {
-    if (is_liveplayer) {
-        const char *url = [_urlString UTF8String];
- //       const char *url ="rtsp://192.168.1.254/XXX.mov";
-        dec_ctx = Decode_OpenStream((char*)url);
-        if (!dec_ctx) {
-            return;
-        }
-        return;
-    }
-    
     if (!_mediaPlayer)
         return;
    
@@ -398,58 +361,6 @@ int display_overlay(SDL_Vout *vout, SDL_VoutOverlay *overlay){
 //}
 
 -(SDL_VoutOverlay*)getCurrentFrame3{
-    if (is_liveplayer) {
-        int ret;
-        int w,h;
-        uint8_t *y;
-        uint8_t *u;
-        uint8_t *v;
-        
-        
-        
-        VideoFrame frame;
-        ret = Decode_ReadFrame(dec_ctx, &frame);
-        if (ret <= 0) {
-            printf("get yuv frame failed\n");
-            return NULL;
-        }
-//        
-//        if(!v_out) {
-//            v_out = SDL_VoutIos_CreateForGLES2();
-//        }
-//        if (!v_out) {
-//            printf("new v_out failed ######\n");
-//        }
-//        
-//        if(!v_outoverlay) {
-//            v_outoverlay = SDL_Vout_CreateOverlay(frame.width, frame.height, SDL_FCC_I420, v_out);
-//        }
-//        
-//        if (!v_outoverlay) {
-//            printf("new SDL_VoutOverlay failed ######\n");
-//        }
-//        
-//        v_outoverlay->format = SDL_FCC_I420;
-        
-        y = frame.data;
-        u = y + frame.width * frame.height;
-        v = u + frame.width * frame.height / 4;
-        
-        v_outoverlay->pixels[0] = y;
-        v_outoverlay->pixels[1] = u;
-        v_outoverlay->pixels[2] = v;
-        
-        v_outoverlay->pitches[0] = frame.width;
-        v_outoverlay->pitches[1] = frame.width / 2;
-        v_outoverlay->pitches[2] = frame.width / 2;
-        
-        v_outoverlay->h = frame.height;
-        v_outoverlay->w = frame.width;
-        v_outoverlay->planes = 3;
-        
-        return v_outoverlay;
-    }
-    
     if (!_mediaPlayer)
         return NULL;
     
@@ -466,9 +377,6 @@ int display_overlay(SDL_Vout *vout, SDL_VoutOverlay *overlay){
 
 - (void)play
 {
-    if (is_liveplayer)
-        return;
-        
     if (!_mediaPlayer)
         return;
 
@@ -480,9 +388,6 @@ int display_overlay(SDL_Vout *vout, SDL_VoutOverlay *overlay){
 
 - (void)pause
 {
-    if (is_liveplayer)
-        return;
-    
     if (!_mediaPlayer)
         return;
 
@@ -492,25 +397,6 @@ int display_overlay(SDL_Vout *vout, SDL_VoutOverlay *overlay){
 
 - (void)stop
 {
-    if (is_liveplayer) {
-        is_liveplayer = 0;
-
-        if(dec_ctx){
-            if(v_out)
-                SDL_VoutFree(v_out);
-            if(v_outoverlay)
-                SDL_VoutFreeYUVOverlay(v_outoverlay);
-            
-            if (dec_ctx)
-                Decode_CloseStream(dec_ctx);
-            
-            dec_ctx = nil;
-        }
-        
-        Decode_Quit();
-        return;
-    }
-    
     if (!_mediaPlayer)
         return;
 
@@ -522,10 +408,7 @@ int display_overlay(SDL_Vout *vout, SDL_VoutOverlay *overlay){
 
 - (BOOL)isPlaying
 {
-    if (is_liveplayer)
-        return YES;
-    
-    if (!_mediaPlayer)
+   if (!_mediaPlayer)
         return NO;
 
     return ijkmp_is_playing(_mediaPlayer);
@@ -538,9 +421,6 @@ int display_overlay(SDL_Vout *vout, SDL_VoutOverlay *overlay){
 
 - (BOOL)isVideoToolboxOpen
 {
-    if (is_liveplayer)
-        return NO;
-    
     if (!_mediaPlayer)
         return NO;
 
@@ -549,9 +429,6 @@ int display_overlay(SDL_Vout *vout, SDL_VoutOverlay *overlay){
 
 inline static int getPlayerOption(IJKFFOptionCategory category)
 {
-    if (is_liveplayer)
-        return -1;
-    
     int mp_category = -1;
     switch (category) {
         case kIJKFFOptionCategoryFormat:
@@ -576,9 +453,6 @@ inline static int getPlayerOption(IJKFFOptionCategory category)
                 forKey:(NSString *)key
             ofCategory:(IJKFFOptionCategory)category
 {
-    if (is_liveplayer)
-        return;
-    
     assert(_mediaPlayer);
     if (!_mediaPlayer)
         return;
@@ -590,9 +464,6 @@ inline static int getPlayerOption(IJKFFOptionCategory category)
                    forKey:(NSString *)key
                ofCategory:(IJKFFOptionCategory)category
 {
-    if (is_liveplayer)
-        return;
-    
     assert(_mediaPlayer);
     if (!_mediaPlayer)
         return;
@@ -602,9 +473,6 @@ inline static int getPlayerOption(IJKFFOptionCategory category)
 
 + (void)setLogReport:(BOOL)preferLogReport
 {
-    if (is_liveplayer)
-        return;
-    
     ijkmp_global_set_log_report(preferLogReport ? 1 : 0);
 }
 
@@ -615,9 +483,6 @@ inline static int getPlayerOption(IJKFFOptionCategory category)
 
 + (BOOL)checkIfFFmpegVersionMatch:(BOOL)showAlert;
 {
-    if (is_liveplayer)
-        return NO;
-    
     const char *actualVersion = av_version_info();
     const char *expectVersion = kIJKFFRequiredFFmpegVersion;
     if (0 == strcmp(actualVersion, expectVersion)) {
@@ -642,9 +507,6 @@ inline static int getPlayerOption(IJKFFOptionCategory category)
                             minor:(unsigned int)minor
                             micro:(unsigned int)micro
 {
-    if (is_liveplayer)
-        return NO;
-    
     unsigned int actualVersion = ijkmp_version_int();
     if (actualVersion == AV_VERSION_INT(major, minor, micro)) {
         return YES;
@@ -665,11 +527,6 @@ inline static int getPlayerOption(IJKFFOptionCategory category)
 
 - (void)shutdown
 {
-    if (is_liveplayer) {
-        //[self stop];
-        //Decode_CloseStream(dec_ctx);
-        return;
-    }
     if (!_mediaPlayer)
         return;
 
@@ -682,11 +539,6 @@ inline static int getPlayerOption(IJKFFOptionCategory category)
 
 - (void)shutdownWaitStop:(IJKFFMoviePlayerController *) mySelf
 {
-    if (is_liveplayer) {
-       // Decode_CloseStream(dec_ctx);
-        return;
-    }
-    
     if (!_mediaPlayer)
         return;
 
@@ -698,9 +550,6 @@ inline static int getPlayerOption(IJKFFOptionCategory category)
 
 - (void)shutdownClose:(IJKFFMoviePlayerController *) mySelf
 {
-    if (is_liveplayer)
-        return;
-    
     if (!_mediaPlayer)
         return;
 
@@ -721,9 +570,6 @@ inline static int getPlayerOption(IJKFFOptionCategory category)
 
 - (IJKMPMoviePlaybackState)playbackState
 {
-    if (is_liveplayer)
-        return NO;
-    
     if (!_mediaPlayer)
         return NO;
 
@@ -762,9 +608,6 @@ inline static int getPlayerOption(IJKFFOptionCategory category)
 
 - (void)setCurrentPlaybackTime:(NSTimeInterval)aCurrentPlaybackTime
 {
-    if (is_liveplayer)
-        return;
-    
     if (!_mediaPlayer)
         return;
 
@@ -779,9 +622,6 @@ inline static int getPlayerOption(IJKFFOptionCategory category)
 
 - (NSTimeInterval)currentPlaybackTime
 {
-    if (is_liveplayer)
-        return 0.0f;
-    
     if (!_mediaPlayer)
         return 0.0f;
 
@@ -794,9 +634,6 @@ inline static int getPlayerOption(IJKFFOptionCategory category)
 
 - (NSTimeInterval)duration
 {
-    if (is_liveplayer)
-        return 0.0f;
-    
     if (!_mediaPlayer)
         return 0.0f;
 
@@ -809,9 +646,6 @@ inline static int getPlayerOption(IJKFFOptionCategory category)
 
 - (NSTimeInterval)playableDuration
 {
-    if (is_liveplayer)
-        return 0.0f;
-    
     if (!_mediaPlayer)
         return 0.0f;
 
@@ -1071,9 +905,6 @@ inline static NSString *formatedSpeed(int64_t bytes, int64_t elapsed_milli) {
 
 - (void)setPlaybackRate:(float)playbackRate
 {
-    if (is_liveplayer)
-        return;
-    
     if (!_mediaPlayer)
         return;
 
@@ -1082,9 +913,6 @@ inline static NSString *formatedSpeed(int64_t bytes, int64_t elapsed_milli) {
 
 - (float)playbackRate
 {
-    if (is_liveplayer)
-        return 0.0f;
-    
     if (!_mediaPlayer)
         return 0.0f;
 
@@ -1109,9 +937,6 @@ inline static void fillMetaInternal(NSMutableDictionary *meta, IjkMediaMeta *raw
 
 - (void)postEvent: (IJKFFMoviePlayerMessage *)msg
 {
-    if (is_liveplayer)
-        return;
-    
     if (!msg)
         return;
 
