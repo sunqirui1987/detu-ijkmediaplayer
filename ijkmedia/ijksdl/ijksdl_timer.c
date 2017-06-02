@@ -176,15 +176,16 @@ void SDL_SpeedSampler2Reset(SDL_SpeedSampler2 *sampler, int sample_range)
 
 int64_t SDL_SpeedSampler2Add(SDL_SpeedSampler2 *sampler, int quantity)
 {
-    if (quantity < 0)
-        return 0;
-
     int64_t sample_range  = sampler->sample_range;
     int64_t last_tick     = sampler->last_profile_tick;
     int64_t last_duration = sampler->last_profile_duration;
     int64_t last_quantity = sampler->last_profile_quantity;
     int64_t now           = (int64_t)SDL_GetTickHR();
     int64_t elapsed       = (int64_t)llabs(now - last_tick);
+
+	if (quantity < 0)
+		return 0;
+
     if (elapsed < 0 || elapsed >= sample_range) {
         // overflow, reset to initialized state
         sampler->last_profile_tick     = now;
@@ -211,6 +212,7 @@ int64_t SDL_SpeedSampler2Add(SDL_SpeedSampler2 *sampler, int quantity)
 
 int64_t SDL_SpeedSampler2GetSpeed(SDL_SpeedSampler2 *sampler)
 {
+	int64_t new_quantity, new_duration;
     int64_t sample_range  = sampler->sample_range;
     int64_t last_tick     = sampler->last_profile_tick;
     int64_t last_quantity = sampler->last_profile_quantity;
@@ -220,8 +222,8 @@ int64_t SDL_SpeedSampler2GetSpeed(SDL_SpeedSampler2 *sampler)
     if (elapsed < 0 || elapsed >= sample_range)
         return 0;
 
-    int64_t new_quantity = last_quantity;
-    int64_t new_duration = last_duration + elapsed;
+    new_quantity = last_quantity;
+    new_duration = last_duration + elapsed;
     if (new_duration > sample_range) {
         new_quantity = new_quantity * sample_range / new_duration;
         new_duration = sample_range;

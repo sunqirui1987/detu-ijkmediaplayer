@@ -90,10 +90,11 @@ static AVFrame *opaque_setup_frame(SDL_VoutOverlay_Opaque* opaque, enum AVPixelF
 
 static AVFrame *opaque_obtain_managed_frame_buffer(SDL_VoutOverlay_Opaque* opaque)
 {
+	AVFrame *managed_frame;
     if (opaque->frame_buffer != NULL)
         return opaque->managed_frame;
 
-    AVFrame *managed_frame = opaque->managed_frame;
+    managed_frame = opaque->managed_frame;
     int frame_bytes = av_image_get_buffer_size(managed_frame->format, managed_frame->width, managed_frame->height, 1);
     AVBufferRef *frame_buffer_ref = av_buffer_alloc(frame_bytes);
     if (!frame_buffer_ref)
@@ -107,11 +108,12 @@ static AVFrame *opaque_obtain_managed_frame_buffer(SDL_VoutOverlay_Opaque* opaqu
 
 static void func_free_l(SDL_VoutOverlay *overlay)
 {
+	SDL_VoutOverlay_Opaque *opaque;
     ALOGE("SDL_Overlay(ffmpeg): overlay_free_l(%p)\n", overlay);
     if (!overlay)
         return;
 
-    SDL_VoutOverlay_Opaque *opaque = overlay->opaque;
+    opaque = overlay->opaque;
     if (!opaque)
         return;
 

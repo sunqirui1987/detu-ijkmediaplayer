@@ -3606,10 +3606,11 @@ static AVDictionary **ffp_get_opt_dict(FFPlayer *ffp, int opt_category)
 static void ffp_set_playback_async_statistic(FFPlayer *ffp, int64_t buf_backwards, int64_t buf_forwards, int64_t buf_capacity);
 static int app_func_event(AVApplicationContext *h, int message ,void *data, size_t size)
 {
+	FFPlayer *ffp;
     if (!h || !h->opaque || !data)
         return 0;
 
-    FFPlayer *ffp = (FFPlayer *)h->opaque;
+    ffp = (FFPlayer *)h->opaque;
     if (!ffp->inject_opaque)
         return 0;
     if (message == AVAPP_EVENT_IO_TRAFFIC && sizeof(AVAppIOTraffic) == size) {
@@ -3641,19 +3642,21 @@ void ffp_set_inject_opaque(FFPlayer *ffp, void *opaque)
 
 void ffp_set_option(FFPlayer *ffp, int opt_category, const char *name, const char *value)
 {
+	AVDictionary **dict;
     if (!ffp)
         return;
 
-    AVDictionary **dict = ffp_get_opt_dict(ffp, opt_category);
+    dict = ffp_get_opt_dict(ffp, opt_category);
     av_dict_set(dict, name, value, 0);
 }
 
 void ffp_set_option_int(FFPlayer *ffp, int opt_category, const char *name, int64_t value)
 {
+	AVDictionary **dict;
     if (!ffp)
         return;
 
-    AVDictionary **dict = ffp_get_opt_dict(ffp, opt_category);
+    dict = ffp_get_opt_dict(ffp, opt_category);
     av_dict_set_int(dict, name, value, 0);
 }
 
@@ -3875,13 +3878,14 @@ int ffp_wait_stop_l(FFPlayer *ffp)
 
 int ffp_seek_to_l(FFPlayer *ffp, long msec)
 {
+	int64_t seek_pos, start_time;
     assert(ffp);
     VideoState *is = ffp->is;
     if (!is)
         return EIJK_NULL_IS_PTR;
 
-    int64_t seek_pos = milliseconds_to_fftime(msec);
-    int64_t start_time = is->ic->start_time;
+    seek_pos = milliseconds_to_fftime(msec);
+    start_time = is->ic->start_time;
     if (start_time > 0 && start_time != AV_NOPTS_VALUE)
         seek_pos += start_time;
 
@@ -3895,17 +3899,18 @@ int ffp_seek_to_l(FFPlayer *ffp, long msec)
 
 long ffp_get_current_position_l(FFPlayer *ffp)
 {
+	int64_t start_time, start_diff, pos, adjust_pos;
     assert(ffp);
     VideoState *is = ffp->is;
     if (!is || !is->ic)
         return 0;
 
-    int64_t start_time = is->ic->start_time;
-    int64_t start_diff = 0;
+    start_time = is->ic->start_time;
+    start_diff = 0;
     if (start_time > 0 && start_time != AV_NOPTS_VALUE)
         start_diff = fftime_to_milliseconds(start_time);
 
-    int64_t pos = 0;
+    pos = 0;
     double pos_clock = get_master_clock(is);
     if (isnan(pos_clock)) {
         pos = fftime_to_milliseconds(is->seek_pos);
@@ -3924,18 +3929,19 @@ long ffp_get_current_position_l(FFPlayer *ffp)
     if (pos < 0 || pos < start_diff)
         return 0;
 
-    int64_t adjust_pos = pos - start_diff;
+    adjust_pos = pos - start_diff;
     return (long)adjust_pos;
 }
 
 long ffp_get_duration_l(FFPlayer *ffp)
 {
+	int64_t duration;
     assert(ffp);
     VideoState *is = ffp->is;
     if (!is || !is->ic)
         return 0;
 
-    int64_t duration = fftime_to_milliseconds(is->ic->duration);
+    duration = fftime_to_milliseconds(is->ic->duration);
     if (duration < 0)
         return 0;
 
@@ -4042,10 +4048,11 @@ double ffp_get_master_clock(VideoState *is)
 
 void ffp_toggle_buffering_l(FFPlayer *ffp, int buffering_on)
 {
+	VideoState *is;
     if (!ffp->packet_buffering)
         return;
 
-    VideoState *is = ffp->is;
+    is = ffp->is;
     if (buffering_on && !is->buffering_on) {
         av_log(ffp, AV_LOG_DEBUG, "ffp_toggle_buffering_l: start\n");
         is->buffering_on = 1;

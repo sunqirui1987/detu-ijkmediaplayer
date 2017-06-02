@@ -175,6 +175,8 @@ static int64_t get_bit_rate(AVCodecParameters *codecpar)
 
 void ijkmeta_set_avformat_context_l(IjkMediaMeta *meta, AVFormatContext *ic)
 {
+	AVStream *st;
+	AVDictionaryEntry *tag;
     if (!meta || !ic)
         return;
 
@@ -190,7 +192,7 @@ void ijkmeta_set_avformat_context_l(IjkMediaMeta *meta, AVFormatContext *ic)
     if (ic->bit_rate)
         ijkmeta_set_int64_l(meta, IJKM_KEY_BITRATE, ic->bit_rate);
     
-    AVDictionaryEntry *tag = NULL;
+    tag = NULL;
     while ((tag = av_dict_get(ic->metadata, "", tag, AV_DICT_IGNORE_SUFFIX))){
         ijkmeta_set_string_l(meta, tag->key, tag->value);
     }
@@ -201,7 +203,7 @@ void ijkmeta_set_avformat_context_l(IjkMediaMeta *meta, AVFormatContext *ic)
         if (!stream_meta)
             ijkmeta_destroy_p(&stream_meta);
 
-        AVStream *st = ic->streams[i];
+        st = ic->streams[i];
         if (!st || !st->codecpar)
             continue;
 
@@ -294,10 +296,11 @@ void ijkmeta_set_avformat_context_l(IjkMediaMeta *meta, AVFormatContext *ic)
 
 const char *ijkmeta_get_string_l(IjkMediaMeta *meta, const char *name)
 {
+	AVDictionaryEntry *entry;
     if (!meta || !meta->dict)
         return NULL;
 
-    AVDictionaryEntry *entry = av_dict_get(meta->dict, name, NULL, 0);
+    entry = av_dict_get(meta->dict, name, NULL, 0);
     if (!entry)
         return NULL;
 
@@ -306,10 +309,11 @@ const char *ijkmeta_get_string_l(IjkMediaMeta *meta, const char *name)
 
 int64_t ijkmeta_get_int64_l(IjkMediaMeta *meta, const char *name, int64_t defaultValue)
 {
+	AVDictionaryEntry *entry;
     if (!meta || !meta->dict)
         return defaultValue;
 
-    AVDictionaryEntry *entry = av_dict_get(meta->dict, name, NULL, 0);
+    entry = av_dict_get(meta->dict, name, NULL, 0);
     if (!entry || !entry->value)
         return defaultValue;
 

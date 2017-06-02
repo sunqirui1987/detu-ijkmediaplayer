@@ -42,11 +42,12 @@ static int func_run_sync(IJKFF_Pipenode *node)
 
 IJKFF_Pipenode *ffpipenode_create_video_decoder_from_ffplay(FFPlayer *ffp)
 {
+	IJKFF_Pipenode_Opaque *opaque;
     IJKFF_Pipenode *node = ffpipenode_alloc(sizeof(IJKFF_Pipenode_Opaque));
     if (!node)
         return node;
 
-    IJKFF_Pipenode_Opaque *opaque = node->opaque;
+    opaque = node->opaque;
     opaque->ffp         = ffp;
 
     node->func_destroy  = func_destroy;
