@@ -28,6 +28,10 @@
 #include <stdint.h>
 #include <stdbool.h>
 
+#if defined(WIN32) && !defined(__cplusplus)
+#include "def.h"
+#endif
+
 typedef int8_t      Sint8;
 typedef uint8_t     Uint8;
 typedef int16_t     Sint16;

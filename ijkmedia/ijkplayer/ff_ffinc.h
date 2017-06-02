@@ -26,12 +26,21 @@
 
 #include <stdbool.h>
 #include <assert.h>
+
+#ifdef WIN32
+#include "def.h"
+#endif
+
 #include "libavutil/avstring.h"
 #include "libavutil/time.h"
 #include "libavformat/avformat.h"
 #include "libavcodec/avfft.h"
 #include "libswscale/swscale.h"
+#ifndef WIN32
 #include "libavutil/application.h"
+#else
+#include "application.h"
+#endif
 #include "libavutil/base64.h"
 #include "libavutil/error.h"
 #include "libavutil/opt.h"

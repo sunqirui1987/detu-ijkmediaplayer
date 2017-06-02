@@ -24,6 +24,10 @@
 #ifndef FFPLAY__FF_FFMSG_QUEUE_H
 #define FFPLAY__FF_FFMSG_QUEUE_H
 
+#ifdef WIN32
+#include "def.h"
+#endif
+
 #include "ff_ffinc.h"
 #include "ff_ffmsg.h"
 

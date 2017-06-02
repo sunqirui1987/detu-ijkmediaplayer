@@ -399,8 +399,7 @@ static int packet_queue_get_or_buffering(FFPlayer *ffp, PacketQueue *q, AVPacket
         }
         if (finished == *serial) {
             
-            av_free_packet(pkt);
-            
+			av_packet_unref(pkt);	//av_free_packet(pkt);
             continue;
             
         }
@@ -1165,7 +1164,11 @@ display:
     if (ffp->show_status) {
         static int64_t last_time;
         int64_t cur_time;
+#ifndef WIN32
         int aqsize, vqsize, sqsize __unused;
+#else
+		int aqsize, vqsize, sqsize;
+#endif
         double av_diff;
 
         cur_time = av_gettime_relative();
@@ -1191,7 +1194,7 @@ display:
             else if (is->audio_st)
                 av_diff = get_master_clock(is) - get_clock(&is->audclk);
             av_log(NULL, AV_LOG_INFO,
-                   "%7.2f %s:%7.3f fd=%4d aq=%5dKB vq=%5dKB sq=%5dB f=%"PRId64"/%"PRId64"   \r",
+                   "%7.2f %s:%7.3f fd=%4d aq=%5dKB vq=%5dKB sq=%5dB f=%lld/%lld   \r",
                    get_master_clock(is),
                    (is->audio_st && is->video_st) ? "A-V" : (is->video_st ? "M-V" : (is->audio_st ? "M-A" : "   ")),
                    av_diff,
@@ -2478,7 +2481,11 @@ static int read_thread(void *arg)
     FFPlayer *ffp = arg;
     VideoState *is = ffp->is;
     AVFormatContext *ic = NULL;
+#ifndef WIN32
     int err, i, ret __unused;
+#else
+	int err, i, ret;
+#endif
     int st_index[AVMEDIA_TYPE_NB];
     AVPacket pkt1, *pkt = &pkt1;
     int64_t stream_start_time;
@@ -3344,7 +3351,11 @@ static void ffp_log_callback_brief(void *ptr, int level, const char *fmt, va_lis
     if (level > av_log_get_level())
         return;
 
+#ifndef WIN32
     int ffplv __unused = log_level_av_to_ijk(level);
+#else
+	int ffplv = log_level_av_to_ijk(level);
+#endif
     
     char fmt_str[500];
   
@@ -3370,7 +3381,11 @@ static void ffp_log_callback_report(void *ptr, int level, const char *fmt, va_li
     if (level > av_log_get_level())
         return;
 
+#ifndef WIN32
     int ffplv __unused = log_level_av_to_ijk(level);
+#else
+	int ffplv = log_level_av_to_ijk(level);
+#endif
 
     va_list vl2;
     char line[1024];
@@ -3644,24 +3659,24 @@ void ffp_set_option_int(FFPlayer *ffp, int opt_category, const char *name, int64
 
 void ffp_set_overlay_format(FFPlayer *ffp, int chroma_fourcc)
 {
-    switch (chroma_fourcc) {
-        case SDL_FCC__GLES2:
-        case SDL_FCC_I420:
-        case SDL_FCC_YV12:
-        case SDL_FCC_RV16:
-        case SDL_FCC_RV24:
-        case SDL_FCC_RV32:
-            ffp->overlay_format = chroma_fourcc;
-            break;
+	switch (chroma_fourcc) {
+		case SDL_FCC__GLES2:
+		case SDL_FCC_I420:
+		case SDL_FCC_YV12:
+		case SDL_FCC_RV16:
+		case SDL_FCC_RV24:
+		case SDL_FCC_RV32:
+			ffp->overlay_format = chroma_fourcc;
+			break;
 #ifdef __APPLE__
-        case SDL_FCC_I444P10LE:
-            ffp->overlay_format = chroma_fourcc;
-            break;
+		case SDL_FCC_I444P10LE:
+			ffp->overlay_format = chroma_fourcc;
+			break;
 #endif
-        default:
-            av_log(ffp, AV_LOG_ERROR, "ffp_set_overlay_format: unknown chroma fourcc: %d\n", chroma_fourcc);
-            break;
-    }
+		default:
+			av_log(ffp, AV_LOG_ERROR, "ffp_set_overlay_format: unknown chroma fourcc: %d\n", chroma_fourcc);
+			break;
+	}
 }
 
 int ffp_get_video_codec_info(FFPlayer *ffp, char **codec_info)
@@ -3671,7 +3686,11 @@ int ffp_get_video_codec_info(FFPlayer *ffp, char **codec_info)
 
     // FIXME: not thread-safe
     if (ffp->video_codec_info) {
+#ifndef WIN32
         *codec_info = strdup(ffp->video_codec_info);
+#else
+		*codec_info = _strdup(ffp->video_codec_info);
+#endif
     } else {
         *codec_info = NULL;
     }
@@ -3685,7 +3704,11 @@ int ffp_get_audio_codec_info(FFPlayer *ffp, char **codec_info)
 
     // FIXME: not thread-safe
     if (ffp->audio_codec_info) {
+#ifndef WIN32
         *codec_info = strdup(ffp->audio_codec_info);
+#else
+		*codec_info = _strdup(ffp->audio_codec_info);
+#endif
     } else {
         *codec_info = NULL;
     }
@@ -3734,7 +3757,7 @@ int ffp_prepare_async_l(FFPlayer *ffp, const char *file_name)
 
     /* there is a length limit in avformat */
     if (strlen(file_name) + 1 > 1024) {
-        av_log(ffp, AV_LOG_ERROR, "%s too long url\n", __func__);
+        av_log(ffp, AV_LOG_ERROR, "ffp_prepare_async_l too long url\n");
         if (avio_find_protocol_name("ijklongurl:")) {
             av_dict_set(&ffp->format_opts, "ijklongurl-url", file_name, 0);
             file_name = "ijklongurl:";
@@ -3865,7 +3888,7 @@ int ffp_seek_to_l(FFPlayer *ffp, long msec)
     // FIXME: 9 seek by bytes
     // FIXME: 9 seek out of range
     // FIXME: 9 seekable
-    av_log(ffp, AV_LOG_DEBUG, "stream_seek %"PRId64"(%d) + %"PRId64", \n", seek_pos, (int)msec, start_time);
+    av_log(ffp, AV_LOG_DEBUG, "stream_seek %lld(%d) + %lld, \n", seek_pos, (int)msec, start_time);
     stream_seek(is, seek_pos, 0, 0);
     return 0;
 }

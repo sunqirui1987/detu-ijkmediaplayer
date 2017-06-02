@@ -24,6 +24,11 @@
 #include "ijkplayer_internal.h"
 #include "version.h"
 
+#ifdef WIN32
+#include "def.h"
+#include "utils.h"
+#endif
+
 #define MP_RET_IF_FAILED(ret) \
     do { \
         int retval = ret; \
@@ -144,9 +149,9 @@ void ijkmp_set_inject_opaque(IjkMediaPlayer *mp, void *opaque)
 {
     assert(mp);
 
-    MPTRACE("%s(%p)\n", __func__, opaque);
+    MPTRACE("ijkmp_set_inject_opaque(%p)\n", opaque);
     ffp_set_inject_opaque(mp->ffplayer, opaque);
-    MPTRACE("%s()=void\n", __func__);
+    MPTRACE("ijkmp_set_inject_opaque()=void\n");
 }
 
 void ijkmp_set_option(IjkMediaPlayer *mp, int opt_category, const char *name, const char *value)
@@ -175,11 +180,11 @@ int ijkmp_get_video_codec_info(IjkMediaPlayer *mp, char **codec_info)
 {
     assert(mp);
 
-    MPTRACE("%s\n", __func__);
+    MPTRACE("ijkmp_get_video_codec_info\n");
     pthread_mutex_lock(&mp->mutex);
     int ret = ffp_get_video_codec_info(mp->ffplayer, codec_info);
     pthread_mutex_unlock(&mp->mutex);
-    MPTRACE("%s()=void\n", __func__);
+    MPTRACE("ijkmp_get_video_codec_info()=void\n");
     return ret;
 }
 
@@ -187,11 +192,11 @@ int ijkmp_get_audio_codec_info(IjkMediaPlayer *mp, char **codec_info)
 {
     assert(mp);
 
-    MPTRACE("%s\n", __func__);
+    MPTRACE("ijkmp_get_audio_codec_info\n");
     pthread_mutex_lock(&mp->mutex);
     int ret = ffp_get_audio_codec_info(mp->ffplayer, codec_info);
     pthread_mutex_unlock(&mp->mutex);
-    MPTRACE("%s()=void\n", __func__);
+    MPTRACE("ijkmp_get_audio_codec_info()=void\n");
     return ret;
 }
 
@@ -199,22 +204,22 @@ void ijkmp_set_playback_rate(IjkMediaPlayer *mp, float rate)
 {
     assert(mp);
 
-    MPTRACE("%s(%f)\n", __func__, rate);
+    MPTRACE("ijkmp_set_playback_rate(%f)\n", rate);
     pthread_mutex_lock(&mp->mutex);
     ffp_set_playback_rate(mp->ffplayer, rate);
     pthread_mutex_unlock(&mp->mutex);
-    MPTRACE("%s()=void\n", __func__);
+    MPTRACE("ijkmp_set_playback_rate()=void\n");
 }
 
 int ijkmp_set_stream_selected(IjkMediaPlayer *mp, int stream, int selected)
 {
     assert(mp);
 
-    MPTRACE("%s(%d, %d)\n", __func__, stream, selected);
+    MPTRACE("ijkmp_set_stream_selected(%d, %d)\n", stream, selected);
     pthread_mutex_lock(&mp->mutex);
     int ret = ffp_set_stream_selected(mp->ffplayer, stream, selected);
     pthread_mutex_unlock(&mp->mutex);
-    MPTRACE("%s(%d, %d)=%d\n", __func__, stream, selected, ret);
+    MPTRACE("ijkmp_set_stream_selected(%d, %d)=%d\n", stream, selected, ret);
     return ret;
 }
 
@@ -260,9 +265,9 @@ IjkMediaMeta *ijkmp_get_meta_l(IjkMediaPlayer *mp)
 {
     assert(mp);
 
-    MPTRACE("%s\n", __func__);
+    MPTRACE("ijkmp_get_meta_l\n");
     IjkMediaMeta *ret = ffp_get_meta_l(mp->ffplayer);
-    MPTRACE("%s()=void\n", __func__);
+    MPTRACE("ijkmp_get_meta_l()=void\n");
     return ret;
 }
 
@@ -286,7 +291,11 @@ void ijkmp_shutdown(IjkMediaPlayer *mp)
 void ijkmp_inc_ref(IjkMediaPlayer *mp)
 {
     assert(mp);
+#ifndef WIN32
     __sync_fetch_and_add(&mp->ref_count, 1);
+#else
+	InterlockedIncrement(&mp->ref_count);
+#endif
 }
 
 void ijkmp_dec_ref(IjkMediaPlayer *mp)
@@ -294,7 +303,11 @@ void ijkmp_dec_ref(IjkMediaPlayer *mp)
     if (!mp)
         return;
 
+#ifndef WIN32
     int ref_count = __sync_sub_and_fetch(&mp->ref_count, 1);
+#else
+	int ref_count = InterlockedDecrement(&mp->ref_count);
+#endif
     if (ref_count == 0) {
         MPTRACE("ijkmp_dec_ref(): ref=0\n");
         ijkmp_shutdown(mp);
@@ -328,7 +341,11 @@ static int ijkmp_set_data_source_l(IjkMediaPlayer *mp, const char *url)
     MPST_RET_IF_EQ(mp->mp_state, MP_STATE_END);
 
     freep((void**)&mp->data_source);
+#ifndef WIN32
     mp->data_source = strdup(url);
+#else
+	mp->data_source = _strdup(url);
+#endif
     if (!mp->data_source)
         return EIJK_OUT_OF_MEMORY;
 

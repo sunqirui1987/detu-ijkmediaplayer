@@ -24,6 +24,10 @@
 #ifndef IJKSDL__FFMPEG__IJKSDL_IMAGE_CONVERT_H
 #define IJKSDL__FFMPEG__IJKSDL_IMAGE_CONVERT_H
 
+#ifdef WIN32
+#include "def.h"
+#endif
+
 #include <stdint.h>
 #include "ijksdl_inc_ffmpeg.h"
 

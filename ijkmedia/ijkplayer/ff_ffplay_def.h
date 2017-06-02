@@ -34,6 +34,10 @@
 #include <signal.h>
 #include <stdint.h>
 
+#ifdef WIN32
+#include "def.h"
+#endif
+
 #include "libavutil/avstring.h"
 #include "libavutil/eval.h"
 #include "libavutil/mathematics.h"
@@ -56,6 +60,7 @@
 # include "libavfilter/buffersink.h"
 # include "libavfilter/buffersrc.h"
 #endif
+
 
 #include <stdbool.h>
 #include "ff_ffinc.h"

@@ -22,7 +22,7 @@
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
-    <ConfigurationType>Application</ConfigurationType>
+    <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <PlatformToolset>v120</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
@@ -55,10 +55,13 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
-      <Optimization>MaxSpeed</Optimization>
+      <Optimization>Disabled</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
+      <AdditionalIncludeDirectories>../../win/depend/ffmpeg/include/;../../win/depend/sdl2/include/;../../win/depend/pthread-win32/include/;../../ijkmedia/;../../win/win/include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;_MBCS;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <WholeProgramOptimization>false</WholeProgramOptimization>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -82,6 +85,32 @@
     <ClCompile Include="..\..\ijkmedia\ijkplayer\ijkplayer.c" />
     <ClCompile Include="..\..\ijkmedia\ijkplayer\pipeline\ffpipeline_ffplay.c" />
     <ClCompile Include="..\..\ijkmedia\ijkplayer\pipeline\ffpipenode_ffplay_vdec.c" />
+    <ClCompile Include="..\..\ijkmedia\ijksdl\ffmpeg\abi_all\image_convert.c" />
+    <ClCompile Include="..\..\ijkmedia\ijksdl\ffmpeg\ijksdl_vout_overlay_ffmpeg.c" />
+    <ClCompile Include="..\..\ijkmedia\ijksdl\ijksdl_aout.c" />
+    <ClCompile Include="..\..\ijkmedia\ijksdl\ijksdl_audio.c" />
+    <ClCompile Include="..\..\ijkmedia\ijksdl\ijksdl_error.c" />
+    <ClCompile Include="..\..\ijkmedia\ijksdl\ijksdl_mutex.c" />
+    <ClCompile Include="..\..\ijkmedia\ijksdl\ijksdl_stdinc.c" />
+    <ClCompile Include="..\..\ijkmedia\ijksdl\ijksdl_thread.c" />
+    <ClCompile Include="..\..\ijkmedia\ijksdl\ijksdl_timer.c" />
+    <ClCompile Include="..\..\ijkmedia\ijksdl\ijksdl_vout.c" />
+    <ClCompile Include="src\application.c" />
+    <ClCompile Include="src\Counter.c" />
+    <ClCompile Include="src\CpuInfo.c" />
+    <ClCompile Include="src\ifaddrs.c" />
+    <ClCompile Include="src\LoadAvg.c" />
+    <ClCompile Include="src\MemInfo.c" />
+    <ClCompile Include="src\network.c" />
+    <ClCompile Include="src\ptw32_MCS_lock.c" />
+    <ClCompile Include="src\resource.c" />
+    <ClCompile Include="src\time.c" />
+    <ClCompile Include="src\uio.c" />
+    <ClCompile Include="src\unistd.c" />
+    <ClCompile Include="src\UpTime.c" />
+    <ClCompile Include="src\Util.c" />
+    <ClCompile Include="src\utils.c" />
+    <ClCompile Include="src\win-pthread.c" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\ijkmedia\ijkplayer\config.h" />
@@ -103,6 +132,34 @@
     <ClInclude Include="..\..\ijkmedia\ijkplayer\ijkplayer_internal.h" />
     <ClInclude Include="..\..\ijkmedia\ijkplayer\pipeline\ffpipeline_ffplay.h" />
     <ClInclude Include="..\..\ijkmedia\ijkplayer\pipeline\ffpipenode_ffplay_vdec.h" />
+    <ClInclude Include="..\..\ijkmedia\ijksdl\ffmpeg\ijksdl_image_convert.h" />
+    <ClInclude Include="..\..\ijkmedia\ijksdl\ffmpeg\ijksdl_inc_ffmpeg.h" />
+    <ClInclude Include="..\..\ijkmedia\ijksdl\ffmpeg\ijksdl_vout_overlay_ffmpeg.h" />
+    <ClInclude Include="..\..\ijkmedia\ijksdl\ijksdl.h" />
+    <ClInclude Include="..\..\ijkmedia\ijksdl\ijksdl_aout.h" />
+    <ClInclude Include="..\..\ijkmedia\ijksdl\ijksdl_aout_internal.h" />
+    <ClInclude Include="..\..\ijkmedia\ijksdl\ijksdl_audio.h" />
+    <ClInclude Include="..\..\ijkmedia\ijksdl\ijksdl_class.h" />
+    <ClInclude Include="..\..\ijkmedia\ijksdl\ijksdl_container.h" />
+    <ClInclude Include="..\..\ijkmedia\ijksdl\ijksdl_endian.h" />
+    <ClInclude Include="..\..\ijkmedia\ijksdl\ijksdl_error.h" />
+    <ClInclude Include="..\..\ijkmedia\ijksdl\ijksdl_fourcc.h" />
+    <ClInclude Include="..\..\ijkmedia\ijksdl\ijksdl_inc_internal.h" />
+    <ClInclude Include="..\..\ijkmedia\ijksdl\ijksdl_log.h" />
+    <ClInclude Include="..\..\ijkmedia\ijksdl\ijksdl_misc.h" />
+    <ClInclude Include="..\..\ijkmedia\ijksdl\ijksdl_mutex.h" />
+    <ClInclude Include="..\..\ijkmedia\ijksdl\ijksdl_stdinc.h" />
+    <ClInclude Include="..\..\ijkmedia\ijksdl\ijksdl_thread.h" />
+    <ClInclude Include="..\..\ijkmedia\ijksdl\ijksdl_timer.h" />
+    <ClInclude Include="..\..\ijkmedia\ijksdl\ijksdl_video.h" />
+    <ClInclude Include="..\..\ijkmedia\ijksdl\ijksdl_vout.h" />
+    <ClInclude Include="..\..\ijkmedia\ijksdl\ijksdl_vout_internal.h" />
+    <ClInclude Include="src\Counter.h" />
+    <ClInclude Include="src\CpuInfo.h" />
+    <ClInclude Include="src\LoadAvg.h" />
+    <ClInclude Include="src\MemInfo.h" />
+    <ClInclude Include="src\UpTime.h" />
+    <ClInclude Include="src\Util.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

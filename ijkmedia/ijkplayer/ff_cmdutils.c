@@ -24,8 +24,13 @@
 
 #include "ff_cmdutils.h"
 
+#ifdef WIN32
+#include "def.h"
+#endif
+
 #include "libavutil/display.h"
 #include "libavutil/eval.h"
+
 
 // MERGE: sws_opts
 // MERGE: swr_opts

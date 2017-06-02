@@ -30,7 +30,7 @@
 #include "ijkplayer.h"
 
 struct IjkMediaPlayer {
-    volatile int ref_count;
+    volatile unsigned int ref_count;
     pthread_mutex_t mutex;
     FFPlayer *ffplayer;
 

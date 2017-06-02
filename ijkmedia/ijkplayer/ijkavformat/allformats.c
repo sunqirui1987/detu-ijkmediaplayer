@@ -20,6 +20,10 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
  */
 
+#ifdef WIN32
+#include "def.h"
+#endif
+
 #include "libavformat/avformat.h"
 #include "libavformat/url.h"
 #include "libavformat/version.h"

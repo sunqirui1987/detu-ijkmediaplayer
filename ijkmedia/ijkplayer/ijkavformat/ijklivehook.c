@@ -18,6 +18,10 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
  */
 
+#ifdef WIN32
+#include "def.h"
+#endif
+
 #include "libavformat/avformat.h"
 #include "libavformat/url.h"
 #include "libavutil/avstring.h"
@@ -26,7 +30,11 @@
 #include "ijkplayer/ijkavutil/opt.h"
 
 #include "ijkavformat.h"
+#ifndef WIN32
 #include "libavutil/application.h"
+#else
+#include "application.h"
+#endif
 
 typedef struct {
     AVClass         *class;
@@ -184,7 +192,11 @@ static int ijklivehook_read_header(AVFormatContext *avf, AVDictionary **options)
     av_strstart(avf->filename, "ijklivehook:", &inner_url);
 
     c->io_control.size = sizeof(c->io_control);
+#ifdef WIN32
+	strcpy_s(c->io_control.url, sizeof(c->io_control.url), inner_url);
+#else
     strlcpy(c->io_control.url, inner_url, sizeof(c->io_control.url));
+#endif
 
     if (av_stristart(c->io_control.url, "rtmp", NULL) ||
         av_stristart(c->io_control.url, "rtsp", NULL)) {
@@ -296,7 +308,7 @@ AVInputFormat ijkff_ijklivehook_demuxer = {
     .flags          = AVFMT_NOFILE | AVFMT_TS_DISCONT,
     .priv_data_size = sizeof(Context),
     .read_probe     = ijklivehook_probe,
-    .read_header2   = ijklivehook_read_header,
+    //.read_header2   = ijklivehook_read_header,
     .read_packet    = ijklivehook_read_packet,
     .read_close     = ijklivehook_read_close,
     .priv_class     = &ijklivehook_class,
