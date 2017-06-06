@@ -140,6 +140,8 @@ basePath;\
     
 //    path =  [[NSBundle mainBundle] pathForResource:@"aaa" ofType:@"mp4"];
     
+    //path = @"rtsp://192.168.42.1/tmp/SD0/DCIM/170602000/165228AB.MP4";
+    
     if (decoder!= nil) {
         [decoder cleargc];
         sleep(1);

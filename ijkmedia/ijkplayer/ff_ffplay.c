@@ -2815,8 +2815,8 @@ static int read_thread(void *arg)
                  (ic->pb && !strncmp(ffp->input_filename, "mmsh:", 5)))) {
             /* wait 10 ms to avoid trying to get another packet */
             /* XXX: horrible */
-            SDL_Delay(10);
-            continue;
+            //SDL_Delay(10);
+            //continue;
         }
 #endif
         if (is->seek_req) {
@@ -2919,7 +2919,7 @@ static int read_thread(void *arg)
         //临时解决rtsp回放没有完成回调的问题
         bool isRtspPlayBack = av_stristart(ic->filename, "rtsp://192.168.42.1/tmp", NULL);
         if(isRtspPlayBack) {
-            long playTime = ffp_get_playable_duration_l(ffp);
+            long playTime = ffp_get_current_position_l(ffp);
             long duration = ffp_get_duration_l(ffp);
             av_log(ffp, AV_LOG_ERROR, "playtime:%ld,duration:%ld\n", playTime, duration);
             if(playTime != -1 && duration != -1 && playTime > duration / 2) {

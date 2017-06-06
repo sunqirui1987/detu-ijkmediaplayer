@@ -57,7 +57,7 @@ public class RecentMediaListFragment extends Fragment implements LoaderManager.L
         super.onActivityCreated(savedInstanceState);
 
         final Activity activity = getActivity();
-
+        new RecentMediaStorage(activity).saveUrl("rtsp://192.168.42.1/tmp/SD0/DCIM/170606000/101716AB.MP4");
         mAdapter = new RecentMediaAdapter(activity);
         mFileListView.setAdapter(mAdapter);
         mFileListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
