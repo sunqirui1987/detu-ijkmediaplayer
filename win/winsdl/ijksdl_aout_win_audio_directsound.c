@@ -6,6 +6,8 @@
 #include "ijksdl/ijksdl_thread.h"
 #include "ijksdl/ijksdl_aout_internal.h"
 
+#include "winsdl/win_directsound.h"
+
 
 static SDL_Class g_xaudio_class = {
 	.name = "XAudio",
@@ -16,7 +18,7 @@ typedef struct SDL_Aout_Opaque {
 	SDL_mutex *wakeup_mutex;
 
 	SDL_AudioSpec spec;
-	//SDL_Android_AudioTrack* atrack;
+	SDL_Win_DirectSound* atrack;
 	uint8_t *buffer;
 	int buffer_size;
 
@@ -40,7 +42,7 @@ typedef struct SDL_Aout_Opaque {
 static int aout_thread_n(SDL_Aout *aout)
 {
 	SDL_Aout_Opaque *opaque = aout->opaque;
-	//SDL_Android_AudioTrack *atrack = opaque->atrack;
+	SDL_Win_DirectSound *atrack = opaque->atrack;
 	SDL_AudioCallback audio_cblk = opaque->spec.callback;
 	void *userdata = opaque->spec.userdata;
 	uint8_t *buffer = opaque->buffer;
@@ -243,7 +245,7 @@ static void func_set_playback_rate(SDL_Aout *aout, float speed)
 	SDL_UnlockMutex(opaque->wakeup_mutex);
 }
 
-SDL_Aout *SDL_AoutAndroid_CreateForAudioTrack()
+SDL_Aout *SDL_AoutWin_CreateForAudio()
 {
 	SDL_Aout *aout = SDL_Aout_CreateInternal(sizeof(SDL_Aout_Opaque));
 	if (!aout)

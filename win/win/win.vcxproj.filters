@@ -160,6 +160,9 @@
     <ClCompile Include="..\winsdl\ijksdl_aout_win_audio_directsound.c">
       <Filter>winsdl</Filter>
     </ClCompile>
+    <ClCompile Include="..\winsdl\win_directsound.c">
+      <Filter>winsdl</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\ijkmedia\ijkplayer\ijkplayer.h">
@@ -304,6 +307,9 @@
       <Filter>win</Filter>
     </ClInclude>
     <ClInclude Include="..\winsdl\ijksdl_aout_win_audio_directsound.h">
+      <Filter>winsdl</Filter>
+    </ClInclude>
+    <ClInclude Include="..\winsdl\win_directsound.h">
       <Filter>winsdl</Filter>
     </ClInclude>
   </ItemGroup>

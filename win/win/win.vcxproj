@@ -59,7 +59,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>../../win/depend/ffmpeg/include/;../../win/depend/sdl2/include/;../../win/depend/pthread-win32/include/;../../ijkmedia/;../../win/win/include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../../win/depend/ffmpeg/include/;../../win/depend/sdl2/include/;../../win/depend/pthread-win32/include/;../../ijkmedia/;../../win/win/include;../;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;_MBCS;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <WholeProgramOptimization>false</WholeProgramOptimization>
     </ClCompile>
@@ -99,6 +99,7 @@
     <ClCompile Include="..\..\ijkmedia\ijksdl\ijksdl_timer.c" />
     <ClCompile Include="..\..\ijkmedia\ijksdl\ijksdl_vout.c" />
     <ClCompile Include="..\winsdl\ijksdl_aout_win_audio_directsound.c" />
+    <ClCompile Include="..\winsdl\win_directsound.c" />
     <ClCompile Include="src\application.c" />
     <ClCompile Include="src\Counter.c" />
     <ClCompile Include="src\CpuInfo.c" />
@@ -159,6 +160,7 @@
     <ClInclude Include="..\..\ijkmedia\ijksdl\ijksdl_vout.h" />
     <ClInclude Include="..\..\ijkmedia\ijksdl\ijksdl_vout_internal.h" />
     <ClInclude Include="..\winsdl\ijksdl_aout_win_audio_directsound.h" />
+    <ClInclude Include="..\winsdl\win_directsound.h" />
     <ClInclude Include="src\Counter.h" />
     <ClInclude Include="src\CpuInfo.h" />
     <ClInclude Include="src\LoadAvg.h" />
