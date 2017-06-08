@@ -68,6 +68,9 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
     </Link>
+    <Lib>
+      <AdditionalDependencies>%(AdditionalDependencies)</AdditionalDependencies>
+    </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\..\ijkmedia\ijkplayer\ff_cmdutils.c" />
@@ -95,6 +98,7 @@
     <ClCompile Include="..\..\ijkmedia\ijksdl\ijksdl_thread.c" />
     <ClCompile Include="..\..\ijkmedia\ijksdl\ijksdl_timer.c" />
     <ClCompile Include="..\..\ijkmedia\ijksdl\ijksdl_vout.c" />
+    <ClCompile Include="..\winsdl\ijksdl_aout_win_audio_directsound.c" />
     <ClCompile Include="src\application.c" />
     <ClCompile Include="src\Counter.c" />
     <ClCompile Include="src\CpuInfo.c" />
@@ -154,6 +158,7 @@
     <ClInclude Include="..\..\ijkmedia\ijksdl\ijksdl_video.h" />
     <ClInclude Include="..\..\ijkmedia\ijksdl\ijksdl_vout.h" />
     <ClInclude Include="..\..\ijkmedia\ijksdl\ijksdl_vout_internal.h" />
+    <ClInclude Include="..\winsdl\ijksdl_aout_win_audio_directsound.h" />
     <ClInclude Include="src\Counter.h" />
     <ClInclude Include="src\CpuInfo.h" />
     <ClInclude Include="src\LoadAvg.h" />

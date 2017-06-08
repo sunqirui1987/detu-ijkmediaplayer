@@ -29,6 +29,9 @@
     <Filter Include="win">
       <UniqueIdentifier>{b5f07887-44e7-4b3b-8da3-7cc43f8b1f99}</UniqueIdentifier>
     </Filter>
+    <Filter Include="winsdl">
+      <UniqueIdentifier>{234ac119-04cb-4e8b-963f-e12549e5f18b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\ijkmedia\ijkplayer\ijkplayer.c">
@@ -153,6 +156,9 @@
     </ClCompile>
     <ClCompile Include="src\network.c">
       <Filter>win</Filter>
+    </ClCompile>
+    <ClCompile Include="..\winsdl\ijksdl_aout_win_audio_directsound.c">
+      <Filter>winsdl</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -296,6 +302,9 @@
     </ClInclude>
     <ClInclude Include="src\Util.h">
       <Filter>win</Filter>
+    </ClInclude>
+    <ClInclude Include="..\winsdl\ijksdl_aout_win_audio_directsound.h">
+      <Filter>winsdl</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
