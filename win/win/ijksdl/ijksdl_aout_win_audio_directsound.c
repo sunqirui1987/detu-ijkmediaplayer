@@ -7,7 +7,7 @@
 #include "ijksdl/ijksdl_aout_internal.h"
 #include "ijksdl/ijksdl_timer.h"
 
-#include "winsdl/win_directsound.h"
+#include "win_directsound.h"
 
 
 static SDL_Class g_dsound_class = {

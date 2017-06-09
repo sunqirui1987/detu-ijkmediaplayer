@@ -29,8 +29,17 @@
     <Filter Include="win">
       <UniqueIdentifier>{b5f07887-44e7-4b3b-8da3-7cc43f8b1f99}</UniqueIdentifier>
     </Filter>
-    <Filter Include="winsdl">
-      <UniqueIdentifier>{234ac119-04cb-4e8b-963f-e12549e5f18b}</UniqueIdentifier>
+    <Filter Include="win\global">
+      <UniqueIdentifier>{cafb5b1b-bf3f-466f-8016-752f6ea32854}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="win\ijksdl">
+      <UniqueIdentifier>{497359d3-cd14-4910-b6bf-2181b7147b93}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="win\ijkplayer">
+      <UniqueIdentifier>{41668825-dfe8-4def-9f36-e3d27720065c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="win\ijkplayer\pipeline">
+      <UniqueIdentifier>{3de19ed2-c0d4-4437-a955-ac8548624440}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -109,59 +118,62 @@
     <ClCompile Include="..\..\ijkmedia\ijksdl\ffmpeg\ijksdl_vout_overlay_ffmpeg.c">
       <Filter>ijksdl\ffmpeg</Filter>
     </ClCompile>
-    <ClCompile Include="src\Counter.c">
-      <Filter>win</Filter>
+    <ClCompile Include="global\src\application.c">
+      <Filter>win\global</Filter>
     </ClCompile>
-    <ClCompile Include="src\CpuInfo.c">
-      <Filter>win</Filter>
+    <ClCompile Include="global\src\Counter.c">
+      <Filter>win\global</Filter>
     </ClCompile>
-    <ClCompile Include="src\ifaddrs.c">
-      <Filter>win</Filter>
+    <ClCompile Include="global\src\CpuInfo.c">
+      <Filter>win\global</Filter>
     </ClCompile>
-    <ClCompile Include="src\LoadAvg.c">
-      <Filter>win</Filter>
+    <ClCompile Include="global\src\ifaddrs.c">
+      <Filter>win\global</Filter>
     </ClCompile>
-    <ClCompile Include="src\MemInfo.c">
-      <Filter>win</Filter>
+    <ClCompile Include="global\src\LoadAvg.c">
+      <Filter>win\global</Filter>
     </ClCompile>
-    <ClCompile Include="src\resource.c">
-      <Filter>win</Filter>
+    <ClCompile Include="global\src\MemInfo.c">
+      <Filter>win\global</Filter>
     </ClCompile>
-    <ClCompile Include="src\time.c">
-      <Filter>win</Filter>
+    <ClCompile Include="global\src\network.c">
+      <Filter>win\global</Filter>
     </ClCompile>
-    <ClCompile Include="src\uio.c">
-      <Filter>win</Filter>
+    <ClCompile Include="global\src\ptw32_MCS_lock.c">
+      <Filter>win\global</Filter>
     </ClCompile>
-    <ClCompile Include="src\unistd.c">
-      <Filter>win</Filter>
+    <ClCompile Include="global\src\resource.c">
+      <Filter>win\global</Filter>
     </ClCompile>
-    <ClCompile Include="src\UpTime.c">
-      <Filter>win</Filter>
+    <ClCompile Include="global\src\time.c">
+      <Filter>win\global</Filter>
     </ClCompile>
-    <ClCompile Include="src\Util.c">
-      <Filter>win</Filter>
+    <ClCompile Include="global\src\uio.c">
+      <Filter>win\global</Filter>
     </ClCompile>
-    <ClCompile Include="src\utils.c">
-      <Filter>win</Filter>
+    <ClCompile Include="global\src\unistd.c">
+      <Filter>win\global</Filter>
     </ClCompile>
-    <ClCompile Include="src\win-pthread.c">
-      <Filter>win</Filter>
+    <ClCompile Include="global\src\UpTime.c">
+      <Filter>win\global</Filter>
     </ClCompile>
-    <ClCompile Include="src\ptw32_MCS_lock.c">
-      <Filter>win</Filter>
+    <ClCompile Include="global\src\Util.c">
+      <Filter>win\global</Filter>
     </ClCompile>
-    <ClCompile Include="src\application.c">
-      <Filter>win</Filter>
+    <ClCompile Include="global\src\utils.c">
+      <Filter>win\global</Filter>
     </ClCompile>
-    <ClCompile Include="src\network.c">
-      <Filter>win</Filter>
+    <ClCompile Include="global\src\win-pthread.c">
+      <Filter>win\global</Filter>
     </ClCompile>
-    <ClCompile Include="..\winsdl\ijksdl_aout_win_audio_directsound.c">
-      <Filter>winsdl</Filter>
+    <ClCompile Include="ijksdl\ijksdl_aout_win_audio_directsound.c">
+      <Filter>win\ijksdl</Filter>
     </ClCompile>
-    <ClCompile Include="..\winsdl\win_directsound.c">
-      <Filter>winsdl</Filter>
+    <ClCompile Include="ijksdl\win_directsound.c">
+      <Filter>win\ijksdl</Filter>
+    </ClCompile>
+    <ClCompile Include="ijkplayer\pipeline\ffpipeline_win.c">
+      <Filter>win\ijkplayer\pipeline</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -288,29 +300,32 @@
     <ClInclude Include="..\..\ijkmedia\ijksdl\ffmpeg\ijksdl_vout_overlay_ffmpeg.h">
       <Filter>ijksdl\ffmpeg</Filter>
     </ClInclude>
-    <ClInclude Include="src\Counter.h">
-      <Filter>win</Filter>
+    <ClInclude Include="global\src\Counter.h">
+      <Filter>win\global</Filter>
     </ClInclude>
-    <ClInclude Include="src\CpuInfo.h">
-      <Filter>win</Filter>
+    <ClInclude Include="global\src\CpuInfo.h">
+      <Filter>win\global</Filter>
     </ClInclude>
-    <ClInclude Include="src\LoadAvg.h">
-      <Filter>win</Filter>
+    <ClInclude Include="global\src\LoadAvg.h">
+      <Filter>win\global</Filter>
     </ClInclude>
-    <ClInclude Include="src\MemInfo.h">
-      <Filter>win</Filter>
+    <ClInclude Include="global\src\MemInfo.h">
+      <Filter>win\global</Filter>
     </ClInclude>
-    <ClInclude Include="src\UpTime.h">
-      <Filter>win</Filter>
+    <ClInclude Include="global\src\UpTime.h">
+      <Filter>win\global</Filter>
     </ClInclude>
-    <ClInclude Include="src\Util.h">
-      <Filter>win</Filter>
+    <ClInclude Include="global\src\Util.h">
+      <Filter>win\global</Filter>
     </ClInclude>
-    <ClInclude Include="..\winsdl\ijksdl_aout_win_audio_directsound.h">
-      <Filter>winsdl</Filter>
+    <ClInclude Include="ijksdl\ijksdl_aout_win_audio_directsound.h">
+      <Filter>win\ijksdl</Filter>
     </ClInclude>
-    <ClInclude Include="..\winsdl\win_directsound.h">
-      <Filter>winsdl</Filter>
+    <ClInclude Include="ijksdl\win_directsound.h">
+      <Filter>win\ijksdl</Filter>
+    </ClInclude>
+    <ClInclude Include="ijkplayer\pipeline\ffpipeline_win.h">
+      <Filter>win\ijkplayer\pipeline</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

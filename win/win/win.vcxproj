@@ -59,7 +59,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>../../win/depend/ffmpeg/include/;../../win/depend/sdl2/include/;../../win/depend/pthread-win32/include/;../../ijkmedia/;../../win/win/include;../;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../depend/ffmpeg/include/;../depend/sdl2/include/;../depend/pthread-win32/include/;../../ijkmedia/;./global/include;../;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;_MBCS;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <WholeProgramOptimization>false</WholeProgramOptimization>
     </ClCompile>
@@ -98,24 +98,25 @@
     <ClCompile Include="..\..\ijkmedia\ijksdl\ijksdl_thread.c" />
     <ClCompile Include="..\..\ijkmedia\ijksdl\ijksdl_timer.c" />
     <ClCompile Include="..\..\ijkmedia\ijksdl\ijksdl_vout.c" />
-    <ClCompile Include="..\winsdl\ijksdl_aout_win_audio_directsound.c" />
-    <ClCompile Include="..\winsdl\win_directsound.c" />
-    <ClCompile Include="src\application.c" />
-    <ClCompile Include="src\Counter.c" />
-    <ClCompile Include="src\CpuInfo.c" />
-    <ClCompile Include="src\ifaddrs.c" />
-    <ClCompile Include="src\LoadAvg.c" />
-    <ClCompile Include="src\MemInfo.c" />
-    <ClCompile Include="src\network.c" />
-    <ClCompile Include="src\ptw32_MCS_lock.c" />
-    <ClCompile Include="src\resource.c" />
-    <ClCompile Include="src\time.c" />
-    <ClCompile Include="src\uio.c" />
-    <ClCompile Include="src\unistd.c" />
-    <ClCompile Include="src\UpTime.c" />
-    <ClCompile Include="src\Util.c" />
-    <ClCompile Include="src\utils.c" />
-    <ClCompile Include="src\win-pthread.c" />
+    <ClCompile Include="global\src\application.c" />
+    <ClCompile Include="global\src\Counter.c" />
+    <ClCompile Include="global\src\CpuInfo.c" />
+    <ClCompile Include="global\src\ifaddrs.c" />
+    <ClCompile Include="global\src\LoadAvg.c" />
+    <ClCompile Include="global\src\MemInfo.c" />
+    <ClCompile Include="global\src\network.c" />
+    <ClCompile Include="global\src\ptw32_MCS_lock.c" />
+    <ClCompile Include="global\src\resource.c" />
+    <ClCompile Include="global\src\time.c" />
+    <ClCompile Include="global\src\uio.c" />
+    <ClCompile Include="global\src\unistd.c" />
+    <ClCompile Include="global\src\UpTime.c" />
+    <ClCompile Include="global\src\Util.c" />
+    <ClCompile Include="global\src\utils.c" />
+    <ClCompile Include="global\src\win-pthread.c" />
+    <ClCompile Include="ijkplayer\pipeline\ffpipeline_win.c" />
+    <ClCompile Include="ijksdl\ijksdl_aout_win_audio_directsound.c" />
+    <ClCompile Include="ijksdl\win_directsound.c" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\ijkmedia\ijkplayer\config.h" />
@@ -159,14 +160,15 @@
     <ClInclude Include="..\..\ijkmedia\ijksdl\ijksdl_video.h" />
     <ClInclude Include="..\..\ijkmedia\ijksdl\ijksdl_vout.h" />
     <ClInclude Include="..\..\ijkmedia\ijksdl\ijksdl_vout_internal.h" />
-    <ClInclude Include="..\winsdl\ijksdl_aout_win_audio_directsound.h" />
-    <ClInclude Include="..\winsdl\win_directsound.h" />
-    <ClInclude Include="src\Counter.h" />
-    <ClInclude Include="src\CpuInfo.h" />
-    <ClInclude Include="src\LoadAvg.h" />
-    <ClInclude Include="src\MemInfo.h" />
-    <ClInclude Include="src\UpTime.h" />
-    <ClInclude Include="src\Util.h" />
+    <ClInclude Include="global\src\Counter.h" />
+    <ClInclude Include="global\src\CpuInfo.h" />
+    <ClInclude Include="global\src\LoadAvg.h" />
+    <ClInclude Include="global\src\MemInfo.h" />
+    <ClInclude Include="global\src\UpTime.h" />
+    <ClInclude Include="global\src\Util.h" />
+    <ClInclude Include="ijkplayer\pipeline\ffpipeline_win.h" />
+    <ClInclude Include="ijksdl\ijksdl_aout_win_audio_directsound.h" />
+    <ClInclude Include="ijksdl\win_directsound.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
