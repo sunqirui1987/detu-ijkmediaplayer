@@ -5,6 +5,7 @@
 #include "ijksdl/ijksdl_inc_internal.h"
 #include "ijksdl/ijksdl_thread.h"
 #include "ijksdl/ijksdl_aout_internal.h"
+#include "ijksdl/ijksdl_timer.h"
 
 #include "winsdl/win_directsound.h"
 
@@ -27,8 +28,8 @@ typedef struct SDL_Aout_Opaque {
 	volatile bool abort_request;
 
 	volatile bool need_set_volume;
-	volatile float left_volume;
 	volatile float right_volume;
+	volatile float left_volume;
 
 	SDL_Thread *audio_tid;
 	SDL_Thread _audio_tid;
@@ -44,7 +45,10 @@ static int aout_thread_n(SDL_Aout *aout)
 	SDL_AudioCallback audio_cblk = opaque->spec.callback;
 	void *userdata = opaque->spec.userdata;
 	uint8_t *buffer = opaque->buffer;
-	int copy_size = 256;
+	const Uint32 delay = ((opaque->spec.samples * 1000) / opaque->spec.freq);
+
+	Uint8 *stream;
+	const int stream_len = opaque->spec.size;
 
 	assert(atrack);
 	assert(buffer);
@@ -55,47 +59,30 @@ static int aout_thread_n(SDL_Aout *aout)
 		SDL_Win_DSound_PlayDevice(atrack, &opaque->spec);
 
 	while (!opaque->abort_request) {
-		SDL_LockMutex(opaque->wakeup_mutex);
-		if (!opaque->abort_request && opaque->pause_on) {
-			//SDL_Android_AudioTrack_pause(env, atrack);
-			while (!opaque->abort_request && opaque->pause_on) {
-				SDL_CondWaitTimeout(opaque->wakeup_cond, opaque->wakeup_mutex, 1000);
-			}
-			if (!opaque->abort_request && !opaque->pause_on)
-				;//SDL_Android_AudioTrack_play(env, atrack);
+		stream = SDL_Win_DSound_GetDeviceBuf(atrack, &opaque->spec);
+		if (stream == NULL){
+			stream = buffer;
 		}
-		if (opaque->need_flush) {
-			opaque->need_flush = 0;
-			//SDL_Android_AudioTrack_flush(env, atrack);
+		SDL_LockMutex(opaque->wakeup_mutex);
+		if (!opaque->abort_request) {
+			if (opaque->pause_on){
+				memset(stream, 0, stream_len);
+			} else {
+				audio_cblk(userdata, stream, stream_len);
+			}
 		}
 		if (opaque->need_set_volume) {
 			opaque->need_set_volume = 0;
-			//SDL_Android_AudioTrack_set_volume(env, atrack, opaque->left_volume, opaque->right_volume);
-		}
-		if (opaque->speed_changed) {
-			opaque->speed_changed = 0;
-			//SDL_Android_AudioTrack_setSpeed(env, atrack, opaque->speed);
+			SDL_Win_DSound_SetVolume(atrack, opaque->left_volume, opaque->right_volume);
 		}
 		SDL_UnlockMutex(opaque->wakeup_mutex);
 
-		audio_cblk(userdata, buffer, copy_size);
-		if (opaque->need_flush) {
-			//SDL_Android_AudioTrack_flush(env, atrack);
-			opaque->need_flush = false;
+		if (stream == buffer){
+			SDL_Delay(delay);
+		} else {
+			SDL_Win_DSound_PlayDevice(atrack, &opaque->spec);
+			SDL_Win_DSound_WaitDevice(atrack, &opaque->spec);
 		}
-
-		if (opaque->need_flush) {
-			opaque->need_flush = 0;
-			//SDL_Android_AudioTrack_flush(env, atrack);
-		}
-		else {
-			//int written = SDL_Android_AudioTrack_write(env, atrack, buffer, copy_size);
-			//if (written != copy_size) {
-			//	ALOGW("AudioTrack: not all data copied %d/%d", (int)written, (int)copy_size);
-			//}
-		}
-
-		// TODO: 1 if callback return -1 or 0
 	}
 
 	//SDL_Android_AudioTrack_free(env, atrack);
@@ -166,18 +153,6 @@ static void aout_pause_audio(SDL_Aout *aout, int pause_on)
 	SDL_LockMutex(opaque->wakeup_mutex);
 	SDLTRACE("aout_pause_audio(%d)", pause_on);
 	opaque->pause_on = pause_on;
-	if (!pause_on)
-		SDL_CondSignal(opaque->wakeup_cond);
-	SDL_UnlockMutex(opaque->wakeup_mutex);
-}
-
-static void aout_flush_audio(SDL_Aout *aout)
-{
-	SDL_Aout_Opaque *opaque = aout->opaque;
-	SDL_LockMutex(opaque->wakeup_mutex);
-	SDLTRACE("aout_flush_audio()");
-	opaque->need_flush = 1;
-	SDL_CondSignal(opaque->wakeup_cond);
 	SDL_UnlockMutex(opaque->wakeup_mutex);
 }
 
@@ -187,9 +162,7 @@ static void aout_set_volume(SDL_Aout *aout, float left_volume, float right_volum
 	SDL_LockMutex(opaque->wakeup_mutex);
 	SDLTRACE("aout_flush_audio()");
 	opaque->left_volume = left_volume;
-	opaque->right_volume = right_volume;
 	opaque->need_set_volume = 1;
-	SDL_CondSignal(opaque->wakeup_cond);
 	SDL_UnlockMutex(opaque->wakeup_mutex);
 }
 
@@ -199,7 +172,6 @@ static void aout_close_audio(SDL_Aout *aout)
 
 	SDL_LockMutex(opaque->wakeup_mutex);
 	opaque->abort_request = true;
-	SDL_CondSignal(opaque->wakeup_cond);
 	SDL_UnlockMutex(opaque->wakeup_mutex);
 
 	SDL_WaitThread(opaque->audio_tid, NULL);
@@ -239,7 +211,6 @@ static void func_set_playback_rate(SDL_Aout *aout, float speed)
 	SDL_LockMutex(opaque->wakeup_mutex);
 	opaque->speed = speed;
 	opaque->speed_changed = 1;
-	SDL_CondSignal(opaque->wakeup_cond);
 	SDL_UnlockMutex(opaque->wakeup_mutex);
 }
 
@@ -258,7 +229,6 @@ SDL_Aout *SDL_AoutWin_CreateForAudio()
 	aout->free_l = aout_free_l;
 	aout->open_audio = aout_open_audio;
 	aout->pause_audio = aout_pause_audio;
-	aout->flush_audio = aout_flush_audio;
 	aout->set_volume = aout_set_volume;
 	aout->close_audio = aout_close_audio;
 	aout->func_set_playback_rate = func_set_playback_rate;

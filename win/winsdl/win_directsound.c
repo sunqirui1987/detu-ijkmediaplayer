@@ -101,6 +101,17 @@ void SDL_Win_DSound_WaitDevice(SDL_Win_DirectSound *dsound, SDL_AudioSpec *sdl_s
 	}
 }
 
+void SDL_Win_DSound_SetVolume(SDL_Win_DirectSound *dsound, float left_volume, float right_volume)
+{
+	HRESULT result = DS_OK;
+	long ds_volume = (1 - left_volume / 100) * DSBVOLUME_MIN;
+	result = IDirectSoundBuffer_SetVolume(dsound->mixbuf, ds_volume);
+	if (result != DS_OK) {
+		ALOGE("directsound set volume failed");
+	}
+	return;
+}
+
 void SDL_Win_DSound_PlayDevice(SDL_Win_DirectSound *dsound, SDL_AudioSpec *sdl_spec)
 {
 	// Unlock the buffer, allowing it to play
@@ -183,6 +194,7 @@ static int create_secondary(SDL_Win_DirectSound *dsound, const DWORD bufsize, WA
 	format.dwSize = sizeof(format);
 	format.dwFlags = DSBCAPS_GETCURRENTPOSITION2;
 	format.dwFlags |= DSBCAPS_GLOBALFOCUS;
+	format.dwFlags |= DSBCAPS_CTRLVOLUME;
 	format.dwBufferBytes = bufsize;
 	format.lpwfxFormat = wfmt;
 	result = IDirectSound_CreateSoundBuffer(sndObj, &format, sndbuf, NULL);
@@ -224,7 +236,7 @@ int SDL_Win_DSound_OpenDevice(SDL_Win_DirectSound *dsound, SDL_AudioSpec *sdl_sp
 			return -1;
 		}
 	}
-
+	
 	// Update the fragment size as size in bytes and create audio buffer
 	{
 		SDL_CalculateAudioSpec(sdl_spec);
