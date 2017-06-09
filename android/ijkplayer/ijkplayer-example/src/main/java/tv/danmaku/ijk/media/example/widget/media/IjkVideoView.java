@@ -426,13 +426,13 @@ public class IjkVideoView extends FrameLayout implements MediaController.MediaPl
                         if (mTargetState == STATE_PLAYING) {
                             start();
                             if (mMediaController != null) {
-                                mMediaController.show();
+                                mMediaController.show(10000);
                             }
                         } else if (!isPlaying() &&
                                 (seekToPosition != 0 || getCurrentPosition() > 0)) {
                             if (mMediaController != null) {
                                 // Show the media controls when we're paused into a video and make 'em stick.
-                                mMediaController.show(0);
+                                mMediaController.show(10000);
                             }
                         }
                     }
@@ -812,6 +812,7 @@ public class IjkVideoView extends FrameLayout implements MediaController.MediaPl
     @Override
     public int getCurrentPosition() {
         if (isInPlaybackState()) {
+            Log.e("ceshi", "getCurrentPosition:" + mMediaPlayer.getCurrentPosition());
             return (int) mMediaPlayer.getCurrentPosition();
         }
         return 0;
@@ -821,6 +822,7 @@ public class IjkVideoView extends FrameLayout implements MediaController.MediaPl
     public void seekTo(int msec) {
         if (isInPlaybackState()) {
             mSeekStartTime = System.currentTimeMillis();
+            Log.e("ceshi", "seekTo:" + msec);
             mMediaPlayer.seekTo(msec);
             mSeekWhenPrepared = 0;
         } else {

@@ -394,10 +394,10 @@ void VTDecoderCallback(void *decompressionOutputRefCon,
 #endif
 
         OSType format_type = CVPixelBufferGetPixelFormatType(imageBuffer);
-        if (format_type != kCVPixelFormatType_420YpCbCr8BiPlanarVideoRange) {
-            ALOGI("format_type error \n");
-            goto failed;
-        }
+//        if (format_type != kCVPixelFormatType_420YpCbCr8BiPlanarVideoRange) {
+//            ALOGI("format_type error \n");
+//            goto failed;
+//        }
         if (kVTDecodeInfo_FrameDropped & infoFlags) {
             ALOGI("droped\n");
             goto failed;
@@ -520,6 +520,25 @@ VTDecompressionSessionRef vtbsession_create(VideoToolBoxContext* context)
     int       ret = 0;
     int       width  = context->codecpar->width;
     int       height = context->codecpar->height;
+    
+    //detu
+    int overlayFormat = kCVPixelFormatType_420YpCbCr8BiPlanarVideoRange;
+    AVDictionary* dictionary =  ffp->format_opts;
+    if(dictionary != NULL) {
+        AVDictionaryEntry * entry = av_dict_get(ffp->format_opts, "overlay-format", NULL, AV_DICT_MATCH_CASE);
+        if(entry != NULL) {
+            switch(atoi(entry->value)) {
+                case SDL_FCC_RV24:
+                    overlayFormat = kCVPixelFormatType_24RGB;
+                    break;
+                case SDL_FCC_RV16:
+                    overlayFormat = kCVPixelFormatType_16LE565;
+                    break;
+                default:
+                    break;
+            }
+        }
+    }
 
     VTDecompressionSessionRef vt_session = NULL;
     CFMutableDictionaryRef destinationPixelBufferAttributes;
@@ -542,7 +561,7 @@ VTDecompressionSessionRef vtbsession_create(VideoToolBoxContext* context)
                                                                  &kCFTypeDictionaryKeyCallBacks,
                                                                  &kCFTypeDictionaryValueCallBacks);
     CFDictionarySetSInt32(destinationPixelBufferAttributes,
-                          kCVPixelBufferPixelFormatTypeKey, kCVPixelFormatType_420YpCbCr8BiPlanarVideoRange);
+                          kCVPixelBufferPixelFormatTypeKey, overlayFormat);
     CFDictionarySetSInt32(destinationPixelBufferAttributes,
                           kCVPixelBufferWidthKey, width);
     CFDictionarySetSInt32(destinationPixelBufferAttributes,
