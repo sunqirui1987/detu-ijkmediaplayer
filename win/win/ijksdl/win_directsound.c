@@ -104,7 +104,7 @@ void SDL_Win_DSound_WaitDevice(SDL_Win_DirectSound *dsound, SDL_AudioSpec *sdl_s
 void SDL_Win_DSound_SetVolume(SDL_Win_DirectSound *dsound, float left_volume, float right_volume)
 {
 	HRESULT result = DS_OK;
-	long ds_volume = (1 - left_volume / 100) * DSBVOLUME_MIN;
+	long ds_volume = (1 - left_volume / 1) * DSBVOLUME_MIN;
 	result = IDirectSoundBuffer_SetVolume(dsound->mixbuf, ds_volume);
 	if (result != DS_OK) {
 		ALOGE("directsound set volume failed");
