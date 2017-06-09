@@ -16,4 +16,11 @@ typedef struct SDL_Win_DirectSound{
 	Uint8 *locked_buf;
 }SDL_Win_DirectSound;
 
+
+int SDL_Win_DSound_OpenDevice(SDL_Win_DirectSound *dsound, SDL_AudioSpec *sdl_spec);
+void SDL_Win_DSound_CloseDevice(SDL_Win_DirectSound *dsound);
+Uint8 * SDL_Win_DSound_GetDeviceBuf(SDL_Win_DirectSound *dsound, SDL_AudioSpec *sdl_spec);
+void SDL_Win_DSound_PlayDevice(SDL_Win_DirectSound *dsound, SDL_AudioSpec *sdl_spec);
+void SDL_Win_DSound_WaitDevice(SDL_Win_DirectSound *dsound, SDL_AudioSpec *sdl_spec);
+
 #endif

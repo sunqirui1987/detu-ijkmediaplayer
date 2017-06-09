@@ -1,5 +1,6 @@
 #include "win_directsound.h"
 #include "ijksdl/ijksdl_inc_internal.h"
+#include "ijksdl/ijksdl_timer.h"
 
 
 #ifndef WAVE_FORMAT_IEEE_FLOAT
@@ -50,57 +51,49 @@ static int set_dsound_error(const char *function, int code)
 	return 0;
 }
 
-#if 0
-void SDL_Win_DSound_WaitDevice(SDL_Win_DirectSound *dsound)
+void SDL_Win_DSound_WaitDevice(SDL_Win_DirectSound *dsound, SDL_AudioSpec *sdl_spec)
 {
 	DWORD status = 0;
 	DWORD cursor = 0;
 	DWORD junk = 0;
 	HRESULT result = DS_OK;
 
-	/* 
+	/** 
 	* Semi-busy wait, since we have no way of getting play notification
 	* on a primary mixing buffer located in hardware (DirectX 5.0)
-	*/
+	**/
 	result = IDirectSoundBuffer_GetCurrentPosition(dsound->mixbuf, &junk, &cursor);
 	if (result != DS_OK) {
 		if (result == DSERR_BUFFERLOST) {
-			IDirectSoundBuffer_Restore(this->hidden->mixbuf);
+			IDirectSoundBuffer_Restore(dsound->mixbuf);
 		}
-#ifdef DEBUG_SOUND
-		set_dsound_error("DirectSound GetCurrentPosition", result);
-#endif
 		return;
 	}
 
-	while ((cursor / this->spec.size) == this->hidden->lastchunk) {
+	while ((cursor / sdl_spec->size) == dsound->lastchunk) {
 
 		// FIXME: find out how much time is left and sleep that long
 		SDL_Delay(1);
 
 		// Try to restore a lost sound buffer
-		IDirectSoundBuffer_GetStatus(this->hidden->mixbuf, &status);
+		IDirectSoundBuffer_GetStatus(dsound->mixbuf, &status);
 		if ((status & DSBSTATUS_BUFFERLOST)) {
-			IDirectSoundBuffer_Restore(this->hidden->mixbuf);
-			IDirectSoundBuffer_GetStatus(this->hidden->mixbuf, &status);
+			IDirectSoundBuffer_Restore(dsound->mixbuf);
+			IDirectSoundBuffer_GetStatus(dsound->mixbuf, &status);
 			if ((status & DSBSTATUS_BUFFERLOST)) {
 				break;
 			}
 		}
 		if (!(status & DSBSTATUS_PLAYING)) {
-			result = IDirectSoundBuffer_Play(this->hidden->mixbuf, 0, 0,
-				DSBPLAY_LOOPING);
+			result = IDirectSoundBuffer_Play(dsound->mixbuf, 0, 0, DSBPLAY_LOOPING);
 			if (result == DS_OK) {
 				continue;
 			}
-#ifdef DEBUG_SOUND
-			set_dsound_error("DirectSound Play", result);
-#endif
 			return;
 		}
 
 		// Find out where we are playing
-		result = IDirectSoundBuffer_GetCurrentPosition(this->hidden->mixbuf, &junk, &cursor);
+		result = IDirectSoundBuffer_GetCurrentPosition(dsound->mixbuf, &junk, &cursor);
 		if (result != DS_OK) {
 			set_dsound_error("DirectSound GetCurrentPosition", result);
 			return;
@@ -108,17 +101,15 @@ void SDL_Win_DSound_WaitDevice(SDL_Win_DirectSound *dsound)
 	}
 }
 
-void SDL_Win_DSound_PlayDevice(SDL_Win_DirectSound *dsound)
+void SDL_Win_DSound_PlayDevice(SDL_Win_DirectSound *dsound, SDL_AudioSpec *sdl_spec)
 {
 	// Unlock the buffer, allowing it to play
-	if (this->hidden->locked_buf) {
-		IDirectSoundBuffer_Unlock(this->hidden->mixbuf,
-			this->hidden->locked_buf,
-			this->spec.size, NULL, 0);
+	if (dsound->locked_buf) {
+		IDirectSoundBuffer_Unlock(dsound->mixbuf, dsound->locked_buf, sdl_spec->size, NULL, 0);
 	}
 }
 
-static Uint8 * SDL_Win_DSound_GetDeviceBuf(SDL_Win_DirectSound *dsound)
+Uint8 * SDL_Win_DSound_GetDeviceBuf(SDL_Win_DirectSound *dsound, SDL_AudioSpec *sdl_spec)
 {
 	DWORD cursor = 0;
 	DWORD junk = 0;
@@ -126,67 +117,52 @@ static Uint8 * SDL_Win_DSound_GetDeviceBuf(SDL_Win_DirectSound *dsound)
 	DWORD rawlen = 0;
 
 	// Figure out which blocks to fill next
-	this->hidden->locked_buf = NULL;
-	result = IDirectSoundBuffer_GetCurrentPosition(this->hidden->mixbuf, &junk, &cursor);
+	dsound->locked_buf = NULL;
+	result = IDirectSoundBuffer_GetCurrentPosition(dsound->mixbuf, &junk, &cursor);
 	if (result == DSERR_BUFFERLOST) {
-		IDirectSoundBuffer_Restore(this->hidden->mixbuf);
-		result = IDirectSoundBuffer_GetCurrentPosition(this->hidden->mixbuf, &junk, &cursor);
+		IDirectSoundBuffer_Restore(dsound->mixbuf);
+		result = IDirectSoundBuffer_GetCurrentPosition(dsound->mixbuf, &junk, &cursor);
 	}
 	if (result != DS_OK) {
 		set_dsound_error("DirectSound GetCurrentPosition", result);
 		return (NULL);
 	}
-	cursor /= this->spec.size;
-#ifdef DEBUG_SOUND
-	// Detect audio dropouts
-	{
-		DWORD spot = cursor;
-		if (spot < this->hidden->lastchunk) {
-			spot += this->hidden->num_buffers;
-		}
-		if (spot > this->hidden->lastchunk + 1) {
-			fprintf(stderr, "Audio dropout, missed %d fragments\n",
-				(spot - (this->hidden->lastchunk + 1)));
-		}
-	}
-#endif
-	this->hidden->lastchunk = cursor;
-	cursor = (cursor + 1) % this->hidden->num_buffers;
-	cursor *= this->spec.size;
+	cursor /= sdl_spec->size;
+	dsound->lastchunk = cursor;
+	cursor = (cursor + 1) % dsound->num_buffers;
+	cursor *= sdl_spec->size;
 
 	// Lock the audio buffer
-	result = IDirectSoundBuffer_Lock(this->hidden->mixbuf, cursor, this->spec.size, (LPVOID *)& this->hidden->locked_buf, &rawlen, NULL, &junk, 0);
+	result = IDirectSoundBuffer_Lock(dsound->mixbuf, cursor, sdl_spec->size, (LPVOID *)& dsound->locked_buf, &rawlen, NULL, &junk, 0);
 	if (result == DSERR_BUFFERLOST) {
-		IDirectSoundBuffer_Restore(this->hidden->mixbuf);
-		result = IDirectSoundBuffer_Lock(this->hidden->mixbuf, cursor, this->spec.size, (LPVOID *)& this->hidden->locked_buf, &rawlen, NULL, &junk, 0);
+		IDirectSoundBuffer_Restore(dsound->mixbuf);
+		result = IDirectSoundBuffer_Lock(dsound->mixbuf, cursor, sdl_spec->size, (LPVOID *)& dsound->locked_buf, &rawlen, NULL, &junk, 0);
 	}
 	if (result != DS_OK) {
 		set_dsound_error("DirectSound Lock", result);
 		return (NULL);
 	}
-	return (this->hidden->locked_buf);
+	return (dsound->locked_buf);
 }
 
-static void
-SDL_Win_DSound_CloseDevice(SDL_Win_DirectSound *dsound)
+void SDL_Win_DSound_CloseDevice(SDL_Win_DirectSound *dsound)
 {
-	if (this->hidden->mixbuf != NULL) {
-		IDirectSoundBuffer_Stop(this->hidden->mixbuf);
-		IDirectSoundBuffer_Release(this->hidden->mixbuf);
+	if (dsound->mixbuf != NULL) {
+		IDirectSoundBuffer_Stop(dsound->mixbuf);
+		IDirectSoundBuffer_Release(dsound->mixbuf);
 	}
-	if (this->hidden->sound != NULL) {
-		IDirectSound_Release(this->hidden->sound);
+	if (dsound->sound != NULL) {
+		IDirectSound_Release(dsound->sound);
 	}
-	if (this->hidden->capturebuf != NULL) {
-		IDirectSoundCaptureBuffer_Stop(this->hidden->capturebuf);
-		IDirectSoundCaptureBuffer_Release(this->hidden->capturebuf);
+	if (dsound->capturebuf != NULL) {
+		IDirectSoundCaptureBuffer_Stop(dsound->capturebuf);
+		IDirectSoundCaptureBuffer_Release(dsound->capturebuf);
 	}
-	if (this->hidden->capture != NULL) {
-		IDirectSoundCapture_Release(this->hidden->capture);
+	if (dsound->capture != NULL) {
+		IDirectSoundCapture_Release(dsound->capture);
 	}
-	SDL_free(this->hidden);
+	free(dsound);
 }
-#endif
 
 /** 
 * This function tries to create a secondary audio buffer, and returns the
@@ -229,8 +205,7 @@ static int create_secondary(SDL_Win_DirectSound *dsound, const DWORD bufsize, WA
 	return 0;
 }
 
-static int
-SDL_Win_DSound_OpenDevice(SDL_Win_DirectSound *dsound, const SDL_AudioSpec *sdl_spec)
+int SDL_Win_DSound_OpenDevice(SDL_Win_DirectSound *dsound, SDL_AudioSpec *sdl_spec)
 {
 	DWORD bufsize;
 	HRESULT result;
@@ -248,8 +223,9 @@ SDL_Win_DSound_OpenDevice(SDL_Win_DirectSound *dsound, const SDL_AudioSpec *sdl_
 		}
 	}
 
-	// 
+	// Update the fragment size as size in bytes and create audio buffer
 	{
+		SDL_CalculateAudioSpec(sdl_spec);
 		bufsize = numchunks * sdl_spec->size;
 		if ((bufsize < DSBSIZE_MIN) || (bufsize > DSBSIZE_MAX)) {
 			ALOGE("Sound buffer size must be between %d and %d",(DSBSIZE_MIN < numchunks) ? 1 : DSBSIZE_MIN / numchunks,DSBSIZE_MAX / numchunks);
@@ -278,7 +254,6 @@ SDL_Win_DSound_OpenDevice(SDL_Win_DirectSound *dsound, const SDL_AudioSpec *sdl_
 		}
 	}
 
-	//Playback buffers will auto-start playing in DSOUND_WaitDevice()
-
+	//Playback buffers will auto-start playing in DSOUND_WaitDevice
 	return 0;          
 }

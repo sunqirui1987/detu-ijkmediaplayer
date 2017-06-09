@@ -9,8 +9,8 @@
 #include "winsdl/win_directsound.h"
 
 
-static SDL_Class g_xaudio_class = {
-	.name = "XAudio",
+static SDL_Class g_dsound_class = {
+	.name = "DirectSound",
 };
 
 typedef struct SDL_Aout_Opaque {
@@ -148,7 +148,7 @@ static int aout_open_audio_n(SDL_Aout *aout, const SDL_AudioSpec *desired, SDL_A
 
 	opaque->pause_on = 1;
 	opaque->abort_request = 0;
-	opaque->audio_tid = SDL_CreateThreadEx(&opaque->_audio_tid, aout_thread, aout, "ff_aout_android");
+	opaque->audio_tid = SDL_CreateThreadEx(&opaque->_audio_tid, aout_thread, aout, "ff_aout_win");
 	if (!opaque->audio_tid) {
 		ALOGE("aout_open_audio_n: failed to create audio thread");
 		//SDL_Android_AudioTrack_free(env, opaque->atrack);
@@ -256,7 +256,7 @@ SDL_Aout *SDL_AoutWin_CreateForAudio()
 	opaque->wakeup_mutex = SDL_CreateMutex();
 	opaque->speed = 1.0f;
 
-	aout->opaque_class = &g_xaudio_class;
+	aout->opaque_class = &g_dsound_class;
 	aout->free_l = aout_free_l;
 	aout->open_audio = aout_open_audio;
 	aout->pause_audio = aout_pause_audio;
