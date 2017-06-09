@@ -33,8 +33,6 @@ typedef struct SDL_Aout_Opaque {
 	SDL_Thread *audio_tid;
 	SDL_Thread _audio_tid;
 
-	int audio_session_id;
-
 	volatile float speed;
 	volatile bool speed_changed;
 } SDL_Aout_Opaque;
@@ -48,13 +46,13 @@ static int aout_thread_n(SDL_Aout *aout)
 	uint8_t *buffer = opaque->buffer;
 	int copy_size = 256;
 
-	//assert(atrack);
+	assert(atrack);
 	assert(buffer);
 
 	SDL_SetThreadPriority(SDL_THREAD_PRIORITY_HIGH);
 
 	if (!opaque->abort_request && !opaque->pause_on)
-		//SDL_Android_AudioTrack_play(env, atrack);
+		SDL_Win_DSound_PlayDevice(atrack, &opaque->spec);
 
 	while (!opaque->abort_request) {
 		SDL_LockMutex(opaque->wakeup_mutex);
@@ -116,43 +114,40 @@ static int aout_open_audio_n(SDL_Aout *aout, const SDL_AudioSpec *desired, SDL_A
 	SDL_Aout_Opaque *opaque = aout->opaque;
 
 	opaque->spec = *desired;
-	//opaque->atrack = SDL_Android_AudioTrack_new_from_sdl_spec(env, desired);
-	//if (!opaque->atrack) {
-	//	ALOGE("aout_open_audio_n: failed to new AudioTrcak()");
-	//	return -1;
-	//}
+	opaque->atrack = (struct SDL_Win_DirectSound *)malloc(sizeof(SDL_Win_DirectSound));
+	if (!opaque->atrack) {
+		ALOGE("aout_open_audio_n: failed to new SDL_Win_DirectSound");
+		return -1;
+	}
 
-	//opaque->buffer_size = SDL_Android_AudioTrack_get_min_buffer_size(opaque->atrack);
-	//if (opaque->buffer_size <= 0) {
-	//	ALOGE("aout_open_audio_n: failed to getMinBufferSize()");
-	//	SDL_Android_AudioTrack_free(env, opaque->atrack);
-	//	opaque->atrack = NULL;
-	//	return -1;
-	//}
+	int ret = SDL_Win_DSound_OpenDevice(opaque->atrack, &opaque->spec);
+	if (ret < 0) {
+		free(opaque->atrack);
+		opaque->atrack = NULL;
+		return -1;
+	}
 
+	opaque->buffer_size = opaque->spec.size;
 	opaque->buffer = malloc(opaque->buffer_size);
 	if (!opaque->buffer) {
-		//ALOGE("aout_open_audio_n: failed to allocate buffer");
-		//SDL_Android_AudioTrack_free(env, opaque->atrack);
-		//opaque->atrack = NULL;
-		//return -1;
+		ALOGE("aout_open_audio_n: failed to allocate buffer");
+		free(opaque->atrack);
+		opaque->atrack = NULL;
+		return -1;
 	}
 
 	if (obtained) {
-		//SDL_Android_AudioTrack_get_target_spec(opaque->atrack, obtained);
+		obtained = desired;
 		SDLTRACE("audio target format fmt:0x%x, channel:0x%x", (int)obtained->format, (int)obtained->channels);
 	}
-
-	//opaque->audio_session_id = SDL_Android_AudioTrack_getAudioSessionId(env, opaque->atrack);
-	ALOGI("audio_session_id = %d\n", opaque->audio_session_id);
 
 	opaque->pause_on = 1;
 	opaque->abort_request = 0;
 	opaque->audio_tid = SDL_CreateThreadEx(&opaque->_audio_tid, aout_thread, aout, "ff_aout_win");
 	if (!opaque->audio_tid) {
 		ALOGE("aout_open_audio_n: failed to create audio thread");
-		//SDL_Android_AudioTrack_free(env, opaque->atrack);
-		//opaque->atrack = NULL;
+		free(opaque->atrack);opaque->atrack = NULL;
+		free(opaque->buffer); opaque->buffer = NULL;
 		return -1;
 	}
 
@@ -224,6 +219,9 @@ static void aout_free_l(SDL_Aout *aout)
 		free(opaque->buffer);
 		opaque->buffer = NULL;
 		opaque->buffer_size = 0;
+
+		free(opaque->atrack); 
+		opaque->atrack = NULL;
 
 		SDL_DestroyCond(opaque->wakeup_cond);
 		SDL_DestroyMutex(opaque->wakeup_mutex);

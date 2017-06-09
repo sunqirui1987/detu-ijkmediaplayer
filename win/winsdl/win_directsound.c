@@ -215,11 +215,13 @@ int SDL_Win_DSound_OpenDevice(SDL_Win_DirectSound *dsound, SDL_AudioSpec *sdl_sp
 	{
 		result = DirectSoundCreate8(NULL, &dsound->sound, NULL);
 		if (result != DS_OK) {
-			return set_dsound_error("DirectSoundCreate8", result);
+			set_dsound_error("DirectSoundCreate8", result);
+			return -1;
 		}
 		result = IDirectSound_SetCooperativeLevel(dsound->sound,GetDesktopWindow(),DSSCL_NORMAL);
 		if (result != DS_OK) {
-			return set_dsound_error("DirectSound SetCooperativeLevel", result);
+			set_dsound_error("DirectSound SetCooperativeLevel", result);
+			return -1;
 		}
 	}
 
