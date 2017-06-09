@@ -204,10 +204,11 @@ static void aout_free_l(SDL_Aout *aout)
 
 static void func_set_playback_rate(SDL_Aout *aout, float speed)
 {
+	SDL_Aout_Opaque *opaque;
 	if (!aout)
 		return;
 
-	SDL_Aout_Opaque *opaque = aout->opaque;
+	opaque = aout->opaque;
 	SDL_LockMutex(opaque->wakeup_mutex);
 	opaque->speed = speed;
 	opaque->speed_changed = 1;
@@ -216,11 +217,12 @@ static void func_set_playback_rate(SDL_Aout *aout, float speed)
 
 SDL_Aout *SDL_AoutWin_CreateForAudio()
 {
+	SDL_Aout_Opaque *opaque;
 	SDL_Aout *aout = SDL_Aout_CreateInternal(sizeof(SDL_Aout_Opaque));
 	if (!aout)
 		return NULL;
 
-	SDL_Aout_Opaque *opaque = aout->opaque;
+	opaque = aout->opaque;
 	opaque->wakeup_cond = SDL_CreateCond();
 	opaque->wakeup_mutex = SDL_CreateMutex();
 	opaque->speed = 1.0f;
