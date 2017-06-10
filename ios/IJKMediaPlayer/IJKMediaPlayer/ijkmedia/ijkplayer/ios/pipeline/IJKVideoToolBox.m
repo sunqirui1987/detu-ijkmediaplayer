@@ -524,7 +524,7 @@ VTDecompressionSessionRef vtbsession_create(VideoToolBoxContext* context)
     //detu
     int overlayFormat = kCVPixelFormatType_420YpCbCr8BiPlanarVideoRange;
     AVDictionary* dictionary =  ffp->format_opts;
-    if(dictionary != NULL) {
+    if(dictionary != NULL && ffp->format_opts != NULL) {
         AVDictionaryEntry * entry = av_dict_get(ffp->format_opts, "overlay-format", NULL, AV_DICT_MATCH_CASE);
         if(entry != NULL) {
             switch(atoi(entry->value)) {
