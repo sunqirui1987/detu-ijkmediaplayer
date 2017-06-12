@@ -104,6 +104,7 @@ inline static int msg_queue_put(MessageQueue *q, AVMessage *msg)
     return ret;
 }
 
+//初始化消息
 inline static void msg_init_msg(AVMessage *msg)
 {
     memset(msg, 0, sizeof(AVMessage));
@@ -136,6 +137,7 @@ inline static void msg_queue_put_simple3(MessageQueue *q, int what, int arg1, in
     msg_queue_put(q, &msg);
 }
 
+//初始化
 inline static void msg_queue_init(MessageQueue *q)
 {
     memset(q, 0, sizeof(MessageQueue));
@@ -164,6 +166,7 @@ inline static void msg_queue_flush(MessageQueue *q)
     SDL_UnlockMutex(q->mutex);
 }
 
+//销毁
 inline static void msg_queue_destroy(MessageQueue *q)
 {
     msg_queue_flush(q);
@@ -181,6 +184,7 @@ inline static void msg_queue_destroy(MessageQueue *q)
     SDL_DestroyCond(q->cond);
 }
 
+//终止
 inline static void msg_queue_abort(MessageQueue *q)
 {
     SDL_LockMutex(q->mutex);
