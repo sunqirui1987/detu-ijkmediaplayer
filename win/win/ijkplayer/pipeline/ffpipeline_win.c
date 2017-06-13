@@ -1,5 +1,7 @@
 #include "ffpipeline_win.h"
 #include "ijkplayer/ff_ffplay.h"
+#include "ijkplayer/pipeline/ffpipenode_ffplay_vdec.h"
+#include "ijksdl_aout_win_audio_directsound.h"
 
 static SDL_Class g_pipeline_class = {
 	.name = "ffpipeline_win_media",
@@ -18,7 +20,7 @@ static void func_destroy(IJKFF_Pipeline *pipeline)
 
 static IJKFF_Pipenode *func_open_video_decoder(IJKFF_Pipeline *pipeline, FFPlayer *ffp)
 {
-	return NULL;
+	return ffpipenode_create_video_decoder_from_ffplay(ffp);
 }
 
 static SDL_Aout *func_open_audio_output(IJKFF_Pipeline *pipeline, FFPlayer *ffp)
@@ -43,7 +45,7 @@ IJKFF_Pipeline *ffpipeline_create_from_win(FFPlayer *ffp)
 	opaque->right_volume = 1.0f;
 
 	pipeline->func_destroy = func_destroy;
-	//pipeline->func_open_video_decoder = func_open_video_decoder;
+	pipeline->func_open_video_decoder = func_open_video_decoder;
 	pipeline->func_open_audio_output = func_open_audio_output;
 
 	return pipeline;

@@ -20,6 +20,11 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
  */
 
+/**
+* 流的全局属性设置和获取，类似AVFormatContext结构体中的metadata
+* Modified by chenliang, 2017/6/13
+**/
+
 #include "ijkmeta.h"
 #include "ff_ffinc.h"
 #include "ijksdl/ijksdl_misc.h"

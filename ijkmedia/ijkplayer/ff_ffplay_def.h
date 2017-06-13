@@ -682,6 +682,7 @@ typedef struct FFPlayer {
 #define fftime_to_milliseconds(ts) (av_rescale(ts, 1000, AV_TIME_BASE))
 #define milliseconds_to_fftime(ms) (av_rescale(ms, AV_TIME_BASE, 1000))
 
+//重置reset
 inline static void ffp_reset_internal(FFPlayer *ffp)
 {
     /* ffp->is closed in stream_close() */
@@ -798,22 +799,27 @@ inline static void ffp_reset_internal(FFPlayer *ffp)
     ffp_reset_demux_cache_control(&ffp->dcc);
 }
 
+//向消息队列中添加消息，指定类型what
 inline static void ffp_notify_msg1(FFPlayer *ffp, int what) {
     msg_queue_put_simple3(&ffp->msg_queue, what, 0, 0);
 }
 
+//向消息队列中添加消息，指定类型what，arg1
 inline static void ffp_notify_msg2(FFPlayer *ffp, int what, int arg1) {
     msg_queue_put_simple3(&ffp->msg_queue, what, arg1, 0);
 }
 
+//向消息队列中添加消息，指定类型what, arg1和arg2
 inline static void ffp_notify_msg3(FFPlayer *ffp, int what, int arg1, int arg2) {
     msg_queue_put_simple3(&ffp->msg_queue, what, arg1, arg2);
 }
 
+//从消息队列中移除消息,消息类型为what
 inline static void ffp_remove_msg(FFPlayer *ffp, int what) {
     msg_queue_remove(&ffp->msg_queue, what);
 }
 
+//通过错误码获取错误描述
 inline static const char *ffp_get_error_string(int error) {
     switch (error) {
         case AVERROR(ENOMEM):       return "AVERROR(ENOMEM)";       // 12
