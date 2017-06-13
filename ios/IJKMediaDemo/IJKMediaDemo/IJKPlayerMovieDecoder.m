@@ -104,7 +104,7 @@
         
         
     }
-    [options setFormatOptionIntValue:SDL_FCC_RV24 forKey:@"overlay-format"];
+    //[options setFormatOptionIntValue:SDL_FCC_RV24 forKey:@"overlay-format"];
     _player = [[IJKFFMoviePlayerController alloc] initWithContentURLString:path withOptions:options isVideotoolbox:true];
 
     
