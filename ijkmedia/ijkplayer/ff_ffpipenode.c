@@ -21,6 +21,12 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
  */
 
+/**
+* 接口结构体，负责视频解码；
+* 通过IJKFF_Pipenode_Opaque对应到不同的平台；
+* Android和ios先尝试硬解，不行会使用ffmpeg的软解
+**/
+
 #include "ff_ffpipenode.h"
 #include <stdlib.h>
 #include <string.h>

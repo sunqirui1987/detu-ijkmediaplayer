@@ -3468,6 +3468,7 @@ void ffp_global_set_log_report(int use_report)
     }
 }
 
+//设置ffmpeg的日志打印级别
 void ffp_global_set_log_level(int log_level)
 {
     int av_level = log_level_ijk_to_av(log_level);
