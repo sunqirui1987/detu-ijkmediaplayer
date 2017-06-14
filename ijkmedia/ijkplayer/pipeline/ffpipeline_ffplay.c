@@ -20,6 +20,10 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
  */
 
+/**
+* ffplay的pipeline，有视频解码无音频输出
+**/
+
 #include "ffpipeline_ffplay.h"
 #include "ffpipenode_ffplay_vdec.h"
 #include "../ff_ffplay.h"

@@ -283,6 +283,7 @@ void ijkmp_set_property_int64(IjkMediaPlayer *mp, int id, int64_t value)
     pthread_mutex_unlock(&mp->mutex);
 }
 
+//获取流的全局属性
 IjkMediaMeta *ijkmp_get_meta_l(IjkMediaPlayer *mp)
 {
     assert(mp);

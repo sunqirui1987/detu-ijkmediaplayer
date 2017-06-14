@@ -20,6 +20,10 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
  */
 
+/**
+* 使用ffmpeg进行视频的软解
+**/
+
 #include "ffpipenode_ffplay_vdec.h"
 #include "../ff_ffpipenode.h"
 #include "../ff_ffplay.h"
