@@ -17,7 +17,6 @@
 package tv.danmaku.ijk.media.example.widget.media;
 
 import android.view.View;
-import android.widget.MediaController;
 
 public interface IMediaController {
     void hide();

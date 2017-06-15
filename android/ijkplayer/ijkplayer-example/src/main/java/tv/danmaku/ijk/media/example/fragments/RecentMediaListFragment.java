@@ -64,6 +64,10 @@ public class RecentMediaListFragment extends Fragment implements LoaderManager.L
         storage.saveUrl("http://media.detu.com/@/16708835-8956-454B-E85D-4645F87389120/2017-05-10/59128a6317167-2048x1024.m3u8");
         //storage.saveUrl("http://media.detu.com/@/16708835-8956-454B-E85D-4645F87389120/2017-05-10/591281048adaa-similar.m3u8");
         storage.saveUrl("http://media.detu.com/@/16708835-8956-454B-E85D-4645F87389120/2017-05-10/59128a6317167-2880x1440.m3u8");
+        //storage.saveUrl("http://media.detu.com/@/17717910-8057-4FDF-2F33-F8B1F68282395/2016-08-22/57baeda5920ea-similar.mp4");
+        storage.saveUrl("http://media.detu.com/@/16708835-8956-454B-E85D-4645F87389120/2017-05-10/591281048adaa-similar.m3u8");
+        //storage.saveUrl("http://oss-static.detu.com/res/195209AB.MP4");
+
 
         mAdapter = new RecentMediaAdapter(activity);
         mFileListView.setAdapter(mAdapter);

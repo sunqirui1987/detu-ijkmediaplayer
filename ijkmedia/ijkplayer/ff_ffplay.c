@@ -2828,7 +2828,12 @@ static int read_thread(void *arg)
 
             ffp_toggle_buffering(ffp, 1);
             ffp_notify_msg3(ffp, FFP_MSG_BUFFERING_UPDATE, 0, 0);
-            ret = avformat_seek_file(is->ic, -1, seek_min, seek_target, seek_max, is->seek_flags);
+            //detu,2017-06-15,m3u8拖动不准确问题
+            if(av_stristart(ic->filename, "http", NULL) && strstr(ic->filename, ".m3u8") != NULL) {
+                ret = avformat_seek_file(is->ic, -1, seek_min, seek_target, seek_target, AVSEEK_FLAG_ANY);
+            } else {
+                ret = avformat_seek_file(is->ic, -1, seek_min, seek_target, seek_max, is->seek_flags);
+            }
             if (ret < 0) {
                 av_log(NULL, AV_LOG_ERROR,
                        "%s: error while seeking\n", is->ic->filename);
@@ -3123,7 +3128,7 @@ static int read_thread(void *arg)
                     ffp->gopSize ++;
                 }
                 
-                //此处为了统计dragon丢包率，每秒图像码率，每秒B、P帧数量和
+                //detu,此处为了统计dragon丢包率，每秒图像码率，每秒B、P帧数量和
                 ffp->packetSize+= pkt->size;
                 int64_t current = av_gettime_relative();
                 if(current - statisticsStartTime >= 1000000) {

@@ -34,7 +34,6 @@ import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.FrameLayout;
-import android.widget.MediaController;
 import android.widget.TableLayout;
 
 import java.io.File;
@@ -357,7 +356,7 @@ public class IjkVideoView extends FrameLayout implements MediaController.MediaPl
 
     public void setMediaController(IMediaController controller) {
         if (mMediaController != null) {
-            mMediaController.hide();
+            //mMediaController.hide();
         }
         mMediaController = controller;
         attachMediaController();
@@ -426,13 +425,13 @@ public class IjkVideoView extends FrameLayout implements MediaController.MediaPl
                         if (mTargetState == STATE_PLAYING) {
                             start();
                             if (mMediaController != null) {
-                                mMediaController.show(10000);
+                                mMediaController.show(2000000000);
                             }
                         } else if (!isPlaying() &&
                                 (seekToPosition != 0 || getCurrentPosition() > 0)) {
                             if (mMediaController != null) {
                                 // Show the media controls when we're paused into a video and make 'em stick.
-                                mMediaController.show(10000);
+                                mMediaController.show(2000000000);
                             }
                         }
                     }
@@ -453,7 +452,7 @@ public class IjkVideoView extends FrameLayout implements MediaController.MediaPl
                     mCurrentState = STATE_PLAYBACK_COMPLETED;
                     mTargetState = STATE_PLAYBACK_COMPLETED;
                     if (mMediaController != null) {
-                        mMediaController.hide();
+                        //mMediaController.hide();
                     }
                     if (mOnCompletionListener != null) {
                         mOnCompletionListener.onCompletion(mMediaPlayer);
@@ -519,7 +518,7 @@ public class IjkVideoView extends FrameLayout implements MediaController.MediaPl
                     mCurrentState = STATE_ERROR;
                     mTargetState = STATE_ERROR;
                     if (mMediaController != null) {
-                        mMediaController.hide();
+                        //mMediaController.hide();
                     }
 
                     /* If an error handler has been supplied, use it and finish. */
@@ -740,13 +739,13 @@ public class IjkVideoView extends FrameLayout implements MediaController.MediaPl
                     mMediaController.show();
                 } else {
                     start();
-                    mMediaController.hide();
+                    //mMediaController.hide();
                 }
                 return true;
             } else if (keyCode == KeyEvent.KEYCODE_MEDIA_PLAY) {
                 if (!mMediaPlayer.isPlaying()) {
                     start();
-                    mMediaController.hide();
+                    //mMediaController.hide();
                 }
                 return true;
             } else if (keyCode == KeyEvent.KEYCODE_MEDIA_STOP
@@ -766,7 +765,7 @@ public class IjkVideoView extends FrameLayout implements MediaController.MediaPl
 
     private void toggleMediaControlsVisiblity() {
         if (mMediaController.isShowing()) {
-            mMediaController.hide();
+            //mMediaController.hide();
         } else {
             mMediaController.show();
         }
@@ -865,10 +864,10 @@ public class IjkVideoView extends FrameLayout implements MediaController.MediaPl
         return mCanSeekForward;
     }
 
-    @Override
+    /*@Override
     public int getAudioSessionId() {
         return 0;
-    }
+    }*/
 
     // REMOVED: getAudioSessionId();
     // REMOVED: onAttachedToWindow();

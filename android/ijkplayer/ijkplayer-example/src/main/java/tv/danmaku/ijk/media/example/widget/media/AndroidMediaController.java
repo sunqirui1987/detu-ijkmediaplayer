@@ -22,7 +22,6 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.ActionBar;
 import android.util.AttributeSet;
 import android.view.View;
-import android.widget.MediaController;
 
 import java.util.ArrayList;
 

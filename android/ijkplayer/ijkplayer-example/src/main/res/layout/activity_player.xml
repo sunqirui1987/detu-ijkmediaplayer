@@ -46,6 +46,13 @@
             android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
             app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
             tools:context=".toolbar_widget" />
+
+        <tv.danmaku.ijk.media.example.widget.media.AndroidMediaController
+            android:id="@+id/mediacontroller"
+            android:layout_width="match_parent"
+            android:layout_gravity="bottom"
+            android:layout_height="wrap_content"
+            />
     </FrameLayout>
 
     <!-- The navigation drawer -->
