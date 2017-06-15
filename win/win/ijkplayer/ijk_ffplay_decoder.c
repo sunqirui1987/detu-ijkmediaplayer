@@ -156,17 +156,26 @@ void ijkFfplayDecoder_delete(IjkFfplayDecoder *decoder)
 
 void ijkFfplayDecoder_setDataSource(IjkFfplayDecoder* decoder, const char* fileAbsolutePath)
 {
-
+	ALOGV("setDataSource: path %s", fileAbsolutePath);
+	if (decoder->ijk_media_player){
+		ijkmp_set_data_source(decoder->ijk_media_player, fileAbsolutePath);
+	}
 }
 
 void ijkFfplayDecoder_prepare(IjkFfplayDecoder* decoder)
 {
-
+	if (decoder->ijk_media_player){
+		ijkmp_prepare_async(decoder->ijk_media_player);
+		ijkmp_dec_ref_p(&(decoder->ijk_media_player));
+	}
 }
 
 void ijkFfplayDecoder_start(IjkFfplayDecoder* decoder)
 {
-
+	if (decoder->ijk_media_player){
+		ijkmp_start(decoder->ijk_media_player);
+		ijkmp_dec_ref_p(&(decoder->ijk_media_player));
+	}
 }
 
 void ijkFfplayDecoder_pause(IjkFfplayDecoder* decoder)
@@ -221,10 +230,15 @@ void ijkFfplayDecoder_setOptionStringValue(IjkFfplayDecoder* decoder, const char
 
 void ijkFfplayDecoder_setLogLevel(IjkFfplayDecoder* decoder, IJKLogLevel logLevel)
 {
-
+	ijkmp_global_set_log_level(k_IJK_LOG_DEBUG);
 }
 
 void ijkFfplayDecoder_setDecoderCallBack(IjkFfplayDecoder* decoder, void* opaque, IjkFfplayDecoderCallBack* callBack)
 {
+	if (decoder->ijk_media_player){
+		decoder->opaque = opaque;
+		decoder->ijk_ffplayer_deocdecallback = callBack;
 
+		//TODO set callback to ijksdl_vout_win_ffmpeg
+	}
 }

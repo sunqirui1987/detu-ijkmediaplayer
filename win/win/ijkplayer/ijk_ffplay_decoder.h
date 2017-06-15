@@ -63,7 +63,7 @@ typedef enum IJKLogLevel {
 typedef struct VideoFrame{
 	int w;				//Read-only, width
 	int h;				//Read-only, height
-	uint32_t format;		//Read-only, pixel format
+	uint32_t format;	//Read-only, pixel format
 	int planes;			//Read-only, planes
 	uint16_t *linesize;	//Read-only, data length in bytes
 	uint8_t **data;		//Read-write,data for display

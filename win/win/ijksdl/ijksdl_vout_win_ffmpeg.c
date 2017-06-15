@@ -51,6 +51,7 @@ static int func_display_overlay_l(SDL_Vout *vout, SDL_VoutOverlay *overlay)
         return -1;
     }
 
+	printf("width:%d, height:%d", overlay->w, overlay->h);
 	//TODO, callback frame to user
 
     return 0; 
@@ -77,7 +78,4 @@ SDL_Vout *SDL_VoutWin_CreateForWindows()
     vout->display_overlay = func_display_overlay;
 
     return vout;
-fail:
-    func_free_l(vout);
-    return NULL;
 }
