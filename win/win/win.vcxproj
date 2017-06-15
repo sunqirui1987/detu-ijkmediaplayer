@@ -117,6 +117,7 @@
     <ClCompile Include="ijkplayer\ijk_ffplay_decoder.c" />
     <ClCompile Include="ijkplayer\pipeline\ffpipeline_win.c" />
     <ClCompile Include="ijksdl\ijksdl_aout_win_audio_directsound.c" />
+    <ClCompile Include="ijksdl\ijksdl_vout_win_ffmpeg.c" />
     <ClCompile Include="ijksdl\win_directsound.c" />
   </ItemGroup>
   <ItemGroup>
@@ -170,6 +171,7 @@
     <ClInclude Include="ijkplayer\ijk_ffplay_decoder.h" />
     <ClInclude Include="ijkplayer\pipeline\ffpipeline_win.h" />
     <ClInclude Include="ijksdl\ijksdl_aout_win_audio_directsound.h" />
+    <ClInclude Include="ijksdl\ijksdl_vout_win_ffmpeg.h" />
     <ClInclude Include="ijksdl\win_directsound.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

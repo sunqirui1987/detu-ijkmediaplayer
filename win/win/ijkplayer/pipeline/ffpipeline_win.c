@@ -41,7 +41,7 @@ IJKFF_Pipeline *ffpipeline_create_from_win(FFPlayer *ffp)
 
 	IJKFF_Pipeline_Opaque *opaque = pipeline->opaque;
 	opaque->ffp = ffp;
-	opaque->left_volume = 1.0f;
+	opaque->left_volume  = 1.0f;
 	opaque->right_volume = 1.0f;
 
 	pipeline->func_destroy = func_destroy;

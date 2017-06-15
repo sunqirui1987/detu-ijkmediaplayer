@@ -178,6 +178,9 @@
     <ClCompile Include="ijkplayer\ijk_ffplay_decoder.c">
       <Filter>win\ijkplayer</Filter>
     </ClCompile>
+    <ClCompile Include="ijksdl\ijksdl_vout_win_ffmpeg.c">
+      <Filter>win\ijksdl</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\ijkmedia\ijkplayer\ijkplayer.h">
@@ -332,6 +335,9 @@
     </ClInclude>
     <ClInclude Include="ijkplayer\ijk_ffplay_decoder.h">
       <Filter>win\ijkplayer</Filter>
+    </ClInclude>
+    <ClInclude Include="ijksdl\ijksdl_vout_win_ffmpeg.h">
+      <Filter>win\ijksdl</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

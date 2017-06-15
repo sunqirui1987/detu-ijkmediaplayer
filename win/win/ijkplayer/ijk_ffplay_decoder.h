@@ -3,13 +3,16 @@
 //  IJKMediaPlayer
 //
 //  Created by chao on 2017/6/12.
-//  Copyright © 2017年 detu. All rights reserved.
+//  Copyright © 2017 detu. All rights reserved.
 //
 
 #ifndef IJK_FFPLAYER_DECODER_H
 #define IJK_FFPLAYER_DECODER_H
 
 #include <stdio.h>
+#include <stddef.h>
+#include <stdint.h>
+#include <stdbool.h>
 
 // media meta
 #define k_IJKM_KEY_FORMAT         @"format"
@@ -42,6 +45,7 @@
 
 #define kk_IJKM_KEY_STREAMS       @"streams"
 
+//ijk log level
 typedef enum IJKLogLevel {
     k_IJK_LOG_UNKNOWN = 0,
     k_IJK_LOG_DEFAULT = 1,
@@ -55,14 +59,55 @@ typedef enum IJKLogLevel {
     k_IJK_LOG_SILENT  = 8,
 } IJKLogLevel;
 
+//video frame callback
+typedef struct VideoFrame{
+	int w;				//Read-only, width
+	int h;				//Read-only, height
+	uint32_t format;		//Read-only, pixel format
+	int planes;			//Read-only, planes
+	uint16_t *linesize;	//Read-only, data length in bytes
+	uint8_t **data;		//Read-write,data for display
+
+	int is_private;
+}VideoFrame;
+
+//message state
+typedef enum IjkMsgState{
+	IJK_MSG_FLUSH                       = 0,
+	IJK_MSG_ERROR                       = 100,     /* arg1 = error */
+	IJK_MSG_PREPARED                    = 200,
+	IJK_MSG_COMPLETED                   = 300,
+	IJK_MSG_VIDEO_SIZE_CHANGED          = 400,     /* arg1 = width, arg2 = height */
+	IJK_MSG_SAR_CHANGED                 = 401,     /* arg1 = sar.num, arg2 = sar.den */
+	IJK_MSG_VIDEO_RENDERING_START       = 402,
+	IJK_MSG_AUDIO_RENDERING_START       = 403,
+	IJK_MSG_VIDEO_ROTATION_CHANGED      = 404,     /* arg1 = degree */
+	IJK_MSG_BUFFERING_START             = 500,
+	IJK_MSG_BUFFERING_END               = 501,
+	IJK_MSG_BUFFERING_UPDATE            = 502,     /* arg1 = buffering head position in time, arg2 = minimum percent in time or bytes */
+	IJK_MSG_BUFFERING_BYTES_UPDATE      = 503,     /* arg1 = cached data in bytes,            arg2 = high water mark */
+	IJK_MSG_BUFFERING_TIME_UPDATE       = 504,     /* arg1 = cached duration in milliseconds, arg2 = high water mark */
+	IJK_MSG_SEEK_COMPLETE               = 600,     /* arg1 = seek position,                   arg2 = error */
+	IJK_MSG_PLAYBACK_STATE_CHANGED      = 700,
+	IJK_MSG_TIMED_TEXT                  = 800,
+	IJK_MSG_ACCURATE_SEEK_COMPLETE      = 900,     /* arg1 = current position*/
+	IJK_MSG_VIDEO_DECODER_OPEN          = 10001,
+}IjkMsgState;
+
 typedef struct IjkFfplayDecoderCallBack {
-    
+	void (*func_get_frame)(void* opaque, VideoFrame *frame_callback);
+	void (*func_state_change)(void* opaque, IjkMsgState ijk_msgint, int arg1, int arg2);
 }IjkFfplayDecoderCallBack;
 
-
 struct IjkFfplayDecoder;
+typedef struct IjkFfplayDecoder IjkFfplayDecoder;
 
-typedef struct IjkFfplayDecoder;
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+IjkFfplayDecoder *ijkFfplayDecoder_create(void);
+
+void ijkFfplayDecoder_delete(IjkFfplayDecoder *decoder);
 
 void ijkFfplayDecoder_setDataSource(IjkFfplayDecoder* decoder, const char* fileAbsolutePath);
 
@@ -94,6 +139,6 @@ void ijkFfplayDecoder_setOptionStringValue(IjkFfplayDecoder* decoder, const char
 
 void ijkFfplayDecoder_setLogLevel(IjkFfplayDecoder* decoder, IJKLogLevel logLevel);
 
-void ijkFfplayDecoder_setDecoderCallBack(IjkFfplayDecoder* decoder, IjkFfplayDecoderCallBack* callBack);
+void ijkFfplayDecoder_setDecoderCallBack(IjkFfplayDecoder* decoder, void* opaque, IjkFfplayDecoderCallBack* callBack);
 
-#endif /* ijk_ffplay_decoder_h */
+#endif /* IJK_FFPLAYER_DECODER_H */
