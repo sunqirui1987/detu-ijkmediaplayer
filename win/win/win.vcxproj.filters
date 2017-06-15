@@ -175,6 +175,9 @@
     <ClCompile Include="ijkplayer\pipeline\ffpipeline_win.c">
       <Filter>win\ijkplayer\pipeline</Filter>
     </ClCompile>
+    <ClCompile Include="ijkplayer\ijk_ffplay_decoder.c">
+      <Filter>win\ijkplayer</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\ijkmedia\ijkplayer\ijkplayer.h">
@@ -326,6 +329,9 @@
     </ClInclude>
     <ClInclude Include="ijkplayer\pipeline\ffpipeline_win.h">
       <Filter>win\ijkplayer\pipeline</Filter>
+    </ClInclude>
+    <ClInclude Include="ijkplayer\ijk_ffplay_decoder.h">
+      <Filter>win\ijkplayer</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
