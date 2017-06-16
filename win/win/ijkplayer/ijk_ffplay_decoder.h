@@ -123,7 +123,7 @@ void ijkFfplayDecoder_reset(IjkFfplayDecoder* decoder);
 
 void ijkFfplayDecoder_release(IjkFfplayDecoder* decoder);
 
-void ijkFfplayDecoder_isPlaying(IjkFfplayDecoder* decoder);
+bool ijkFfplayDecoder_isPlaying(IjkFfplayDecoder* decoder);
 
 void ijkFfplayDecoder_seekTo(IjkFfplayDecoder* decoder, long msec);
 

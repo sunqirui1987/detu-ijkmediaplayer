@@ -124,6 +124,7 @@ static int message_loop(void *arg)
 
 IjkFfplayDecoder *ijkFfplayDecoder_create(void)
 {
+	//ijkmp_global_init();
 	IjkMediaPlayer *mp = ijkmp_create(message_loop);
 	if (!mp)
 		goto fail;
@@ -131,10 +132,12 @@ IjkFfplayDecoder *ijkFfplayDecoder_create(void)
 	mp->ffplayer->vout = SDL_VoutWin_CreateForWindows();
 	if (!mp->ffplayer->vout)
 		goto fail;
+	ALOGV("create vout success.\n");
 
 	mp->ffplayer->pipeline = ffpipeline_create_from_win(mp->ffplayer);
 	if (!mp->ffplayer->pipeline)
 		goto fail;
+	ALOGV("create pipeline success.\n");
 
 	IjkFfplayDecoder *ijk_ffplay_decoder = (IjkFfplayDecoder *)malloc(sizeof(IjkFfplayDecoder));
 	memset(ijk_ffplay_decoder, 0, sizeof(IjkFfplayDecoder));
@@ -156,7 +159,7 @@ void ijkFfplayDecoder_delete(IjkFfplayDecoder *decoder)
 
 void ijkFfplayDecoder_setDataSource(IjkFfplayDecoder* decoder, const char* fileAbsolutePath)
 {
-	ALOGV("setDataSource: path %s", fileAbsolutePath);
+	ALOGV("setDataSource: path %s\n", fileAbsolutePath);
 	if (decoder->ijk_media_player){
 		ijkmp_set_data_source(decoder->ijk_media_player, fileAbsolutePath);
 	}
@@ -166,7 +169,7 @@ void ijkFfplayDecoder_prepare(IjkFfplayDecoder* decoder)
 {
 	if (decoder->ijk_media_player){
 		ijkmp_prepare_async(decoder->ijk_media_player);
-		ijkmp_dec_ref_p(&(decoder->ijk_media_player));
+		//ijkmp_dec_ref_p(&(decoder->ijk_media_player));
 	}
 }
 
@@ -174,33 +177,50 @@ void ijkFfplayDecoder_start(IjkFfplayDecoder* decoder)
 {
 	if (decoder->ijk_media_player){
 		ijkmp_start(decoder->ijk_media_player);
-		ijkmp_dec_ref_p(&(decoder->ijk_media_player));
+		//ijkmp_dec_ref_p(&(decoder->ijk_media_player));
 	}
 }
 
 void ijkFfplayDecoder_pause(IjkFfplayDecoder* decoder)
 {
-
+	if (decoder->ijk_media_player){
+		ijkmp_pause(decoder->ijk_media_player);
+		ijkmp_dec_ref_p(&(decoder->ijk_media_player));
+	}
 }
 
 void ijkFfplayDecoder_reset(IjkFfplayDecoder* decoder)
 {
-
+	if (decoder->ijk_media_player){
+		ijkmp_shutdown(decoder->ijk_media_player);
+		ijkmp_dec_ref_p(&(decoder->ijk_media_player));
+	}
 }
 
 void ijkFfplayDecoder_release(IjkFfplayDecoder* decoder)
 {
-
+	if (decoder->ijk_media_player){
+		ijkmp_shutdown(decoder->ijk_media_player);
+		ijkmp_dec_ref_p(&(decoder->ijk_media_player));
+	}
 }
 
-void ijkFfplayDecoder_isPlaying(IjkFfplayDecoder* decoder)
+bool ijkFfplayDecoder_isPlaying(IjkFfplayDecoder* decoder)
 {
-
+	if (decoder->ijk_media_player){
+		bool ret = ijkmp_is_playing(decoder->ijk_media_player);
+		//ijkmp_dec_ref_p(&(decoder->ijk_media_player));
+		return ret;
+	}
+	return false;
 }
 
 void ijkFfplayDecoder_seekTo(IjkFfplayDecoder* decoder, long msec)
 {
-
+	if (decoder->ijk_media_player){
+		ijkmp_seek_to(decoder->ijk_media_player, msec);
+		ijkmp_dec_ref_p(&(decoder->ijk_media_player));
+	}
 }
 
 long ijkFfplayDecoder_getCurrentPosition(IjkFfplayDecoder* decoder)
