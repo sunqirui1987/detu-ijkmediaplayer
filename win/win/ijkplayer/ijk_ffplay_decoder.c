@@ -110,7 +110,6 @@ static void message_loop_n(IjkFfplayDecoder *ijk_ffplay_decoder)
 
 static int message_loop(void *arg)
 {
-
 	IjkFfplayDecoder *ijk_ffplay_decoder = (IjkFfplayDecoder*)arg;
 
 	message_loop_n(ijk_ffplay_decoder);
@@ -121,10 +120,27 @@ static int message_loop(void *arg)
 	return 0;
 }
 
+static ijk_inject_callback s_inject_callback;
+int inject_callback(void *opaque, int type, void *data, size_t data_size)
+{
+	if (s_inject_callback)
+		return s_inject_callback(opaque, type, data, data_size);
+	return 0;
+}
+
+void ijkFfplayDecoder_init(void)
+{
+	ijkmp_global_init();
+	ijkmp_global_set_inject_callback(inject_callback);
+}
+
+void ijkFfplayDecoder_uninit(void)
+{
+	ijkmp_global_uninit();
+}
 
 IjkFfplayDecoder *ijkFfplayDecoder_create(void)
 {
-	//ijkmp_global_init();
 	IjkMediaPlayer *mp = ijkmp_create(message_loop);
 	if (!mp)
 		goto fail;
@@ -152,16 +168,24 @@ fail:
 
 void ijkFfplayDecoder_delete(IjkFfplayDecoder *decoder)
 {
-	if (decoder){
-		ijkmp_dec_ref_p(&(decoder->ijk_media_player));
+	if (!decoder->ijk_media_player){
+		ALOGV("IjkMediaPlayer is NULL.\n");
+		return;
 	}
+
+	ijkmp_dec_ref_p(&(decoder->ijk_media_player));
 }
 
 void ijkFfplayDecoder_setDataSource(IjkFfplayDecoder* decoder, const char* fileAbsolutePath)
 {
-	ALOGV("setDataSource: path %s\n", fileAbsolutePath);
-	if (decoder->ijk_media_player){
-		ijkmp_set_data_source(decoder->ijk_media_player, fileAbsolutePath);
+	if (!decoder->ijk_media_player){
+		ALOGV("IjkMediaPlayer is NULL.\n");
+		return;
+	}
+
+	int ret = ijkmp_set_data_source(decoder->ijk_media_player, fileAbsolutePath);
+	if (ret == 0){
+		ALOGV("setDataSource success: path %s.\n", fileAbsolutePath);
 	}
 }
 

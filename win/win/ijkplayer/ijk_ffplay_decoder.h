@@ -105,7 +105,15 @@ typedef struct IjkFfplayDecoder IjkFfplayDecoder;
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+void ijkFfplayDecoder_init(void);
+
+void ijkFfplayDecoder_uninit(void);
+
 IjkFfplayDecoder *ijkFfplayDecoder_create(void);
+
+void ijkFfplayDecoder_setLogLevel(IjkFfplayDecoder* decoder, IJKLogLevel logLevel);
+
+void ijkFfplayDecoder_setDecoderCallBack(IjkFfplayDecoder* decoder, void* opaque, IjkFfplayDecoderCallBack* callBack);
 
 void ijkFfplayDecoder_delete(IjkFfplayDecoder *decoder);
 
@@ -119,17 +127,17 @@ void ijkFfplayDecoder_pause(IjkFfplayDecoder* decoder);
 
 void ijkFfplayDecoder_stop(IjkFfplayDecoder* decoder);
 
-void ijkFfplayDecoder_reset(IjkFfplayDecoder* decoder);
-
-void ijkFfplayDecoder_release(IjkFfplayDecoder* decoder);
+void ijkFfplayDecoder_seekTo(IjkFfplayDecoder* decoder, long msec);
 
 bool ijkFfplayDecoder_isPlaying(IjkFfplayDecoder* decoder);
 
-void ijkFfplayDecoder_seekTo(IjkFfplayDecoder* decoder, long msec);
+long ijkFfp_getCurrentPosition(IjkFfplayDecoder* decoder);
 
-long ijkFfplayDecoder_getCurrentPosition(IjkFfplayDecoder* decoder);
+long ijkFfp_getDuration(IjkFfplayDecoder* decoder);
 
-long ijkFfplayDecoder_getDuration(IjkFfplayDecoder* decoder);
+void ijkFfplayDecoder_release(IjkFfplayDecoder* decoder);
+
+void ijkFfplayDecoder_reset(IjkFfplayDecoder* decoder);
 
 void ijkFfplayDecoder_setVolume(IjkFfplayDecoder* decoder, float leftVolume, float rightVolume);
 
@@ -137,8 +145,8 @@ void ijkFfplayDecoder_setOptionLongValue(IjkFfplayDecoder* decoder, const char* 
 
 void ijkFfplayDecoder_setOptionStringValue(IjkFfplayDecoder* decoder, const char* key, const char* value);
 
-void ijkFfplayDecoder_setLogLevel(IjkFfplayDecoder* decoder, IJKLogLevel logLevel);
+char *ijkFfplayDecoder_getVideoCodecInfo(IjkFfplayDecoder* decoder);
 
-void ijkFfplayDecoder_setDecoderCallBack(IjkFfplayDecoder* decoder, void* opaque, IjkFfplayDecoderCallBack* callBack);
+char *ijkFfplayDecoder_getAudioCodecInfo(IjkFfplayDecoder* decoder);
 
 #endif /* IJK_FFPLAYER_DECODER_H */

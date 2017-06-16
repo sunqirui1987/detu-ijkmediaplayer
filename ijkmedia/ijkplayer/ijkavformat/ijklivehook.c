@@ -182,7 +182,7 @@ fail:
     return ret;
 }
 
-static int ijklivehook_read_header(AVFormatContext *avf, AVDictionary **options)
+static int ijklivehook_read_header(AVFormatContext *avf/*, AVDictionary **options*/)
 {
     Context    *c           = avf->priv_data;
     const char *inner_url   = NULL;
@@ -202,11 +202,11 @@ static int ijklivehook_read_header(AVFormatContext *avf, AVDictionary **options)
         av_stristart(c->io_control.url, "rtsp", NULL)) {
         // There is total different meaning for 'timeout' option in rtmp
         av_log(avf, AV_LOG_WARNING, "remove 'timeout' option for rtmp.\n");
-        av_dict_set(options, "timeout", NULL, 0);
+        //av_dict_set(options, "timeout", NULL, 0);
     }
 
-    if (options)
-        av_dict_copy(&c->open_opts, *options, 0);
+    //if (options)
+    //    av_dict_copy(&c->open_opts, *options, 0);
 
     c->io_control.retry_counter = 0;
     ret = open_inner(avf);
@@ -308,7 +308,7 @@ AVInputFormat ijkff_ijklivehook_demuxer = {
     .flags          = AVFMT_NOFILE | AVFMT_TS_DISCONT,
     .priv_data_size = sizeof(Context),
     .read_probe     = ijklivehook_probe,
-    //.read_header2   = ijklivehook_read_header,
+    .read_header    = ijklivehook_read_header,
     .read_packet    = ijklivehook_read_packet,
     .read_close     = ijklivehook_read_close,
     .priv_class     = &ijklivehook_class,
