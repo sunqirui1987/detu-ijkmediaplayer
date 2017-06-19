@@ -410,5 +410,5 @@ void ijkFfplayDecoder_setDecoderCallBack(IjkFfplayDecoder* decoder, void* opaque
 	decoder->ijk_ffplayer_deocdecallback = callBack;
 
 	//TODO set callback to ijksdl_vout_win_ffmpeg
-
+	SDL_VoutWin_SetVideoDataCallback();
 }

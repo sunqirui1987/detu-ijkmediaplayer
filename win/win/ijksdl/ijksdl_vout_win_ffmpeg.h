@@ -6,4 +6,6 @@
 
 SDL_Vout *SDL_VoutWin_CreateForWindows();
 
+void SDL_VoutWin_SetVideoDataCallback();
+
 #endif
