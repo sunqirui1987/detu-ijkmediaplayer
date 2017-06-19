@@ -50,3 +50,14 @@ IJKFF_Pipeline *ffpipeline_create_from_win(FFPlayer *ffp)
 
 	return pipeline;
 }
+
+void ffpipeline_win_set_volume(IJKFF_Pipeline* pipeline, float left, float right)
+{
+	IJKFF_Pipeline_Opaque *opaque = pipeline->opaque;
+	opaque->left_volume = left;
+	opaque->right_volume = right;
+
+	if (opaque->ffp && opaque->ffp->aout) {
+		SDL_AoutSetStereoVolume(opaque->ffp->aout, left, right);
+	}
+}

@@ -124,7 +124,13 @@ static int aout_open_audio_n(SDL_Aout *aout, const SDL_AudioSpec *desired, SDL_A
 	}
 
 	if (obtained) {
-		obtained = desired;
+		obtained->freq = desired->freq;
+		obtained->format = desired->format;
+		obtained->channels = desired->channels;
+		obtained->silence = desired->silence;
+		obtained->samples = desired->samples;
+		obtained->size = desired->size;
+		obtained->callback = desired->callback;
 		SDLTRACE("audio target format fmt:0x%x, channel:0x%x", (int)obtained->format, (int)obtained->channels);
 	}
 

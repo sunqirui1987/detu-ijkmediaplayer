@@ -141,12 +141,12 @@ void ijkFfplayDecoder_reset(IjkFfplayDecoder* decoder);
 
 void ijkFfplayDecoder_setVolume(IjkFfplayDecoder* decoder, float leftVolume, float rightVolume);
 
-void ijkFfplayDecoder_setOptionLongValue(IjkFfplayDecoder* decoder, const char* key, long value);
+void ijkFfplayDecoder_setOptionLongValue(IjkFfplayDecoder* decoder, int opt_category, const char* key, long value);
 
-void ijkFfplayDecoder_setOptionStringValue(IjkFfplayDecoder* decoder, const char* key, const char* value);
+void ijkFfplayDecoder_setOptionStringValue(IjkFfplayDecoder* decoder, int opt_category, const char* key, const char* value);
 
-char *ijkFfplayDecoder_getVideoCodecInfo(IjkFfplayDecoder* decoder);
+void ijkFfplayDecoder_getVideoCodecInfo(IjkFfplayDecoder* decoder, char **codec_info);
 
-char *ijkFfplayDecoder_getAudioCodecInfo(IjkFfplayDecoder* decoder);
+void ijkFfplayDecoder_getAudioCodecInfo(IjkFfplayDecoder* decoder, char **codec_info);
 
 #endif /* IJK_FFPLAYER_DECODER_H */

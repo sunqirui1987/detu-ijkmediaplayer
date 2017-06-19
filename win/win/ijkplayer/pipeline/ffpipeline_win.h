@@ -12,4 +12,6 @@ typedef struct IJKFF_Pipeline IJKFF_Pipeline;
 
 IJKFF_Pipeline *ffpipeline_create_from_win(struct FFPlayer *ffp);
 
+void	ffpipeline_win_set_volume(IJKFF_Pipeline* pipeline, float left, float right);
+
 #endif
