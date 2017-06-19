@@ -45,6 +45,8 @@
 
 #define kk_IJKM_KEY_STREAMS       @"streams"
 
+#define k_IJK_NUM_DATA_POINTERS 8
+
 //ijk log level
 typedef enum IJKLogLevel {
     k_IJK_LOG_UNKNOWN = 0,
@@ -65,8 +67,8 @@ typedef struct VideoFrame{
 	int h;				//Read-only, height
 	uint32_t format;	//Read-only, pixel format
 	int planes;			//Read-only, planes
-	uint16_t *linesize;	//Read-only, data length in bytes
-	uint8_t **data;		//Read-write,data for display
+	uint16_t linesize[k_IJK_NUM_DATA_POINTERS];	//Read-only, data length in bytes
+	uint8_t *data[k_IJK_NUM_DATA_POINTERS];		//Read-write,data for display
 
 	int is_private;
 }VideoFrame;

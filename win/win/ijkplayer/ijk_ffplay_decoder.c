@@ -19,6 +19,10 @@ struct IjkFfplayDecoder{
 
 	void *opaque;
 	IjkFfplayDecoderCallBack *ijk_ffplayer_deocdecallback;
+
+	VideoFrame *current_frame;
+
+	FILE *fp;
 };
 
 
@@ -158,6 +162,8 @@ IjkFfplayDecoder *ijkFfplayDecoder_create(void)
 	IjkFfplayDecoder *ijk_ffplay_decoder = (IjkFfplayDecoder *)malloc(sizeof(IjkFfplayDecoder));
 	memset(ijk_ffplay_decoder, 0, sizeof(IjkFfplayDecoder));
 	ijk_ffplay_decoder->ijk_media_player = mp;
+	ijk_ffplay_decoder->current_frame = (VideoFrame *)calloc(1,sizeof(VideoFrame));
+	ijk_ffplay_decoder->fp = fopen("output_callback.yuv", "wb+");
 
 	return ijk_ffplay_decoder;
 
@@ -399,6 +405,34 @@ void ijkFfplayDecoder_setLogLevel(IjkFfplayDecoder* decoder, IJKLogLevel logLeve
 	ijkmp_global_set_log_level(logLevel);
 }
 
+#define OUTPUT_YUV420P_CALLBACK 0
+static int video_callback(void *arg, SDL_VoutOverlay* overlay)
+{
+	IjkFfplayDecoder *play_decoder = (IjkFfplayDecoder*)arg;
+
+	play_decoder->current_frame->w = overlay->w;
+	play_decoder->current_frame->h = overlay->h;
+	play_decoder->current_frame->format = overlay->format;
+	play_decoder->current_frame->planes = overlay->planes;
+
+	for (int i = 0; i < AV_NUM_DATA_POINTERS; ++i) {
+		play_decoder->current_frame->data[i] = overlay->pixels[i];
+		play_decoder->current_frame->linesize[i] = overlay->pitches[i];
+	}
+ 
+#if OUTPUT_YUV420P_CALLBACK
+	int y_size = play_decoder->current_frame->w * play_decoder->current_frame->h;
+	fwrite(play_decoder->current_frame->data[0], 1, y_size, play_decoder->fp);		//Y 
+	fwrite(play_decoder->current_frame->data[1], 1, y_size / 4, play_decoder->fp);  //U
+	fwrite(play_decoder->current_frame->data[2], 1, y_size / 4, play_decoder->fp);  //V
+	fflush(play_decoder->fp);
+#endif
+
+	play_decoder->ijk_ffplayer_deocdecallback->func_get_frame(play_decoder->opaque, play_decoder->current_frame);
+
+	return 0;
+}
+
 void ijkFfplayDecoder_setDecoderCallBack(IjkFfplayDecoder* decoder, void* opaque, IjkFfplayDecoderCallBack* callBack)
 {
 	if (!decoder->ijk_media_player){
@@ -410,5 +444,5 @@ void ijkFfplayDecoder_setDecoderCallBack(IjkFfplayDecoder* decoder, void* opaque
 	decoder->ijk_ffplayer_deocdecallback = callBack;
 
 	//TODO set callback to ijksdl_vout_win_ffmpeg
-	SDL_VoutWin_SetVideoDataCallback();
+	SDL_VoutWin_SetVideoDataCallback((void *)decoder, decoder->ijk_media_player->ffplayer->vout, video_callback);
 }
