@@ -21,8 +21,6 @@ struct IjkFfplayDecoder{
 	IjkFfplayDecoderCallBack *ijk_ffplayer_deocdecallback;
 
 	VideoFrame *current_frame;
-
-	FILE *fp;
 };
 
 
@@ -163,7 +161,6 @@ IjkFfplayDecoder *ijkFfplayDecoder_create(void)
 	memset(ijk_ffplay_decoder, 0, sizeof(IjkFfplayDecoder));
 	ijk_ffplay_decoder->ijk_media_player = mp;
 	ijk_ffplay_decoder->current_frame = (VideoFrame *)calloc(1,sizeof(VideoFrame));
-	ijk_ffplay_decoder->fp = fopen("output_callback.yuv", "wb+");
 
 	return ijk_ffplay_decoder;
 
@@ -405,7 +402,6 @@ void ijkFfplayDecoder_setLogLevel(IjkFfplayDecoder* decoder, IJKLogLevel logLeve
 	ijkmp_global_set_log_level(logLevel);
 }
 
-#define OUTPUT_YUV420P_CALLBACK 0
 static int video_callback(void *arg, SDL_VoutOverlay* overlay)
 {
 	IjkFfplayDecoder *play_decoder = (IjkFfplayDecoder*)arg;
@@ -419,14 +415,6 @@ static int video_callback(void *arg, SDL_VoutOverlay* overlay)
 		play_decoder->current_frame->data[i] = overlay->pixels[i];
 		play_decoder->current_frame->linesize[i] = overlay->pitches[i];
 	}
- 
-#if OUTPUT_YUV420P_CALLBACK
-	int y_size = play_decoder->current_frame->w * play_decoder->current_frame->h;
-	fwrite(play_decoder->current_frame->data[0], 1, y_size, play_decoder->fp);		//Y 
-	fwrite(play_decoder->current_frame->data[1], 1, y_size / 4, play_decoder->fp);  //U
-	fwrite(play_decoder->current_frame->data[2], 1, y_size / 4, play_decoder->fp);  //V
-	fflush(play_decoder->fp);
-#endif
 
 	play_decoder->ijk_ffplayer_deocdecallback->func_get_frame(play_decoder->opaque, play_decoder->current_frame);
 

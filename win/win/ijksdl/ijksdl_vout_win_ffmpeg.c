@@ -6,13 +6,16 @@
 #include "ijksdl/ijksdl_container.h"
 #include "ijksdl/ffmpeg/ijksdl_vout_overlay_ffmpeg.h"
 
+#define OUTPUT_YUV420P 0
 
 typedef struct SDL_Vout_Opaque {
-	FILE *fp;
-	int private;
+	int  private;
 	void *opaque;
 
-	//TODO video callback function
+#if OUTPUT_YUV420P
+	FILE *fp;
+#endif
+
 	int(*decode_video_callback)(void *arg, SDL_VoutOverlay* overlay);
 
 } SDL_Vout_Opaque;
@@ -37,16 +40,14 @@ static void func_free_l(SDL_Vout *vout)
 
     SDL_Vout_Opaque *opaque = vout->opaque;
     if (opaque) {
-		//TODO,free resource
-		if (opaque->fp){
-			fclose(opaque->fp), opaque->fp = NULL;
-		}
+#if OUTPUT_YUV420P
+		fclose(opaque->fp), opaque->fp = NULL;
+#endif
     }
 
     SDL_Vout_FreeInternal(vout);
 }
 
-#define OUTPUT_YUV420P 0
 static int func_display_overlay_l(SDL_Vout *vout, SDL_VoutOverlay *overlay)
 {
     SDL_Vout_Opaque *opaque = vout->opaque;
@@ -68,7 +69,7 @@ static int func_display_overlay_l(SDL_Vout *vout, SDL_VoutOverlay *overlay)
 	fwrite(overlay->pixels[2], 1, y_size / 4, opaque->fp);  //V
 	fflush(opaque->fp);
 #endif
-	//TODO, callback frame to user
+
 	opaque->decode_video_callback(opaque->opaque, overlay);
 
     return 0; 
@@ -89,7 +90,9 @@ SDL_Vout *SDL_VoutWin_CreateForWindows()
         return NULL;
 
     SDL_Vout_Opaque *opaque = vout->opaque;
+#if OUTPUT_YUV420P
 	opaque->fp = fopen("output_overlay.yuv", "wb+");
+#endif
 
     vout->create_overlay  = func_create_overlay;
     vout->free_l          = func_free_l;

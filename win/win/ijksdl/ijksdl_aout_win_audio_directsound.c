@@ -234,12 +234,12 @@ SDL_Aout *SDL_AoutWin_CreateForAudio()
 	opaque->speed = 1.0f;
 
 	aout->opaque_class = &g_dsound_class;
-	aout->free_l = aout_free_l;
-	aout->open_audio = aout_open_audio;
-	aout->pause_audio = aout_pause_audio;
-	aout->set_volume = aout_set_volume;
-	aout->close_audio = aout_close_audio;
-	aout->func_set_playback_rate = func_set_playback_rate;
+	aout->free_l = NULL;//aout_free_l;
+	aout->open_audio = NULL;//aout_open_audio;
+	aout->pause_audio = NULL;//aout_pause_audio;
+	aout->set_volume = NULL;//aout_set_volume;
+	aout->close_audio = NULL;//aout_close_audio;
+	aout->func_set_playback_rate = NULL;//func_set_playback_rate;
 
 	return aout;
 }
