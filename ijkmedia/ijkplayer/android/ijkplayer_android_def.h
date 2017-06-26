@@ -41,6 +41,9 @@ enum media_event_type {
 
 
     MEDIA_SET_VIDEO_SAR     = 10001,    // arg1 = sar.num, arg2 = sar.den
+
+    //统计信息
+    MEDIA_DETU_STATISTICS_DATA = 20000, // arg1 = bitrate, arg2 = gop
 };
 
 // Generic error codes for the media player framework.  Errors are fatal, the

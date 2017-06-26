@@ -2588,7 +2588,13 @@ static int read_thread(void *arg)
 #endif
     }
     is->ic = ic;
-
+    
+    //detu.2017-06-26，控制是否输出统计信息
+    if(ffp->player_opts != NULL && (t = (av_dict_get(ffp->player_opts, "detu_show_statistics", NULL, AV_DICT_IGNORE_SUFFIX)))) {
+        ffp->showDetuStatisticsInfo = (strcmp("true", t->value) == 0);
+        t = NULL;
+    }
+    
     if (ffp->genpts)
         ic->flags |= AVFMT_FLAG_GENPTS;
 
@@ -2926,7 +2932,6 @@ static int read_thread(void *arg)
         if(isRtspPlayBack) {
             long playTime = ffp_get_current_position_l(ffp);
             long duration = ffp_get_duration_l(ffp);
-            av_log(ffp, AV_LOG_ERROR, "playtime:%ld,duration:%ld\n", playTime, duration);
             if(playTime != -1 && duration != -1 && playTime > duration / 2) {
                 bool isRtspFakeQuit = (duration - playTime < 800);
                 if(isRtspFakeQuit) {
@@ -3129,15 +3134,18 @@ static int read_thread(void *arg)
                 }
                 
                 //detu,此处为了统计dragon丢包率，每秒图像码率，每秒B、P帧数量和
-                ffp->packetSize+= pkt->size;
-                int64_t current = av_gettime_relative();
-                if(current - statisticsStartTime >= 1000000) {
-                    statisticsStartTime = current;
-                    ffp_notify_msg3(ffp, FFP_MSG_DETU_STATISTICS_DATA, ffp->packetSize, ffp->gopSize);
-                    ffp->packetSize = 0;
-                    ffp->gopSize = 0;
+                if(ffp->showDetuStatisticsInfo) {
+                    ffp->packetSize+= pkt->size;
+                    int64_t current = av_gettime_relative();
+                    if(current - statisticsStartTime >= 1000000) {
+                        statisticsStartTime = current;
+                        ffp_notify_msg3(ffp, FFP_MSG_DETU_STATISTICS_DATA, ffp->packetSize, ffp->gopSize);
+                        av_log(ffp, AV_LOG_WARNING, "bitrate:%ld, gopSize:%d", ffp->packetSize, ffp->gopSize);
+                        ffp->packetSize = 0;
+                        ffp->gopSize = 0;
+                    }
                 }
-             //    av_log(ffp, AV_LOG_WARNING, "av_read_frame  gop_num %d, packetsize %d  key %ds\n" ,gop_num,pkt->size,pkt->flags);
+                //    av_log(ffp, AV_LOG_WARNING, "av_read_frame  gop_num %d, packetsize %d  key %ds\n" ,gop_num,pkt->size,pkt->flags);
                 
                 packet_queue_put(&is->videoq, pkt);
             }
