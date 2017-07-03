@@ -35,10 +35,11 @@ static SDL_VoutOverlay *func_create_overlay(int width, int height, int frame_for
 
 static void func_free_l(SDL_Vout *vout)
 {
+	SDL_Vout_Opaque *opaque;
     if (!vout)
         return;
 
-    SDL_Vout_Opaque *opaque = vout->opaque;
+    opaque = vout->opaque;
     if (opaque) {
 #if OUTPUT_YUV420P
 		fclose(opaque->fp), opaque->fp = NULL;
@@ -85,11 +86,12 @@ static int func_display_overlay(SDL_Vout *vout, SDL_VoutOverlay *overlay)
 
 SDL_Vout *SDL_VoutWin_CreateForWindows()
 {
+	SDL_Vout_Opaque *opaque;
     SDL_Vout *vout = SDL_Vout_CreateInternal(sizeof(SDL_Vout_Opaque));
     if (!vout)
         return NULL;
 
-    SDL_Vout_Opaque *opaque = vout->opaque;
+    opaque = vout->opaque;
 #if OUTPUT_YUV420P
 	opaque->fp = fopen("output_overlay.yuv", "wb+");
 #endif

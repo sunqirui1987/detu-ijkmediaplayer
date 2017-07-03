@@ -34,12 +34,13 @@ static SDL_Aout *func_open_audio_output(IJKFF_Pipeline *pipeline, FFPlayer *ffp)
 
 IJKFF_Pipeline *ffpipeline_create_from_win(FFPlayer *ffp)
 {
+	IJKFF_Pipeline_Opaque *opaque;
 	ALOGD("ffpipeline_create_from_win()\n");
 	IJKFF_Pipeline *pipeline = ffpipeline_alloc(&g_pipeline_class, sizeof(IJKFF_Pipeline_Opaque));
 	if (!pipeline)
 		return pipeline;
 
-	IJKFF_Pipeline_Opaque *opaque = pipeline->opaque;
+	opaque = pipeline->opaque;
 	opaque->ffp = ffp;
 	opaque->left_volume  = 1.0f;
 	opaque->right_volume = 1.0f;

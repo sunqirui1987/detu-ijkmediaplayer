@@ -56,7 +56,7 @@ int main(int argc, char** argv)
 		return -1;
 	}
 
-	screen_w = 320;
+	screen_w = 620;
 	screen_h = 240;
 	y_size = screen_w * screen_h;
 	screen = SDL_CreateWindow("Simplest ffmpeg player Window", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED,
@@ -89,13 +89,13 @@ int main(int argc, char** argv)
 
 	ijkFfplayDecoder_setOptionStringValue(ijk_ffplay_decoder, 1, "allowed_media_types", "video");
 
-	ijkFfplayDecoder_setDataSource(ijk_ffplay_decoder, "test.flv");
+	ijkFfplayDecoder_setDataSource(ijk_ffplay_decoder, "1.rmvb");
 
 	ijkFfplayDecoder_prepare(ijk_ffplay_decoder);
 
 	ijkFfplayDecoder_start(ijk_ffplay_decoder);
 
-	ijkFfplayDecoder_setVolume(ijk_ffplay_decoder, 0.8, 0.8);
+	ijkFfplayDecoder_setVolume(ijk_ffplay_decoder, 1.0, 1.0);
 
 	bool ret = ijkFfplayDecoder_isPlaying(ijk_ffplay_decoder);
 	printf("ijkFfplayDecoder_isPlaying: %s.\n", ret ? "true" : "false");
