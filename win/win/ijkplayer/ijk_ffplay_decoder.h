@@ -133,9 +133,9 @@ void ijkFfplayDecoder_seekTo(IjkFfplayDecoder* decoder, long msec);
 
 bool ijkFfplayDecoder_isPlaying(IjkFfplayDecoder* decoder);
 
-long ijkFfp_getCurrentPosition(IjkFfplayDecoder* decoder);
+long ijkFfplayDecoder_getCurrentPosition(IjkFfplayDecoder* decoder);
 
-long ijkFfp_getDuration(IjkFfplayDecoder* decoder);
+long ijkFfplayDecoder_getDuration(IjkFfplayDecoder* decoder);
 
 void ijkFfplayDecoder_release(IjkFfplayDecoder* decoder);
 

@@ -101,6 +101,9 @@
 
 static AVPacket flush_pkt;
 
+
+static FILE* fp_log;
+
 #if CONFIG_AVFILTER
 // FFP_MERGE: opt_add_vfilter
 #endif
@@ -426,6 +429,7 @@ static void decoder_init(Decoder *d, AVCodecContext *avctx, PacketQueue *queue, 
     SDL_ProfilerReset(&d->decode_profiler, -1);
 }
 
+static int flag = 1;
 static int decoder_decode_frame(FFPlayer *ffp, Decoder *d, AVFrame *frame, AVSubtitle *sub) {
     int got_frame = 0;
 
@@ -472,11 +476,22 @@ static int decoder_decode_frame(FFPlayer *ffp, Decoder *d, AVFrame *frame, AVSub
                 }
                 break;
             case AVMEDIA_TYPE_AUDIO:
+				//add by chenliang, 同步
+				//if (flag == 1){
+				//	flag += 1;
+				//	d->pkt_temp.pts = 2048;
+				//	d->pkt_temp.dts = 2048;
+				//}
+				//else{
+				//	d->pkt_temp.pts = 2048 * flag;
+				//	d->pkt_temp.dts = 2048 * flag;
+				//	flag += 1;
+				//}
                 ret = avcodec_decode_audio4(d->avctx, frame, &got_frame, &d->pkt_temp);
                 if (got_frame) {
-                    AVRational tb = (AVRational){1, frame->sample_rate};
-                    if (frame->pts != AV_NOPTS_VALUE)
-                        frame->pts = av_rescale_q(frame->pts, d->avctx->time_base, tb);
+					AVRational tb = (AVRational){1, frame->sample_rate};
+					if (frame->pts != AV_NOPTS_VALUE)
+						frame->pts = av_rescale_q(frame->pts, d->avctx->time_base, tb);
                     else if (frame->pkt_pts != AV_NOPTS_VALUE)
                         frame->pts = av_rescale_q(frame->pkt_pts, av_codec_get_pkt_timebase(d->avctx), tb);
                     else if (d->next_pts != AV_NOPTS_VALUE)
@@ -491,7 +506,7 @@ static int decoder_decode_frame(FFPlayer *ffp, Decoder *d, AVFrame *frame, AVSub
             default:
                 break;
         }
-
+		//fprintf(fp_log, "%s, frame->pts:%ld, pkt_temp.pts:%ld\n", d->avctx->codec_type == AVMEDIA_TYPE_VIDEO ? "video" : "audio", frame->pts, d->pkt_temp.pts);
         if (ret < 0) {
             d->packet_pending = 0;
         } else {
@@ -1665,8 +1680,11 @@ static int audio_thread(void *arg)
             goto the_end;
 
         if (got_frame) {
+#ifndef WIN32
                 tb = (AVRational){1, frame->sample_rate};
-
+#else
+				AVRational tb = is->audio_st->time_base;//解决windows下音视频同步问题
+#endif
 #if CONFIG_AVFILTER
                 dec_channel_layout = get_valid_channel_layout(frame->channel_layout, av_frame_get_channels(frame));
 
@@ -1715,6 +1733,8 @@ static int audio_thread(void *arg)
                 af->pos = av_frame_get_pkt_pos(frame);
                 af->serial = is->auddec.pkt_serial;
                 af->duration = av_q2d((AVRational){frame->nb_samples, frame->sample_rate});
+
+				//fprintf(fp_log, "af->pts:%f,frame->pts:%ld,frame->nb_samples:%d,frame->sample_rate:%d\n", af->pts, frame->pts, frame->nb_samples, frame->sample_rate);
 
                 av_frame_move_ref(af->frame, frame);
                 frame_queue_push(&is->sampq);
@@ -2078,12 +2098,13 @@ static int audio_decode_frame(FFPlayer *ffp)
     else
         is->audio_clock = NAN;
     is->audio_clock_serial = af->serial;
-#ifdef FFP_SHOW_AUDIO_DELAY
+//#ifdef FFP_SHOW_AUDIO_DELAY
+#if 0
     {
         static double last_clock;
-        printf("audio: delay=%0.3f clock=%0.3f clock0=%0.3f\n",
+        fprintf(fp_log,"audio: delay=%0.3f clock=%0.3f clock0=%0.3f,frame->nb_samples:%d,frame->sample_rate:%d\n",
                is->audio_clock - last_clock,
-               is->audio_clock, audio_clock0);
+			   is->audio_clock, audio_clock0, af->frame->nb_samples , af->frame->sample_rate);
         last_clock = is->audio_clock;
     }
 #endif
@@ -3419,6 +3440,9 @@ static void ffp_log_callback_report(void *ptr, int level, const char *fmt, va_li
 int ijkav_register_all(void);
 void ffp_global_init()
 {
+
+	//fp_log = fopen("test.log", "wb+");
+
     if (g_ffmpeg_global_inited)
         return;
 

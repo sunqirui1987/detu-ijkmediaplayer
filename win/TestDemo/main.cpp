@@ -56,8 +56,8 @@ int main(int argc, char** argv)
 		return -1;
 	}
 
-	screen_w = 620;
-	screen_h = 240;
+	screen_w = 4096;
+	screen_h = 2048;
 	y_size = screen_w * screen_h;
 	screen = SDL_CreateWindow("Simplest ffmpeg player Window", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED,
 		screen_w, screen_h, SDL_WINDOW_OPENGL);
@@ -89,7 +89,7 @@ int main(int argc, char** argv)
 
 	ijkFfplayDecoder_setOptionStringValue(ijk_ffplay_decoder, 1, "allowed_media_types", "video");
 
-	ijkFfplayDecoder_setDataSource(ijk_ffplay_decoder, "1.rmvb");
+	ijkFfplayDecoder_setDataSource(ijk_ffplay_decoder, "rtmp://pili-live-rtmp.live.detu.com/detulive/zyb2");
 
 	ijkFfplayDecoder_prepare(ijk_ffplay_decoder);
 
@@ -100,8 +100,13 @@ int main(int argc, char** argv)
 	bool ret = ijkFfplayDecoder_isPlaying(ijk_ffplay_decoder);
 	printf("ijkFfplayDecoder_isPlaying: %s.\n", ret ? "true" : "false");
 
-	Sleep(5000);
+	Sleep(10000);
 
+	//current position and duration
+	long position = ijkFfplayDecoder_getCurrentPosition(ijk_ffplay_decoder);
+	long duration = ijkFfplayDecoder_getDuration(ijk_ffplay_decoder);
+
+	//code info
 	char *videoinfo = (char*)malloc(2048);
 	ijkFfplayDecoder_getVideoCodecInfo(ijk_ffplay_decoder, &videoinfo);
 	char *audioinfo = (char*)malloc(2048);
