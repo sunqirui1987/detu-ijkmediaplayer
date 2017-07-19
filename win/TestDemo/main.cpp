@@ -147,7 +147,7 @@ int main(int argc, char** argv)
 				printf("ijkFfplayDecoder_isPlaying: %s.\n", ret ? "true" : "false");
 			}
 		}
-		if (input == '+'){	//increase sound, 0.1 percent
+		if (input == '+'){	//increase sound, 0.05 percent
 			if (volume < 1.0){
 				volume += 0.05;
 				printf("increase volume now.\n");
@@ -156,7 +156,7 @@ int main(int argc, char** argv)
 				printf("volume is bigest already.\n");
 			}
 		}
-		if (input == '-'){	//decrease sound, 0.1 percent
+		if (input == '-'){	//decrease sound, 0.05 percent
 			if (volume > 0.1){
 				volume -= 0.05;
 				printf("decrease volume now.\n");
@@ -179,8 +179,9 @@ int main(int argc, char** argv)
 			printf("videoinfo:%s, audioinfo:%s.\n", videoinfo, audioinfo);
 			free(videoinfo), free(audioinfo);
 		}
-		if (input == 's'){	//seek, default seek to 10s position
-			//TODO
+		if (input == 's'){	//seek, default seek to 15s position
+			printf("seek to 15s position.\n");
+			ijkFfplayDecoder_seekTo(ijk_ffplay_decoder, 15000);
 		}
 		if (input == 'S'){	//stop
 			//TODO

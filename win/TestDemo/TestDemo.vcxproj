@@ -78,6 +78,9 @@
       <AdditionalDependencies>avcodec.lib;avformat.lib;avutil.lib;avfilter.lib;swresample.lib;swscale.lib;SDL2.lib;SDL2main.lib;ijkwin.lib;pthreadVC2.lib;ws2_32.lib;winmm.lib;dsound.lib;dxguid.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>../depend/ffmpeg/lib/;../depend/pthread-win32/lib/;../depend/sdl2/lib/;../Release/;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
+    <PostBuildEvent>
+      <Command>post_copy_win32_release.bat</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />
