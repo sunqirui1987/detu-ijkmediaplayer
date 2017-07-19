@@ -3009,7 +3009,7 @@ static int read_thread(void *arg)
                //av_log(ffp, AV_LOG_ERROR, " av_read_frame ret %lld \n", (av_gettime() - ss ) /1000);
                 
         if (ret < 0) {
-            av_log(ffp, AV_LOG_ERROR, "error av_read_frame ret %s \n",av_err2str(ret));
+            //av_log(ffp, AV_LOG_ERROR, "error av_read_frame ret %s \n",av_err2str(ret));
             int pb_eof = 0;
             int pb_error = 0;
             if ((ret == AVERROR_EOF || avio_feof(ic->pb)) && !is->eof) {

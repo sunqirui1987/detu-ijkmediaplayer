@@ -3,7 +3,7 @@
 //  IJKMediaPlayer
 //
 //  Created by chao on 2017/6/12.
-//  Copyright © 2017年 detu. All rights reserved.
+//  Copyright © 2017 detu. All rights reserved.
 //
 
 #include "ijk_ffplay_decoder.h"
@@ -23,85 +23,79 @@ struct IjkFfplayDecoder{
 	VideoFrame *current_frame;
 };
 
+typedef void(*msg_call_back)(void* opaque, IjkMsgState ijk_msgint, int arg1, int arg2);
+static msg_call_back s_user_msg_callback;
 
 static void message_loop_n(IjkMediaPlayer *mp)
 {
 	while (1) {
 		AVMessage msg;
-
 		int retval = ijkmp_get_msg(mp, &msg, 1);
 		if (retval < 0)
 			break;
 
-		// block-get should never return 0
 		assert(retval > 0);
 
 		switch (msg.what) {
 		case FFP_MSG_FLUSH:
 			MPTRACE("FFP_MSG_FLUSH:\n");
-			//ijk_ffplay_decoder->ijk_ffplayer_deocdecallback->func_state_change(ijk_ffplay_decoder->opaque, FFP_MSG_FLUSH, 0, 0);
+			s_user_msg_callback(NULL, IJK_MSG_FLUSH, 0, 0);
 			break;
 		case FFP_MSG_ERROR:
 			MPTRACE("FFP_MSG_ERROR: %d\n", msg.arg1);
-			//ijk_ffplay_decoder->ijk_ffplayer_deocdecallback->func_state_change(ijk_ffplay_decoder->opaque, FFP_MSG_ERROR, -1, msg.arg1);
+			s_user_msg_callback(NULL, IJK_MSG_ERROR, msg.arg1, 0);
 			break;
 		case FFP_MSG_PREPARED:
-			MPTRACE("FFP_MSG_PREPARED:\n");
-			//ijk_ffplay_decoder->ijk_ffplayer_deocdecallback->func_state_change(ijk_ffplay_decoder->opaque, FFP_MSG_PREPARED, 0, 0);
+			MPTRACE("FFP_MSG_PREPARED.\n");
+			s_user_msg_callback(NULL, IJK_MSG_PREPARED, 0, 0);
 			break;
 		case FFP_MSG_COMPLETED:
-			MPTRACE("FFP_MSG_COMPLETED:\n");
-			//ijk_ffplay_decoder->ijk_ffplayer_deocdecallback->func_state_change(ijk_ffplay_decoder->opaque, FFP_MSG_COMPLETED, 0, 0);
+			MPTRACE("FFP_MSG_COMPLETED.\n");
+			s_user_msg_callback(NULL, IJK_MSG_COMPLETED, 0, 0);
 			break;
 		case FFP_MSG_VIDEO_SIZE_CHANGED:
 			MPTRACE("FFP_MSG_VIDEO_SIZE_CHANGED: %d, %d\n", msg.arg1, msg.arg2);
-			//ijk_ffplay_decoder->ijk_ffplayer_deocdecallback->func_state_change(ijk_ffplay_decoder->opaque, FFP_MSG_VIDEO_SIZE_CHANGED, msg.arg1, msg.arg2);
+			s_user_msg_callback(NULL, IJK_MSG_VIDEO_SIZE_CHANGED, msg.arg1, msg.arg2);
 			break;
 		case FFP_MSG_SAR_CHANGED:
 			MPTRACE("FFP_MSG_SAR_CHANGED: %d, %d\n", msg.arg1, msg.arg2);
-			//post_event(env, weak_thiz, MEDIA_SET_VIDEO_SAR, msg.arg1, msg.arg2);
-			//ijk_ffplay_decoder->ijk_ffplayer_deocdecallback->func_state_change(ijk_ffplay_decoder->opaque, FFP_MSG_SAR_CHANGED, msg.arg1, msg.arg2);
+			s_user_msg_callback(NULL, IJK_MSG_SAR_CHANGED, msg.arg1, msg.arg2);
 			break;
 		case FFP_MSG_VIDEO_RENDERING_START:
-			MPTRACE("FFP_MSG_VIDEO_RENDERING_START:\n");
-			//post_event(env, weak_thiz, MEDIA_INFO, MEDIA_INFO_VIDEO_RENDERING_START, 0);
-			//ijk_ffplay_decoder->ijk_ffplayer_deocdecallback->func_state_change(ijk_ffplay_decoder->opaque, FFP_MSG_VIDEO_RENDERING_START, 0, 0);
+			MPTRACE("FFP_MSG_VIDEO_RENDERING_START.\n");
+			s_user_msg_callback(NULL, IJK_MSG_VIDEO_RENDERING_START, 0, 0);
 			break;
 		case FFP_MSG_AUDIO_RENDERING_START:
-			MPTRACE("FFP_MSG_AUDIO_RENDERING_START:\n");
-			//post_event(env, weak_thiz, MEDIA_INFO, MEDIA_INFO_AUDIO_RENDERING_START, 0);
-			//ijk_ffplay_decoder->ijk_ffplayer_deocdecallback->func_state_change(ijk_ffplay_decoder->opaque, FFP_MSG_AUDIO_RENDERING_START, 0, 0);
+			MPTRACE("FFP_MSG_AUDIO_RENDERING_START.\n");
+			s_user_msg_callback(NULL, IJK_MSG_AUDIO_RENDERING_START, 0, 0);
 			break;
 		case FFP_MSG_VIDEO_ROTATION_CHANGED:
 			MPTRACE("FFP_MSG_VIDEO_ROTATION_CHANGED: %d\n", msg.arg1);
-			//post_event(env, weak_thiz, MEDIA_INFO, MEDIA_INFO_VIDEO_ROTATION_CHANGED, msg.arg1);
-			//ijk_ffplay_decoder->ijk_ffplayer_deocdecallback->func_state_change(ijk_ffplay_decoder->opaque, FFP_MSG_VIDEO_ROTATION_CHANGED, 0, 0);
+			s_user_msg_callback(NULL, IJK_MSG_VIDEO_ROTATION_CHANGED, msg.arg1, 0);
 			break;
 		case FFP_MSG_BUFFERING_START:
-			MPTRACE("FFP_MSG_BUFFERING_START:\n");
-			//post_event(env, weak_thiz, MEDIA_INFO, MEDIA_INFO_BUFFERING_START, 0);
-			//ijk_ffplay_decoder->ijk_ffplayer_deocdecallback->func_state_change(ijk_ffplay_decoder->opaque, FFP_MSG_BUFFERING_START, 0, 0);
+			MPTRACE("FFP_MSG_BUFFERING_START.\n");
+			s_user_msg_callback(NULL, IJK_MSG_BUFFERING_START, 0, 0);
 			break;
 		case FFP_MSG_BUFFERING_END:
 			MPTRACE("FFP_MSG_BUFFERING_END:\n");
-			//post_event(env, weak_thiz, MEDIA_INFO, MEDIA_INFO_BUFFERING_END, 0);
-			//ijk_ffplay_decoder->ijk_ffplayer_deocdecallback->func_state_change(ijk_ffplay_decoder->opaque, FFP_MSG_BUFFERING_END, 0, 0);
+			s_user_msg_callback(NULL, IJK_MSG_BUFFERING_END, 0, 0);
 			break;
 		case FFP_MSG_BUFFERING_UPDATE:
-			// MPTRACE("FFP_MSG_BUFFERING_UPDATE: %d, %d", msg.arg1, msg.arg2);
-			//post_event(env, weak_thiz, MEDIA_BUFFERING_UPDATE, msg.arg1, msg.arg2);
-			//ijk_ffplay_decoder->ijk_ffplayer_deocdecallback->func_state_change(ijk_ffplay_decoder->opaque, FFP_MSG_BUFFERING_UPDATE, 0, 0);
+			s_user_msg_callback(NULL, IJK_MSG_BUFFERING_UPDATE, msg.arg1, msg.arg2);
 			break;
 		case FFP_MSG_BUFFERING_BYTES_UPDATE:
+			//s_user_msg_callback(NULL, IJK_MSG_BUFFERING_BYTES_UPDATE, msg.arg1, msg.arg2);
 			break;
 		case FFP_MSG_BUFFERING_TIME_UPDATE:
+			//s_user_msg_callback(NULL, IJK_MSG_BUFFERING_TIME_UPDATE, msg.arg1, msg.arg2);
 			break;
 		case FFP_MSG_SEEK_COMPLETE:
 			MPTRACE("FFP_MSG_SEEK_COMPLETE:\n");
-			//post_event(env, weak_thiz, MEDIA_SEEK_COMPLETE, 0, 0);
-			//ijk_ffplay_decoder->ijk_ffplayer_deocdecallback->func_state_change(ijk_ffplay_decoder->opaque, FFP_MSG_SEEK_COMPLETE, 0, 0);
+			s_user_msg_callback(NULL, IJK_MSG_SEEK_COMPLETE, 0, 0);
 			break;
 		case FFP_MSG_PLAYBACK_STATE_CHANGED:
+			s_user_msg_callback(NULL, IJK_MSG_PLAYBACK_STATE_CHANGED, 0, 0);
 			break;
 		default:
 			ALOGE("unknown FFP_MSG_xxx(%d)\n", msg.what);
@@ -298,7 +292,7 @@ long ijkFfplayDecoder_getCurrentPosition(IjkFfplayDecoder* decoder)
 {
 	if (!decoder->ijk_media_player){
 		ALOGV("IjkMediaPlayer is NULL.\n");
-		return false;
+		return -1;
 	}
 
 	long ret = ijkmp_get_current_position(decoder->ijk_media_player);
@@ -310,7 +304,7 @@ long ijkFfplayDecoder_getDuration(IjkFfplayDecoder* decoder)
 {
 	if (!decoder->ijk_media_player){
 		ALOGV("IjkMediaPlayer is NULL.\n");
-		return false;
+		return -1;
 	}
 
 	long ret = ijkmp_get_duration(decoder->ijk_media_player);
@@ -430,7 +424,8 @@ void ijkFfplayDecoder_setDecoderCallBack(IjkFfplayDecoder* decoder, void* opaque
 
 	decoder->opaque = opaque;
 	decoder->ijk_ffplayer_deocdecallback = callBack;
+	s_user_msg_callback = callBack->func_state_change;
 
-	//TODO set callback to ijksdl_vout_win_ffmpeg
+	//set callback to ijksdl_vout_win_ffmpeg
 	SDL_VoutWin_SetVideoDataCallback((void *)decoder, decoder->ijk_media_player->ffplayer->vout, video_callback);
 }

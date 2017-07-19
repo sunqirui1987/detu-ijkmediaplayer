@@ -41,6 +41,9 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);../../ijkmedia;../../ijkmedia/ijkplayer;../../ijkmedia/ijksdl;$(VSDEPENDENIES)\boost\1580\include;$(VC_IncludePath);$(WindowsSDK_IncludePath);$(VSDEPENDENIES)/include;$(VSDEPENDENIES)/include/pthread</IncludePath>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <TargetName>ijkwin</TargetName>
+  </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
@@ -62,6 +65,7 @@
       <AdditionalIncludeDirectories>../depend/ffmpeg/include/;../depend/sdl2/include/;../depend/pthread-win32/include/;../../ijkmedia/;./ijksdl/;./global/include/;./ijkplayer/pipeline/;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;_MBCS;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <WholeProgramOptimization>false</WholeProgramOptimization>
+      <ProgramDataBaseFileName>$(OutDir)ijkwin.pdb</ProgramDataBaseFileName>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
