@@ -138,7 +138,7 @@ static int aout_open_audio_n(SDL_Aout *aout, const SDL_AudioSpec *desired, SDL_A
 	opaque->abort_request = 0;
 	opaque->audio_tid = SDL_CreateThreadEx(&opaque->_audio_tid, aout_thread, aout, "ff_aout_win");
 	if (!opaque->audio_tid) {
-		ALOGE("aout_open_audio_n: failed to create audio thread");
+		ALOGE("aout_open_audio_n: failed to create audio thread\n");
 		free(opaque->atrack);opaque->atrack = NULL;
 		free(opaque->buffer); opaque->buffer = NULL;
 		return -1;
@@ -157,7 +157,7 @@ static void aout_pause_audio(SDL_Aout *aout, int pause_on)
 	SDL_Aout_Opaque *opaque = aout->opaque;
 
 	SDL_LockMutex(opaque->wakeup_mutex);
-	SDLTRACE("aout_pause_audio(%d)", pause_on);
+	SDLTRACE("aout_pause_audio(%d)\n", pause_on);
 	opaque->pause_on = pause_on;
 	SDL_UnlockMutex(opaque->wakeup_mutex);
 }
@@ -166,7 +166,7 @@ static void aout_set_volume(SDL_Aout *aout, float left_volume, float right_volum
 {
 	SDL_Aout_Opaque *opaque = aout->opaque;
 	SDL_LockMutex(opaque->wakeup_mutex);
-	SDLTRACE("aout_flush_audio()");
+	SDLTRACE("aout_flush_audio()\n");
 	opaque->left_volume = left_volume;
 	opaque->need_set_volume = 1;
 	SDL_UnlockMutex(opaque->wakeup_mutex);

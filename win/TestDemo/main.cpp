@@ -9,6 +9,8 @@ extern "C"
 #include "SDL.h"
 }
 
+IjkFfplayDecoder *ijk_ffplay_decoder;
+
 SDL_Window   *screen;
 SDL_Renderer *sdlRenderer;
 SDL_Texture  *sdlTexture;
@@ -57,7 +59,7 @@ void msg_callback(void* opaque, IjkMsgState ijk_msgint, int arg1, int arg2)
 	case IJK_MSG_ERROR:
 		break;
 	case IJK_MSG_PREPARED:
-		printf("\nIJK_MSG_PREPARED call back......\n");
+		ijkFfplayDecoder_start(ijk_ffplay_decoder);
 		break;
 	case IJK_MSG_COMPLETED:
 		break;
@@ -106,7 +108,7 @@ int main(int argc, char** argv)
 
 	ijkFfplayDecoder_init();
 
-	IjkFfplayDecoder *ijk_ffplay_decoder = ijkFfplayDecoder_create();
+	ijk_ffplay_decoder = ijkFfplayDecoder_create();
 
 	ijkFfplayDecoder_setLogLevel(ijk_ffplay_decoder, k_IJK_LOG_ERROR);
 
@@ -119,25 +121,76 @@ int main(int argc, char** argv)
 
 	ijkFfplayDecoder_prepare(ijk_ffplay_decoder);
 
-	ijkFfplayDecoder_start(ijk_ffplay_decoder);
+	static float volume = 1.0;
+	static bool  is_pause = false;
+	while (1){
+		char input = ' ';
+		scanf("%c", &input);
+		if (input == 'p'){	//pause and play
+			if (!is_pause){
+				printf("pause player now.\n");
+				is_pause = true;
+				ijkFfplayDecoder_pause(ijk_ffplay_decoder);
 
-	ijkFfplayDecoder_setVolume(ijk_ffplay_decoder, 1.0, 1.0);
+				Sleep(50);
 
-	bool ret = ijkFfplayDecoder_isPlaying(ijk_ffplay_decoder);
-	printf("ijkFfplayDecoder_isPlaying: %s.\n", ret ? "true" : "false");
+				bool ret = ijkFfplayDecoder_isPlaying(ijk_ffplay_decoder);
+				printf("ijkFfplayDecoder_isPlaying: %s.\n", ret ? "true" : "false");
+			} else {
+				printf("resume player now.\n");
+				is_pause = false;
+				ijkFfplayDecoder_start(ijk_ffplay_decoder);
 
-	Sleep(10000);
+				Sleep(50);
 
-	//current position and duration
-	long position = ijkFfplayDecoder_getCurrentPosition(ijk_ffplay_decoder);
-	long duration = ijkFfplayDecoder_getDuration(ijk_ffplay_decoder);
+				bool ret = ijkFfplayDecoder_isPlaying(ijk_ffplay_decoder);
+				printf("ijkFfplayDecoder_isPlaying: %s.\n", ret ? "true" : "false");
+			}
+		}
+		if (input == '+'){	//increase sound, 0.1 percent
+			if (volume < 1.0){
+				volume += 0.05;
+				printf("increase volume now.\n");
+				ijkFfplayDecoder_setVolume(ijk_ffplay_decoder, volume, volume);
+			} else {
+				printf("volume is bigest already.\n");
+			}
+		}
+		if (input == '-'){	//decrease sound, 0.1 percent
+			if (volume > 0.1){
+				volume -= 0.05;
+				printf("decrease volume now.\n");
+				ijkFfplayDecoder_setVolume(ijk_ffplay_decoder, volume, volume);
+			} else {
+				printf("volume is zero already.\n");
+			}
+		}
+		if (input == 'g'){	//get info 
+			//current position and duration
+			long position = ijkFfplayDecoder_getCurrentPosition(ijk_ffplay_decoder);
+			long duration = ijkFfplayDecoder_getDuration(ijk_ffplay_decoder);
+			printf("position:%f, duration:%f.\n", position, duration);
 
-	//code info
-	char *videoinfo = (char*)malloc(2048);
-	ijkFfplayDecoder_getVideoCodecInfo(ijk_ffplay_decoder, &videoinfo);
-	char *audioinfo = (char*)malloc(2048);
-	ijkFfplayDecoder_getAudioCodecInfo(ijk_ffplay_decoder, &audioinfo);
-	free(videoinfo), free(audioinfo);
-	getchar();
+			//code info
+			char *videoinfo = (char*)malloc(2048);
+			char *audioinfo = (char*)malloc(2048);
+			ijkFfplayDecoder_getVideoCodecInfo(ijk_ffplay_decoder, &videoinfo);
+			ijkFfplayDecoder_getAudioCodecInfo(ijk_ffplay_decoder, &audioinfo);
+			printf("videoinfo:%s, audioinfo:%s.\n", videoinfo, audioinfo);
+			free(videoinfo), free(audioinfo);
+		}
+		if (input == 's'){	//seek, default seek to 10s position
+			//TODO
+		}
+		if (input == 'S'){	//stop
+			//TODO
+		}
+		if (input == 'r'){	//restart
+			//TODO
+		}
+
+		Sleep(500);
+	}
+
 	return 0;
 }

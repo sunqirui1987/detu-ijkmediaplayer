@@ -112,7 +112,7 @@ static int message_loop(void *arg)
 
 	ijkmp_dec_ref_p(&mp);
 
-	MPTRACE("message_loop exit");
+	MPTRACE("message_loop exit.\n");
 	return 0;
 }
 
@@ -342,7 +342,7 @@ void ijkFfplayDecoder_setVolume(IjkFfplayDecoder* decoder, float leftVolume, flo
 		ffpipeline_win_set_volume(decoder->ijk_media_player->ffplayer->pipeline, leftVolume, rightVolume);
 	}
 	pthread_mutex_unlock(&decoder->ijk_media_player->mutex);
-	ALOGV("set volume, left:%f, right:%f", leftVolume, rightVolume);
+	ALOGV("set volume, left:%f, right:%f.\n", leftVolume, rightVolume);
 }
 
 void ijkFfplayDecoder_setOptionLongValue(IjkFfplayDecoder* decoder, int opt_category, const char* key, long value)
