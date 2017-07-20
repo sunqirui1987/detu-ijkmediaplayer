@@ -172,7 +172,6 @@ void SDL_Win_DSound_CloseDevice(SDL_Win_DirectSound *dsound)
 	if (dsound->capture != NULL) {
 		IDirectSoundCapture_Release(dsound->capture);
 	}
-	free(dsound);
 }
 
 /** 

@@ -181,7 +181,9 @@ static void aout_close_audio(SDL_Aout *aout)
 	opaque->abort_request = true;
 	SDL_UnlockMutex(opaque->wakeup_mutex);
 
-	SDL_WaitThread(opaque->audio_tid, NULL);
+	if (opaque->audio_tid){
+		SDL_WaitThread(opaque->audio_tid, NULL);
+	}
 
 	opaque->audio_tid = NULL;
 }
@@ -195,12 +197,16 @@ static void aout_free_l(SDL_Aout *aout)
 
 	SDL_Aout_Opaque *opaque = aout->opaque;
 	if (opaque) {
-		free(opaque->buffer);
-		opaque->buffer = NULL;
-		opaque->buffer_size = 0;
+		if (opaque->buffer){
+			free(opaque->buffer);
+			opaque->buffer = NULL;
+			opaque->buffer_size = 0;
+		}
 
-		free(opaque->atrack); 
-		opaque->atrack = NULL;
+		if (opaque->atrack){
+			free(opaque->atrack);
+			opaque->atrack = NULL;
+		}
 
 		SDL_DestroyCond(opaque->wakeup_cond);
 		SDL_DestroyMutex(opaque->wakeup_mutex);
@@ -230,6 +236,7 @@ SDL_Aout *SDL_AoutWin_CreateForAudio()
 		return NULL;
 
 	opaque = aout->opaque;
+	memset(opaque, 0, sizeof(SDL_Aout_Opaque));
 	opaque->wakeup_cond = SDL_CreateCond();
 	opaque->wakeup_mutex = SDL_CreateMutex();
 	opaque->speed = 1.0f;

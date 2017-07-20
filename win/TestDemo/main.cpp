@@ -11,10 +11,10 @@ extern "C"
 
 IjkFfplayDecoder *ijk_ffplay_decoder;
 
-SDL_Window   *screen;
-SDL_Renderer *sdlRenderer;
-SDL_Texture  *sdlTexture;
-SDL_Rect     sdlRect;
+static SDL_Window   *screen;
+static SDL_Renderer *sdlRenderer;
+static SDL_Texture  *sdlTexture;
+static SDL_Rect     sdlRect;
 
 static bool  sdl_init_flag = false;
 
@@ -100,33 +100,38 @@ void msg_callback(void* opaque, IjkMsgState ijk_msgint, int arg1, int arg2)
 
 int main(int argc, char** argv)
 {
-	//SDL init
-	if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO | SDL_INIT_TIMER)) {
-		printf("Could not initialize SDL - %s\n", SDL_GetError());
-		return -1;
-	}
-
+	//init global paraments
 	ijkFfplayDecoder_init();
 
-	ijk_ffplay_decoder = ijkFfplayDecoder_create();
-
-	ijkFfplayDecoder_setLogLevel(ijk_ffplay_decoder, k_IJK_LOG_ERROR);
+	ijkFfplayDecoder_setLogLevel(k_IJK_LOG_ERROR);
 
 	IjkFfplayDecoderCallBack *decoder_callback = (IjkFfplayDecoderCallBack *)malloc(sizeof(IjkFfplayDecoderCallBack));
 	decoder_callback->func_get_frame = video_callback;
 	decoder_callback->func_state_change = msg_callback;
+
+	//create ijkplayer and sdl
+	ijk_ffplay_decoder = ijkFfplayDecoder_create();
+
 	ijkFfplayDecoder_setDecoderCallBack(ijk_ffplay_decoder, NULL, decoder_callback);
 
 	ijkFfplayDecoder_setDataSource(ijk_ffplay_decoder, "test.flv");
 
 	ijkFfplayDecoder_prepare(ijk_ffplay_decoder);
 
+	if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO | SDL_INIT_TIMER)) {
+		printf("Could not initialize SDL - %s\n", SDL_GetError());
+		return -1;
+	}
+
 	static float volume = 1.0;
 	static bool  is_pause = false;
 	while (1){
+
 		char input = ' ';
 		scanf("%c", &input);
-		if (input == 'p'){	//pause and play
+
+		//pause and resume play
+		if (input == 'p'){
 			if (!is_pause){
 				printf("pause player now.\n");
 				is_pause = true;
@@ -147,7 +152,9 @@ int main(int argc, char** argv)
 				printf("ijkFfplayDecoder_isPlaying: %s.\n", ret ? "true" : "false");
 			}
 		}
-		if (input == '+'){	//increase sound, 0.05 percent
+
+		//increase sound, 0.05 percent
+		if (input == '+'){
 			if (volume < 1.0){
 				volume += 0.05;
 				printf("increase volume now.\n");
@@ -156,7 +163,9 @@ int main(int argc, char** argv)
 				printf("volume is bigest already.\n");
 			}
 		}
-		if (input == '-'){	//decrease sound, 0.05 percent
+
+		//decrease sound, 0.05 percent
+		if (input == '-'){
 			if (volume > 0.1){
 				volume -= 0.05;
 				printf("decrease volume now.\n");
@@ -165,33 +174,67 @@ int main(int argc, char** argv)
 				printf("volume is zero already.\n");
 			}
 		}
-		if (input == 'g'){	//get info 
+
+		//get info: duration, position, video info and audio info
+		if (input == 'g'){
 			//current position and duration
 			long position = ijkFfplayDecoder_getCurrentPosition(ijk_ffplay_decoder);
 			long duration = ijkFfplayDecoder_getDuration(ijk_ffplay_decoder);
 			printf("position:%f, duration:%f.\n", position, duration);
 
 			//code info
-			char *videoinfo = (char*)malloc(2048);
-			char *audioinfo = (char*)malloc(2048);
+			char *videoinfo = (char*)malloc(512);
+			char *audioinfo = (char*)malloc(512);
 			ijkFfplayDecoder_getVideoCodecInfo(ijk_ffplay_decoder, &videoinfo);
 			ijkFfplayDecoder_getAudioCodecInfo(ijk_ffplay_decoder, &audioinfo);
 			printf("videoinfo:%s, audioinfo:%s.\n", videoinfo, audioinfo);
 			free(videoinfo), free(audioinfo);
 		}
-		if (input == 's'){	//seek, default seek to 15s position
+
+		//seek, default seek to 15s position
+		if (input == 's'){	
 			printf("seek to 15s position.\n");
 			ijkFfplayDecoder_seekTo(ijk_ffplay_decoder, 15000);
 		}
-		if (input == 'S'){	//stop
-			//TODO
+
+		//stop
+		if (input == 'S'){	
+			printf("stop ijkplayer now.\n");
+
+			ijkFfplayDecoder_pause(ijk_ffplay_decoder);
+			ijkFfplayDecoder_stop(ijk_ffplay_decoder);
+			ijkFfplayDecoder_release(ijk_ffplay_decoder);
+
+			SDL_DestroyTexture(sdlTexture);
+			SDL_DestroyRenderer(sdlRenderer);
+			SDL_DestroyWindow(screen);
+			SDL_Quit();
 		}
-		if (input == 'r'){	//restart
-			//TODO
+
+		//quit ijkplayer
+		if (input == 'Q'){	
+			printf("quit now.\n");
+			goto QUIT;
+		}
+
+		//open file, default test.flv in current direct
+		if (input == 'O'){	
+			printf("reopen test.flv now.\n");
+
+			sdl_init_flag = false;
+			SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO | SDL_INIT_TIMER);
+
+			ijk_ffplay_decoder = ijkFfplayDecoder_create();
+			ijkFfplayDecoder_setDecoderCallBack(ijk_ffplay_decoder, NULL, decoder_callback);
+			ijkFfplayDecoder_setDataSource(ijk_ffplay_decoder, "pfzl.mp4");
+			ijkFfplayDecoder_prepare(ijk_ffplay_decoder);
 		}
 
 		Sleep(500);
 	}
 
+QUIT:
+	ijkFfplayDecoder_uninit();
+	system("pause");
 	return 0;
 }
