@@ -85,7 +85,7 @@ static int aout_thread_n(SDL_Aout *aout)
 		}
 	}
 
-	//SDL_Android_AudioTrack_free(env, atrack);
+	SDL_Win_DSound_CloseDevice(atrack);
 	return 0;
 }
 
@@ -106,6 +106,7 @@ static int aout_open_audio_n(SDL_Aout *aout, const SDL_AudioSpec *desired, SDL_A
 		ALOGE("aout_open_audio_n: failed to new SDL_Win_DirectSound");
 		return -1;
 	}
+	memset(opaque->atrack, 0, sizeof(SDL_Win_DirectSound));
 
 	int ret = SDL_Win_DSound_OpenDevice(opaque->atrack, &opaque->spec);
 	if (ret < 0) {
