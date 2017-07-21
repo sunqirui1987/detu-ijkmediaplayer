@@ -18,7 +18,7 @@ static SDL_Rect     sdlRect;
 
 static bool  sdl_init_flag = false;
 
-void video_callback(void* opaque, VideoFrame *frame_callback)
+void video_callback(void* opaque, ijkVideoFrame *frame_callback)
 {
 	if (!sdl_init_flag){
 		sdl_init_flag = true;

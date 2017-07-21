@@ -230,8 +230,8 @@ typedef enum ijkPixelFormat {
 
 }ijkPixelFormat;
 
-//video frame callback
-typedef struct VideoFrame{
+//ijk video frame callback
+typedef struct ijkVideoFrame{
 
 #define k_IJK_NUM_DATA_POINTERS 8
 
@@ -244,6 +244,6 @@ typedef struct VideoFrame{
 	uint8_t *data[k_IJK_NUM_DATA_POINTERS];		//Read-write,data for display
 
 	int private_data;
-}VideoFrame;
+}ijkVideoFrame;
 
 #endif

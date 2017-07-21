@@ -85,7 +85,7 @@ typedef enum IjkMsgState{
 }IjkMsgState;
 
 typedef struct IjkFfplayDecoderCallBack {
-	void (*func_get_frame)(void* opaque, VideoFrame *frame_callback);
+	void (*func_get_frame)(void* opaque, ijkVideoFrame *frame_callback);
 	void (*func_state_change)(void* opaque, IjkMsgState ijk_msgint, int arg1, int arg2);
 }IjkFfplayDecoderCallBack;
 
