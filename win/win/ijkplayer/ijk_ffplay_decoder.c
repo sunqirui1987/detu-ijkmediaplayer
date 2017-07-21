@@ -98,7 +98,7 @@ static void message_loop_n(IjkMediaPlayer *mp)
 			s_user_msg_callback(NULL, IJK_MSG_PLAYBACK_STATE_CHANGED, 0, 0);
 			break;
 		default:
-			ALOGE("unknown FFP_MSG_xxx(%d)\n", msg.what);
+			//ALOGE("unknown FFP_MSG_xxx(%d)\n", msg.what);
 			break;
 		}
 	}

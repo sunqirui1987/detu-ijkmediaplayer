@@ -14,6 +14,8 @@
 #include <stdint.h>
 #include <stdbool.h>
 
+#include "ijk_ffplay_frame.h"
+
 // media meta
 #define k_IJKM_KEY_FORMAT         @"format"
 #define k_IJKM_KEY_DURATION_US    @"duration_us"
@@ -45,8 +47,6 @@
 
 #define kk_IJKM_KEY_STREAMS       @"streams"
 
-#define k_IJK_NUM_DATA_POINTERS 8
-
 //ijk log level
 typedef enum IJKLogLevel {
     k_IJK_LOG_UNKNOWN = 0,
@@ -60,18 +60,6 @@ typedef enum IJKLogLevel {
     k_IJK_LOG_FATAL   = 7,
     k_IJK_LOG_SILENT  = 8,
 } IJKLogLevel;
-
-//video frame callback
-typedef struct VideoFrame{
-	int w;				//Read-only, width
-	int h;				//Read-only, height
-	uint32_t format;	//Read-only, pixel format
-	int planes;			//Read-only, planes
-	uint16_t linesize[k_IJK_NUM_DATA_POINTERS];	//Read-only, data length in bytes
-	uint8_t *data[k_IJK_NUM_DATA_POINTERS];		//Read-write,data for display
-
-	int is_private;
-}VideoFrame;
 
 //message state
 typedef enum IjkMsgState{
