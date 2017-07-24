@@ -20,7 +20,7 @@ struct IjkFfplayDecoder{
 	void *opaque;
 	IjkFfplayDecoderCallBack *ijk_ffplayer_deocdecallback;
 
-	ijkVideoFrame *current_frame;
+	sVideoFrame *current_frame;
 };
 
 typedef void(*msg_call_back)(void* opaque, IjkMsgState ijk_msgint, int arg1, int arg2);
@@ -154,7 +154,7 @@ IjkFfplayDecoder *ijkFfplayDecoder_create(void)
 	IjkFfplayDecoder *ijk_ffplay_decoder = (IjkFfplayDecoder *)malloc(sizeof(IjkFfplayDecoder));
 	memset(ijk_ffplay_decoder, 0, sizeof(IjkFfplayDecoder));
 	ijk_ffplay_decoder->ijk_media_player = mp;
-	ijk_ffplay_decoder->current_frame = (ijkVideoFrame *)calloc(1, sizeof(ijkVideoFrame));
+	ijk_ffplay_decoder->current_frame = (sVideoFrame *)calloc(1, sizeof(sVideoFrame));
 
 	return ijk_ffplay_decoder;
 

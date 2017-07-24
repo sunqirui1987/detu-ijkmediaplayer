@@ -14,7 +14,7 @@
 #include <stdint.h>
 #include <stdbool.h>
 
-#include "ijk_ffplay_frame.h"
+#include "detu_frame.h"
 
 // media meta
 #define k_IJKM_KEY_FORMAT         @"format"
@@ -85,7 +85,7 @@ typedef enum IjkMsgState{
 }IjkMsgState;
 
 typedef struct IjkFfplayDecoderCallBack {
-	void (*func_get_frame)(void* opaque, ijkVideoFrame *frame_callback);
+	void (*func_get_frame)(void* opaque, sVideoFrame *frame_callback);
 	void (*func_state_change)(void* opaque, IjkMsgState ijk_msgint, int arg1, int arg2);
 }IjkFfplayDecoderCallBack;
 

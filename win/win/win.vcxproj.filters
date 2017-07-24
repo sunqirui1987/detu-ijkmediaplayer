@@ -339,7 +339,7 @@
     <ClInclude Include="ijksdl\ijksdl_vout_win_ffmpeg.h">
       <Filter>win\ijksdl</Filter>
     </ClInclude>
-    <ClInclude Include="ijkplayer\ijk_ffplay_frame.h">
+    <ClInclude Include="ijkplayer\detu_frame.h">
       <Filter>win\ijkplayer</Filter>
     </ClInclude>
   </ItemGroup>

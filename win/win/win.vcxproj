@@ -172,8 +172,8 @@
     <ClInclude Include="global\src\MemInfo.h" />
     <ClInclude Include="global\src\UpTime.h" />
     <ClInclude Include="global\src\Util.h" />
+    <ClInclude Include="ijkplayer\detu_frame.h" />
     <ClInclude Include="ijkplayer\ijk_ffplay_decoder.h" />
-    <ClInclude Include="ijkplayer\ijk_ffplay_frame.h" />
     <ClInclude Include="ijkplayer\pipeline\ffpipeline_win.h" />
     <ClInclude Include="ijksdl\ijksdl_aout_win_audio_directsound.h" />
     <ClInclude Include="ijksdl\ijksdl_vout_win_ffmpeg.h" />
