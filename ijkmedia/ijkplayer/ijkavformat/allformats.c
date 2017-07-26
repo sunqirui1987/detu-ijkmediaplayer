@@ -63,12 +63,12 @@ static int ijkdummy_open(URLContext *h, const char *arg, int flags, AVDictionary
 	return -1;
 }
 
-IJK_FF_PROTOCOL(async);
-IJK_DUMMY_PROTOCOL(ijkmediadatasource);
-IJK_DUMMY_PROTOCOL(ijkhttphook);
-IJK_DUMMY_PROTOCOL(ijklongurl);
-IJK_DUMMY_PROTOCOL(ijksegment);
-IJK_DUMMY_PROTOCOL(ijktcphook);
+//IJK_FF_PROTOCOL(async);
+//IJK_DUMMY_PROTOCOL(ijkmediadatasource);
+//IJK_DUMMY_PROTOCOL(ijkhttphook);
+//IJK_DUMMY_PROTOCOL(ijklongurl);
+//IJK_DUMMY_PROTOCOL(ijksegment);
+//IJK_DUMMY_PROTOCOL(ijktcphook);
 
 #define IJK_REGISTER_DEMUXER(x)                                         \
     {                                                                   \

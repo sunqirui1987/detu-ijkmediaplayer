@@ -246,6 +246,8 @@ void ijkFfplayDecoder_stop(IjkFfplayDecoder* decoder)
 		ALOGV("ijkFfplayDecoder_stop failed.\n");
 	}
 
+	ijkmp_shutdown(decoder->ijk_media_player);
+
 	return;
 }
 
@@ -310,7 +312,6 @@ void ijkFfplayDecoder_release(IjkFfplayDecoder* decoder)
 		return;
 	}
 
-	ijkmp_shutdown(decoder->ijk_media_player);
 	ijkmp_dec_ref_p(&(decoder->ijk_media_player));
 
 	if (decoder->current_frame){
@@ -381,6 +382,28 @@ void ijkFfplayDecoder_getAudioCodecInfo(IjkFfplayDecoder* decoder, char **codec_
 	int ret = ffp_get_audio_codec_info(decoder->ijk_media_player->ffplayer, codec_info);
 	pthread_mutex_unlock(&decoder->ijk_media_player->mutex);
 	return;
+}
+
+long ijkFfplayDecoder_getPropertyLong(IjkFfplayDecoder* decoder, int id, long default_value)
+{
+	if (!decoder->ijk_media_player || !decoder){
+		ALOGV("IjkMediaPlayer is NULL.\n");
+		return -1;
+	}
+
+	long ret = ijkmp_get_property_int64(decoder->ijk_media_player, id, default_value);
+	return ret;
+}
+
+float ijkFfplayDecoder_getPropertyFloat(IjkFfplayDecoder* decoder, int id, float default_value)
+{
+	if (!decoder->ijk_media_player || !decoder){
+		ALOGV("IjkMediaPlayer is NULL.\n");
+		return -1;
+	}
+
+	float ret = ijkmp_get_property_float(decoder->ijk_media_player, id, default_value);
+	return ret;
 }
 
 void ijkFfplayDecoder_setLogLevel(IJKLogLevel logLevel)

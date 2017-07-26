@@ -18,6 +18,7 @@ static SDL_Rect     sdlRect;
 
 static bool  sdl_init_flag = false;
 
+
 void video_callback(void* opaque, sVideoFrame *frame_callback)
 {
 	if (!sdl_init_flag){
@@ -52,6 +53,7 @@ void video_callback(void* opaque, sVideoFrame *frame_callback)
 
 void msg_callback(void* opaque, IjkMsgState ijk_msgint, int arg1, int arg2)
 {
+	long duration = 0;
 	switch (ijk_msgint)
 	{
 	case IJK_MSG_FLUSH:
@@ -59,6 +61,7 @@ void msg_callback(void* opaque, IjkMsgState ijk_msgint, int arg1, int arg2)
 	case IJK_MSG_ERROR:
 		break;
 	case IJK_MSG_PREPARED:
+		duration = ijkFfplayDecoder_getDuration(ijk_ffplay_decoder);
 		ijkFfplayDecoder_start(ijk_ffplay_decoder);
 		break;
 	case IJK_MSG_COMPLETED:
@@ -98,6 +101,7 @@ void msg_callback(void* opaque, IjkMsgState ijk_msgint, int arg1, int arg2)
 	}
 }
 
+
 int main(int argc, char** argv)
 {
 	//init global paraments
@@ -114,7 +118,7 @@ int main(int argc, char** argv)
 
 	ijkFfplayDecoder_setDecoderCallBack(ijk_ffplay_decoder, NULL, decoder_callback);
 
-	ijkFfplayDecoder_setDataSource(ijk_ffplay_decoder, "4k.mp4");
+	ijkFfplayDecoder_setDataSource(ijk_ffplay_decoder, "test.flv");
 
 	ijkFfplayDecoder_prepare(ijk_ffplay_decoder);
 
@@ -125,6 +129,7 @@ int main(int argc, char** argv)
 
 	static float volume = 1.0;
 	static bool  is_pause = false;
+	static int   file_index = 1;
 	while (1){
 
 		char input = ' ';
@@ -194,7 +199,7 @@ int main(int argc, char** argv)
 		//seek, default seek to 15s position
 		if (input == 's'){	
 			printf("seek to 15s position.\n");
-			ijkFfplayDecoder_seekTo(ijk_ffplay_decoder, 15000);
+			ijkFfplayDecoder_seekTo(ijk_ffplay_decoder, 0);
 		}
 
 		//stop
@@ -203,7 +208,6 @@ int main(int argc, char** argv)
 
 			ijkFfplayDecoder_pause(ijk_ffplay_decoder);
 			ijkFfplayDecoder_stop(ijk_ffplay_decoder);
-			ijkFfplayDecoder_release(ijk_ffplay_decoder);
 
 			SDL_DestroyTexture(sdlTexture);
 			SDL_DestroyRenderer(sdlRenderer);
@@ -213,6 +217,7 @@ int main(int argc, char** argv)
 
 		//quit ijkplayer
 		if (input == 'Q'){	
+			ijkFfplayDecoder_release(ijk_ffplay_decoder);
 			printf("quit now.\n");
 			goto QUIT;
 		}
@@ -224,9 +229,13 @@ int main(int argc, char** argv)
 			sdl_init_flag = false;
 			SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO | SDL_INIT_TIMER);
 
-			ijk_ffplay_decoder = ijkFfplayDecoder_create();
-			ijkFfplayDecoder_setDecoderCallBack(ijk_ffplay_decoder, NULL, decoder_callback);
-			ijkFfplayDecoder_setDataSource(ijk_ffplay_decoder, "pfzl.mp4");
+			if (file_index%3 == 1)
+				ijkFfplayDecoder_setDataSource(ijk_ffplay_decoder, "pfzl.mp4");
+			if (file_index%3 == 2)
+				ijkFfplayDecoder_setDataSource(ijk_ffplay_decoder, "norm.mp4");
+			if (file_index%3 == 0)
+				ijkFfplayDecoder_setDataSource(ijk_ffplay_decoder, "4k.mp4");
+			file_index += 1;
 			ijkFfplayDecoder_prepare(ijk_ffplay_decoder);
 		}
 
