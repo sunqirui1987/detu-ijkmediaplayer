@@ -476,17 +476,6 @@ static int decoder_decode_frame(FFPlayer *ffp, Decoder *d, AVFrame *frame, AVSub
                 }
                 break;
             case AVMEDIA_TYPE_AUDIO:
-				//add by chenliang, 同步
-				//if (flag == 1){
-				//	flag += 1;
-				//	d->pkt_temp.pts = 2048;
-				//	d->pkt_temp.dts = 2048;
-				//}
-				//else{
-				//	d->pkt_temp.pts = 2048 * flag;
-				//	d->pkt_temp.dts = 2048 * flag;
-				//	flag += 1;
-				//}
                 ret = avcodec_decode_audio4(d->avctx, frame, &got_frame, &d->pkt_temp);
                 if (got_frame) {
 					AVRational tb = (AVRational){1, frame->sample_rate};
@@ -1683,7 +1672,8 @@ static int audio_thread(void *arg)
 #ifndef WIN32
                 tb = (AVRational){1, frame->sample_rate};
 #else
-				AVRational tb = is->audio_st->time_base;//解决windows下音视频同步问题
+				//AVRational tb = is->audio_st->time_base;	//解决windows下demo播放音视频同步问题
+				tb = (AVRational){ 1, frame->sample_rate };	//detuplay播放的时候
 #endif
 #if CONFIG_AVFILTER
                 dec_channel_layout = get_valid_channel_layout(frame->channel_layout, av_frame_get_channels(frame));

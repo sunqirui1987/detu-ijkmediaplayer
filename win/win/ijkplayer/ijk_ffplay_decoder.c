@@ -13,6 +13,7 @@
 #include "ijksdl_vout_win_ffmpeg.h"
 #include "ijkplayer/ff_ffmsg_queue.h"
 
+#define container_of(ptr, type, member) ((type *)((char *)ptr - offsetof(type, member)))
 
 struct IjkFfplayDecoder{
 	IjkMediaPlayer *ijk_media_player;
@@ -28,6 +29,8 @@ static msg_call_back s_user_msg_callback;
 
 static void message_loop_n(IjkMediaPlayer *mp)
 {
+	void* opaque = (void*)ijkmp_get_weak_thiz(mp);
+
 	while (1) {
 		AVMessage msg;
 		int retval = ijkmp_get_msg(mp, &msg, 1);
@@ -39,63 +42,63 @@ static void message_loop_n(IjkMediaPlayer *mp)
 		switch (msg.what) {
 		case FFP_MSG_FLUSH:
 			MPTRACE("FFP_MSG_FLUSH:\n");
-			s_user_msg_callback(NULL, IJK_MSG_FLUSH, 0, 0);
+			s_user_msg_callback(opaque, IJK_MSG_FLUSH, 0, 0);
 			break;
 		case FFP_MSG_ERROR:
 			MPTRACE("FFP_MSG_ERROR: %d\n", msg.arg1);
-			s_user_msg_callback(NULL, IJK_MSG_ERROR, msg.arg1, 0);
+			s_user_msg_callback(opaque, IJK_MSG_ERROR, msg.arg1, 0);
 			break;
 		case FFP_MSG_PREPARED:
 			MPTRACE("FFP_MSG_PREPARED.\n");
-			s_user_msg_callback(NULL, IJK_MSG_PREPARED, 0, 0);
+			s_user_msg_callback(opaque, IJK_MSG_PREPARED, 0, 0);
 			break;
 		case FFP_MSG_COMPLETED:
 			MPTRACE("FFP_MSG_COMPLETED.\n");
-			s_user_msg_callback(NULL, IJK_MSG_COMPLETED, 0, 0);
+			s_user_msg_callback(opaque, IJK_MSG_COMPLETED, 0, 0);
 			break;
 		case FFP_MSG_VIDEO_SIZE_CHANGED:
 			MPTRACE("FFP_MSG_VIDEO_SIZE_CHANGED: %d, %d\n", msg.arg1, msg.arg2);
-			s_user_msg_callback(NULL, IJK_MSG_VIDEO_SIZE_CHANGED, msg.arg1, msg.arg2);
+			s_user_msg_callback(opaque, IJK_MSG_VIDEO_SIZE_CHANGED, msg.arg1, msg.arg2);
 			break;
 		case FFP_MSG_SAR_CHANGED:
 			MPTRACE("FFP_MSG_SAR_CHANGED: %d, %d\n", msg.arg1, msg.arg2);
-			s_user_msg_callback(NULL, IJK_MSG_SAR_CHANGED, msg.arg1, msg.arg2);
+			s_user_msg_callback(opaque, IJK_MSG_SAR_CHANGED, msg.arg1, msg.arg2);
 			break;
 		case FFP_MSG_VIDEO_RENDERING_START:
 			MPTRACE("FFP_MSG_VIDEO_RENDERING_START.\n");
-			s_user_msg_callback(NULL, IJK_MSG_VIDEO_RENDERING_START, 0, 0);
+			s_user_msg_callback(opaque, IJK_MSG_VIDEO_RENDERING_START, 0, 0);
 			break;
 		case FFP_MSG_AUDIO_RENDERING_START:
 			MPTRACE("FFP_MSG_AUDIO_RENDERING_START.\n");
-			s_user_msg_callback(NULL, IJK_MSG_AUDIO_RENDERING_START, 0, 0);
+			s_user_msg_callback(opaque, IJK_MSG_AUDIO_RENDERING_START, 0, 0);
 			break;
 		case FFP_MSG_VIDEO_ROTATION_CHANGED:
 			MPTRACE("FFP_MSG_VIDEO_ROTATION_CHANGED: %d\n", msg.arg1);
-			s_user_msg_callback(NULL, IJK_MSG_VIDEO_ROTATION_CHANGED, msg.arg1, 0);
+			s_user_msg_callback(opaque, IJK_MSG_VIDEO_ROTATION_CHANGED, msg.arg1, 0);
 			break;
 		case FFP_MSG_BUFFERING_START:
 			MPTRACE("FFP_MSG_BUFFERING_START.\n");
-			s_user_msg_callback(NULL, IJK_MSG_BUFFERING_START, 0, 0);
+			s_user_msg_callback(opaque, IJK_MSG_BUFFERING_START, 0, 0);
 			break;
 		case FFP_MSG_BUFFERING_END:
 			MPTRACE("FFP_MSG_BUFFERING_END:\n");
-			s_user_msg_callback(NULL, IJK_MSG_BUFFERING_END, 0, 0);
+			s_user_msg_callback(opaque, IJK_MSG_BUFFERING_END, 0, 0);
 			break;
 		case FFP_MSG_BUFFERING_UPDATE:
-			s_user_msg_callback(NULL, IJK_MSG_BUFFERING_UPDATE, msg.arg1, msg.arg2);
+			s_user_msg_callback(opaque, IJK_MSG_BUFFERING_UPDATE, msg.arg1, msg.arg2);
 			break;
 		case FFP_MSG_BUFFERING_BYTES_UPDATE:
-			//s_user_msg_callback(NULL, IJK_MSG_BUFFERING_BYTES_UPDATE, msg.arg1, msg.arg2);
+			//s_user_msg_callback(opaque, IJK_MSG_BUFFERING_BYTES_UPDATE, msg.arg1, msg.arg2);
 			break;
 		case FFP_MSG_BUFFERING_TIME_UPDATE:
-			//s_user_msg_callback(NULL, IJK_MSG_BUFFERING_TIME_UPDATE, msg.arg1, msg.arg2);
+			//s_user_msg_callback(opaque, IJK_MSG_BUFFERING_TIME_UPDATE, msg.arg1, msg.arg2);
 			break;
 		case FFP_MSG_SEEK_COMPLETE:
 			MPTRACE("FFP_MSG_SEEK_COMPLETE:\n");
-			s_user_msg_callback(NULL, IJK_MSG_SEEK_COMPLETE, 0, 0);
+			s_user_msg_callback(opaque, IJK_MSG_SEEK_COMPLETE, 0, 0);
 			break;
 		case FFP_MSG_PLAYBACK_STATE_CHANGED:
-			s_user_msg_callback(NULL, IJK_MSG_PLAYBACK_STATE_CHANGED, 0, 0);
+			s_user_msg_callback(opaque, IJK_MSG_PLAYBACK_STATE_CHANGED, 0, 0);
 			break;
 		default:
 			//ALOGE("unknown FFP_MSG_xxx(%d)\n", msg.what);
@@ -437,7 +440,10 @@ void ijkFfplayDecoder_setDecoderCallBack(IjkFfplayDecoder* decoder, void* opaque
 		return;
 	}
 
+	//save opaque, used in callback func
+	ijkmp_set_weak_thiz(decoder->ijk_media_player, opaque);
 	decoder->opaque = opaque;
+
 	decoder->ijk_ffplayer_deocdecallback = callBack;
 	s_user_msg_callback = callBack->func_state_change;
 
