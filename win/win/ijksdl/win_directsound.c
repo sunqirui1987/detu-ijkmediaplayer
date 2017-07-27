@@ -1,7 +1,7 @@
 #include "win_directsound.h"
 #include "ijksdl/ijksdl_inc_internal.h"
 #include "ijksdl/ijksdl_timer.h"
-
+#include <math.h>
 
 #ifndef WAVE_FORMAT_IEEE_FLOAT
 #define WAVE_FORMAT_IEEE_FLOAT 0x0003
@@ -104,7 +104,11 @@ void SDL_Win_DSound_WaitDevice(SDL_Win_DirectSound *dsound, SDL_AudioSpec *sdl_s
 void SDL_Win_DSound_SetVolume(SDL_Win_DirectSound *dsound, float left_volume, float right_volume)
 {
 	HRESULT result = DS_OK;
-	long ds_volume = (1 - left_volume / 1) * DSBVOLUME_MIN;
+	double decibels = 50 * log10((double)left_volume / 100.0);
+	long ds_volume = (long)(decibels * 100.0);
+	if (ds_volume <= DSBVOLUME_MIN){
+		ds_volume = DSBVOLUME_MIN;
+	}
 	result = IDirectSoundBuffer_SetVolume(dsound->mixbuf, ds_volume);
 	if (result != DS_OK) {
 		ALOGE("directsound set volume failed");

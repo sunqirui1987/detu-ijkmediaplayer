@@ -101,11 +101,11 @@ void ijkFfplayDecoder_uninit(void);
 
 IjkFfplayDecoder *ijkFfplayDecoder_create(void);
 
-void ijkFfplayDecoder_setLogLevel(IJKLogLevel logLevel);
+void ijkFfplayDecoder_setLogLevel(IJKLogLevel log_level);
 
-void ijkFfplayDecoder_setDecoderCallBack(IjkFfplayDecoder* decoder, void* opaque, IjkFfplayDecoderCallBack* callBack);
+void ijkFfplayDecoder_setDecoderCallBack(IjkFfplayDecoder* decoder, void* opaque, IjkFfplayDecoderCallBack* callback);
 
-void ijkFfplayDecoder_setDataSource(IjkFfplayDecoder* decoder, const char* fileAbsolutePath);
+void ijkFfplayDecoder_setDataSource(IjkFfplayDecoder* decoder, const char* file_absolute_path);
 
 void ijkFfplayDecoder_prepare(IjkFfplayDecoder* decoder);
 
@@ -125,7 +125,7 @@ long ijkFfplayDecoder_getDuration(IjkFfplayDecoder* decoder);
 
 void ijkFfplayDecoder_release(IjkFfplayDecoder* decoder);
 
-void ijkFfplayDecoder_setVolume(IjkFfplayDecoder* decoder, float leftVolume, float rightVolume);
+void ijkFfplayDecoder_setVolume(IjkFfplayDecoder* decoder, float volume);
 
 void ijkFfplayDecoder_setOptionLongValue(IjkFfplayDecoder* decoder, int opt_category, const char* key, long value);
 

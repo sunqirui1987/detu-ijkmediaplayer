@@ -127,7 +127,7 @@ int main(int argc, char** argv)
 		return -1;
 	}
 
-	static float volume = 1.0;
+	static float volume = 50.0;
 	static bool  is_pause = false;
 	static int   file_index = 1;
 	while (1){
@@ -158,12 +158,12 @@ int main(int argc, char** argv)
 			}
 		}
 
-		//increase sound, 0.05 percent
+		//increase sound, 1 percent
 		if (input == '+'){
-			if (volume < 1.0){
-				volume += 0.05;
+			if (volume < 100){
+				volume += 10;
 				printf("increase volume now.\n");
-				ijkFfplayDecoder_setVolume(ijk_ffplay_decoder, volume, volume);
+				ijkFfplayDecoder_setVolume(ijk_ffplay_decoder, volume);
 			} else {
 				printf("volume is bigest already.\n");
 			}
@@ -171,10 +171,10 @@ int main(int argc, char** argv)
 
 		//decrease sound, 0.05 percent
 		if (input == '-'){
-			if (volume > 0.1){
-				volume -= 0.05;
+			if (volume >= 10){
+				volume -= 10;
 				printf("decrease volume now.\n");
-				ijkFfplayDecoder_setVolume(ijk_ffplay_decoder, volume, volume);
+				ijkFfplayDecoder_setVolume(ijk_ffplay_decoder, volume);
 			} else {
 				printf("volume is zero already.\n");
 			}
