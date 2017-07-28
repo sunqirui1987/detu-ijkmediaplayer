@@ -4455,3 +4455,15 @@ IjkMediaMeta *ffp_get_meta_l(FFPlayer *ffp)
 
     return ffp->meta;
 }
+
+int ffp_set_decoder_name(FFPlayer *ffp, const char *name)
+{
+#ifdef WIN32
+	if (!ffp){
+		return -1;
+	}
+
+	ffp->video_codec_name = av_strdup(name);
+#endif
+	return 0;
+}

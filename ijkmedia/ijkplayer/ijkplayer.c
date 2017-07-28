@@ -819,3 +819,17 @@ int ijkmp_get_msg(IjkMediaPlayer *mp, AVMessage *msg, int block)
 
     return -1;
 }
+
+int ijkmp_set_decoder_name(IjkMediaPlayer *mp, const char* decoder_name)
+{
+#ifdef WIN32
+	assert(mp);
+	assert(decoder_name);
+
+	pthread_mutex_lock(&mp->mutex);
+	ffp_set_decoder_name(mp->ffplayer, decoder_name);
+	pthread_mutex_unlock(&mp->mutex);
+#endif
+
+	return 0;
+}

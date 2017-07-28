@@ -115,4 +115,7 @@ float ijkFfplayDecoder_getPropertyFloat(IjkFfplayDecoder* decoder, int id, float
 
 int ijkFfplayDecoder_getMediaMeta(IjkFfplayDecoder* decoder, ijkMetadata* metadata);
 
+//decoder_name: h264_cuvid, h264_dxva2
+int ijkFfplayDecoder_setHwDecoderName(IjkFfplayDecoder* decoder, const char* decoder_name);
+
 #endif /* IJK_FFPLAYER_DECODER_H */

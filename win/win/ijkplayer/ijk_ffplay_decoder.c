@@ -566,3 +566,14 @@ int ijkFfplayDecoder_getMediaMeta(IjkFfplayDecoder* decoder, ijkMetadata* metada
 
 	return 0;
 }
+
+int ijkFfplayDecoder_setHwDecoderName(IjkFfplayDecoder* decoder, const char* decoder_name)
+{
+	if (!decoder->ijk_media_player || !decoder){
+		ALOGV("IjkMediaPlayer is NULL.\n");
+		return -1;
+	}
+
+	ijkmp_set_decoder_name(decoder->ijk_media_player, decoder_name);
+	return 0;
+}

@@ -119,7 +119,9 @@ int main(int argc, char** argv)
 
 	ijkFfplayDecoder_setDecoderCallBack(ijk_ffplay_decoder, NULL, decoder_callback);
 
-	ijkFfplayDecoder_setDataSource(ijk_ffplay_decoder, "pfzl.mp4");
+	ijkFfplayDecoder_setDataSource(ijk_ffplay_decoder, "test.flv");
+
+	ijkFfplayDecoder_setHwDecoderName(ijk_ffplay_decoder, "h264_cuvid");
 
 	ijkFfplayDecoder_prepare(ijk_ffplay_decoder);
 
