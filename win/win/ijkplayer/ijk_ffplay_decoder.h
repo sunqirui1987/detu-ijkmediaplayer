@@ -15,37 +15,11 @@
 #include <stdbool.h>
 
 #include "detu_frame.h"
+#include "ijk_metadata.h"
 
-// media meta
-#define k_IJKM_KEY_FORMAT         @"format"
-#define k_IJKM_KEY_DURATION_US    @"duration_us"
-#define k_IJKM_KEY_START_US       @"start_us"
-#define k_IJKM_KEY_BITRATE        @"bitrate"
-
-// stream meta
-#define k_IJKM_KEY_TYPE           @"type"
-#define k_IJKM_VAL_TYPE__VIDEO    @"video"
-#define k_IJKM_VAL_TYPE__AUDIO    @"audio"
-#define k_IJKM_VAL_TYPE__UNKNOWN  @"unknown"
-
-#define k_IJKM_KEY_CODEC_NAME      @"codec_name"
-#define k_IJKM_KEY_CODEC_PROFILE   @"codec_profile"
-#define k_IJKM_KEY_CODEC_LONG_NAME @"codec_long_name"
-
-// stream: video
-#define k_IJKM_KEY_WIDTH          @"width"
-#define k_IJKM_KEY_HEIGHT         @"height"
-#define k_IJKM_KEY_FPS_NUM        @"fps_num"
-#define k_IJKM_KEY_FPS_DEN        @"fps_den"
-#define k_IJKM_KEY_TBR_NUM        @"tbr_num"
-#define k_IJKM_KEY_TBR_DEN        @"tbr_den"
-#define k_IJKM_KEY_SAR_NUM        @"sar_num"
-#define k_IJKM_KEY_SAR_DEN        @"sar_den"
-// stream: audio
-#define k_IJKM_KEY_SAMPLE_RATE    @"sample_rate"
-#define k_IJKM_KEY_CHANNEL_LAYOUT @"channel_layout"
-
-#define kk_IJKM_KEY_STREAMS       @"streams"
+//get video or audio info 
+#define FLOAT_VIDEO_OUTPUT_FRAMES_PER_SECOND   10002
+#define INT64_BIT_RATE_TOTAL                   20100
 
 //ijk log level
 typedef enum IJKLogLevel {
@@ -95,27 +69,27 @@ typedef struct IjkFfplayDecoder IjkFfplayDecoder;
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-void ijkFfplayDecoder_init(void);
+int ijkFfplayDecoder_init(void);
 
-void ijkFfplayDecoder_uninit(void);
+int ijkFfplayDecoder_uninit(void);
 
 IjkFfplayDecoder *ijkFfplayDecoder_create(void);
 
-void ijkFfplayDecoder_setLogLevel(IJKLogLevel log_level);
+int ijkFfplayDecoder_setLogLevel(IJKLogLevel log_level);
 
-void ijkFfplayDecoder_setDecoderCallBack(IjkFfplayDecoder* decoder, void* opaque, IjkFfplayDecoderCallBack* callback);
+int ijkFfplayDecoder_setDecoderCallBack(IjkFfplayDecoder* decoder, void* opaque, IjkFfplayDecoderCallBack* callback);
 
-void ijkFfplayDecoder_setDataSource(IjkFfplayDecoder* decoder, const char* file_absolute_path);
+int ijkFfplayDecoder_setDataSource(IjkFfplayDecoder* decoder, const char* file_absolute_path);
 
-void ijkFfplayDecoder_prepare(IjkFfplayDecoder* decoder);
+int ijkFfplayDecoder_prepare(IjkFfplayDecoder* decoder);
 
-void ijkFfplayDecoder_start(IjkFfplayDecoder* decoder);
+int ijkFfplayDecoder_start(IjkFfplayDecoder* decoder);
 
-void ijkFfplayDecoder_pause(IjkFfplayDecoder* decoder);
+int ijkFfplayDecoder_pause(IjkFfplayDecoder* decoder);
 
-void ijkFfplayDecoder_stop(IjkFfplayDecoder* decoder);
+int ijkFfplayDecoder_stop(IjkFfplayDecoder* decoder);
 
-void ijkFfplayDecoder_seekTo(IjkFfplayDecoder* decoder, long msec);
+int ijkFfplayDecoder_seekTo(IjkFfplayDecoder* decoder, long msec);
 
 bool ijkFfplayDecoder_isPlaying(IjkFfplayDecoder* decoder);
 
@@ -123,20 +97,22 @@ long ijkFfplayDecoder_getCurrentPosition(IjkFfplayDecoder* decoder);
 
 long ijkFfplayDecoder_getDuration(IjkFfplayDecoder* decoder);
 
-void ijkFfplayDecoder_release(IjkFfplayDecoder* decoder);
+int ijkFfplayDecoder_release(IjkFfplayDecoder* decoder);
 
-void ijkFfplayDecoder_setVolume(IjkFfplayDecoder* decoder, float volume);
+int ijkFfplayDecoder_setVolume(IjkFfplayDecoder* decoder, float volume);
 
-void ijkFfplayDecoder_setOptionLongValue(IjkFfplayDecoder* decoder, int opt_category, const char* key, long value);
+int ijkFfplayDecoder_setOptionLongValue(IjkFfplayDecoder* decoder, int opt_category, const char* key, long value);
 
-void ijkFfplayDecoder_setOptionStringValue(IjkFfplayDecoder* decoder, int opt_category, const char* key, const char* value);
+int ijkFfplayDecoder_setOptionStringValue(IjkFfplayDecoder* decoder, int opt_category, const char* key, const char* value);
 
-void ijkFfplayDecoder_getVideoCodecInfo(IjkFfplayDecoder* decoder, char **codec_info);
+int ijkFfplayDecoder_getVideoCodecInfo(IjkFfplayDecoder* decoder, char **codec_info);
 
-void ijkFfplayDecoder_getAudioCodecInfo(IjkFfplayDecoder* decoder, char **codec_info);
+int ijkFfplayDecoder_getAudioCodecInfo(IjkFfplayDecoder* decoder, char **codec_info);
 
 long ijkFfplayDecoder_getPropertyLong(IjkFfplayDecoder* decoder, int id, long default_value);
 
 float ijkFfplayDecoder_getPropertyFloat(IjkFfplayDecoder* decoder, int id, float default_value);
+
+int ijkFfplayDecoder_getMediaMeta(IjkFfplayDecoder* decoder, ijkMetadata* metadata);
 
 #endif /* IJK_FFPLAYER_DECODER_H */

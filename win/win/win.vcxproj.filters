@@ -342,5 +342,8 @@
     <ClInclude Include="ijkplayer\detu_frame.h">
       <Filter>win\ijkplayer</Filter>
     </ClInclude>
+    <ClInclude Include="ijkplayer\ijk_metadata.h">
+      <Filter>win\ijkplayer</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

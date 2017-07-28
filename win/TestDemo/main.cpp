@@ -65,6 +65,7 @@ void msg_callback(void* opaque, IjkMsgState ijk_msgint, int arg1, int arg2)
 		ijkFfplayDecoder_start(ijk_ffplay_decoder);
 		break;
 	case IJK_MSG_COMPLETED:
+		printf("play complete.\n");
 		break;
 	case IJK_MSG_VIDEO_SIZE_CHANGED:
 		break;
@@ -118,7 +119,7 @@ int main(int argc, char** argv)
 
 	ijkFfplayDecoder_setDecoderCallBack(ijk_ffplay_decoder, NULL, decoder_callback);
 
-	ijkFfplayDecoder_setDataSource(ijk_ffplay_decoder, "test.flv");
+	ijkFfplayDecoder_setDataSource(ijk_ffplay_decoder, "pfzl.mp4");
 
 	ijkFfplayDecoder_prepare(ijk_ffplay_decoder);
 
@@ -185,7 +186,7 @@ int main(int argc, char** argv)
 			//current position and duration
 			long position = ijkFfplayDecoder_getCurrentPosition(ijk_ffplay_decoder);
 			long duration = ijkFfplayDecoder_getDuration(ijk_ffplay_decoder);
-			printf("position:%f, duration:%f.\n", position, duration);
+			printf("position:%d, duration:%d.\n", position, duration);
 
 			//code info
 			char *videoinfo = (char*)malloc(512);
@@ -194,12 +195,23 @@ int main(int argc, char** argv)
 			ijkFfplayDecoder_getAudioCodecInfo(ijk_ffplay_decoder, &audioinfo);
 			printf("videoinfo:%s, audioinfo:%s.\n", videoinfo, audioinfo);
 			free(videoinfo), free(audioinfo);
+
+			//video info
+			float frame_rate = ijkFfplayDecoder_getPropertyFloat(ijk_ffplay_decoder, FLOAT_VIDEO_OUTPUT_FRAMES_PER_SECOND, 0);
+			long total_bit_rate = ijkFfplayDecoder_getPropertyLong(ijk_ffplay_decoder, INT64_BIT_RATE_TOTAL, 0);
+			printf("position:%f, total_bit_rate:%d Kb/s.\n", frame_rate, total_bit_rate / 1000);
+
+			//metadata
+			ijkMetadata metadata;
+			memset(&metadata, 0, sizeof(ijkMetadata));
+			ijkFfplayDecoder_getMediaMeta(ijk_ffplay_decoder, &metadata);
+			printf("width:%d, height:%d", metadata.width, metadata.height);
 		}
 
 		//seek, default seek to 15s position
 		if (input == 's'){	
 			printf("seek to 15s position.\n");
-			ijkFfplayDecoder_seekTo(ijk_ffplay_decoder, 0);
+			ijkFfplayDecoder_seekTo(ijk_ffplay_decoder, 15000);
 		}
 
 		//stop
