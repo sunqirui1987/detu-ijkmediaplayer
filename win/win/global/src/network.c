@@ -18,8 +18,7 @@ static char * inet_ntop4(const u_char *src, char *dst, socklen_t size)
 	char tmp[sizeof "255.255.255.255"];
 	int l;
 
-	l = snprintf(tmp, sizeof(tmp), fmt, src[0], src[1], src[2], src[3]); // ****
-	//l = _snprintf( tmp, fmt, src[0], src[1], src[2], src[3] ); // **** vc++ does not have snprintf
+	l = _snprintf(tmp, sizeof(tmp), fmt, src[0], src[1], src[2], src[3]); // ****
 	if (l <= 0 || (socklen_t)l >= size) {
 		return (NULL);
 	}
