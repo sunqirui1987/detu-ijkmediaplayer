@@ -125,7 +125,7 @@ static int video_callback(void *arg, SDL_VoutOverlay* overlay)
 
 	play_decoder->current_frame->w = overlay->w;
 	play_decoder->current_frame->h = overlay->h;
-	play_decoder->current_frame->format = overlay->format;
+	play_decoder->current_frame->format = AV_PIX_FMT_YUV420P;
 	play_decoder->current_frame->planes = overlay->planes;
 
 	for (int i = 0; i < AV_NUM_DATA_POINTERS; ++i) {
@@ -267,7 +267,7 @@ int ijkFfplayDecoder_start(IjkFfplayDecoder* decoder)
 		return 0;
 	}
 
-	return;
+	return 0;
 }
 
 int ijkFfplayDecoder_pause(IjkFfplayDecoder* decoder)
