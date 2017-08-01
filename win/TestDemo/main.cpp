@@ -59,6 +59,7 @@ void msg_callback(void* opaque, IjkMsgState ijk_msgint, int arg1, int arg2)
 	case IJK_MSG_FLUSH:
 		break;
 	case IJK_MSG_ERROR:
+		printf("ijk error");
 		break;
 	case IJK_MSG_PREPARED:
 		duration = ijkFfplayDecoder_getDuration(ijk_ffplay_decoder);
@@ -119,7 +120,7 @@ int main(int argc, char** argv)
 
 	ijkFfplayDecoder_setDecoderCallBack(ijk_ffplay_decoder, NULL, decoder_callback);
 
-	ijkFfplayDecoder_setDataSource(ijk_ffplay_decoder, "test.flv");
+	ijkFfplayDecoder_setDataSource(ijk_ffplay_decoder, "4k.mp4");
 
 	ijkFfplayDecoder_setHwDecoderName(ijk_ffplay_decoder, "h264_cuvid");
 
