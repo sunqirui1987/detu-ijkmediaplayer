@@ -257,7 +257,7 @@ static int func_fill_frame(SDL_VoutOverlay *overlay, const AVFrame *frame)
                                  dst_format, swscale_dst_pic.data, swscale_dst_pic.linesize,
                                  frame->format, (const uint8_t**) frame->data, frame->linesize)) {
         opaque->img_convert_ctx = sws_getCachedContext(opaque->img_convert_ctx,
-                                                       frame->width, frame->height, frame->format, frame->width, frame->height,
+                                                       swscale_dst_pic.linesize[0], frame->height, frame->format, frame->width, frame->height,
                                                        dst_format, opaque->sws_flags, NULL, NULL, NULL);
         if (opaque->img_convert_ctx == NULL) {
             ALOGE("sws_getCachedContext failed");
