@@ -41,6 +41,12 @@ void video_callback(void* opaque, sVideoFrame *frame_callback)
 		sdlRect.h = screen_h;
 	}
 
+	//static FILE* file = fopen("C:/Users/Administrator/Desktop/output3.yuv", "wb+");
+	//int64_t ySize = frame_callback->w * frame_callback->h;
+	//fwrite(frame_callback->data[0], 1, ySize, file);
+	//fwrite(frame_callback->data[1], 1, ySize / 4, file);
+	//fwrite(frame_callback->data[2], 1, ySize / 4, file);
+
 	SDL_UpdateYUVTexture(sdlTexture, &sdlRect,
 			frame_callback->data[0], frame_callback->linesize[0],
 			frame_callback->data[1], frame_callback->linesize[1],
@@ -120,9 +126,9 @@ int main(int argc, char** argv)
 
 	ijkFfplayDecoder_setDecoderCallBack(ijk_ffplay_decoder, NULL, decoder_callback);
 
-	ijkFfplayDecoder_setDataSource(ijk_ffplay_decoder, "4k.mp4");
+	ijkFfplayDecoder_setDataSource(ijk_ffplay_decoder, "test.flv");
 
-	ijkFfplayDecoder_setHwDecoderName(ijk_ffplay_decoder, "h264_cuvid");
+	//ijkFfplayDecoder_setHwDecoderName(ijk_ffplay_decoder, "h264_cuvid");
 
 	ijkFfplayDecoder_prepare(ijk_ffplay_decoder);
 
@@ -243,6 +249,9 @@ int main(int argc, char** argv)
 
 			sdl_init_flag = false;
 			SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO | SDL_INIT_TIMER);
+
+			ijkFfplayDecoder_pause(ijk_ffplay_decoder);
+			ijkFfplayDecoder_stop(ijk_ffplay_decoder);
 
 			if (file_index%3 == 1)
 				ijkFfplayDecoder_setDataSource(ijk_ffplay_decoder, "pfzl.mp4");

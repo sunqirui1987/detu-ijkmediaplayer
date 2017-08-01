@@ -1672,8 +1672,8 @@ static int audio_thread(void *arg)
 #ifndef WIN32
                 tb = (AVRational){1, frame->sample_rate};
 #else
-				//AVRational tb = is->audio_st->time_base;	//解决windows下demo播放音视频同步问题
-				tb = (AVRational){ 1, frame->sample_rate };	//detuplay播放的时候
+				AVRational tb = is->audio_st->time_base;	//解决windows下demo播放音视频同步问题
+				//tb = (AVRational){ 1, frame->sample_rate };	//detuplay播放的时候
 #endif
 #if CONFIG_AVFILTER
                 dec_channel_layout = get_valid_channel_layout(frame->channel_layout, av_frame_get_channels(frame));

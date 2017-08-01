@@ -505,7 +505,9 @@ int ijkFfplayDecoder_getMediaMeta(IjkFfplayDecoder* decoder, ijkMetadata* metada
 	is_locked = true;
 
 	media_info = fillMetaInternal(meta, IJKM_KEY_DURATION_US, NULL);
-	metadata->duration_ms = atol(media_info) / 1000;
+	if (media_info){
+		metadata->duration_ms = atol(media_info) / 1000;
+	}
 
 	size_t count = ijkmeta_get_children_count_l(meta);
 	for (size_t i = 0; i < count; ++i) {
@@ -515,46 +517,74 @@ int ijkFfplayDecoder_getMediaMeta(IjkFfplayDecoder* decoder, ijkMetadata* metada
 			if (type) {
 				if (0 == strcmp(type, IJKM_VAL_TYPE__VIDEO)) {
 					media_info = fillMetaInternal(streamRawMeta, IJKM_KEY_CODEC_NAME, NULL);
-					memcpy(metadata->video_code_name, media_info, sizeof(metadata->video_code_name));
+					if (media_info){
+						memcpy(metadata->video_code_name, media_info, sizeof(metadata->video_code_name));
+					}
 
 					media_info = fillMetaInternal(streamRawMeta, IJKM_KEY_CODEC_LONG_NAME, NULL);
-					memcpy(metadata->video_code_long_name, media_info, sizeof(metadata->video_code_long_name));
+					if (media_info){
+						memcpy(metadata->video_code_long_name, media_info, sizeof(metadata->video_code_long_name));
+					}
 
 					media_info = fillMetaInternal(streamRawMeta, IJKM_KEY_BITRATE, NULL);
-					metadata->video_bitrate = atoi(media_info);
+					if (media_info){
+						metadata->video_bitrate = atoi(media_info);
+					}
 
 					media_info = fillMetaInternal(streamRawMeta, IJKM_KEY_WIDTH, NULL);
-					metadata->width = atoi(media_info);
+					if (media_info){
+						metadata->width = atoi(media_info);
+					}
 
 					media_info = fillMetaInternal(streamRawMeta, IJKM_KEY_HEIGHT, NULL);
-					metadata->height = atoi(media_info);
+					if (media_info){
+						metadata->height = atoi(media_info);
+					}
 
 					media_info = fillMetaInternal(streamRawMeta, IJKM_KEY_FPS_NUM, NULL);
-					metadata->video_fps_num = atoi(media_info);
+					if (media_info){
+						metadata->video_fps_num = atoi(media_info);
+					}
 
 					media_info = fillMetaInternal(streamRawMeta, IJKM_KEY_FPS_DEN, NULL);
-					metadata->video_fps_den = atoi(media_info);
+					if (media_info){
+						metadata->video_fps_den = atoi(media_info);
+					}
 
 					media_info = fillMetaInternal(streamRawMeta, IJKM_KEY_TBR_NUM, NULL);
-					metadata->video_tbr_num = atoi(media_info);
+					if (media_info){
+						metadata->video_tbr_num = atoi(media_info);
+					}
 
 					media_info = fillMetaInternal(streamRawMeta, IJKM_KEY_TBR_DEN, NULL);
-					metadata->video_tbr_den = atoi(media_info);
+					if (media_info){
+						metadata->video_tbr_den = atoi(media_info);
+					}
 				} else if (0 == strcmp(type, IJKM_VAL_TYPE__AUDIO)) {
 					media_info = fillMetaInternal(streamRawMeta, IJKM_KEY_CODEC_NAME, NULL);
-					memcpy(metadata->audio_code_name, media_info, sizeof(metadata->video_code_name));
+					if (media_info){
+						memcpy(metadata->audio_code_name, media_info, sizeof(metadata->video_code_name));
+					}
 
 					media_info = fillMetaInternal(streamRawMeta, IJKM_KEY_CODEC_LONG_NAME, NULL);
-					memcpy(metadata->audio_code_long_name, media_info, sizeof(metadata->audio_code_long_name));
+					if (media_info){
+						memcpy(metadata->audio_code_long_name, media_info, sizeof(metadata->audio_code_long_name));
+					}
 
 					media_info = fillMetaInternal(streamRawMeta, IJKM_KEY_BITRATE, NULL);
-					metadata->audio_bitrate = atoi(media_info);
+					if (media_info){
+						metadata->audio_bitrate = atoi(media_info);
+					}
 
 					media_info = fillMetaInternal(streamRawMeta, IJKM_KEY_SAMPLE_RATE, NULL);
-					metadata->audio_samples_per_sec = atoi(media_info);
+					if (media_info){
+						metadata->audio_samples_per_sec = atoi(media_info);
+					}
 
 					media_info = fillMetaInternal(streamRawMeta, IJKM_KEY_CHANNEL_LAYOUT, NULL);
-					metadata->audio_channel_layout = atoi(media_info);
+					if (media_info){
+						metadata->audio_channel_layout = atoi(media_info);
+					}
 				}
 			}
 		}
