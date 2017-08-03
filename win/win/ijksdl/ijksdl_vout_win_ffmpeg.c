@@ -71,7 +71,9 @@ static int func_display_overlay_l(SDL_Vout *vout, SDL_VoutOverlay *overlay)
 	fflush(opaque->fp);
 #endif
 
-	opaque->decode_video_callback(opaque->opaque, overlay);
+	if (opaque->decode_video_callback){
+		opaque->decode_video_callback(opaque->opaque, overlay);
+	}
 
     return 0; 
 }
@@ -106,6 +108,8 @@ SDL_Vout *SDL_VoutWin_CreateForWindows()
 void SDL_VoutWin_SetVideoDataCallback(void *arg, SDL_Vout *vout, int(*video_callback)(void *arg, SDL_VoutOverlay* overlay))
 {
 	SDL_Vout_Opaque *opaque = vout->opaque;
-	opaque->decode_video_callback = video_callback;
+	SDL_LockMutex(vout->mutex);
 	opaque->opaque = arg;
+	opaque->decode_video_callback = video_callback;
+	SDL_UnlockMutex(vout->mutex);
 }

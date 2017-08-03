@@ -41,11 +41,15 @@ void video_callback(void* opaque, sVideoFrame *frame_callback)
 		sdlRect.h = screen_h;
 	}
 
-	//static FILE* file = fopen("C:/Users/Administrator/Desktop/output3.yuv", "wb+");
-	//int64_t ySize = frame_callback->w * frame_callback->h;
-	//fwrite(frame_callback->data[0], 1, ySize, file);
-	//fwrite(frame_callback->data[1], 1, ySize / 4, file);
-	//fwrite(frame_callback->data[2], 1, ySize / 4, file);
+	static int tmp = 1;
+	static FILE* file = fopen("C:/Users/Administrator/Desktop/output2.yuv", "wb+");
+	int64_t ySize = frame_callback->w * frame_callback->h;
+	if (tmp == 30){
+		fwrite(frame_callback->data[0], 1, ySize, file);
+		fwrite(frame_callback->data[1], 1, ySize / 4, file);
+		fwrite(frame_callback->data[2], 1, ySize / 4, file);
+	}
+	tmp += 1;
 
 	SDL_UpdateYUVTexture(sdlTexture, &sdlRect,
 			frame_callback->data[0], frame_callback->linesize[0],
@@ -126,9 +130,9 @@ int main(int argc, char** argv)
 
 	ijkFfplayDecoder_setDecoderCallBack(ijk_ffplay_decoder, NULL, decoder_callback);
 
-	ijkFfplayDecoder_setDataSource(ijk_ffplay_decoder, "test.flv");
+	ijkFfplayDecoder_setDataSource(ijk_ffplay_decoder, "2.MP4");
 
-	//ijkFfplayDecoder_setHwDecoderName(ijk_ffplay_decoder, "h264_cuvid");
+	ijkFfplayDecoder_setHwDecoderName(ijk_ffplay_decoder, "h264_qsv");
 
 	ijkFfplayDecoder_prepare(ijk_ffplay_decoder);
 

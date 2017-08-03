@@ -25,7 +25,7 @@ struct IjkFfplayDecoder{
 };
 
 typedef void(*msg_call_back)(void* opaque, IjkMsgState ijk_msgint, int arg1, int arg2);
-static msg_call_back s_user_msg_callback;
+static msg_call_back s_user_msg_callback = NULL;
 
 static void message_loop_n(IjkMediaPlayer *mp)
 {
@@ -42,63 +42,79 @@ static void message_loop_n(IjkMediaPlayer *mp)
 		switch (msg.what) {
 		case FFP_MSG_FLUSH:
 			MPTRACE("FFP_MSG_FLUSH:\n");
-			s_user_msg_callback(opaque, IJK_MSG_FLUSH, 0, 0);
+			if (s_user_msg_callback)
+				s_user_msg_callback(opaque, IJK_MSG_FLUSH, 0, 0);
 			break;
 		case FFP_MSG_ERROR:
 			MPTRACE("FFP_MSG_ERROR: %d\n", msg.arg1);
-			s_user_msg_callback(opaque, IJK_MSG_ERROR, msg.arg1, 0);
+			if (s_user_msg_callback)
+				s_user_msg_callback(opaque, IJK_MSG_ERROR, msg.arg1, 0);
 			break;
 		case FFP_MSG_PREPARED:
 			MPTRACE("FFP_MSG_PREPARED.\n");
-			s_user_msg_callback(opaque, IJK_MSG_PREPARED, 0, 0);
+			if (s_user_msg_callback)
+				s_user_msg_callback(opaque, IJK_MSG_PREPARED, 0, 0);
 			break;
 		case FFP_MSG_COMPLETED:
 			MPTRACE("FFP_MSG_COMPLETED.\n");
-			s_user_msg_callback(opaque, IJK_MSG_COMPLETED, 0, 0);
+			if (s_user_msg_callback)
+				s_user_msg_callback(opaque, IJK_MSG_COMPLETED, 0, 0);
 			break;
 		case FFP_MSG_VIDEO_SIZE_CHANGED:
 			MPTRACE("FFP_MSG_VIDEO_SIZE_CHANGED: %d, %d\n", msg.arg1, msg.arg2);
-			s_user_msg_callback(opaque, IJK_MSG_VIDEO_SIZE_CHANGED, msg.arg1, msg.arg2);
+			if (s_user_msg_callback)
+				s_user_msg_callback(opaque, IJK_MSG_VIDEO_SIZE_CHANGED, msg.arg1, msg.arg2);
 			break;
 		case FFP_MSG_SAR_CHANGED:
 			MPTRACE("FFP_MSG_SAR_CHANGED: %d, %d\n", msg.arg1, msg.arg2);
-			s_user_msg_callback(opaque, IJK_MSG_SAR_CHANGED, msg.arg1, msg.arg2);
+			if (s_user_msg_callback)
+				s_user_msg_callback(opaque, IJK_MSG_SAR_CHANGED, msg.arg1, msg.arg2);
 			break;
 		case FFP_MSG_VIDEO_RENDERING_START:
 			MPTRACE("FFP_MSG_VIDEO_RENDERING_START.\n");
-			s_user_msg_callback(opaque, IJK_MSG_VIDEO_RENDERING_START, 0, 0);
+			if (s_user_msg_callback)
+				s_user_msg_callback(opaque, IJK_MSG_VIDEO_RENDERING_START, 0, 0);
 			break;
 		case FFP_MSG_AUDIO_RENDERING_START:
 			MPTRACE("FFP_MSG_AUDIO_RENDERING_START.\n");
-			s_user_msg_callback(opaque, IJK_MSG_AUDIO_RENDERING_START, 0, 0);
+			if (s_user_msg_callback)
+				s_user_msg_callback(opaque, IJK_MSG_AUDIO_RENDERING_START, 0, 0);
 			break;
 		case FFP_MSG_VIDEO_ROTATION_CHANGED:
 			MPTRACE("FFP_MSG_VIDEO_ROTATION_CHANGED: %d\n", msg.arg1);
-			s_user_msg_callback(opaque, IJK_MSG_VIDEO_ROTATION_CHANGED, msg.arg1, 0);
+			if (s_user_msg_callback)
+				s_user_msg_callback(opaque, IJK_MSG_VIDEO_ROTATION_CHANGED, msg.arg1, 0);
 			break;
 		case FFP_MSG_BUFFERING_START:
 			MPTRACE("FFP_MSG_BUFFERING_START.\n");
-			s_user_msg_callback(opaque, IJK_MSG_BUFFERING_START, 0, 0);
+			if (s_user_msg_callback)
+				s_user_msg_callback(opaque, IJK_MSG_BUFFERING_START, 0, 0);
 			break;
 		case FFP_MSG_BUFFERING_END:
 			MPTRACE("FFP_MSG_BUFFERING_END:\n");
-			s_user_msg_callback(opaque, IJK_MSG_BUFFERING_END, 0, 0);
+			if (s_user_msg_callback)
+				s_user_msg_callback(opaque, IJK_MSG_BUFFERING_END, 0, 0);
 			break;
 		case FFP_MSG_BUFFERING_UPDATE:
-			s_user_msg_callback(opaque, IJK_MSG_BUFFERING_UPDATE, msg.arg1, msg.arg2);
+			if (s_user_msg_callback)
+				s_user_msg_callback(opaque, IJK_MSG_BUFFERING_UPDATE, msg.arg1, msg.arg2);
 			break;
 		case FFP_MSG_BUFFERING_BYTES_UPDATE:
+			//if (s_user_msg_callback)
 			//s_user_msg_callback(opaque, IJK_MSG_BUFFERING_BYTES_UPDATE, msg.arg1, msg.arg2);
 			break;
 		case FFP_MSG_BUFFERING_TIME_UPDATE:
+			//if (s_user_msg_callback)
 			//s_user_msg_callback(opaque, IJK_MSG_BUFFERING_TIME_UPDATE, msg.arg1, msg.arg2);
 			break;
 		case FFP_MSG_SEEK_COMPLETE:
 			MPTRACE("FFP_MSG_SEEK_COMPLETE:\n");
-			s_user_msg_callback(opaque, IJK_MSG_SEEK_COMPLETE, 0, 0);
+			if (s_user_msg_callback)
+				s_user_msg_callback(opaque, IJK_MSG_SEEK_COMPLETE, 0, 0);
 			break;
 		case FFP_MSG_PLAYBACK_STATE_CHANGED:
-			s_user_msg_callback(opaque, IJK_MSG_PLAYBACK_STATE_CHANGED, 0, 0);
+			if (s_user_msg_callback)
+				s_user_msg_callback(opaque, IJK_MSG_PLAYBACK_STATE_CHANGED, 0, 0);
 			break;
 		default:
 			//ALOGE("unknown FFP_MSG_xxx(%d)\n", msg.what);
@@ -133,7 +149,10 @@ static int video_callback(void *arg, SDL_VoutOverlay* overlay)
 		play_decoder->current_frame->linesize[i] = overlay->pitches[i];
 	}
 
-	play_decoder->ijk_ffplayer_deocdecallback->func_get_frame(play_decoder->opaque, play_decoder->current_frame);
+	if (play_decoder->ijk_ffplayer_deocdecallback){
+		//av_log(NULL, AV_LOG_ERROR, "ijk_ffplayer_deocdecallback");
+		play_decoder->ijk_ffplayer_deocdecallback->func_get_frame(play_decoder->opaque, play_decoder->current_frame);
+	}
 
 	return 0;
 }
@@ -208,7 +227,12 @@ int ijkFfplayDecoder_setDecoderCallBack(IjkFfplayDecoder* decoder, void* opaque,
 	decoder->opaque = opaque;
 
 	decoder->ijk_ffplayer_deocdecallback = callback;
-	s_user_msg_callback = callback->func_state_change;
+	if (callback){
+		s_user_msg_callback = callback->func_state_change;
+	} else {
+		s_user_msg_callback = NULL;
+	}
+
 
 	//set callback to ijksdl_vout_win_ffmpeg
 	SDL_VoutWin_SetVideoDataCallback((void *)decoder, decoder->ijk_media_player->ffplayer->vout, video_callback);

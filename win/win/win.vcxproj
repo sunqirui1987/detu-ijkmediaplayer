@@ -63,7 +63,7 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
       <AdditionalIncludeDirectories>../depend/ffmpeg/include/;../depend/sdl2/include/;../depend/pthread-win32/include/;../../ijkmedia/;./ijksdl/;./global/include/;./ijkplayer/pipeline/;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>WIN32;_MBCS;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;_MBCS;_CRT_SECURE_NO_WARNINGS;COBJMACROS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <WholeProgramOptimization>false</WholeProgramOptimization>
       <ProgramDataBaseFileName>$(OutDir)ijkwin.pdb</ProgramDataBaseFileName>
     </ClCompile>
@@ -75,6 +75,9 @@
     <Lib>
       <AdditionalDependencies>%(AdditionalDependencies)</AdditionalDependencies>
     </Lib>
+    <PostBuildEvent>
+      <Command>post_copy_win32_release.bat</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\..\ijkmedia\ijkplayer\ff_cmdutils.c" />
@@ -102,6 +105,7 @@
     <ClCompile Include="..\..\ijkmedia\ijksdl\ijksdl_thread.c" />
     <ClCompile Include="..\..\ijkmedia\ijksdl\ijksdl_timer.c" />
     <ClCompile Include="..\..\ijkmedia\ijksdl\ijksdl_vout.c" />
+    <ClCompile Include="dxva2\ffmpeg_dxva2.c" />
     <ClCompile Include="global\src\application.c" />
     <ClCompile Include="global\src\Counter.c" />
     <ClCompile Include="global\src\CpuInfo.c" />
@@ -166,6 +170,7 @@
     <ClInclude Include="..\..\ijkmedia\ijksdl\ijksdl_video.h" />
     <ClInclude Include="..\..\ijkmedia\ijksdl\ijksdl_vout.h" />
     <ClInclude Include="..\..\ijkmedia\ijksdl\ijksdl_vout_internal.h" />
+    <ClInclude Include="dxva2\ffmpeg_dxva2.h" />
     <ClInclude Include="global\src\Counter.h" />
     <ClInclude Include="global\src\CpuInfo.h" />
     <ClInclude Include="global\src\LoadAvg.h" />

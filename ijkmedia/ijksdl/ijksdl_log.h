@@ -60,6 +60,10 @@
 #define VLOG(level, TAG, ...)    ((void)vprintf(__VA_ARGS__))
 #define ALOG(level, TAG, ...)    ((void)printf(__VA_ARGS__))
 
+//#define VLOG(level, TAG, ...)    ((void)av_log(NULL,AV_LOG_ERROR,__VA_ARGS__))
+//#define ALOG(level, TAG, ...)    ((void)av_log(NULL,AV_LOG_ERROR,__VA_ARGS__))
+
+
 #endif
 
 #define IJK_LOG_TAG "IJKMEDIA"

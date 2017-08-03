@@ -41,6 +41,9 @@
     <Filter Include="win\ijkplayer\pipeline">
       <UniqueIdentifier>{3de19ed2-c0d4-4437-a955-ac8548624440}</UniqueIdentifier>
     </Filter>
+    <Filter Include="win\dxva2">
+      <UniqueIdentifier>{e1d075e9-462a-447b-a0af-3edf6b11b107}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\ijkmedia\ijkplayer\ijkplayer.c">
@@ -180,6 +183,9 @@
     </ClCompile>
     <ClCompile Include="ijksdl\ijksdl_vout_win_ffmpeg.c">
       <Filter>win\ijksdl</Filter>
+    </ClCompile>
+    <ClCompile Include="dxva2\ffmpeg_dxva2.c">
+      <Filter>win\dxva2</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -344,6 +350,9 @@
     </ClInclude>
     <ClInclude Include="ijkplayer\ijk_metadata.h">
       <Filter>win\ijkplayer</Filter>
+    </ClInclude>
+    <ClInclude Include="dxva2\ffmpeg_dxva2.h">
+      <Filter>win\dxva2</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
