@@ -24,6 +24,11 @@
 #ifndef IJKSDL__IJKSDL_LOG_H
 #define IJKSDL__IJKSDL_LOG_H
 
+#ifdef WIN32
+#include "def.h"
+#include "libavutil/log.h"
+#endif
+
 #include <stdio.h>
 
 #ifdef __ANDROID__
@@ -57,12 +62,13 @@
 #define IJK_LOG_FATAL       7
 #define IJK_LOG_SILENT      8
 
+#ifndef WIN32
 #define VLOG(level, TAG, ...)    ((void)vprintf(__VA_ARGS__))
 #define ALOG(level, TAG, ...)    ((void)printf(__VA_ARGS__))
-
-//#define VLOG(level, TAG, ...)    ((void)av_log(NULL,AV_LOG_ERROR,__VA_ARGS__))
-//#define ALOG(level, TAG, ...)    ((void)av_log(NULL,AV_LOG_ERROR,__VA_ARGS__))
-
+#else
+#define VLOG(level, TAG, ...)    ((void)av_log(NULL,AV_LOG_INFO,__VA_ARGS__))
+#define ALOG(level, TAG, ...)    ((void)av_log(NULL,AV_LOG_INFO,__VA_ARGS__))
+#endif
 
 #endif
 

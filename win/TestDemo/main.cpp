@@ -77,6 +77,8 @@ void msg_callback(void* opaque, IjkMsgState ijk_msgint, int arg1, int arg2)
 		break;
 	case IJK_MSG_COMPLETED:
 		printf("play complete.\n");
+		ijkFfplayDecoder_pause(ijk_ffplay_decoder);
+		ijkFfplayDecoder_stop(ijk_ffplay_decoder);
 		break;
 	case IJK_MSG_VIDEO_SIZE_CHANGED:
 		break;
@@ -113,6 +115,14 @@ void msg_callback(void* opaque, IjkMsgState ijk_msgint, int arg1, int arg2)
 	}
 }
 
+void print_help_info()
+{
+	printf("\nPrint help / information \n");
+	printf("O: open file.\n");
+	printf("S: stop play.\n");
+	printf("Q: quit demo.\n");
+	printf("enter yuor choice now: ");
+}
 
 int main(int argc, char** argv)
 {
@@ -130,16 +140,33 @@ int main(int argc, char** argv)
 
 	ijkFfplayDecoder_setDecoderCallBack(ijk_ffplay_decoder, NULL, decoder_callback);
 
-	ijkFfplayDecoder_setDataSource(ijk_ffplay_decoder, "2.MP4");
+	int mode = 0;
+	printf("please chose your hardware decode mode: \n");
+	printf("1: h264_cuvid for nvida\n");
+	printf("2: h264_qsv for intel\n");
+	//printf("3: h264_dxva2 for windows api\n\n");
 
-	ijkFfplayDecoder_setHwDecoderName(ijk_ffplay_decoder, "h264_qsv");
-
-	ijkFfplayDecoder_prepare(ijk_ffplay_decoder);
-
-	if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO | SDL_INIT_TIMER)) {
-		printf("Could not initialize SDL - %s\n", SDL_GetError());
-		return -1;
+AGAIN:
+	scanf("%d", &mode);
+	if (mode != 1 && mode != 2 /*&& mode != 3*/){
+		printf("wrong choice, chose again:\n");
+		goto AGAIN;
 	}
+
+	switch (mode)
+	{
+	case 1:
+		ijkFfplayDecoder_setHwDecoderName(ijk_ffplay_decoder, "h264_cuvid");
+		break;
+	case 2:
+		ijkFfplayDecoder_setHwDecoderName(ijk_ffplay_decoder, "h264_qsv");
+		break;
+	case 3:
+		ijkFfplayDecoder_setHwDecoderName(ijk_ffplay_decoder, "h264_qsv");
+		break;
+	}
+
+	print_help_info();
 
 	static float volume = 50.0;
 	static bool  is_pause = false;
@@ -249,21 +276,14 @@ int main(int argc, char** argv)
 
 		//open file, default test.flv in current direct
 		if (input == 'O'){	
-			printf("reopen test.flv now.\n");
+			char path[1024] = { 0 };
+			printf("please input file path:\n");
+			scanf("%s", path);
 
 			sdl_init_flag = false;
 			SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO | SDL_INIT_TIMER);
 
-			ijkFfplayDecoder_pause(ijk_ffplay_decoder);
-			ijkFfplayDecoder_stop(ijk_ffplay_decoder);
-
-			if (file_index%3 == 1)
-				ijkFfplayDecoder_setDataSource(ijk_ffplay_decoder, "pfzl.mp4");
-			if (file_index%3 == 2)
-				ijkFfplayDecoder_setDataSource(ijk_ffplay_decoder, "norm.mp4");
-			if (file_index%3 == 0)
-				ijkFfplayDecoder_setDataSource(ijk_ffplay_decoder, "4k.mp4");
-			file_index += 1;
+			ijkFfplayDecoder_setDataSource(ijk_ffplay_decoder, path);
 			ijkFfplayDecoder_prepare(ijk_ffplay_decoder);
 		}
 

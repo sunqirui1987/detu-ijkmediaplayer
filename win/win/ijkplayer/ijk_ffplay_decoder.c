@@ -131,7 +131,7 @@ static int message_loop(void *arg)
 
 	ijkmp_dec_ref_p(&mp);
 
-	MPTRACE("message_loop exit.\n");
+	ALOGI("message_loop exit.\n");
 	return 0;
 }
 
@@ -150,7 +150,6 @@ static int video_callback(void *arg, SDL_VoutOverlay* overlay)
 	}
 
 	if (play_decoder->ijk_ffplayer_deocdecallback){
-		//av_log(NULL, AV_LOG_ERROR, "ijk_ffplayer_deocdecallback");
 		play_decoder->ijk_ffplayer_deocdecallback->func_get_frame(play_decoder->opaque, play_decoder->current_frame);
 	}
 
@@ -189,12 +188,12 @@ IjkFfplayDecoder *ijkFfplayDecoder_create(void)
 	mp->ffplayer->vout = SDL_VoutWin_CreateForWindows();
 	if (!mp->ffplayer->vout)
 		goto fail;
-	ALOGV("create vout success.\n");
+	ALOGI("create vout success.\n");
 
 	mp->ffplayer->pipeline = ffpipeline_create_from_win(mp->ffplayer);
 	if (!mp->ffplayer->pipeline)
 		goto fail;
-	ALOGV("create pipeline success.\n");
+	ALOGI("create pipeline success.\n");
 
 	IjkFfplayDecoder *ijk_ffplay_decoder = (IjkFfplayDecoder *)malloc(sizeof(IjkFfplayDecoder));
 	memset(ijk_ffplay_decoder, 0, sizeof(IjkFfplayDecoder));
@@ -218,7 +217,7 @@ int ijkFfplayDecoder_setLogLevel(IJKLogLevel log_level)
 int ijkFfplayDecoder_setDecoderCallBack(IjkFfplayDecoder* decoder, void* opaque, IjkFfplayDecoderCallBack* callback)
 {
 	if (!decoder->ijk_media_player || !decoder){
-		ALOGV("IjkMediaPlayer is NULL.\n");
+		ALOGE("IjkMediaPlayer is NULL.\n");
 		return -1;
 	}
 
@@ -243,15 +242,15 @@ int ijkFfplayDecoder_setDecoderCallBack(IjkFfplayDecoder* decoder, void* opaque,
 int ijkFfplayDecoder_setDataSource(IjkFfplayDecoder* decoder, const char* file_absolute_path)
 {
 	if (!decoder->ijk_media_player || !decoder){
-		ALOGV("IjkMediaPlayer is NULL.\n");
+		ALOGE("IjkMediaPlayer is NULL.\n");
 		return -1;
 	}
 
 	int ret = ijkmp_set_data_source(decoder->ijk_media_player, file_absolute_path);
 	if (ret == 0){
-		ALOGV("setDataSource success: path %s.\n", file_absolute_path);
+		ALOGI("setDataSource success: path %s.\n", file_absolute_path);
 	}else {
-		ALOGV("setDataSource failed: path %s.\n", file_absolute_path);
+		ALOGE("setDataSource failed: path %s.\n", file_absolute_path);
 		return -1;
 	}
 
@@ -261,15 +260,15 @@ int ijkFfplayDecoder_setDataSource(IjkFfplayDecoder* decoder, const char* file_a
 int ijkFfplayDecoder_prepare(IjkFfplayDecoder* decoder)
 {
 	if (!decoder->ijk_media_player || !decoder){
-		ALOGV("IjkMediaPlayer is NULL.\n");
+		ALOGE("IjkMediaPlayer is NULL.\n");
 		return -1;
 	}
 
 	int ret = ijkmp_prepare_async(decoder->ijk_media_player);
 	if (ret == 0){
-		ALOGV("ijkFfplayDecoder_prepare success.\n");
+		ALOGI("ijkFfplayDecoder_prepare success.\n");
 	} else {
-		ALOGV("ijkFfplayDecoder_prepare failed.\n");
+		ALOGE("ijkFfplayDecoder_prepare failed.\n");
 		return -1;
 	}
 
@@ -279,16 +278,16 @@ int ijkFfplayDecoder_prepare(IjkFfplayDecoder* decoder)
 int ijkFfplayDecoder_start(IjkFfplayDecoder* decoder)
 {
 	if (!decoder->ijk_media_player || !decoder){
-		ALOGV("IjkMediaPlayer is NULL.\n");
+		ALOGE("IjkMediaPlayer is NULL.\n");
 		return -1;
 	}
 
 	int ret = ijkmp_start(decoder->ijk_media_player);
 	if (ret == 0){
-		ALOGV("ijkFfplayDecoder_start success.\n");
+		ALOGI("ijkFfplayDecoder_start success.\n");
 	} else {
-		ALOGV("ijkFfplayDecoder_start failed.\n");
-		return 0;
+		ALOGE("ijkFfplayDecoder_start failed.\n");
+		return -1;
 	}
 
 	return 0;
@@ -297,15 +296,15 @@ int ijkFfplayDecoder_start(IjkFfplayDecoder* decoder)
 int ijkFfplayDecoder_pause(IjkFfplayDecoder* decoder)
 {
 	if (!decoder->ijk_media_player || !decoder){
-		ALOGV("IjkMediaPlayer is NULL.\n");
+		ALOGE("IjkMediaPlayer is NULL.\n");
 		return -1;
 	}
 
 	int ret = ijkmp_pause(decoder->ijk_media_player);
 	if (ret == 0){
-		ALOGV("ijkFfplayDecoder_pause success.\n");
+		ALOGI("ijkFfplayDecoder_pause success.\n");
 	} else {
-		ALOGV("ijkFfplayDecoder_pause failed.\n");
+		ALOGE("ijkFfplayDecoder_pause failed.\n");
 		return -1;
 	}
 
@@ -315,16 +314,16 @@ int ijkFfplayDecoder_pause(IjkFfplayDecoder* decoder)
 int ijkFfplayDecoder_stop(IjkFfplayDecoder* decoder)
 {
 	if (!decoder->ijk_media_player || !decoder){
-		ALOGV("IjkMediaPlayer is NULL.\n");
+		ALOGE("IjkMediaPlayer is NULL.\n");
 		return -1;
 	}
 
 	int ret = ijkmp_stop(decoder->ijk_media_player);
 	if (ret == 0){
-		ALOGV("ijkFfplayDecoder_stop success.\n");
+		ALOGI("ijkFfplayDecoder_stop success.\n");
 	}
 	else {
-		ALOGV("ijkFfplayDecoder_stop failed.\n");
+		ALOGE("ijkFfplayDecoder_stop failed.\n");
 		return -1;
 	}
 
@@ -336,15 +335,15 @@ int ijkFfplayDecoder_stop(IjkFfplayDecoder* decoder)
 int ijkFfplayDecoder_seekTo(IjkFfplayDecoder* decoder, long msec)
 {
 	if (!decoder->ijk_media_player || !decoder){
-		ALOGV("IjkMediaPlayer is NULL.\n");
+		ALOGE("IjkMediaPlayer is NULL.\n");
 		return -1;
 	}
 
 	int ret = ijkmp_seek_to(decoder->ijk_media_player, msec);
 	if (ret == 0){
-		ALOGV("ijkFfplayDecoder_seekTo success.\n");
+		ALOGI("ijkFfplayDecoder_seekTo success.\n");
 	} else {
-		ALOGV("ijkFfplayDecoder_seekTo failed.\n");
+		ALOGE("ijkFfplayDecoder_seekTo failed.\n");
 		return -1;
 	}
 
@@ -354,12 +353,12 @@ int ijkFfplayDecoder_seekTo(IjkFfplayDecoder* decoder, long msec)
 bool ijkFfplayDecoder_isPlaying(IjkFfplayDecoder* decoder)
 {
 	if (!decoder->ijk_media_player || !decoder){
-		ALOGV("IjkMediaPlayer is NULL.\n");
+		ALOGE("IjkMediaPlayer is NULL.\n");
 		return false;
 	}
 
 	bool ret = ijkmp_is_playing(decoder->ijk_media_player);
-	ALOGV("ijkFfplayDecoder is %s.\n", ret ? "playing" : "not playing");
+	ALOGI("ijkFfplayDecoder is %s.\n", ret ? "playing" : "not playing");
 	return ret;
 
 }
@@ -367,31 +366,31 @@ bool ijkFfplayDecoder_isPlaying(IjkFfplayDecoder* decoder)
 long ijkFfplayDecoder_getCurrentPosition(IjkFfplayDecoder* decoder)
 {
 	if (!decoder->ijk_media_player || !decoder){
-		ALOGV("IjkMediaPlayer is NULL.\n");
+		ALOGE("IjkMediaPlayer is NULL.\n");
 		return -1;
 	}
 
 	long ret = ijkmp_get_current_position(decoder->ijk_media_player);
-	ALOGV("current position %d\n", ret);
+	ALOGI("current position %d\n", ret);
 	return ret;
 }
 
 long ijkFfplayDecoder_getDuration(IjkFfplayDecoder* decoder)
 {
 	if (!decoder->ijk_media_player || !decoder){
-		ALOGV("IjkMediaPlayer is NULL.\n");
+		ALOGE("IjkMediaPlayer is NULL.\n");
 		return -1;
 	}
 
 	long ret = ijkmp_get_duration(decoder->ijk_media_player);
-	ALOGV("duration long: %d\n", ret);
+	ALOGI("duration long: %d\n", ret);
 	return ret;
 }
 
 int ijkFfplayDecoder_release(IjkFfplayDecoder* decoder)
 {
 	if (!decoder->ijk_media_player || !decoder){
-		ALOGV("IjkMediaPlayer is NULL.\n");
+		ALOGE("IjkMediaPlayer is NULL.\n");
 		return -1;
 	}
 
@@ -403,13 +402,13 @@ int ijkFfplayDecoder_release(IjkFfplayDecoder* decoder)
 	if (decoder){
 		free(decoder);
 	}
-	return -1;
+	return 0;
 }
 
 int ijkFfplayDecoder_setVolume(IjkFfplayDecoder* decoder, float volume)
 {
 	if (!decoder->ijk_media_player || !decoder){
-		ALOGV("IjkMediaPlayer is NULL.\n");
+		ALOGE("IjkMediaPlayer is NULL.\n");
 		return -1;
 	}
 
@@ -418,7 +417,7 @@ int ijkFfplayDecoder_setVolume(IjkFfplayDecoder* decoder, float volume)
 		ffpipeline_win_set_volume(decoder->ijk_media_player->ffplayer->pipeline, volume, volume);
 	}
 	pthread_mutex_unlock(&decoder->ijk_media_player->mutex);
-	ALOGV("set volume: %f.\n", volume);
+	ALOGI("set volume: %f.\n", volume);
 	
 	return 0;
 }
@@ -426,7 +425,7 @@ int ijkFfplayDecoder_setVolume(IjkFfplayDecoder* decoder, float volume)
 int ijkFfplayDecoder_setOptionLongValue(IjkFfplayDecoder* decoder, int opt_category, const char* key, long value)
 {
 	if (!decoder->ijk_media_player || !decoder){
-		ALOGV("IjkMediaPlayer is NULL.\n");
+		ALOGE("IjkMediaPlayer is NULL.\n");
 		return -1;
 	}
 
@@ -438,7 +437,7 @@ int ijkFfplayDecoder_setOptionLongValue(IjkFfplayDecoder* decoder, int opt_categ
 int ijkFfplayDecoder_setOptionStringValue(IjkFfplayDecoder* decoder, int opt_category, const char* key, const char* value)
 {
 	if (!decoder->ijk_media_player || !decoder){
-		ALOGV("IjkMediaPlayer is NULL.\n");
+		ALOGE("IjkMediaPlayer is NULL.\n");
 		return -1;
 	}
 
@@ -450,7 +449,7 @@ int ijkFfplayDecoder_setOptionStringValue(IjkFfplayDecoder* decoder, int opt_cat
 int ijkFfplayDecoder_getVideoCodecInfo(IjkFfplayDecoder* decoder, char **codec_info)
 {
 	if (!decoder->ijk_media_player || !decoder){
-		ALOGV("IjkMediaPlayer is NULL.\n");
+		ALOGE("IjkMediaPlayer is NULL.\n");
 		return -1;
 	}
 
@@ -464,7 +463,7 @@ int ijkFfplayDecoder_getVideoCodecInfo(IjkFfplayDecoder* decoder, char **codec_i
 int ijkFfplayDecoder_getAudioCodecInfo(IjkFfplayDecoder* decoder, char **codec_info)
 {
 	if (!decoder->ijk_media_player || !decoder){
-		ALOGV("IjkMediaPlayer is NULL.\n");
+		ALOGE("IjkMediaPlayer is NULL.\n");
 		return -1;
 	}
 
@@ -478,7 +477,7 @@ int ijkFfplayDecoder_getAudioCodecInfo(IjkFfplayDecoder* decoder, char **codec_i
 long ijkFfplayDecoder_getPropertyLong(IjkFfplayDecoder* decoder, int id, long default_value)
 {
 	if (!decoder->ijk_media_player || !decoder){
-		ALOGV("IjkMediaPlayer is NULL.\n");
+		ALOGE("IjkMediaPlayer is NULL.\n");
 		return -1;
 	}
 
@@ -489,7 +488,7 @@ long ijkFfplayDecoder_getPropertyLong(IjkFfplayDecoder* decoder, int id, long de
 float ijkFfplayDecoder_getPropertyFloat(IjkFfplayDecoder* decoder, int id, float default_value)
 {
 	if (!decoder->ijk_media_player || !decoder){
-		ALOGV("IjkMediaPlayer is NULL.\n");
+		ALOGE("IjkMediaPlayer is NULL.\n");
 		return -1;
 	}
 
@@ -503,7 +502,7 @@ static char* fillMetaInternal(IjkMediaMeta *meta, const char *key, const char *d
 	if (value == NULL){
 		value = default_value;
 	} else {
-		ALOGV("meta: %s\n", value);
+		ALOGI("meta: %s\n", value);
 	}
 
 	return value;
@@ -512,7 +511,7 @@ static char* fillMetaInternal(IjkMediaMeta *meta, const char *key, const char *d
 int ijkFfplayDecoder_getMediaMeta(IjkFfplayDecoder* decoder, ijkMetadata* metadata)
 {
 	if (!decoder->ijk_media_player || !decoder){
-		ALOGV("IjkMediaPlayer is NULL.\n");
+		ALOGE("IjkMediaPlayer is NULL.\n");
 		return -1;
 	}
 
@@ -521,7 +520,7 @@ int ijkFfplayDecoder_getMediaMeta(IjkFfplayDecoder* decoder, ijkMetadata* metada
 	IjkMediaMeta *meta = NULL;
 	meta = ijkmp_get_meta_l(decoder->ijk_media_player);
 	if (!meta){
-		ALOGV("IjkMediaPlayer get meta error.\n");
+		ALOGE("IjkMediaPlayer get meta error.\n");
 		return -1;
 	}
 
@@ -624,7 +623,7 @@ int ijkFfplayDecoder_getMediaMeta(IjkFfplayDecoder* decoder, ijkMetadata* metada
 int ijkFfplayDecoder_setHwDecoderName(IjkFfplayDecoder* decoder, const char* decoder_name)
 {
 	if (!decoder->ijk_media_player || !decoder){
-		ALOGV("IjkMediaPlayer is NULL.\n");
+		ALOGE("IjkMediaPlayer is NULL.\n");
 		return -1;
 	}
 
