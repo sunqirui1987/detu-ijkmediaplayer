@@ -198,7 +198,10 @@ IjkFfplayDecoder *ijkFfplayDecoder_create(void)
 	IjkFfplayDecoder *ijk_ffplay_decoder = (IjkFfplayDecoder *)malloc(sizeof(IjkFfplayDecoder));
 	memset(ijk_ffplay_decoder, 0, sizeof(IjkFfplayDecoder));
 	ijk_ffplay_decoder->ijk_media_player = mp;
-	ijk_ffplay_decoder->current_frame = (sVideoFrame *)calloc(1, sizeof(sVideoFrame));
+	ijk_ffplay_decoder->current_frame = (sVideoFrame *)malloc(sizeof(sVideoFrame));
+	ijk_ffplay_decoder->ijk_ffplayer_deocdecallback = (IjkFfplayDecoderCallBack *)malloc(sizeof(IjkFfplayDecoderCallBack));
+	memset(ijk_ffplay_decoder->current_frame, 0, sizeof(sVideoFrame));
+	memset(ijk_ffplay_decoder->ijk_ffplayer_deocdecallback, 0, sizeof(IjkFfplayDecoderCallBack));
 
 	return ijk_ffplay_decoder;
 
@@ -225,7 +228,8 @@ int ijkFfplayDecoder_setDecoderCallBack(IjkFfplayDecoder* decoder, void* opaque,
 	ijkmp_set_weak_thiz(decoder->ijk_media_player, opaque);
 	decoder->opaque = opaque;
 
-	decoder->ijk_ffplayer_deocdecallback = callback;
+	decoder->ijk_ffplayer_deocdecallback->func_get_frame = callback->func_get_frame;
+	decoder->ijk_ffplayer_deocdecallback->func_state_change = callback->func_state_change;
 	if (callback){
 		s_user_msg_callback = callback->func_state_change;
 	} else {
@@ -399,9 +403,13 @@ int ijkFfplayDecoder_release(IjkFfplayDecoder* decoder)
 	if (decoder->current_frame){
 		free(decoder->current_frame); 
 	}
+	if (decoder->ijk_ffplayer_deocdecallback){
+		free(decoder->ijk_ffplayer_deocdecallback);
+	}
 	if (decoder){
 		free(decoder);
 	}
+
 	return 0;
 }
 
@@ -514,6 +522,7 @@ int ijkFfplayDecoder_getMediaMeta(IjkFfplayDecoder* decoder, ijkMetadata* metada
 		ALOGE("IjkMediaPlayer is NULL.\n");
 		return -1;
 	}
+	memset(metadata, 0, sizeof(ijkMetadata));
 
 	bool is_locked = false;
 	char *media_info = NULL;
@@ -530,6 +539,31 @@ int ijkFfplayDecoder_getMediaMeta(IjkFfplayDecoder* decoder, ijkMetadata* metada
 	media_info = fillMetaInternal(meta, IJKM_KEY_DURATION_US, NULL);
 	if (media_info){
 		metadata->duration_ms = atol(media_info) / 1000;
+	}
+
+	media_info = fillMetaInternal(meta, IJK_COMMENT, NULL);
+	if (media_info){
+		memcpy(metadata->comment, media_info, sizeof(metadata->comment));
+	}
+
+	media_info = fillMetaInternal(meta, IJK_ORIGINAL_FORMAT, NULL);
+	if (media_info){
+		memcpy(metadata->original_format, media_info, sizeof(metadata->original_format));
+	}
+
+	media_info = fillMetaInternal(meta, IJK_LENS_PARAM, NULL);
+	if (media_info){
+		memcpy(metadata->lens_param, media_info, sizeof(metadata->lens_param));
+	}
+
+	media_info = fillMetaInternal(meta, IJK_DEVICE_SN, NULL);
+	if (media_info){
+		memcpy(metadata->device_sn, media_info, sizeof(metadata->device_sn));
+	}
+
+	media_info = fillMetaInternal(meta, IJK_CDN_IP, NULL);
+	if (media_info){
+		memcpy(metadata->cdn_ip, media_info, sizeof(metadata->cdn_ip));
 	}
 
 	size_t count = ijkmeta_get_children_count_l(meta);

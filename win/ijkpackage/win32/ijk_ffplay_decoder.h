@@ -9,6 +9,10 @@
 #ifndef IJK_FFPLAYER_DECODER_H
 #define IJK_FFPLAYER_DECODER_H
 
+#ifdef  __cplusplus  
+extern "C" {
+#endif 
+
 #include <stdio.h>
 #include <stddef.h>
 #include <stdint.h>
@@ -115,7 +119,11 @@ float ijkFfplayDecoder_getPropertyFloat(IjkFfplayDecoder* decoder, int id, float
 
 int ijkFfplayDecoder_getMediaMeta(IjkFfplayDecoder* decoder, ijkMetadata* metadata);
 
-//decoder_name: h264_cuvid
+//decoder_name: h264_cuvid, h264_qsv
 int ijkFfplayDecoder_setHwDecoderName(IjkFfplayDecoder* decoder, const char* decoder_name);
+
+#ifdef  __cplusplus  
+}
+#endif
 
 #endif /* IJK_FFPLAYER_DECODER_H */

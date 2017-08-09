@@ -43,6 +43,9 @@
 #include "libavutil/samplefmt.h"
 #include "libavutil/avassert.h"
 #include "libavutil/time.h"
+#ifdef WIN32
+#include "libavutil/pixfmt.h"
+#endif
 #include "libavformat/avformat.h"
 #if CONFIG_AVDEVICE
 #include "libavdevice/avdevice.h"
@@ -70,6 +73,10 @@
 #include "ijkmeta.h"
 #include "ijkversion.h"
 #include <time.h>
+
+#ifdef WIN32
+#include "ffmpeg_dxva2.h"
+#endif
 
 #ifndef AV_CODEC_FLAG2_FAST
 #define AV_CODEC_FLAG2_FAST CODEC_FLAG2_FAST
@@ -2254,6 +2261,16 @@ static int audio_open(FFPlayer *opaque, int64_t wanted_channel_layout, int wante
     SDL_AoutSetDefaultLatencySeconds(ffp->aout, ((double)(2 * spec.size)) / audio_hw_params->bytes_per_sec);
     return spec.size;
 }
+
+#ifdef WIN32
+static enum AVPixelFormat get_hwaccek_format(AVCodecContext *s, const enum AVPixelFormat *pix_fmts)
+{
+	InputStream* ist = (InputStream*)s->opaque;
+	ist->active_hwaccel_id = HWACCEL_DXVA2;
+	ist->hwaccel_pix_fmt = AV_PIX_FMT_DXVA2_VLD;
+	return ist->hwaccel_pix_fmt;
+}
+#endif
 
 /* open a given stream. Return 0 if OK */
 static int stream_component_open(FFPlayer *ffp, int stream_index)

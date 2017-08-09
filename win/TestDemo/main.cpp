@@ -141,18 +141,12 @@ int main(int argc, char** argv)
 	ijkFfplayDecoder_setDecoderCallBack(ijk_ffplay_decoder, NULL, decoder_callback);
 
 	int mode = 0;
-	printf("please chose your hardware decode mode: \n");
+	printf("\nPlease chose your hardware decode mode: \n");
 	printf("1: h264_cuvid for nvida\n");
 	printf("2: h264_qsv for intel\n");
-	//printf("3: h264_dxva2 for windows api\n\n");
-
-AGAIN:
+	printf("3: ffmpeg\n");
+	printf("decode mode: ");
 	scanf("%d", &mode);
-	if (mode != 1 && mode != 2 /*&& mode != 3*/){
-		printf("wrong choice, chose again:\n");
-		goto AGAIN;
-	}
-
 	switch (mode)
 	{
 	case 1:
@@ -161,11 +155,7 @@ AGAIN:
 	case 2:
 		ijkFfplayDecoder_setHwDecoderName(ijk_ffplay_decoder, "h264_qsv");
 		break;
-	case 3:
-		ijkFfplayDecoder_setHwDecoderName(ijk_ffplay_decoder, "h264_qsv");
-		break;
 	}
-
 	print_help_info();
 
 	static float volume = 50.0;
@@ -277,7 +267,7 @@ AGAIN:
 		//open file, default test.flv in current direct
 		if (input == 'O'){	
 			char path[1024] = { 0 };
-			printf("please input file path:\n");
+			printf("\nPlease input file path:\n");
 			scanf("%s", path);
 
 			sdl_init_flag = false;

@@ -62,7 +62,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>../depend/ffmpeg/include/;../depend/sdl2/include/;../depend/pthread-win32/include/;../../ijkmedia/;./ijksdl/;./global/include/;./ijkplayer/pipeline/;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../depend/ffmpeg/include/;./ijksdl/;./dxva2/;./global/include/;./ijkplayer/pipeline/;../depend/sdl2/include/;../depend/pthread-win32/include/;../../ijkmedia/;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;_MBCS;_CRT_SECURE_NO_WARNINGS;COBJMACROS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <WholeProgramOptimization>false</WholeProgramOptimization>
       <ProgramDataBaseFileName>$(OutDir)ijkwin.pdb</ProgramDataBaseFileName>

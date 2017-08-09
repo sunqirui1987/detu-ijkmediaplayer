@@ -62,13 +62,13 @@
 #define IJK_LOG_FATAL       7
 #define IJK_LOG_SILENT      8
 
-#ifndef WIN32
+//#ifndef WIN32
 #define VLOG(level, TAG, ...)    ((void)vprintf(__VA_ARGS__))
 #define ALOG(level, TAG, ...)    ((void)printf(__VA_ARGS__))
-#else
-#define VLOG(level, TAG, ...)    ((void)av_log(NULL,AV_LOG_INFO,__VA_ARGS__))
-#define ALOG(level, TAG, ...)    ((void)av_log(NULL,AV_LOG_INFO,__VA_ARGS__))
-#endif
+//#else
+//#define VLOG(level, TAG, ...)    ((void)av_log(NULL,AV_LOG_INFO,__VA_ARGS__))
+//#define ALOG(level, TAG, ...)    ((void)av_log(NULL,AV_LOG_INFO,__VA_ARGS__))
+//#endif
 
 #endif
 

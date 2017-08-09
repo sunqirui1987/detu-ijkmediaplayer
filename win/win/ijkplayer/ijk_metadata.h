@@ -64,6 +64,12 @@ typedef struct ijkMetadata{
 	char			audio_code_long_name[128];
 	int				audio_samples_per_sec;
 	int				audio_channel_layout;
+
+	char			comment[1024];
+	char			original_format[1024];
+	char			lens_param[1024];
+	char			device_sn[128];
+	char			cdn_ip[128];
 }ijkMetadata;
 
 #endif
