@@ -543,27 +543,27 @@ int ijkFfplayDecoder_getMediaMeta(IjkFfplayDecoder* decoder, ijkMetadata* metada
 
 	media_info = fillMetaInternal(meta, IJK_COMMENT, NULL);
 	if (media_info){
-		memcpy(metadata->comment, media_info, sizeof(metadata->comment));
+		memcpy(metadata->comment, media_info, strlen(media_info));
 	}
 
 	media_info = fillMetaInternal(meta, IJK_ORIGINAL_FORMAT, NULL);
 	if (media_info){
-		memcpy(metadata->original_format, media_info, sizeof(metadata->original_format));
+		memcpy(metadata->original_format, media_info, strlen(media_info));
 	}
 
 	media_info = fillMetaInternal(meta, IJK_LENS_PARAM, NULL);
 	if (media_info){
-		memcpy(metadata->lens_param, media_info, sizeof(metadata->lens_param));
+		memcpy(metadata->lens_param, media_info, strlen(media_info));
 	}
 
 	media_info = fillMetaInternal(meta, IJK_DEVICE_SN, NULL);
 	if (media_info){
-		memcpy(metadata->device_sn, media_info, sizeof(metadata->device_sn));
+		memcpy(metadata->device_sn, media_info, strlen(media_info));
 	}
 
 	media_info = fillMetaInternal(meta, IJK_CDN_IP, NULL);
 	if (media_info){
-		memcpy(metadata->cdn_ip, media_info, sizeof(metadata->cdn_ip));
+		memcpy(metadata->cdn_ip, media_info, strlen(media_info));
 	}
 
 	size_t count = ijkmeta_get_children_count_l(meta);
@@ -575,12 +575,12 @@ int ijkFfplayDecoder_getMediaMeta(IjkFfplayDecoder* decoder, ijkMetadata* metada
 				if (0 == strcmp(type, IJKM_VAL_TYPE__VIDEO)) {
 					media_info = fillMetaInternal(streamRawMeta, IJKM_KEY_CODEC_NAME, NULL);
 					if (media_info){
-						memcpy(metadata->video_code_name, media_info, sizeof(metadata->video_code_name));
+						memcpy(metadata->video_code_name, media_info, strlen(media_info));
 					}
 
 					media_info = fillMetaInternal(streamRawMeta, IJKM_KEY_CODEC_LONG_NAME, NULL);
 					if (media_info){
-						memcpy(metadata->video_code_long_name, media_info, sizeof(metadata->video_code_long_name));
+						memcpy(metadata->video_code_long_name, media_info, strlen(media_info));
 					}
 
 					media_info = fillMetaInternal(streamRawMeta, IJKM_KEY_BITRATE, NULL);
@@ -620,12 +620,12 @@ int ijkFfplayDecoder_getMediaMeta(IjkFfplayDecoder* decoder, ijkMetadata* metada
 				} else if (0 == strcmp(type, IJKM_VAL_TYPE__AUDIO)) {
 					media_info = fillMetaInternal(streamRawMeta, IJKM_KEY_CODEC_NAME, NULL);
 					if (media_info){
-						memcpy(metadata->audio_code_name, media_info, sizeof(metadata->video_code_name));
+						memcpy(metadata->audio_code_name, media_info, strlen(media_info));
 					}
 
 					media_info = fillMetaInternal(streamRawMeta, IJKM_KEY_CODEC_LONG_NAME, NULL);
 					if (media_info){
-						memcpy(metadata->audio_code_long_name, media_info, sizeof(metadata->audio_code_long_name));
+						memcpy(metadata->audio_code_long_name, media_info, strlen(media_info));
 					}
 
 					media_info = fillMetaInternal(streamRawMeta, IJKM_KEY_BITRATE, NULL);

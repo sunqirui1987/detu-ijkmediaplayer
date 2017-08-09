@@ -41,16 +41,6 @@ void video_callback(void* opaque, sVideoFrame *frame_callback)
 		sdlRect.h = screen_h;
 	}
 
-	static int tmp = 1;
-	static FILE* file = fopen("C:/Users/Administrator/Desktop/output2.yuv", "wb+");
-	int64_t ySize = frame_callback->w * frame_callback->h;
-	if (tmp == 30){
-		fwrite(frame_callback->data[0], 1, ySize, file);
-		fwrite(frame_callback->data[1], 1, ySize / 4, file);
-		fwrite(frame_callback->data[2], 1, ySize / 4, file);
-	}
-	tmp += 1;
-
 	SDL_UpdateYUVTexture(sdlTexture, &sdlRect,
 			frame_callback->data[0], frame_callback->linesize[0],
 			frame_callback->data[1], frame_callback->linesize[1],
