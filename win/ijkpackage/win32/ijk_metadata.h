@@ -46,7 +46,7 @@
 #define kk_IJKM_KEY_STREAMS       @"streams"
 
 
-typedef struct ijkMetadata{
+typedef struct IjkMetadata{
 	int				video_bitrate;
 	int				audio_bitrate;
 	int				width;
@@ -70,6 +70,6 @@ typedef struct ijkMetadata{
 	char			lens_param[1024];
 	char			device_sn[128];
 	char			cdn_ip[128];
-}ijkMetadata;
+}IjkMetadata;
 
 #endif

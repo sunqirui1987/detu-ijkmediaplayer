@@ -345,14 +345,14 @@
     <ClInclude Include="ijksdl\ijksdl_vout_win_ffmpeg.h">
       <Filter>win\ijksdl</Filter>
     </ClInclude>
-    <ClInclude Include="ijkplayer\detu_frame.h">
-      <Filter>win\ijkplayer</Filter>
-    </ClInclude>
     <ClInclude Include="ijkplayer\ijk_metadata.h">
       <Filter>win\ijkplayer</Filter>
     </ClInclude>
     <ClInclude Include="dxva2\ffmpeg_dxva2.h">
       <Filter>win\dxva2</Filter>
+    </ClInclude>
+    <ClInclude Include="ijkplayer\ijk_frame.h">
+      <Filter>win\ijkplayer</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

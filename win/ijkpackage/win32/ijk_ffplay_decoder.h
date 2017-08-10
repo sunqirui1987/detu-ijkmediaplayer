@@ -18,7 +18,7 @@ extern "C" {
 #include <stdint.h>
 #include <stdbool.h>
 
-#include "detu_frame.h"
+#include "ijk_frame.h"
 #include "ijk_metadata.h"
 
 //get video or audio info 
@@ -63,7 +63,7 @@ typedef enum IjkMsgState{
 }IjkMsgState;
 
 typedef struct IjkFfplayDecoderCallBack {
-	void (*func_get_frame)(void* opaque, sVideoFrame *frame_callback);
+	void (*func_get_frame)(void* opaque, IjkVideoFrame *frame_callback);
 	void (*func_state_change)(void* opaque, IjkMsgState ijk_msgint, int arg1, int arg2);
 }IjkFfplayDecoderCallBack;
 
@@ -117,7 +117,7 @@ long ijkFfplayDecoder_getPropertyLong(IjkFfplayDecoder* decoder, int id, long de
 
 float ijkFfplayDecoder_getPropertyFloat(IjkFfplayDecoder* decoder, int id, float default_value);
 
-int ijkFfplayDecoder_getMediaMeta(IjkFfplayDecoder* decoder, ijkMetadata* metadata);
+int ijkFfplayDecoder_getMediaMeta(IjkFfplayDecoder* decoder, IjkMetadata* metadata);
 
 //decoder_name: h264_cuvid, h264_qsv
 int ijkFfplayDecoder_setHwDecoderName(IjkFfplayDecoder* decoder, const char* decoder_name);

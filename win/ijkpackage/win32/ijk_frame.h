@@ -1,19 +1,19 @@
 ﻿//
-//  detu_frame.h
+//  ijk_frame.h
 //
 //  Created by chen on 2017/7/21.
 //  Copyright © 2017 detu. All rights reserved.
 //
 
-#ifndef DETU_FRAME_H
-#define DETU_FRAME_H
+#ifndef IJK_FRAME_H
+#define IJK_FRAME_H
 
 #include <stdio.h>
 #include <stddef.h>
 #include <stdint.h>
 #include <stdbool.h>
 
-typedef enum ePixelFormat {
+typedef enum IjkPixelFormat {
 	PIX_FMT_NONE = -1,
 	PIX_FMT_YUV420P,   ///< planar YUV 4:2:0, 12bpp, (1 Cr & Cb sample per 2x2 Y samples)
 	PIX_FMT_YUYV422,   ///< packed YUV 4:2:2, 16bpp, Y0 Cb Y1 Cr
@@ -227,22 +227,22 @@ typedef enum ePixelFormat {
 
 	PIX_FMT_NB          ///< number of pixel formats, DO NOT USE THIS if you want to link with shared libav* because the number of formats might differ between versions
 
-}ePixelFormat;
+}IjkPixelFormat;
 
 //ijk video frame callback
-typedef struct sVideoFrame{
+typedef struct IjkVideoFrame{
 
 #define k_NUM_DATA_POINTERS 8
 
 	int w;				//Read-only, width
 	int h;				//Read-only, height
 
-	ePixelFormat format;	//Read-only, pixel format
+	IjkPixelFormat format;	//Read-only, pixel format
 	int planes;			    //Read-only, planes
 	int linesize[k_NUM_DATA_POINTERS];		//Read-only, data length in bytes
 	uint8_t *data[k_NUM_DATA_POINTERS];		//Read-write,data for display
 
 	int private_data;
-}sVideoFrame;
+}IjkVideoFrame;
 
 #endif

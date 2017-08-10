@@ -19,7 +19,7 @@ static SDL_Rect     sdlRect;
 static bool  sdl_init_flag = false;
 
 
-void video_callback(void* opaque, sVideoFrame *frame_callback)
+void video_callback(void* opaque, IjkVideoFrame *frame_callback)
 {
 	if (!sdl_init_flag){
 		sdl_init_flag = true;
@@ -222,8 +222,8 @@ int main(int argc, char** argv)
 			printf("position:%f, total_bit_rate:%d Kb/s.\n", frame_rate, total_bit_rate / 1000);
 
 			//metadata
-			ijkMetadata metadata;
-			memset(&metadata, 0, sizeof(ijkMetadata));
+			IjkMetadata metadata;
+			memset(&metadata, 0, sizeof(IjkMetadata));
 			ijkFfplayDecoder_getMediaMeta(ijk_ffplay_decoder, &metadata);
 			printf("width:%d, height:%d", metadata.width, metadata.height);
 		}

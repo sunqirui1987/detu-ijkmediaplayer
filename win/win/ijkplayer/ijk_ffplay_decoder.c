@@ -21,7 +21,7 @@ struct IjkFfplayDecoder{
 	void *opaque;
 	IjkFfplayDecoderCallBack *ijk_ffplayer_deocdecallback;
 
-	sVideoFrame *current_frame;
+	IjkVideoFrame *current_frame;
 };
 
 typedef void(*msg_call_back)(void* opaque, IjkMsgState ijk_msgint, int arg1, int arg2);
@@ -198,9 +198,9 @@ IjkFfplayDecoder *ijkFfplayDecoder_create(void)
 	IjkFfplayDecoder *ijk_ffplay_decoder = (IjkFfplayDecoder *)malloc(sizeof(IjkFfplayDecoder));
 	memset(ijk_ffplay_decoder, 0, sizeof(IjkFfplayDecoder));
 	ijk_ffplay_decoder->ijk_media_player = mp;
-	ijk_ffplay_decoder->current_frame = (sVideoFrame *)malloc(sizeof(sVideoFrame));
+	ijk_ffplay_decoder->current_frame = (IjkVideoFrame *)malloc(sizeof(IjkVideoFrame));
 	ijk_ffplay_decoder->ijk_ffplayer_deocdecallback = (IjkFfplayDecoderCallBack *)malloc(sizeof(IjkFfplayDecoderCallBack));
-	memset(ijk_ffplay_decoder->current_frame, 0, sizeof(sVideoFrame));
+	memset(ijk_ffplay_decoder->current_frame, 0, sizeof(IjkVideoFrame));
 	memset(ijk_ffplay_decoder->ijk_ffplayer_deocdecallback, 0, sizeof(IjkFfplayDecoderCallBack));
 
 	return ijk_ffplay_decoder;
@@ -516,13 +516,13 @@ static char* fillMetaInternal(IjkMediaMeta *meta, const char *key, const char *d
 	return value;
 }
 
-int ijkFfplayDecoder_getMediaMeta(IjkFfplayDecoder* decoder, ijkMetadata* metadata)
+int ijkFfplayDecoder_getMediaMeta(IjkFfplayDecoder* decoder, IjkMetadata* metadata)
 {
 	if (!decoder->ijk_media_player || !decoder){
 		ALOGE("IjkMediaPlayer is NULL.\n");
 		return -1;
 	}
-	memset(metadata, 0, sizeof(ijkMetadata));
+	memset(metadata, 0, sizeof(IjkMetadata));
 
 	bool is_locked = false;
 	char *media_info = NULL;
