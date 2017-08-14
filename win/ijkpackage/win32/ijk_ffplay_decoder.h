@@ -81,6 +81,8 @@ IjkFfplayDecoder *ijkFfplayDecoder_create(void);
 
 int ijkFfplayDecoder_setLogLevel(IJKLogLevel log_level);
 
+int ijkFfplayDecoder_setLogCallback(void(*callback)(void*, int, const char*, va_list));
+
 int ijkFfplayDecoder_setDecoderCallBack(IjkFfplayDecoder* decoder, void* opaque, IjkFfplayDecoderCallBack* callback);
 
 int ijkFfplayDecoder_setDataSource(IjkFfplayDecoder* decoder, const char* file_absolute_path);

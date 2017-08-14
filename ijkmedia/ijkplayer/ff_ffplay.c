@@ -347,7 +347,7 @@ static int packet_queue_get(PacketQueue *q, AVPacket *pkt, int block, int *seria
             q->nb_packets--;
             
             if(q->first_pkt != NULL){
-                av_log(NULL, AV_LOG_INFO, "packet name %d packet queue remain %d \n",q->first_pkt->pkt.stream_index, q->nb_packets);
+				av_log(NULL, AV_LOG_DEBUG, "packet name %d packet queue remain %d \n", q->first_pkt->pkt.stream_index, q->nb_packets);
             }
             
             q->size -= pkt1->pkt.size + sizeof(*pkt1);
@@ -3339,6 +3339,11 @@ static int lockmgr(void **mtx, enum AVLockOp op)
  * end last line in ffplay.c
  ****************************************************************************/
 
+#ifdef WIN32
+typedef void(*logCallback)(void*, int, const char*, va_list);
+static logCallback ijk_log_callback = NULL;
+#endif
+
 static bool g_ffmpeg_global_inited = false;
 
 inline static int log_level_av_to_ijk(int av_level)
@@ -3384,6 +3389,10 @@ static void ffp_log_callback_brief(void *ptr, int level, const char *fmt, va_lis
     int ffplv __unused = log_level_av_to_ijk(level);
 #else
 	int ffplv = log_level_av_to_ijk(level);
+	if (ijk_log_callback){
+		ijk_log_callback(ptr, ffplv, fmt, vl);
+		return;
+	}
 #endif
     
     char fmt_str[500];
@@ -3414,6 +3423,10 @@ static void ffp_log_callback_report(void *ptr, int level, const char *fmt, va_li
     int ffplv __unused = log_level_av_to_ijk(level);
 #else
 	int ffplv = log_level_av_to_ijk(level);
+	if (ijk_log_callback){
+		ijk_log_callback(ptr, ffplv, fmt, vl);
+		return;
+	}
 #endif
 
     va_list vl2;
@@ -3505,6 +3518,13 @@ void ffp_global_set_log_level(int log_level)
 {
     int av_level = log_level_ijk_to_av(log_level);
     av_log_set_level(av_level);
+}
+
+void ffp_global_set_log_callback(void(*callback)(void*, int, const char*, va_list))
+{
+#ifdef WIN32
+	ijk_log_callback = callback;
+#endif
 }
 
 static ijk_inject_callback s_inject_callback;

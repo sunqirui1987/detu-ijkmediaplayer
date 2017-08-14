@@ -217,6 +217,13 @@ int ijkFfplayDecoder_setLogLevel(IJKLogLevel log_level)
 	return 0;
 }
 
+int ijkFfplayDecoder_setLogCallback(void(*callback)(void*, int, const char*, va_list))
+{
+	ijkmp_global_set_log_callback(callback);
+
+	return 0;
+}
+
 int ijkFfplayDecoder_setDecoderCallBack(IjkFfplayDecoder* decoder, void* opaque, IjkFfplayDecoderCallBack* callback)
 {
 	if (!decoder->ijk_media_player || !decoder){

@@ -95,6 +95,12 @@ void ijkmp_global_set_log_level(int log_level)
     ffp_global_set_log_level(log_level);
 }
 
+//日志打印回调
+void ijkmp_global_set_log_callback(void(*callback)(void*, int, const char*, va_list))
+{
+	ffp_global_set_log_callback(callback);
+}
+
 //设置回调
 void ijkmp_global_set_inject_callback(ijk_inject_callback cb)
 {

@@ -9,6 +9,7 @@ extern "C"
 #include "SDL.h"
 }
 
+
 IjkFfplayDecoder *ijk_ffplay_decoder;
 
 static SDL_Window   *screen;
@@ -17,7 +18,6 @@ static SDL_Texture  *sdlTexture;
 static SDL_Rect     sdlRect;
 
 static bool  sdl_init_flag = false;
-
 
 void video_callback(void* opaque, IjkVideoFrame *frame_callback)
 {
@@ -64,9 +64,10 @@ void msg_callback(void* opaque, IjkMsgState ijk_msgint, int arg1, int arg2)
 	case IJK_MSG_PREPARED:
 		duration = ijkFfplayDecoder_getDuration(ijk_ffplay_decoder);
 		ijkFfplayDecoder_start(ijk_ffplay_decoder);
+		printf("recv ijk msg:prepared\n");
 		break;
 	case IJK_MSG_COMPLETED:
-		printf("play complete.\n");
+		printf("recv ijk msg:complete.\n");
 		ijkFfplayDecoder_pause(ijk_ffplay_decoder);
 		ijkFfplayDecoder_stop(ijk_ffplay_decoder);
 		break;
@@ -114,13 +115,21 @@ void print_help_info()
 	printf("enter yuor choice now: ");
 }
 
+static inline void log_callback(void *, int level, const char * szFmt, va_list varg)
+{
+	char line[1024] = { 0 };
+	vsnprintf(line, sizeof(line), szFmt, varg);
+	printf("%s", line);
+	return;
+}
+
 int main(int argc, char** argv)
 {
 	//init global paraments
 	ijkFfplayDecoder_init();
 
-	ijkFfplayDecoder_setLogLevel(k_IJK_LOG_ERROR);
-
+	ijkFfplayDecoder_setLogLevel(k_IJK_LOG_DEBUG);
+	ijkFfplayDecoder_setLogCallback(log_callback);
 	IjkFfplayDecoderCallBack *decoder_callback = (IjkFfplayDecoderCallBack *)malloc(sizeof(IjkFfplayDecoderCallBack));
 	decoder_callback->func_get_frame = video_callback;
 	decoder_callback->func_state_change = msg_callback;
@@ -131,7 +140,7 @@ int main(int argc, char** argv)
 	ijkFfplayDecoder_setDecoderCallBack(ijk_ffplay_decoder, NULL, decoder_callback);
 
 	int mode = 0;
-	printf("\nPlease chose your hardware decode mode: \n");
+	printf("\nPlease chose your decode mode: \n");
 	printf("1: h264_cuvid for nvida\n");
 	printf("2: h264_qsv for intel\n");
 	printf("3: ffmpeg\n");
@@ -190,7 +199,7 @@ int main(int argc, char** argv)
 			}
 		}
 
-		//decrease sound, 0.05 percent
+		//decrease sound
 		if (input == '-'){
 			if (volume >= 10){
 				volume -= 10;
