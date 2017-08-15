@@ -115,7 +115,7 @@ void print_help_info()
 	printf("enter yuor choice now: ");
 }
 
-static inline void log_callback(void *, int level, const char * szFmt, va_list varg)
+static void log_callback(void *, int level, const char * szFmt, va_list varg)
 {
 	char line[1024] = { 0 };
 	vsnprintf(line, sizeof(line), szFmt, varg);
