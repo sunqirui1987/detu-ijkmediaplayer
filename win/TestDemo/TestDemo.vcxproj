@@ -67,7 +67,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>../depend/ffmpeg/include/;../depend/pthread-win32/include/;../depend/sdl2/include/;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../depend/ffmpeg/include/;../depend/pthread-win32/include/;../depend/sdl2/include/;../depend/iLog3/;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <WholeProgramOptimization>false</WholeProgramOptimization>
     </ClCompile>
     <Link>
@@ -75,8 +75,8 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalDependencies>avcodec.lib;avformat.lib;avutil.lib;avfilter.lib;swresample.lib;swscale.lib;SDL2.lib;SDL2main.lib;ijkwin.lib;pthreadVC2.lib;dsound.lib;ws2_32.lib;winmm.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>../depend/ffmpeg/lib/;../depend/pthread-win32/lib/;../depend/sdl2/lib/;../Release/;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>avcodec.lib;avformat.lib;avutil.lib;avfilter.lib;swresample.lib;swscale.lib;SDL2.lib;SDL2main.lib;ijkwin.lib;pthreadVC2.lib;dsound.lib;ws2_32.lib;winmm.lib;iLog3.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>../depend/ffmpeg/lib/;../depend/pthread-win32/lib/;../depend/sdl2/lib/;../Release/;../depend/iLog3/;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalOptions>/SAFESEH:NO %(AdditionalOptions)</AdditionalOptions>
     </Link>
     <PostBuildEvent>

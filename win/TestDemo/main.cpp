@@ -9,6 +9,7 @@ extern "C"
 #include "SDL.h"
 }
 
+#include "Log.h"
 
 IjkFfplayDecoder *ijk_ffplay_decoder;
 
@@ -119,12 +120,45 @@ static void log_callback(void *, int level, const char * szFmt, va_list varg)
 {
 	char line[1024] = { 0 };
 	vsnprintf(line, sizeof(line), szFmt, varg);
-	printf("%s", line);
+
+	switch (level) {
+	case k_IJK_LOG_DEBUG:
+		iLogDebug("%s", line);
+		break;
+	case k_IJK_LOG_INFO:
+		iLogInfo("%s", line);
+		break;
+	case k_IJK_LOG_WARN:
+		iLogWarn("%s", line);
+		break;
+	case k_IJK_LOG_ERROR:
+		iLogError("%s", line);
+		break;
+	case k_IJK_LOG_FATAL:
+		iLogFata("%s", line);
+		break;
+	default:
+		iLogInfo("%s", line);
+		break;
+	}
 	return;
 }
 
 int main(int argc, char** argv)
 {
+	//init iLog3 lib
+	LOG		*g = NULL;
+	g = CreateLogHandleG();
+	if (g == NULL) {
+		printf("create iLog3 Handle errno, errno number=[%d]\n", errno);
+		return -1;
+	}
+	printf("create iLog3 Handle success.\n");
+	SetLogOutputG(LOG_OUTPUT_FILE, "./ijkDemo.log", LOG_NO_OUTPUTFUNC);
+	SetLogLevelG(LOG_LEVEL_INFO);
+	SetLogStylesG(LOG_STYLE_DEFAULT, LOG_NO_STYLEFUNC);
+
+
 	//init global paraments
 	ijkFfplayDecoder_init();
 
@@ -136,7 +170,6 @@ int main(int argc, char** argv)
 
 	//create ijkplayer and sdl
 	ijk_ffplay_decoder = ijkFfplayDecoder_create();
-
 	ijkFfplayDecoder_setDecoderCallBack(ijk_ffplay_decoder, NULL, decoder_callback);
 
 	int mode = 0;

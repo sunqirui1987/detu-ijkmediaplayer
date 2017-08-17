@@ -2293,10 +2293,10 @@ static int stream_component_open(FFPlayer *ffp, int stream_index)
     if (!avctx)
         return AVERROR(ENOMEM);
 
-    ret = avcodec_parameters_to_context(avctx, ic->streams[stream_index]->codecpar);
-    if (ret < 0)
-        goto fail;
-    av_codec_set_pkt_timebase(avctx, ic->streams[stream_index]->time_base);
+	ret = avcodec_parameters_to_context(avctx, ic->streams[stream_index]->codecpar);
+	if (ret < 0)
+		goto fail;
+	av_codec_set_pkt_timebase(avctx, ic->streams[stream_index]->time_base);
 
     codec = avcodec_find_decoder(avctx->codec_id);
 
@@ -2552,10 +2552,10 @@ static int read_thread(void *arg)
     }
     ic->interrupt_callback.callback = decode_interrupt_cb;
     ic->interrupt_callback.opaque = is;
-    if (!av_dict_get(ffp->format_opts, "scan_all_pmts", NULL, AV_DICT_MATCH_CASE)) {
-        av_dict_set(&ffp->format_opts, "scan_all_pmts", "1", AV_DICT_DONT_OVERWRITE);
-        scan_all_pmts_set = 1;
-    }
+	if (!av_dict_get(ffp->format_opts, "scan_all_pmts", NULL, AV_DICT_MATCH_CASE)) {
+		av_dict_set(&ffp->format_opts, "scan_all_pmts", "1", AV_DICT_DONT_OVERWRITE);
+		scan_all_pmts_set = 1;
+	}
     if (av_stristart(is->filename, "rtmp", NULL) ||
         av_stristart(is->filename, "rtsp", NULL)) {
         // There is total different meaning for 'timeout' option in rtmp
@@ -2586,20 +2586,19 @@ static int read_thread(void *arg)
         is->iformat = av_find_input_format(ffp->iformat_name);
     
     
- //     av_dict_set_int(&ffp->format_opts, "probesize", 1024, 0);
+	//av_dict_set_int(&ffp->format_opts, "probesize", 1024, 0);
     
     
     if (av_stristart(ic->filename, "rtsp://192.168.42.1/live",NULL) || av_stristart(ic->filename, "rtsp://192.168.1.254",NULL) ) {
         ic->probesize = 10 * 1024;//1*1024;
         ic->max_analyze_duration = 5 * AV_TIME_BASE;
-   
-    }else{
-       ic->probesize = 100 * 1024;//1*1024;
-        ic->max_analyze_duration = 3 * AV_TIME_BASE;
+	} else if (av_stristart(ic->filename, "rtsp://192.168.42.1/", NULL)) {
+		ic->probesize =  30* 1024;//1*1024;
+		ic->max_analyze_duration = 5 * AV_TIME_BASE;
+	} else {
+       ic->probesize = 200 * 1024;//1*1024;
+       ic->max_analyze_duration = 5 * AV_TIME_BASE;
     }
-    
-    
-   
 
     int64_t s_t =  av_gettime();
     av_log(NULL, AV_LOG_WARNING, "^^^^^^^^^^^^^^^^^^^^^^^^^avformat_open_input@@@@@@@@@@@@@  %lld-- ",s_t);
@@ -2632,18 +2631,8 @@ static int read_thread(void *arg)
 
     opts = setup_find_stream_info_opts(ic, ffp->codec_opts);
     orig_nb_streams = ic->nb_streams;
-
-    ic->probesize =  100* 1024;//1*1024;
-    ic->max_analyze_duration = 5 * AV_TIME_BASE;
-    
-   if (av_stristart(ic->filename, "rtsp://192.168.42.1/",NULL) ) {
-        ic->probesize =  30* 1024;//1*1024;
-        ic->max_analyze_duration = 5 * AV_TIME_BASE;
-    }
     
     err = avformat_find_stream_info(ic, opts);
-
-  
 
     for (i = 0; i < orig_nb_streams; i++)
         av_dict_free(&opts[i]);
@@ -2688,8 +2677,8 @@ static int read_thread(void *arg)
 
     is->realtime = is_realtime(ic);
 
-    if (true || ffp->show_status)
-        av_dump_format(ic, 0, is->filename, 0);
+	if (true || ffp->show_status)
+		av_dump_format(ic, 0, is->filename, 0);
 
     int video_stream_count = 0;
     int h264_stream_count = 0;
@@ -2722,8 +2711,8 @@ static int read_thread(void *arg)
         st_index[AVMEDIA_TYPE_VIDEO] =
             av_find_best_stream(ic, AVMEDIA_TYPE_VIDEO,
                                 st_index[AVMEDIA_TYPE_VIDEO], -1, NULL, 0);
-    if (!ffp->audio_disable)
-        st_index[AVMEDIA_TYPE_AUDIO] =
+	if (!ffp->audio_disable)
+		st_index[AVMEDIA_TYPE_AUDIO] = 
             av_find_best_stream(ic, AVMEDIA_TYPE_AUDIO,
                                 st_index[AVMEDIA_TYPE_AUDIO],
                                 st_index[AVMEDIA_TYPE_VIDEO],
