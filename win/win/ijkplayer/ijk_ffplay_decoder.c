@@ -139,9 +139,25 @@ static int video_callback(void *arg, SDL_VoutOverlay* overlay)
 {
 	IjkFfplayDecoder *play_decoder = (IjkFfplayDecoder*)arg;
 
+	switch (overlay->format) {
+	case SDL_FCC_YV12:
+	case SDL_FCC_I420:
+		play_decoder->current_frame->format = PIX_FMT_YUV420P;
+		break;
+	case SDL_FCC_NV12:
+		play_decoder->current_frame->format = PIX_FMT_NV12;
+		break;
+	case SDL_FCC_I444P10LE:
+		play_decoder->current_frame->format = PIX_FMT_YUV444P10LE;
+		break;
+	case SDL_FCC_RV24:
+		play_decoder->current_frame->format = PIX_FMT_RGB24;
+		break;
+	default:
+		play_decoder->current_frame->format = PIX_FMT_YUV420P;
+	}
 	play_decoder->current_frame->w = overlay->w;
 	play_decoder->current_frame->h = overlay->h;
-	play_decoder->current_frame->format = AV_PIX_FMT_YUV420P;
 	play_decoder->current_frame->planes = overlay->planes;
 
 	for (int i = 0; i < AV_NUM_DATA_POINTERS; ++i) {

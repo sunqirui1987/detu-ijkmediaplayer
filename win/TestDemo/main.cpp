@@ -20,21 +20,36 @@ static SDL_Rect     sdlRect;
 
 static bool  sdl_init_flag = false;
 
+static char* nv12_data = NULL;
+
 void video_callback(void* opaque, IjkVideoFrame *frame_callback)
 {
 	if (!sdl_init_flag){
 		sdl_init_flag = true;
-		int screen_w = frame_callback->w;
-		int screen_h = frame_callback->h;
-		int y_size = screen_w * screen_h;
+		int screen_w, screen_h;
+
+		if (frame_callback->format == PIX_FMT_YUV420P) {
+			screen_w = frame_callback->w;
+			screen_h = frame_callback->h;
+		} else if (frame_callback->format == PIX_FMT_NV12) {
+			screen_w = frame_callback->linesize[0];
+			screen_h = frame_callback->h;
+		}
+
 		screen = SDL_CreateWindow("Simplest ffmpeg player Window", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, screen_w, screen_h, SDL_WINDOW_OPENGL);
 		if (!screen) {
 			printf("SDL: could not set video mode - exiting:%s\n", SDL_GetError());
 			return ;
 		}
 
-		sdlRenderer = SDL_CreateRenderer(screen, -1, 0);
-		sdlTexture = SDL_CreateTexture(sdlRenderer, SDL_PIXELFORMAT_IYUV, SDL_TEXTUREACCESS_STREAMING, screen_w, screen_h);
+		if (frame_callback->format == PIX_FMT_YUV420P) {
+			sdlRenderer = SDL_CreateRenderer(screen, -1, 0);
+			sdlTexture = SDL_CreateTexture(sdlRenderer, SDL_PIXELFORMAT_IYUV, SDL_TEXTUREACCESS_STREAMING, screen_w, screen_h);
+		} else if (frame_callback->format == PIX_FMT_NV12) {
+			SDL_SetHint(SDL_HINT_RENDER_DRIVER, "opengl");
+			sdlRenderer = SDL_CreateRenderer(screen, -1, SDL_RENDERER_ACCELERATED);
+			sdlTexture = SDL_CreateTexture(sdlRenderer, SDL_PIXELFORMAT_NV12, SDL_TEXTUREACCESS_STREAMING, screen_w, screen_h);
+		}
 
 		sdlRect.x = 0;
 		sdlRect.y = 0;
@@ -42,14 +57,21 @@ void video_callback(void* opaque, IjkVideoFrame *frame_callback)
 		sdlRect.h = screen_h;
 	}
 
-	SDL_UpdateYUVTexture(sdlTexture, &sdlRect,
+	if (frame_callback->format == PIX_FMT_YUV420P) {
+		SDL_UpdateYUVTexture(sdlTexture, &sdlRect,
 			frame_callback->data[0], frame_callback->linesize[0],
 			frame_callback->data[1], frame_callback->linesize[1],
 			frame_callback->data[2], frame_callback->linesize[2]);
+	}
+	else if (frame_callback->format == PIX_FMT_NV12) {
+		memcpy(nv12_data, frame_callback->data[0], frame_callback->h*frame_callback->linesize[0]);
+		memcpy(nv12_data + frame_callback->h*frame_callback->linesize[0], frame_callback->data[1], frame_callback->h*frame_callback->linesize[0] / 2);
+		SDL_UpdateTexture(sdlTexture, NULL, nv12_data, frame_callback->linesize[0]);
+	}
 
-			SDL_RenderClear(sdlRenderer);
-			SDL_RenderCopy(sdlRenderer, sdlTexture, NULL, &sdlRect);
-			SDL_RenderPresent(sdlRenderer);
+	SDL_RenderClear(sdlRenderer);
+	SDL_RenderCopy(sdlRenderer, sdlTexture, NULL, &sdlRect);
+	SDL_RenderPresent(sdlRenderer);
 }
 
 void msg_callback(void* opaque, IjkMsgState ijk_msgint, int arg1, int arg2)
@@ -146,6 +168,8 @@ static void log_callback(void *, int level, const char * szFmt, va_list varg)
 
 int main(int argc, char** argv)
 {
+	nv12_data = (char*)malloc(8*1024*1024);
+
 	//init iLog3 lib
 	LOG		*g = NULL;
 	g = CreateLogHandleG();
@@ -314,6 +338,9 @@ int main(int argc, char** argv)
 
 QUIT:
 	ijkFfplayDecoder_uninit();
+	if (nv12_data) {
+		free(nv12_data);
+	}
 	system("pause");
 	return 0;
 }

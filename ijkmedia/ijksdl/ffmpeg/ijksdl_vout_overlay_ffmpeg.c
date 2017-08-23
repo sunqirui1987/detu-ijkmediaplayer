@@ -183,6 +183,12 @@ static int func_fill_frame(SDL_VoutOverlay *overlay, const AVFrame *frame)
                 dst_format = AV_PIX_FMT_YUV420P;
             }
             break;
+		case SDL_FCC_NV12:
+			if (frame->format == AV_PIX_FMT_NV12) {
+				use_linked_frame = 1;
+				dst_format = frame->format;
+			}
+			break;
         case SDL_FCC_I444P10LE:
             if (frame->format == AV_PIX_FMT_YUV444P10LE) {
                 // ALOGE("direct draw frame");
@@ -215,7 +221,6 @@ static int func_fill_frame(SDL_VoutOverlay *overlay, const AVFrame *frame)
         av_frame_ref(opaque->linked_frame, frame);
 
         overlay_fill(overlay, opaque->linked_frame, opaque->planes);
-
         if (need_swap_uv)
             FFSWAP(Uint8*, overlay->pixels[1], overlay->pixels[2]);
     } else {
@@ -310,6 +315,9 @@ SDL_VoutOverlay *SDL_VoutFFmpeg_CreateOverlay(int width, int height, int frame_f
                 case AV_PIX_FMT_YUV444P10LE:
                     overlay_format = SDL_FCC_I444P10LE;
                     break;
+				case AV_PIX_FMT_NV12:
+					overlay_format = SDL_FCC_NV12;
+					break;
                 case AV_PIX_FMT_YUV420P:
                 case AV_PIX_FMT_YUVJ420P:
                 default:
@@ -352,6 +360,11 @@ SDL_VoutOverlay *SDL_VoutFFmpeg_CreateOverlay(int width, int height, int frame_f
     int buf_width = width;
     int buf_height = height;
     switch (overlay_format) {
+	case SDL_FCC_NV12:
+		ff_format = AV_PIX_FMT_NV12;
+		buf_width = IJKALIGN(width, 16); // unknown platform
+		opaque->planes = 2;
+		break;
     case SDL_FCC_I420:
     case SDL_FCC_YV12: {
         ff_format = AV_PIX_FMT_YUV420P;
