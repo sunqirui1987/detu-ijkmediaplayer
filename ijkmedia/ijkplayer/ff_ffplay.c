@@ -2466,6 +2466,7 @@ static int stream_component_open(FFPlayer *ffp, int stream_index)
 
 fail:
     avcodec_free_context(&avctx);
+	ffp_notify_msg2(ffp, FFP_MSG_ERROR, -400);
 out:
     av_dict_free(&opts);
 
