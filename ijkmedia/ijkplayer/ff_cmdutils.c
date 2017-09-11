@@ -22,10 +22,19 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
  */
 
+/**
+* 获取流的编解码信息，码流信息和旋转角度等等
+**/
+
 #include "ff_cmdutils.h"
+
+#ifdef WIN32
+#include "def.h"
+#endif
 
 #include "libavutil/display.h"
 #include "libavutil/eval.h"
+
 
 // MERGE: sws_opts
 // MERGE: swr_opts
@@ -69,11 +78,13 @@
 // MERGE: opt_cpuflags
 // MERGE: opt_timelimit
 
+// 打印错误的详细描述
 void print_error(const char *filename, int err)
 {
     char errbuf[128];
     const char *errbuf_ptr = errbuf;
 
+	//错误码转换为对应的字符串描述
     if (av_strerror(err, errbuf, sizeof(errbuf)) < 0)
         errbuf_ptr = strerror(AVUNERROR(err));
     av_log(NULL, AV_LOG_ERROR, "%s: %s\n", filename, errbuf_ptr);
@@ -182,6 +193,7 @@ AVDictionary *filter_codec_opts(AVDictionary *opts, enum AVCodecID codec_id,
     return ret;
 }
 
+//获取码流的信息
 AVDictionary **setup_find_stream_info_opts(AVFormatContext *s,
                                            AVDictionary *codec_opts)
 {
@@ -202,6 +214,7 @@ AVDictionary **setup_find_stream_info_opts(AVFormatContext *s,
     return opts;
 }
 
+//扩展array
 void *grow_array(void *array, int elem_size, int *size, int new_size)
 {
     if (new_size >= INT_MAX / elem_size) {
@@ -221,6 +234,7 @@ void *grow_array(void *array, int elem_size, int *size, int new_size)
     return array;
 }
 
+//获取旋转角度
 double get_rotation(AVStream *st)
 {
     AVDictionaryEntry *rotate_tag = av_dict_get(st->metadata, "rotate", NULL, 0);
@@ -248,7 +262,7 @@ double get_rotation(AVStream *st)
     return theta;
 }
 
-
+//获取全部的编码或者解码信息，返回值为数量
 static unsigned get_codecs_sorted(const AVCodecDescriptor ***rcodecs)
 {
     const AVCodecDescriptor *desc = NULL;
@@ -267,6 +281,8 @@ static unsigned get_codecs_sorted(const AVCodecDescriptor ***rcodecs)
     *rcodecs = codecs;
     return nb_codecs;
 }
+
+//通过id(编解码)获取对应的编码或者解码信息
 static const AVCodec *next_codec_for_id(enum AVCodecID id, const AVCodec *prev,
                                         int encoder)
 {
@@ -277,6 +293,8 @@ static const AVCodec *next_codec_for_id(enum AVCodecID id, const AVCodec *prev,
     }
     return NULL;
 }
+
+//打印ffmpeg支持的编码或者解码信息
 void print_codecs(int encoder)
 {
     const AVCodecDescriptor **codecs;

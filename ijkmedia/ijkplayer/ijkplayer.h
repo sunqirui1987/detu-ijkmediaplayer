@@ -154,6 +154,7 @@ void            ijkmp_global_init();
 void            ijkmp_global_uninit();
 void            ijkmp_global_set_log_report(int use_report);
 void            ijkmp_global_set_log_level(int log_level);   // log_level = AV_LOG_xxx
+void			ijkmp_global_set_log_callback(void(*callback)(void*, int, const char*, va_list));
 void            ijkmp_global_set_inject_callback(ijk_inject_callback cb);
 const char     *ijkmp_version_ident();
 unsigned int    ijkmp_version_int();
@@ -212,5 +213,7 @@ void           *ijkmp_set_weak_thiz(IjkMediaPlayer *mp, void *weak_thiz);
 
 /* return < 0 if aborted, 0 if no packet and > 0 if packet.  */
 int             ijkmp_get_msg(IjkMediaPlayer *mp, AVMessage *msg, int block);
+
+int				ijkmp_set_decoder_name(IjkMediaPlayer *mp, const char* decoder_name);
 
 #endif

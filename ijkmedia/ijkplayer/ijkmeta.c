@@ -20,6 +20,11 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
  */
 
+/**
+* 流的全局属性设置和获取，类似AVFormatContext结构体中的metadata
+* Modified by chenliang, 2017/6/13
+**/
+
 #include "ijkmeta.h"
 #include "ff_ffinc.h"
 #include "ijksdl/ijksdl_misc.h"
@@ -29,13 +34,14 @@
 struct IjkMediaMeta {
     SDL_mutex *mutex;
 
-    AVDictionary *dict;
+    AVDictionary *dict;			/* 简单的键值对存储 */
 
     size_t children_count;
     size_t children_capacity;
     IjkMediaMeta **children;
 };
 
+//创建
 IjkMediaMeta *ijkmeta_create()
 {
     IjkMediaMeta *meta = (IjkMediaMeta *)calloc(1, sizeof(IjkMediaMeta));
@@ -52,12 +58,14 @@ fail:
     return NULL;
 }
 
+//复位
 void ijkmeta_reset(IjkMediaMeta *meta)
 {
     if (meta && meta->dict)
         av_dict_free(&meta->dict);
 }
 
+//销毁
 void ijkmeta_destroy(IjkMediaMeta *meta)
 {
     if (!meta)
@@ -91,6 +99,7 @@ void ijkmeta_destroy_p(IjkMediaMeta **meta)
     *meta = NULL;
 }
 
+//加锁
 void ijkmeta_lock(IjkMediaMeta *meta)
 {
     if (!meta || !meta->mutex)
@@ -99,6 +108,7 @@ void ijkmeta_lock(IjkMediaMeta *meta)
     SDL_LockMutex(meta->mutex);
 }
 
+//解锁
 void ijkmeta_unlock(IjkMediaMeta *meta)
 {
     if (!meta || !meta->mutex)
@@ -107,6 +117,7 @@ void ijkmeta_unlock(IjkMediaMeta *meta)
     SDL_UnlockMutex(meta->mutex);
 }
 
+//添加child
 void ijkmeta_append_child_l(IjkMediaMeta *meta, IjkMediaMeta *child)
 {
     if (!meta || !child)
@@ -134,6 +145,7 @@ void ijkmeta_append_child_l(IjkMediaMeta *meta, IjkMediaMeta *child)
     meta->children_count++;
 }
 
+//设置键值对：value为int64_t类型
 void ijkmeta_set_int64_l(IjkMediaMeta *meta, const char *name, int64_t value)
 {
     if (!meta)
@@ -142,6 +154,7 @@ void ijkmeta_set_int64_l(IjkMediaMeta *meta, const char *name, int64_t value)
     av_dict_set_int(&meta->dict, name, value, 0);
 }
 
+//设置键值对：value为字符串类型
 void ijkmeta_set_string_l(IjkMediaMeta *meta, const char *name, const char *value)
 {
     if (!meta)
@@ -150,6 +163,7 @@ void ijkmeta_set_string_l(IjkMediaMeta *meta, const char *name, const char *valu
     av_dict_set(&meta->dict, name, value, 0);
 }
 
+//获取采样率
 static int64_t get_bit_rate(AVCodecParameters *codecpar)
 {
     int64_t bit_rate;
@@ -162,10 +176,10 @@ static int64_t get_bit_rate(AVCodecParameters *codecpar)
         case AVMEDIA_TYPE_ATTACHMENT:
             bit_rate = codecpar->bit_rate;
             break;
-        case AVMEDIA_TYPE_AUDIO:
+        case AVMEDIA_TYPE_AUDIO:	//音频码率 = 采样率 * 位深 * 声道数目
             bits_per_sample = av_get_bits_per_sample(codecpar->codec_id);
             bit_rate = bits_per_sample ? codecpar->sample_rate * codecpar->channels * bits_per_sample : codecpar->bit_rate;
-            break;
+            break;						/*       采样率        *      声道数目      *       位深       */
         default:
             bit_rate = 0;
             break;
@@ -173,8 +187,11 @@ static int64_t get_bit_rate(AVCodecParameters *codecpar)
     return bit_rate;
 }
 
+//设置AVFormatContext属性
 void ijkmeta_set_avformat_context_l(IjkMediaMeta *meta, AVFormatContext *ic)
 {
+	AVStream *st;
+	AVDictionaryEntry *tag;
     if (!meta || !ic)
         return;
 
@@ -190,7 +207,7 @@ void ijkmeta_set_avformat_context_l(IjkMediaMeta *meta, AVFormatContext *ic)
     if (ic->bit_rate)
         ijkmeta_set_int64_l(meta, IJKM_KEY_BITRATE, ic->bit_rate);
     
-    AVDictionaryEntry *tag = NULL;
+    tag = NULL;
     while ((tag = av_dict_get(ic->metadata, "", tag, AV_DICT_IGNORE_SUFFIX))){
         ijkmeta_set_string_l(meta, tag->key, tag->value);
     }
@@ -201,7 +218,7 @@ void ijkmeta_set_avformat_context_l(IjkMediaMeta *meta, AVFormatContext *ic)
         if (!stream_meta)
             ijkmeta_destroy_p(&stream_meta);
 
-        AVStream *st = ic->streams[i];
+        st = ic->streams[i];
         if (!st || !st->codecpar)
             continue;
 
@@ -292,30 +309,35 @@ void ijkmeta_set_avformat_context_l(IjkMediaMeta *meta, AVFormatContext *ic)
         ijkmeta_destroy_p(&stream_meta);
 }
 
+//通过键值对的name字段获取value
 const char *ijkmeta_get_string_l(IjkMediaMeta *meta, const char *name)
 {
+	AVDictionaryEntry *entry;
     if (!meta || !meta->dict)
         return NULL;
 
-    AVDictionaryEntry *entry = av_dict_get(meta->dict, name, NULL, 0);
+    entry = av_dict_get(meta->dict, name, NULL, 0);
     if (!entry)
         return NULL;
 
     return entry->value;
 }
 
+//通过name获取value，如果value为空，返回defaultValue
 int64_t ijkmeta_get_int64_l(IjkMediaMeta *meta, const char *name, int64_t defaultValue)
 {
+	AVDictionaryEntry *entry;
     if (!meta || !meta->dict)
         return defaultValue;
 
-    AVDictionaryEntry *entry = av_dict_get(meta->dict, name, NULL, 0);
+    entry = av_dict_get(meta->dict, name, NULL, 0);
     if (!entry || !entry->value)
         return defaultValue;
 
     return atoll(entry->value);
 }
 
+//获取children的数量
 size_t ijkmeta_get_children_count_l(IjkMediaMeta *meta)
 {
     if (!meta || !meta->children)
@@ -324,6 +346,7 @@ size_t ijkmeta_get_children_count_l(IjkMediaMeta *meta)
     return meta->children_count;
 }
 
+//获取索引为index的child
 IjkMediaMeta *ijkmeta_get_child_l(IjkMediaMeta *meta, size_t index)
 {
     if (!meta)

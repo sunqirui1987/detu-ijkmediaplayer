@@ -32,6 +32,7 @@ void      ffp_global_init();
 void      ffp_global_uninit();
 void      ffp_global_set_log_report(int use_report);
 void      ffp_global_set_log_level(int log_level);
+void      ffp_global_set_log_callback(void(*callback)(void*, int, const char*, va_list));
 void      ffp_global_set_inject_callback(ijk_inject_callback cb);
 void      ffp_io_stat_register(void (*cb)(const char *url, int type, int bytes));
 void      ffp_io_stat_complete_register(void (*cb)(const char *url,
@@ -112,5 +113,7 @@ void      ffp_set_property_int64(FFPlayer *ffp, int id, int64_t value);
 
 // must be freed with free();
 struct IjkMediaMeta *ffp_get_meta_l(FFPlayer *ffp);
+
+int		  ffp_set_decoder_name(FFPlayer *ffp, const char *name);
 
 #endif

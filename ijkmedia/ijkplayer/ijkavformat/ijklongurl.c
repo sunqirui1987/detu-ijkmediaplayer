@@ -19,6 +19,11 @@
  */
 
 #include <assert.h>
+
+#ifdef WIN32
+#include "def.h"
+#endif
+
 #include "libavformat/avformat.h"
 #include "libavformat/url.h"
 #include "libavutil/avstring.h"

@@ -23,7 +23,12 @@
 #ifndef FFPLAY__IJKOPT_H
 #define FFPLAY__IJKOPT_H
 
+#ifdef WIN32
+#include "def.h"
+#endif
+
 #include "libavutil/opt.h"
+
 
 #define IJKAV_OPTION_INT(default__, min__, max__) \
     .type = AV_OPT_TYPE_INT, \

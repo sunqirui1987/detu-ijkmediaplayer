@@ -25,6 +25,10 @@
 #include "libyuv.h"
 #endif
 
+#ifdef WIN32
+#include "def.h"
+#endif
+
 int ijk_image_convert(int width, int height,
     enum AVPixelFormat dst_format, uint8_t **dst_data, int *dst_linesize,
     enum AVPixelFormat src_format, const uint8_t **src_data, const int *src_linesize)

@@ -20,6 +20,10 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
  */
 
+/**
+* ffplay的pipeline，有视频解码无音频输出
+**/
+
 #include "ffpipeline_ffplay.h"
 #include "ffpipenode_ffplay_vdec.h"
 #include "../ff_ffplay.h"
@@ -49,11 +53,12 @@ static SDL_Aout *func_open_audio_output(IJKFF_Pipeline *pipeline, FFPlayer *ffp)
 
 IJKFF_Pipeline *ffpipeline_create_from_ffplay(FFPlayer *ffp)
 {
+	IJKFF_Pipeline_Opaque *opaque;
     IJKFF_Pipeline *pipeline = ffpipeline_alloc(&g_pipeline_class, sizeof(IJKFF_Pipeline_Opaque));
     if (!pipeline)
         return pipeline;
 
-    IJKFF_Pipeline_Opaque *opaque = pipeline->opaque;
+    opaque = pipeline->opaque;
     opaque->ffp                   = ffp;
 
     pipeline->func_destroy            = func_destroy;

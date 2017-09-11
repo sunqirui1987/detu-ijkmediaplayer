@@ -90,10 +90,11 @@ static AVFrame *opaque_setup_frame(SDL_VoutOverlay_Opaque* opaque, enum AVPixelF
 
 static AVFrame *opaque_obtain_managed_frame_buffer(SDL_VoutOverlay_Opaque* opaque)
 {
+	AVFrame *managed_frame;
     if (opaque->frame_buffer != NULL)
         return opaque->managed_frame;
 
-    AVFrame *managed_frame = opaque->managed_frame;
+    managed_frame = opaque->managed_frame;
     int frame_bytes = av_image_get_buffer_size(managed_frame->format, managed_frame->width, managed_frame->height, 1);
     AVBufferRef *frame_buffer_ref = av_buffer_alloc(frame_bytes);
     if (!frame_buffer_ref)
@@ -107,11 +108,12 @@ static AVFrame *opaque_obtain_managed_frame_buffer(SDL_VoutOverlay_Opaque* opaqu
 
 static void func_free_l(SDL_VoutOverlay *overlay)
 {
+	SDL_VoutOverlay_Opaque *opaque;
     ALOGE("SDL_Overlay(ffmpeg): overlay_free_l(%p)\n", overlay);
     if (!overlay)
         return;
 
-    SDL_VoutOverlay_Opaque *opaque = overlay->opaque;
+    opaque = overlay->opaque;
     if (!opaque)
         return;
 
@@ -181,6 +183,12 @@ static int func_fill_frame(SDL_VoutOverlay *overlay, const AVFrame *frame)
                 dst_format = AV_PIX_FMT_YUV420P;
             }
             break;
+		case SDL_FCC_NV12:
+			if (frame->format == AV_PIX_FMT_NV12) {
+				use_linked_frame = 1;
+				dst_format = frame->format;
+			}
+			break;
         case SDL_FCC_I444P10LE:
             if (frame->format == AV_PIX_FMT_YUV444P10LE) {
                 // ALOGE("direct draw frame");
@@ -213,7 +221,6 @@ static int func_fill_frame(SDL_VoutOverlay *overlay, const AVFrame *frame)
         av_frame_ref(opaque->linked_frame, frame);
 
         overlay_fill(overlay, opaque->linked_frame, opaque->planes);
-
         if (need_swap_uv)
             FFSWAP(Uint8*, overlay->pixels[1], overlay->pixels[2]);
     } else {
@@ -255,7 +262,7 @@ static int func_fill_frame(SDL_VoutOverlay *overlay, const AVFrame *frame)
                                  dst_format, swscale_dst_pic.data, swscale_dst_pic.linesize,
                                  frame->format, (const uint8_t**) frame->data, frame->linesize)) {
         opaque->img_convert_ctx = sws_getCachedContext(opaque->img_convert_ctx,
-                                                       frame->width, frame->height, frame->format, frame->width, frame->height,
+                                                       swscale_dst_pic.linesize[0], frame->height, frame->format, frame->width, frame->height,
                                                        dst_format, opaque->sws_flags, NULL, NULL, NULL);
         if (opaque->img_convert_ctx == NULL) {
             ALOGE("sws_getCachedContext failed");
@@ -308,6 +315,9 @@ SDL_VoutOverlay *SDL_VoutFFmpeg_CreateOverlay(int width, int height, int frame_f
                 case AV_PIX_FMT_YUV444P10LE:
                     overlay_format = SDL_FCC_I444P10LE;
                     break;
+				case AV_PIX_FMT_NV12:
+					overlay_format = SDL_FCC_NV12;
+					break;
                 case AV_PIX_FMT_YUV420P:
                 case AV_PIX_FMT_YUVJ420P:
                 default:
@@ -350,6 +360,11 @@ SDL_VoutOverlay *SDL_VoutFFmpeg_CreateOverlay(int width, int height, int frame_f
     int buf_width = width;
     int buf_height = height;
     switch (overlay_format) {
+	case SDL_FCC_NV12:
+		ff_format = AV_PIX_FMT_NV12;
+		buf_width = IJKALIGN(width, 16); // unknown platform
+		opaque->planes = 2;
+		break;
     case SDL_FCC_I420:
     case SDL_FCC_YV12: {
         ff_format = AV_PIX_FMT_YUV420P;

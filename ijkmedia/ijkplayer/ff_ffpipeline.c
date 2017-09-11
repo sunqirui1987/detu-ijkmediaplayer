@@ -20,6 +20,12 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
  */
 
+/**
+* 接口结构体，负责视频解码和音频输出；
+* 视频解码：IJKFF_Pipeline_Opaque结构体负责；
+* 音频输出：SDL_Aout结构体负责
+* 通过IJKFF_Pipeline_Opaque对应到不同的平台，由不同的平台进行实现
+**/
 #include "ff_ffpipeline.h"
 #include <stdlib.h>
 #include <string.h>

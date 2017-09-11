@@ -19,13 +19,22 @@
  */
 
 #include <assert.h>
+
+#ifdef WIN32
+#include "def.h"
+#endif
+
 #include "libavformat/avformat.h"
 #include "libavformat/url.h"
 #include "libavutil/avstring.h"
 #include "libavutil/log.h"
 #include "libavutil/opt.h"
 
+#ifndef WIN32
 #include "libavutil/application.h"
+#else
+#include "application.h"
+#endif
 
 typedef struct Context {
     AVClass        *class;
@@ -52,7 +61,11 @@ static int ijksegment_open(URLContext *h, const char *arg, int flags, AVDictiona
     segment_index = (int)strtol(arg, NULL, 0);
     io_control.size = sizeof(io_control);
     io_control.segment_index = segment_index;
+#ifdef WIN32
+	strcpy_s(io_control.url, sizeof(io_control.url), arg);
+#else
     strlcpy(io_control.url,    arg,    sizeof(io_control.url));
+#endif
 
     if (app_ctx && io_control.segment_index < 0) {
         ret = AVERROR_EXTERNAL;

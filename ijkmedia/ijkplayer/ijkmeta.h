@@ -64,6 +64,13 @@
 // reserved for user
 #define IJKM_KEY_STREAMS        "streams"
 
+//others
+#define IJK_COMMENT				"comment"
+#define IJK_ORIGINAL_FORMAT		"original_format"
+#define	IJK_LENS_PARAM			"lens_param"
+#define IJK_DEVICE_SN			"device_sn"
+#define IJK_CDN_IP				"cdn_ip"
+
 struct AVFormatContext;
 typedef struct IjkMediaMeta IjkMediaMeta;
 

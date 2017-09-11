@@ -27,6 +27,10 @@
 #include <stdlib.h>
 #include <memory.h>
 
+#if defined(WIN32) && !defined(__cplusplus)
+#include "def.h"
+#endif
+
 #ifndef IJKMAX
 #define IJKMAX(a, b)    ((a) > (b) ? (a) : (b))
 #endif

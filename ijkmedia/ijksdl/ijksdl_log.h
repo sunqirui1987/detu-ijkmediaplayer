@@ -24,6 +24,11 @@
 #ifndef IJKSDL__IJKSDL_LOG_H
 #define IJKSDL__IJKSDL_LOG_H
 
+#ifdef WIN32
+#include "def.h"
+#include "libavutil/log.h"
+#endif
+
 #include <stdio.h>
 
 #ifdef __ANDROID__

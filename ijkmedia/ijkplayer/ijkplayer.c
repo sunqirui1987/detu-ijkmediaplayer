@@ -24,6 +24,11 @@
 #include "ijkplayer_internal.h"
 #include "version.h"
 
+#ifdef WIN32
+#include "def.h"
+#include "utils.h"
+#endif
+
 #define MP_RET_IF_FAILED(ret) \
     do { \
         int retval = ret; \
@@ -38,6 +43,7 @@
 #define MPST_RET_IF_EQ(real, expected) \
     MPST_RET_IF_EQ_INT(real, expected, EIJK_INVALID_STATE)
 
+//资源释放
 inline static void ijkmp_destroy(IjkMediaPlayer *mp)
 {
     if (!mp)
@@ -65,46 +71,61 @@ inline static void ijkmp_destroy_p(IjkMediaPlayer **pmp)
     *pmp = NULL;
 }
 
+//初始化
 void ijkmp_global_init()
 {
     ffp_global_init();
 }
 
+//逆初始化
 void ijkmp_global_uninit()
 {
     ffp_global_uninit();
 }
 
+//日志打印(详细打印 | 简略打印)
 void ijkmp_global_set_log_report(int use_report)
 {
     ffp_global_set_log_report(use_report);
 }
 
+//日志打印级别
 void ijkmp_global_set_log_level(int log_level)
 {
     ffp_global_set_log_level(log_level);
 }
 
+//日志打印回调
+void ijkmp_global_set_log_callback(void(*callback)(void*, int, const char*, va_list))
+{
+	ffp_global_set_log_callback(callback);
+}
+
+//设置回调
 void ijkmp_global_set_inject_callback(ijk_inject_callback cb)
 {
     ffp_global_set_inject_callback(cb);
 }
 
+//获取版本信息(字符串): ijkplayer 2.0.0
 const char *ijkmp_version_ident()
 {
     return LIBIJKPLAYER_IDENT;
 }
 
+//获取版本信息(整型)：131072
 unsigned int ijkmp_version_int()
 {
     return LIBIJKPLAYER_VERSION_INT;
 }
 
+//Not Use Any More
 void ijkmp_io_stat_register(void (*cb)(const char *url, int type, int bytes))
 {
     ffp_io_stat_register(cb);
 }
 
+//Not Use Any More
 void ijkmp_io_stat_complete_register(void (*cb)(const char *url,
                                                 int64_t read_bytes, int64_t total_size,
                                                 int64_t elpased_time, int64_t total_duration))
@@ -112,12 +133,14 @@ void ijkmp_io_stat_complete_register(void (*cb)(const char *url,
     ffp_io_stat_complete_register(cb);
 }
 
+//修改ijkMediaPlayer的状态：PAUSED | STARTED | PREPARED | INITIALIZED
 void ijkmp_change_state_l(IjkMediaPlayer *mp, int new_state)
 {
     mp->mp_state = new_state;
     ffp_notify_msg1(mp->ffplayer, FFP_MSG_PLAYBACK_STATE_CHANGED);
 }
 
+//创建ijkMediaPlayer
 IjkMediaPlayer *ijkmp_create(int (*msg_loop)(void*))
 {
     IjkMediaPlayer *mp = (IjkMediaPlayer *) mallocz(sizeof(IjkMediaPlayer));
@@ -144,11 +167,12 @@ void ijkmp_set_inject_opaque(IjkMediaPlayer *mp, void *opaque)
 {
     assert(mp);
 
-    MPTRACE("%s(%p)\n", __func__, opaque);
+    MPTRACE("ijkmp_set_inject_opaque(%p)\n", opaque);
     ffp_set_inject_opaque(mp->ffplayer, opaque);
-    MPTRACE("%s()=void\n", __func__);
+    MPTRACE("ijkmp_set_inject_opaque()=void\n");
 }
 
+//设置配置项: name为配置项名称，*value为配置项的值
 void ijkmp_set_option(IjkMediaPlayer *mp, int opt_category, const char *name, const char *value)
 {
     assert(mp);
@@ -160,6 +184,7 @@ void ijkmp_set_option(IjkMediaPlayer *mp, int opt_category, const char *name, co
     // MPTRACE("%s()=void\n", __func__);
 }
 
+//设置配置项: name为配置项名称，value为配置项的值
 void ijkmp_set_option_int(IjkMediaPlayer *mp, int opt_category, const char *name, int64_t value)
 {
     assert(mp);
@@ -171,53 +196,58 @@ void ijkmp_set_option_int(IjkMediaPlayer *mp, int opt_category, const char *name
     // MPTRACE("%s()=void\n", __func__);
 }
 
+//获取视频编码信息
 int ijkmp_get_video_codec_info(IjkMediaPlayer *mp, char **codec_info)
 {
     assert(mp);
 
-    MPTRACE("%s\n", __func__);
+    MPTRACE("ijkmp_get_video_codec_info\n");
     pthread_mutex_lock(&mp->mutex);
     int ret = ffp_get_video_codec_info(mp->ffplayer, codec_info);
     pthread_mutex_unlock(&mp->mutex);
-    MPTRACE("%s()=void\n", __func__);
+    MPTRACE("ijkmp_get_video_codec_info()=void\n");
     return ret;
 }
 
+//获取音频编码信息
 int ijkmp_get_audio_codec_info(IjkMediaPlayer *mp, char **codec_info)
 {
     assert(mp);
 
-    MPTRACE("%s\n", __func__);
+    MPTRACE("ijkmp_get_audio_codec_info\n");
     pthread_mutex_lock(&mp->mutex);
     int ret = ffp_get_audio_codec_info(mp->ffplayer, codec_info);
     pthread_mutex_unlock(&mp->mutex);
-    MPTRACE("%s()=void\n", __func__);
+    MPTRACE("ijkmp_get_audio_codec_info()=void\n");
     return ret;
 }
 
+//调整播放速度
 void ijkmp_set_playback_rate(IjkMediaPlayer *mp, float rate)
 {
     assert(mp);
 
-    MPTRACE("%s(%f)\n", __func__, rate);
+    MPTRACE("ijkmp_set_playback_rate(%f)\n", rate);
     pthread_mutex_lock(&mp->mutex);
     ffp_set_playback_rate(mp->ffplayer, rate);
     pthread_mutex_unlock(&mp->mutex);
-    MPTRACE("%s()=void\n", __func__);
+    MPTRACE("ijkmp_set_playback_rate()=void\n");
 }
 
+//选择制定的流(stream是流编号,selected为1时表示选择，为0时表示关闭)
 int ijkmp_set_stream_selected(IjkMediaPlayer *mp, int stream, int selected)
 {
     assert(mp);
 
-    MPTRACE("%s(%d, %d)\n", __func__, stream, selected);
+    MPTRACE("ijkmp_set_stream_selected(%d, %d)\n", stream, selected);
     pthread_mutex_lock(&mp->mutex);
     int ret = ffp_set_stream_selected(mp->ffplayer, stream, selected);
     pthread_mutex_unlock(&mp->mutex);
-    MPTRACE("%s(%d, %d)=%d\n", __func__, stream, selected, ret);
+    MPTRACE("ijkmp_set_stream_selected(%d, %d)=%d\n", stream, selected, ret);
     return ret;
 }
 
+//设置基本属性：ffplayer为NULL时，default_value才生效
 float ijkmp_get_property_float(IjkMediaPlayer *mp, int id, float default_value)
 {
     assert(mp);
@@ -228,6 +258,7 @@ float ijkmp_get_property_float(IjkMediaPlayer *mp, int id, float default_value)
     return ret;
 }
 
+//设置配置项: name为配置项名称，value为配置项的值，float类型
 void ijkmp_set_property_float(IjkMediaPlayer *mp, int id, float value)
 {
     assert(mp);
@@ -237,6 +268,7 @@ void ijkmp_set_property_float(IjkMediaPlayer *mp, int id, float value)
     pthread_mutex_unlock(&mp->mutex);
 }
 
+//获取属性项的值 ，id为属性项的枚举值，default_value为对应的值
 int64_t ijkmp_get_property_int64(IjkMediaPlayer *mp, int id, int64_t default_value)
 {
     assert(mp);
@@ -247,6 +279,7 @@ int64_t ijkmp_get_property_int64(IjkMediaPlayer *mp, int id, int64_t default_val
     return ret;
 }
 
+//设置配置项: name为配置项名称，value为配置项的值，int64_t类型
 void ijkmp_set_property_int64(IjkMediaPlayer *mp, int id, int64_t value)
 {
     assert(mp);
@@ -256,13 +289,14 @@ void ijkmp_set_property_int64(IjkMediaPlayer *mp, int id, int64_t value)
     pthread_mutex_unlock(&mp->mutex);
 }
 
+//获取流的全局属性
 IjkMediaMeta *ijkmp_get_meta_l(IjkMediaPlayer *mp)
 {
     assert(mp);
 
-    MPTRACE("%s\n", __func__);
+    MPTRACE("ijkmp_get_meta_l\n");
     IjkMediaMeta *ret = ffp_get_meta_l(mp->ffplayer);
-    MPTRACE("%s()=void\n", __func__);
+    MPTRACE("ijkmp_get_meta_l()=void\n");
     return ret;
 }
 
@@ -278,23 +312,34 @@ void ijkmp_shutdown_l(IjkMediaPlayer *mp)
     MPTRACE("ijkmp_shutdown_l()=void\n");
 }
 
+//关闭ijkMdediaPlayer
 void ijkmp_shutdown(IjkMediaPlayer *mp)
 {
     return ijkmp_shutdown_l(mp);
 }
 
+//原子操作：+1
 void ijkmp_inc_ref(IjkMediaPlayer *mp)
 {
     assert(mp);
+#ifndef WIN32
     __sync_fetch_and_add(&mp->ref_count, 1);
+#else
+	InterlockedIncrement(&mp->ref_count);
+#endif
 }
 
+//原子操作：-1
 void ijkmp_dec_ref(IjkMediaPlayer *mp)
 {
     if (!mp)
         return;
 
+#ifndef WIN32
     int ref_count = __sync_sub_and_fetch(&mp->ref_count, 1);
+#else
+	int ref_count = InterlockedDecrement(&mp->ref_count);
+#endif
     if (ref_count == 0) {
         MPTRACE("ijkmp_dec_ref(): ref=0\n");
         ijkmp_shutdown(mp);
@@ -311,6 +356,7 @@ void ijkmp_dec_ref_p(IjkMediaPlayer **pmp)
     *pmp = NULL;
 }
 
+//为ijkMediaPlayer设置数据源url
 static int ijkmp_set_data_source_l(IjkMediaPlayer *mp, const char *url)
 {
     assert(mp);
@@ -323,12 +369,16 @@ static int ijkmp_set_data_source_l(IjkMediaPlayer *mp, const char *url)
     MPST_RET_IF_EQ(mp->mp_state, MP_STATE_STARTED);
     MPST_RET_IF_EQ(mp->mp_state, MP_STATE_PAUSED);
     MPST_RET_IF_EQ(mp->mp_state, MP_STATE_COMPLETED);
-    MPST_RET_IF_EQ(mp->mp_state, MP_STATE_STOPPED);
+    //MPST_RET_IF_EQ(mp->mp_state, MP_STATE_STOPPED);
     MPST_RET_IF_EQ(mp->mp_state, MP_STATE_ERROR);
     MPST_RET_IF_EQ(mp->mp_state, MP_STATE_END);
 
     freep((void**)&mp->data_source);
+#ifndef WIN32
     mp->data_source = strdup(url);
+#else
+	mp->data_source = _strdup(url);
+#endif
     if (!mp->data_source)
         return EIJK_OUT_OF_MEMORY;
 
@@ -336,6 +386,7 @@ static int ijkmp_set_data_source_l(IjkMediaPlayer *mp, const char *url)
     return 0;
 }
 
+//为ijkMediaPlayer设置数据源url
 int ijkmp_set_data_source(IjkMediaPlayer *mp, const char *url)
 {
     assert(mp);
@@ -391,6 +442,7 @@ static int ijkmp_prepare_async_l(IjkMediaPlayer *mp)
     return 0;
 }
 
+//起线程异步处理消息
 int ijkmp_prepare_async(IjkMediaPlayer *mp)
 {
     assert(mp);
@@ -431,6 +483,7 @@ static int ijkmp_start_l(IjkMediaPlayer *mp)
     return 0;
 }
 
+//开始
 int ijkmp_start(IjkMediaPlayer *mp)
 {
     assert(mp);
@@ -471,6 +524,7 @@ static int ijkmp_pause_l(IjkMediaPlayer *mp)
     return 0;
 }
 
+//暂停
 int ijkmp_pause(IjkMediaPlayer *mp)
 {
     assert(mp);
@@ -508,6 +562,7 @@ static int ijkmp_stop_l(IjkMediaPlayer *mp)
     return 0;
 }
 
+//停止
 int ijkmp_stop(IjkMediaPlayer *mp)
 {
     assert(mp);
@@ -561,6 +616,7 @@ int ijkmp_seek_to_l(IjkMediaPlayer *mp, long msec)
     return 0;
 }
 
+//定位
 int ijkmp_seek_to(IjkMediaPlayer *mp, long msec)
 {
     assert(mp);
@@ -573,6 +629,7 @@ int ijkmp_seek_to(IjkMediaPlayer *mp, long msec)
     return retval;
 }
 
+//获取状态
 int ijkmp_get_state(IjkMediaPlayer *mp)
 {
     return mp->mp_state;
@@ -585,6 +642,7 @@ static long ijkmp_get_current_position_l(IjkMediaPlayer *mp)
     return ffp_get_current_position_l(mp->ffplayer);
 }
 
+//获取当前位置
 long ijkmp_get_current_position(IjkMediaPlayer *mp)
 {
     assert(mp);
@@ -603,6 +661,7 @@ static long ijkmp_get_duration_l(IjkMediaPlayer *mp)
     return ffp_get_duration_l(mp->ffplayer);
 }
 
+//获取时长
 long ijkmp_get_duration(IjkMediaPlayer *mp)
 {
     assert(mp);
@@ -765,4 +824,17 @@ int ijkmp_get_msg(IjkMediaPlayer *mp, AVMessage *msg, int block)
     }
 
     return -1;
+}
+
+int ijkmp_set_decoder_name(IjkMediaPlayer *mp, const char* decoder_name)
+{
+#ifdef WIN32
+	assert(mp);
+
+	pthread_mutex_lock(&mp->mutex);
+	ffp_set_decoder_name(mp->ffplayer, decoder_name);
+	pthread_mutex_unlock(&mp->mutex);
+#endif
+
+	return 0;
 }
