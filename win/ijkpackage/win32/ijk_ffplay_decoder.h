@@ -107,6 +107,8 @@ int ijkFfplayDecoder_release(IjkFfplayDecoder* decoder);
 
 int ijkFfplayDecoder_setVolume(IjkFfplayDecoder* decoder, float volume);
 
+float ijkFfplayDecoder_getVolume(IjkFfplayDecoder* decoder);
+
 int ijkFfplayDecoder_setOptionLongValue(IjkFfplayDecoder* decoder, int opt_category, const char* key, long value);
 
 int ijkFfplayDecoder_setOptionStringValue(IjkFfplayDecoder* decoder, int opt_category, const char* key, const char* value);
