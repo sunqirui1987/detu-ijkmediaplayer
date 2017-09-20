@@ -168,7 +168,7 @@ static void log_callback(void *, int level, const char * szFmt, va_list varg)
 
 int main(int argc, char** argv)
 {
-	nv12_data = (char*)malloc(8*1024*1024);
+	nv12_data = (char*)malloc(32*1024*1024);
 
 	//init iLog3 lib
 	LOG		*g = NULL;
@@ -269,6 +269,10 @@ int main(int argc, char** argv)
 
 		//get info: duration, position, video info and audio info
 		if (input == 'g'){
+			//get volume
+			float volume = ijkFfplayDecoder_getVolume(ijk_ffplay_decoder);
+			printf("get volume:%f\n",volume);
+
 			//current position and duration
 			long position = ijkFfplayDecoder_getCurrentPosition(ijk_ffplay_decoder);
 			long duration = ijkFfplayDecoder_getDuration(ijk_ffplay_decoder);

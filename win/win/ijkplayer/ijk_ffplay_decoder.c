@@ -453,6 +453,24 @@ int ijkFfplayDecoder_setVolume(IjkFfplayDecoder* decoder, float volume)
 	return 0;
 }
 
+float ijkFfplayDecoder_getVolume(IjkFfplayDecoder* decoder)
+{
+	if (!decoder->ijk_media_player || !decoder){
+		ALOGE("IjkMediaPlayer is NULL.\n");
+		return -1;
+	}
+
+	float volume = -1;
+	pthread_mutex_lock(&decoder->ijk_media_player->mutex);
+	if (decoder->ijk_media_player && decoder->ijk_media_player->ffplayer && decoder->ijk_media_player->ffplayer->pipeline) {
+		volume = ffpipeline_win_get_volume(decoder->ijk_media_player->ffplayer->pipeline);
+	}
+	pthread_mutex_unlock(&decoder->ijk_media_player->mutex);
+	ALOGI("get volume: %f.\n", volume);
+
+	return volume;
+}
+
 int ijkFfplayDecoder_setOptionLongValue(IjkFfplayDecoder* decoder, int opt_category, const char* key, long value)
 {
 	if (!decoder->ijk_media_player || !decoder){
@@ -684,6 +702,8 @@ int ijkFfplayDecoder_setHwDecoderName(IjkFfplayDecoder* decoder, const char* dec
 		return -1;
 	}
 
-	ijkmp_set_decoder_name(decoder->ijk_media_player, decoder_name);
+	if (decoder_name) {
+		ijkmp_set_decoder_name(decoder->ijk_media_player, decoder_name);
+	}
 	return 0;
 }
