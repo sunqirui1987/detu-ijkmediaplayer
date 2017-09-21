@@ -70,9 +70,6 @@ typedef struct IjkFfplayDecoderCallBack {
 struct IjkFfplayDecoder;
 typedef struct IjkFfplayDecoder IjkFfplayDecoder;
 
-
-/////////////////////////////////////////////////////////////////////////////////////////////////////////
-
 int ijkFfplayDecoder_init(void);
 
 int ijkFfplayDecoder_uninit(void);

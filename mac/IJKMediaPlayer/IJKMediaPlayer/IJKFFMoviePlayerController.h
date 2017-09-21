@@ -25,51 +25,20 @@
 #import "IJKFFOptions.h"
 #import "ijksdl.h"
 
-// media meta
-#define k_IJKM_KEY_FORMAT         @"format"
-#define k_IJKM_KEY_DURATION_US    @"duration_us"
-#define k_IJKM_KEY_START_US       @"start_us"
-#define k_IJKM_KEY_BITRATE        @"bitrate"
-
-// stream meta
-#define k_IJKM_KEY_TYPE           @"type"
-#define k_IJKM_VAL_TYPE__VIDEO    @"video"
-#define k_IJKM_VAL_TYPE__AUDIO    @"audio"
-#define k_IJKM_VAL_TYPE__UNKNOWN  @"unknown"
-
-#define k_IJKM_KEY_CODEC_NAME      @"codec_name"
-#define k_IJKM_KEY_CODEC_PROFILE   @"codec_profile"
-#define k_IJKM_KEY_CODEC_LONG_NAME @"codec_long_name"
-
-// stream: video
-#define k_IJKM_KEY_WIDTH          @"width"
-#define k_IJKM_KEY_HEIGHT         @"height"
-#define k_IJKM_KEY_FPS_NUM        @"fps_num"
-#define k_IJKM_KEY_FPS_DEN        @"fps_den"
-#define k_IJKM_KEY_TBR_NUM        @"tbr_num"
-#define k_IJKM_KEY_TBR_DEN        @"tbr_den"
-#define k_IJKM_KEY_SAR_NUM        @"sar_num"
-#define k_IJKM_KEY_SAR_DEN        @"sar_den"
-// stream: audio
-#define k_IJKM_KEY_SAMPLE_RATE    @"sample_rate"
-#define k_IJKM_KEY_CHANNEL_LAYOUT @"channel_layout"
-
-#define kk_IJKM_KEY_STREAMS       @"streams"
-
 typedef void (^DisplayFrameBlock)(SDL_VoutOverlay* overlay);
 
 
 typedef enum IJKLogLevel {
-    k_IJK_LOG_UNKNOWN = 0,
-    k_IJK_LOG_DEFAULT = 1,
+    IOS_IJK_LOG_UNKNOWN = 0,
+    IOS_IJK_LOG_DEFAULT = 1,
 
-    k_IJK_LOG_VERBOSE = 2,
-    k_IJK_LOG_DEBUG   = 3,
-    k_IJK_LOG_INFO    = 4,
-    k_IJK_LOG_WARN    = 5,
-    k_IJK_LOG_ERROR   = 6,
-    k_IJK_LOG_FATAL   = 7,
-    k_IJK_LOG_SILENT  = 8,
+    IOS_IJK_LOG_VERBOSE = 2,
+    IOS_IJK_LOG_DEBUG   = 3,
+    IOS_IJK_LOG_INFO    = 4,
+    IOS_IJK_LOG_WARN    = 5,
+    IOS_IJK_LOG_ERROR   = 6,
+    IOS_IJK_LOG_FATAL   = 7,
+    IOS_IJK_LOG_SILENT  = 8,
 } IJKLogLevel;
 
 @interface IJKFFMoviePlayerController : NSObject <IJKMediaPlayback>
@@ -92,8 +61,6 @@ typedef enum IJKLogLevel {
 - (void)pause;
 - (void)stop;
 - (BOOL)isPlaying;
--(SDL_VoutOverlay*)getCurrentFrame3;
-
 - (void)setPauseInBackground:(BOOL)pause;
 - (BOOL)isVideoToolboxOpen;
 
