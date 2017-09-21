@@ -114,9 +114,9 @@ int ijkFfplayDecoder_getVideoCodecInfo(IjkFfplayDecoder* decoder, char **codec_i
 
 int ijkFfplayDecoder_getAudioCodecInfo(IjkFfplayDecoder* decoder, char **codec_info);
 
-long ijkFfplayDecoder_getPropertyLong(IjkFfplayDecoder* decoder, int id, long default_value);
+long ijkFfplayDecoder_getPropertyLong(IjkFfplayDecoder* decoder, int optionId, long default_value);
 
-float ijkFfplayDecoder_getPropertyFloat(IjkFfplayDecoder* decoder, int id, float default_value);
+float ijkFfplayDecoder_getPropertyFloat(IjkFfplayDecoder* decoder, int optionId, float default_value);
 
 int ijkFfplayDecoder_getMediaMeta(IjkFfplayDecoder* decoder, IjkMetadata* metadata);
 

@@ -28,18 +28,18 @@
 typedef void (^DisplayFrameBlock)(SDL_VoutOverlay* overlay);
 
 
-typedef enum IJKLogLevel {
-    IOS_IJK_LOG_UNKNOWN = 0,
-    IOS_IJK_LOG_DEFAULT = 1,
+typedef enum MAC_IJKLogLevel {
+    MAC_IJK_LOG_UNKNOWN = 0,
+    MAC_IJK_LOG_DEFAULT = 1,
 
-    IOS_IJK_LOG_VERBOSE = 2,
-    IOS_IJK_LOG_DEBUG   = 3,
-    IOS_IJK_LOG_INFO    = 4,
-    IOS_IJK_LOG_WARN    = 5,
-    IOS_IJK_LOG_ERROR   = 6,
-    IOS_IJK_LOG_FATAL   = 7,
-    IOS_IJK_LOG_SILENT  = 8,
-} IJKLogLevel;
+    MAC_IJK_LOG_VERBOSE = 2,
+    MAC_IJK_LOG_DEBUG   = 3,
+    MAC_IJK_LOG_INFO    = 4,
+    MAC_IJK_LOG_WARN    = 5,
+    MAC_IJK_LOG_ERROR   = 6,
+    MAC_IJK_LOG_FATAL   = 7,
+    MAC_IJK_LOG_SILENT  = 8,
+} MAC_IJKLogLevel;
 
 @interface IJKFFMoviePlayerController : NSObject <IJKMediaPlayback>
 
@@ -64,8 +64,11 @@ typedef enum IJKLogLevel {
 - (void)setPauseInBackground:(BOOL)pause;
 - (BOOL)isVideoToolboxOpen;
 
+-(void)setVolume:(float)volume;
+-(float)getVolume;
+
 + (void)setLogReport:(BOOL)preferLogReport;
-+ (void)setLogLevel:(IJKLogLevel)logLevel;
++ (void)setLogLevel:(MAC_IJKLogLevel)logLevel;
 + (BOOL)checkIfFFmpegVersionMatch:(BOOL)showAlert;
 + (BOOL)checkIfPlayerVersionMatch:(BOOL)showAlert
                             major:(unsigned int)major

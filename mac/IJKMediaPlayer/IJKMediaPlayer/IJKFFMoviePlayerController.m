@@ -106,7 +106,7 @@ static const char *kIJKFFRequiredFFmpegVersion = "ff3.1--ijk0.6.2--20160926--001
     BOOL _shouldShowHudView;
     NSTimer *_hudTimer;
     
-    
+    float cacheVolume;
 }
 
 @synthesize currentPlaybackTime;
@@ -215,6 +215,7 @@ void voutFreeL(SDL_Vout *vout) {
         return nil;
     
     self = [super init];
+    cacheVolume = 0;
     
     if (self) {
         ijkmp_global_init();
@@ -372,6 +373,21 @@ int display_overlay(SDL_Vout *vout, SDL_VoutOverlay *overlay){
     return ijkmp_is_playing(_mediaPlayer);
 }
 
+-(void)setVolume:(float)volume {
+    if(_mediaPlayer == NULL) {
+        return;
+    }
+    SDL_AoutSetStereoVolume(_mediaPlayer->ffplayer->aout, volume, volume);
+    cacheVolume = volume;
+}
+
+-(float)getVolume {
+    if(_mediaPlayer == NULL) {
+        return 0.0;
+    }
+    return cacheVolume;
+}
+
 - (void)setPauseInBackground:(BOOL)pause
 {
     _pauseInBackground = pause;
@@ -434,7 +450,7 @@ inline static int getPlayerOption(IJKFFOptionCategory category)
     ijkmp_global_set_log_report(preferLogReport ? 1 : 0);
 }
 
-+ (void)setLogLevel:(IJKLogLevel)logLevel
++ (void)setLogLevel:(MAC_IJKLogLevel)logLevel
 {
     ijkmp_global_set_log_level(logLevel);
 }
