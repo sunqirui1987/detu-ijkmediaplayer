@@ -24,6 +24,10 @@
 #ifndef FFPLAY__FF_FFMSG_H
 #define FFPLAY__FF_FFMSG_H
 
+//by detu, 错误码
+#define FFP_MSG_ERROR_CODE_CODEC            -400    //当前解码器问题
+#define FFP_MSG_ERROR_CODE_STREAM           -401    //流问题，切换软硬解都无效
+
 #define FFP_MSG_FLUSH                       0
 #define FFP_MSG_ERROR                       100     /* arg1 = error */
 #define FFP_MSG_PREPARED                    200

@@ -505,7 +505,7 @@ static int decoder_decode_frame(FFPlayer *ffp, Decoder *d, AVFrame *frame, AVSub
         if (ret < 0) {
             d->packet_pending = 0;
 			if (ret == -40){
-				ffp_notify_msg2(ffp, FFP_MSG_ERROR, -400);
+				ffp_notify_msg2(ffp, FFP_MSG_ERROR, FFP_MSG_ERROR_CODE_CODEC);
 				av_log(ffp, AV_LOG_DEBUG, "Not support, stop decode in second.");
 				return -1;
 			}
@@ -2470,7 +2470,7 @@ static int stream_component_open(FFPlayer *ffp, int stream_index)
 
 fail:
     avcodec_free_context(&avctx);
-	ffp_notify_msg2(ffp, FFP_MSG_ERROR, -400);
+	ffp_notify_msg2(ffp, FFP_MSG_ERROR, FFP_MSG_ERROR_CODE_CODEC);
 out:
     av_dict_free(&opts);
 
@@ -2601,8 +2601,8 @@ static int read_thread(void *arg)
 		ic->probesize =  30* 1024;//1*1024;
 		ic->max_analyze_duration = 5 * AV_TIME_BASE;
 	} else {
-       ic->probesize = 200 * 1024;//1*1024;
-       ic->max_analyze_duration = 5 * AV_TIME_BASE;
+       ic->probesize = 2147483647;//1*1024;
+       ic->max_analyze_duration = 10 * AV_TIME_BASE;
     }
 
     int64_t s_t =  av_gettime();

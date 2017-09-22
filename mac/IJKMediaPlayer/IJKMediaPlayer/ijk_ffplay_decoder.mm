@@ -59,6 +59,11 @@ int ijkFfplayDecoder_setDataSource(IjkFfplayDecoder* decoder, const char* file_a
         isVideoToolBox = true;
     }
     decoder->controller = [[IJKFFMoviePlayerController alloc]initWithContentURLString:path withOptions:NULL isVideotoolbox:isVideoToolBox];
+    //__weak IJKPlayerMovieDecoder* weakSelf = self;
+    decoder->controller.displayFrameBlock = ^(SDL_VoutOverlay* overlay){
+        if (overlay == NULL)return;
+        [weakSelf.delegate movieF4DecoderDidDecodeFrameSDL:overlay index:0];
+    };
     return 0;
 }
 
