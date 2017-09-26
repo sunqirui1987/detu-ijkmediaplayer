@@ -80,7 +80,6 @@ typedef enum {
 +(id)movieDecoderWithMovie:(NSString*)path isHardWare:(BOOL)isHardWare;
 -(id)initWithMovie:(NSString*)path;
 -(BOOL)loadMovie:(NSString*)path;
--(void)captureNext;
 -(void)start;
 -(void)pause;
 -(void)stop;

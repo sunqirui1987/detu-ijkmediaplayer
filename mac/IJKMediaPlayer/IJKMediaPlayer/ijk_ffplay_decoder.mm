@@ -11,15 +11,61 @@
 #include <string.h>
 #import <CoreVideo/CVPixelBuffer.h>
 #import"IJKFFMoviePlayerController.h"
+extern "C" {
+#include "ijksdl_vout_overlay_videotoolbox.h"
+#include "ijkmeta.h"
+}
+#import <Foundation/Foundation.h>
 
 #define MAC_DECODER_NAME_SOFT "soft"
 #define MAC_DECODER_NAME_VTB "h264_vtb"
 #define MAC_MAX_DECODER_NAME_LENGTH 8
 
+@interface DecoderEventReceiver : NSObject{
+    IjkFfplayDecoder* decoder;
+}
+-(void)setDecoder:(IjkFfplayDecoder*)decoder;
+-(void)loadStateDidChange:(NSNotification*)notification;
+-(void)moviePlayBackDidFinish:(NSNotification*)notification;
+-(void)notifyMovieDecoderError:(int)errorCode withErrorStr:(NSString*)errorStr;
+-(void)mediaIsPreparedToPlayDidChange:(NSNotification*)notification;
+-(void)moviePlayBackStateDidChange:(NSNotification*)notification;
+-(void)mediaPlayOnStatisticsInfoUpdated:(NSNotification*)notification;
+@end
+
+@implementation DecoderEventReceiver
+
+-(void)setDecoder:(IjkFfplayDecoder*)ijkDecoder {
+    decoder = ijkDecoder;
+}
+
+-(void)loadStateDidChange:(NSNotification*)notification {
+    
+}
+
+-(void)moviePlayBackDidFinish:(NSNotification*)notification {
+}
+
+-(void)notifyMovieDecoderError:(int)errorCode withErrorStr:(NSString*)errorStr {
+}
+
+-(void)mediaIsPreparedToPlayDidChange:(NSNotification*)notification {
+}
+
+-(void)moviePlayBackStateDidChange:(NSNotification*)notification {
+}
+
+-(void)mediaPlayOnStatisticsInfoUpdated:(NSNotification*)notification {
+}
+
+@end
+
 struct IjkFfplayDecoder {
     void* opaque;
     IJKFFMoviePlayerController* controller;
     char codecName[8];
+    IjkFfplayDecoderCallBack callBack;
+    DecoderEventReceiver* eventReceiver;
 };
 
 int ijkFfplayDecoder_init(void) {
@@ -32,6 +78,8 @@ int ijkFfplayDecoder_uninit(void) {
 
 IjkFfplayDecoder *ijkFfplayDecoder_create(void) {
     IjkFfplayDecoder* decoder = (IjkFfplayDecoder*)calloc(1, sizeof(IjkFfplayDecoder));
+    decoder->eventReceiver = [[DecoderEventReceiver alloc]init];
+    [decoder->eventReceiver setDecoder:decoder];
     return decoder;
 }
 
@@ -44,6 +92,12 @@ int ijkFfplayDecoder_setLogCallback(void(*callback)(void*, int, const char*, va_
 }
 
 int ijkFfplayDecoder_setDecoderCallBack(IjkFfplayDecoder* decoder, void* opaque, IjkFfplayDecoderCallBack* callback) {
+    if(decoder == NULL || callback == NULL) {
+        return -1;
+    }
+    decoder->opaque = opaque;
+    decoder->callBack.func_get_frame = callback->func_get_frame;
+    decoder->callBack.func_state_change = callback->func_state_change;
     return 0;
 }
 
@@ -58,11 +112,97 @@ int ijkFfplayDecoder_setDataSource(IjkFfplayDecoder* decoder, const char* file_a
     } else if(strcmp(MAC_DECODER_NAME_VTB, decoder->codecName) == 0) {
         isVideoToolBox = true;
     }
-    decoder->controller = [[IJKFFMoviePlayerController alloc]initWithContentURLString:path withOptions:NULL isVideotoolbox:isVideoToolBox];
+    IJKFFOptions *options =  [[IJKFFOptions alloc] init];
+    if(isVideoToolBox){
+        [options setPlayerOptionValue:@"fcc-_es2"          forKey:@"overlay-format"];
+        [options setPlayerOptionIntValue:1      forKey:@"videotoolbox"];
+        [options setPlayerOptionIntValue:4096    forKey:@"videotoolbox-max-frame-width"];
+    }else{
+        //     [options setPlayerOptionValue:@"fcc-rv24"          forKey:@"overlay-format"];
+        [options setPlayerOptionValue:@"fcc-i420"          forKey:@"overlay-format"];
+        
+        
+    }
+    
+    //disable audio
+    //[options setPlayerOptionIntValue:1 forKey:@"an"];
+    
+    
+    [options setPlayerOptionValue:0        forKey:@"start-on-prepared"];
+    [options setCodecOptionIntValue:1 forKey:@"is_avc"];
+    
+    if([path isEqualToString:@"rtsp://192.168.42.1/live"]){
+        
+        [options setPlayerOptionIntValue:0 forKey:@"packet-buffering"];
+        [options setPlayerOptionIntValue:15 forKey:@"limit_packets"];
+        [options setFormatOptionValue:@"tcp" forKey:@"rtsp_transport"];
+        [options setFormatOptionValue:@"video" forKey:@"allowed_media_types"];
+        
+        
+    }else  if([path hasPrefix:@"rtsp://192.168.42.1/tmp"]){
+        
+        //[options setPlayerOptionIntValue:0 forKey:@"packet-buffering"];
+        //[options setFormatOptionIntValue:5000000 forKey:@"max_delay"];
+        // [options setFormatOptionValue:@"tcp" forKey:@"rtsp_transport"];
+        
+        
+    }else  if([path hasPrefix:@"http://192.168.1.254:8192"]){
+        
+        [options setPlayerOptionIntValue:0 forKey:@"packet-buffering"];
+        
+    }else if(  [path hasPrefix:@"rtsp://"] ){
+        
+        [options setPlayerOptionIntValue:0 forKey:@"packet-buffering"];
+        [options setPlayerOptionIntValue:15 forKey:@"limit_packets"];
+        
+        
+        [options setFormatOptionValue:@"udp" forKey:@"rtsp_transport"];
+    }
+    
+    if(  [path hasPrefix:@"rtmp://"] ){
+        
+        [options setPlayerOptionIntValue:0 forKey:@"packet-buffering"];
+        //[options setPlayerOptionIntValue:15 forKey:@"limit_packets"];
+    }
+    decoder->controller = [[IJKFFMoviePlayerController alloc]initWithContentURLString:path withOptions:options isVideotoolbox:isVideoToolBox];
     //__weak IJKPlayerMovieDecoder* weakSelf = self;
     decoder->controller.displayFrameBlock = ^(SDL_VoutOverlay* overlay){
-        if (overlay == NULL)return;
-        [weakSelf.delegate movieF4DecoderDidDecodeFrameSDL:overlay index:0];
+        if (overlay == NULL) {
+            return;
+        }
+        IjkFfplayDecoderCallBack* callBack = &decoder->callBack;
+        if(callBack->func_get_frame != 0) {
+            IjkVideoFrame videoFrame = {0};
+            if(overlay->format == SDL_FCC__VTB) {
+                CVPixelBufferRef pixel = SDL_VoutOverlayVideoToolBox_GetCVPixelBufferRef(overlay);
+                size_t count = CVPixelBufferGetPlaneCount(pixel);
+                size_t width = CVPixelBufferGetWidth(pixel);
+                size_t height = CVPixelBufferGetHeight(pixel);
+                videoFrame.w = (int)width;
+                videoFrame.h = (int)height;
+                videoFrame.format = PIX_FMT_NV12;
+                videoFrame.planes = 2;
+                for(int i = 0; i < count; i++) {
+                    size_t stride = CVPixelBufferGetBytesPerRowOfPlane(pixel, i);
+                    CVPixelBufferLockBaseAddress(pixel, i);
+                    void * pb = CVPixelBufferGetBaseAddressOfPlane(pixel, i);
+                    videoFrame.data[i] = (uint8_t *)pb;
+                    CVPixelBufferUnlockBaseAddress(pixel, i);
+                    videoFrame.linesize[i] = (int)stride;
+                }
+            } else {
+                //软解数据,YUV420P
+                videoFrame.w = overlay->w;
+                videoFrame.h = overlay->h;
+                videoFrame.format = PIX_FMT_YUV420P;
+                int planes = 3;
+                for(int i = 0; i< planes; i++) {
+                    videoFrame.data[i] = overlay->pixels[i];
+                    videoFrame.linesize[i] = overlay->pitches[i];
+                }
+            }
+            callBack->func_get_frame(decoder->opaque, &videoFrame);
+        }
     };
     return 0;
 }
@@ -198,6 +338,75 @@ int ijkFfplayDecoder_getMediaMeta(IjkFfplayDecoder* decoder, IjkMetadata* metada
     if(decoder == NULL) {
         return -1;
     }
+    NSDictionary * mediaDicts = decoder->controller.monitor.mediaMeta;
+    if(mediaDicts != nil) {
+        metadata->duration_ms = decoder->controller.duration;
+        
+        const char* comment = [[mediaDicts objectForKey:@"comment"]UTF8String];
+        if(comment != NULL) {
+            memcpy(metadata->comment, comment, strlen(comment));
+        }
+        
+        const char* original_format = [[mediaDicts objectForKey:@"original_format"]UTF8String];
+        if(original_format != NULL) {
+            memcpy(metadata->original_format, original_format, strlen(original_format));
+        }
+        
+        const char* lens_param = [[mediaDicts objectForKey:@"lens_param"]UTF8String];
+        if(lens_param != NULL) {
+            memcpy(metadata->lens_param, lens_param, strlen(lens_param));
+        }
+        
+        const char* device_sn = [[mediaDicts objectForKey:@"device_sn"]UTF8String];
+        if(device_sn != NULL) {
+            memcpy(metadata->device_sn, device_sn, strlen(device_sn));
+        }
+        
+        const char* cdn_ip = [[mediaDicts objectForKey:@"cdn_ip"]UTF8String];
+        if(cdn_ip != NULL) {
+            memcpy(metadata->cdn_ip, cdn_ip, strlen(cdn_ip));
+        }
+    }
+    
+    NSDictionary * videoDicts = decoder->controller.monitor.videoMeta;
+    if(videoDicts != nil) {
+        metadata->video_bitrate = [[videoDicts objectForKey:@IJKM_KEY_BITRATE] intValue];
+        metadata->width = [[videoDicts objectForKey:@IJKM_KEY_WIDTH] intValue];
+        metadata->height = [[videoDicts objectForKey:@IJKM_KEY_HEIGHT]intValue];
+        
+        const char* videoCodecName = [[videoDicts objectForKey:@IJKM_KEY_CODEC_NAME] UTF8String];
+        if(videoCodecName != NULL) {
+            memcpy(metadata->video_code_name, videoCodecName, strlen(videoCodecName));
+        }
+        
+        const char* videoCodecLongName = [[videoDicts objectForKey:@IJKM_KEY_CODEC_LONG_NAME] UTF8String];
+        if(videoCodecLongName != NULL) {
+            memcpy(metadata->video_code_long_name, videoCodecLongName, strlen(videoCodecLongName));
+        }
+        metadata->video_fps_den = [[videoDicts objectForKey:@IJKM_KEY_FPS_DEN]intValue];
+        metadata->video_fps_num = [[videoDicts objectForKey:@IJKM_KEY_FPS_NUM]intValue];
+        metadata->video_tbr_den = [[videoDicts objectForKey:@IJKM_KEY_TBR_DEN]intValue];
+        metadata->video_tbr_num = [[videoDicts objectForKey:@IJKM_KEY_TBR_NUM]intValue];
+    }
+    
+    NSDictionary * audioDicts = decoder->controller.monitor.audioMeta;
+    if(audioDicts != nil) {
+        metadata->audio_bitrate = [[audioDicts objectForKey:@IJKM_KEY_BITRATE] intValue];
+        
+        const char* audioCodecName = [[audioDicts objectForKey:@IJKM_KEY_CODEC_NAME] UTF8String];
+        if(audioCodecName != NULL) {
+            memcpy(metadata->audio_code_name, audioCodecName, strlen(audioCodecName));
+        }
+        
+        const char* audioCodecLongName = [[audioDicts objectForKey:@IJKM_KEY_CODEC_LONG_NAME] UTF8String];
+        if(audioCodecLongName != NULL){
+            memcpy(metadata->audio_code_long_name, audioCodecLongName, strlen(audioCodecLongName));
+        }
+        
+        metadata->audio_samples_per_sec = [[audioDicts objectForKey:@IJKM_KEY_SAMPLE_RATE]intValue];
+        metadata->audio_channel_layout = [[audioDicts objectForKey:@IJKM_KEY_CHANNEL_LAYOUT]intValue];
+    }
+    
     return 0;
 }
 
@@ -217,3 +426,40 @@ int ijkFfplayDecoder_setHwDecoderName(IjkFfplayDecoder* decoder, const char* dec
     strcpy(decoder->codecName, decoder_name);
     return 0;
 }
+
+void installMovieNotificationObserver(IjkFfplayDecoder* decoder)
+{
+    [[NSNotificationCenter defaultCenter] removeObserver:decoder->eventReceiver];
+    [[NSNotificationCenter defaultCenter] addObserver:decoder->eventReceiver
+                                             selector:@selector(loadStateDidChange:)
+                                                 name:IJKMPMoviePlayerLoadStateDidChangeNotification
+                                               object:decoder->controller];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:decoder->eventReceiver
+                                             selector:@selector(moviePlayBackDidFinish:)
+                                                 name:IJKMPMoviePlayerPlaybackDidFinishNotification
+                                               object:decoder->controller];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:decoder->eventReceiver
+                                             selector:@selector(mediaIsPreparedToPlayDidChange:)
+                                                 name:IJKMPMediaPlaybackIsPreparedToPlayDidChangeNotification
+                                               object:decoder->controller];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:decoder->eventReceiver
+                                             selector:@selector(moviePlayBackStateDidChange:)
+                                                 name:IJKMPMoviePlayerPlaybackStateDidChangeNotification
+                                               object:decoder->controller];
+    [[NSNotificationCenter defaultCenter] addObserver:decoder->eventReceiver
+                                             selector:@selector(mediaPlayOnStatisticsInfoUpdated:)
+                                                 name:IJKMPMoviePlayerDetuStatisticsNotification
+                                               object:decoder->controller];
+}
+
+void removeMovieNotificationObservers(IjkFfplayDecoder* decoder)
+{
+    [[NSNotificationCenter defaultCenter]removeObserver:decoder->eventReceiver name:IJKMPMoviePlayerLoadStateDidChangeNotification object:decoder->controller];
+    [[NSNotificationCenter defaultCenter]removeObserver:decoder->eventReceiver name:IJKMPMoviePlayerPlaybackDidFinishNotification object:decoder->controller];
+    [[NSNotificationCenter defaultCenter]removeObserver:decoder->eventReceiver name:IJKMPMediaPlaybackIsPreparedToPlayDidChangeNotification object:decoder->controller];
+    [[NSNotificationCenter defaultCenter]removeObserver:decoder->eventReceiver name:IJKMPMoviePlayerPlaybackStateDidChangeNotification object:decoder->controller];
+}
+

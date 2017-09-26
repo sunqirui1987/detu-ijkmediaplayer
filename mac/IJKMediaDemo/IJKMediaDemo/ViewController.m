@@ -13,9 +13,11 @@
 #import "GlRender.h"
 #import "GlFlatRender.h"
 #import "GLView.h"
+#include "ijk_ffplay_decoder.h"
 
 @interface ViewController()<MovieDecoderDelegate> {
     bool haveExecute;
+    IjkFfplayDecoder* ijkDecoder;
 }
 @property(nonatomic, strong)IJKPlayerMovieDecoder* decoder;
 @property(nonatomic, strong)GLEssentialsGLView* glView;
@@ -37,8 +39,30 @@
     //self.glView = [[GLEssentialsGLView alloc]initWithFrame:CGRectMake(0, 0, windowWidth, windowHeight) render:self.render];
 //    self.glView0 = [[GLView alloc]initWithFrame:CGRectMake(0, 0, windowWidth, windowHeight) render:self.render];
 //    [self.view addSubview:self.glView0];
-    [self testDecoder];
+    //[self testDecoder];
+    [self testDecoderWrapper];
+}
+
+static void func_get_frame(void* opaque, IjkVideoFrame *frame_callback) {
     
+}
+
+static void func_state_change(void* opaque, IjkMsgState ijk_msgint, int arg1, int arg2) {
+    
+}
+
+-(void)testDecoderWrapper{
+    ijkDecoder = ijkFfplayDecoder_create();
+    ijkFfplayDecoder_init();
+    IjkFfplayDecoderCallBack callBack;
+    callBack.func_get_frame = &func_get_frame;
+    callBack.func_state_change = &func_state_change;
+    ijkFfplayDecoder_setDecoderCallBack(ijkDecoder, NULL, &callBack);
+    const char* path = "http://media.detu.com/@/17717910-8057-4FDF-2F33-F8B1F68282395/2016-08-22/57baeda5920ea-similar.mp4";
+    ijkFfplayDecoder_setHwDecoderName(ijkDecoder, "h264_vtb");
+    ijkFfplayDecoder_setDataSource(ijkDecoder, path);
+    ijkFfplayDecoder_prepare(ijkDecoder);
+    ijkFfplayDecoder_start(ijkDecoder);
 }
 
 - (void) awakeFromNib {

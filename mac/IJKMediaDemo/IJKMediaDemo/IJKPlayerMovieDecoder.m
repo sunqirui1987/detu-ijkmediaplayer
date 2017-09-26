@@ -42,7 +42,7 @@
 {
     
     [IJKFFMoviePlayerController setLogReport:YES];
-    [IJKFFMoviePlayerController setLogLevel:k_IJK_LOG_INFO];
+    [IJKFFMoviePlayerController setLogLevel:MAC_IJK_LOG_INFO];
   //  [IJKFFMoviePlayerController setLogLevel:k_IJK_LOG_INFO];
     
     IJKFFOptions *options =  [[IJKFFOptions alloc] init];
@@ -102,7 +102,7 @@
         
     }
     //[options setFormatOptionIntValue:SDL_FCC_RV24 forKey:@"overlay-format"];
-    _player = [[IJKFFMoviePlayerController alloc] initWithContentURLString:path withOptions:options isVideotoolbox:true];
+    _player = [[IJKFFMoviePlayerController alloc] initWithContentURLString:path withOptions:options isVideotoolbox:self.is_hardware];
 
     
     __weak IJKPlayerMovieDecoder* weakSelf = self;
@@ -134,47 +134,6 @@
     return [[IJKPlayerMovieDecoder alloc] initWithMovie:path];
 }
 
-
--(void)decodeFrame{
-    //    if(self.is_hardware){
-    //        SDL_VoutOverlay* frame = [_player getCurrentFrame3];
-    //        if (frame == NULL) {
-    //            return;
-    //        }
-    //        [self.delegate movieDecoderDidDecodeFrameSDL: frame];
-    //
-    //    }else{
-    //        sframebuffer frame = [_player getCurrentFrame2];
-    //        if (frame.frame == NULL) {
-    //            return;
-    //        }
-    //
-    //        _videoWidth = frame.width;
-    //        _videoHeight = frame.height;
-    //        _framedata = frame.frame;
-    //        _channel   = frame.channel;
-    //        [self.delegate movieDecoderDidDecodeFrameBuffer: _framedata width:_videoWidth height:_videoHeight channel:_channel];
-    //    }
-    //int width, height;
-    //uint8_t *frame = NULL;
-    SDL_VoutOverlay* frame = [_player getCurrentFrame3];
-    //frame = [_player getCurrentFrame4:&width:&height];
-    if (frame == NULL) {
-        return;
-    }
-    
-    //   dispatch_async(dispatch_get_global_queue(0, 0), ^{
-    [self.delegate movieDecoderDidDecodeFrameSDL: frame];
-    //[self.delegate movieDecoderDidDecodeFrameRawbuf:frame :width :height];
-    //   });
-    
-}
-
--(void)captureNext{
-    [_lock lock];
-    [self decodeFrame];
-    [_lock unlock];
-}
 -(void)start{
     [_player play];
     [self installMovieNotificationObservers];

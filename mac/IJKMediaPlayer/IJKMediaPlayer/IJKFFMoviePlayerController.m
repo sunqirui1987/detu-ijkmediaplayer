@@ -553,7 +553,7 @@ inline static int getPlayerOption(IJKFFOptionCategory category)
      object:self];
 
     _bufferingPosition = 0;
-    ijkmp_seek_to(_mediaPlayer, aCurrentPlaybackTime * 1000);
+    ijkmp_seek_to(_mediaPlayer, aCurrentPlaybackTime);
 }
 
 - (NSTimeInterval)currentPlaybackTime
@@ -565,7 +565,7 @@ inline static int getPlayerOption(IJKFFOptionCategory category)
     if (isnan(ret) || isinf(ret))
         return -1;
 
-    return ret / 1000;
+    return ret;
 }
 
 - (NSTimeInterval)duration
@@ -577,7 +577,7 @@ inline static int getPlayerOption(IJKFFOptionCategory category)
     if (isnan(ret) || isinf(ret))
         return -1;
 
-    return ret / 1000;
+    return ret;
 }
 
 - (NSTimeInterval)playableDuration
@@ -734,6 +734,9 @@ inline static void fillMetaInternal(NSMutableDictionary *meta, IjkMediaMeta *raw
                 fillMetaInternal(newMediaMeta, rawMeta, "original_format-eng", nil);
                 fillMetaInternal(newMediaMeta, rawMeta, "comment", nil);
                 fillMetaInternal(newMediaMeta, rawMeta, "comment-eng", nil);
+                fillMetaInternal(newMediaMeta, rawMeta, "lens_param", nil);
+                fillMetaInternal(newMediaMeta, rawMeta, "device_sn", nil);
+                fillMetaInternal(newMediaMeta, rawMeta, "cdn_ip", nil);
                 
                 int64_t video_stream = ijkmeta_get_int64_l(rawMeta, IJKM_KEY_VIDEO_STREAM, -1);
                 int64_t audio_stream = ijkmeta_get_int64_l(rawMeta, IJKM_KEY_AUDIO_STREAM, -1);

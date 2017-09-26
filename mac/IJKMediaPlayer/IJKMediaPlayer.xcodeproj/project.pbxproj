@@ -181,7 +181,7 @@
 		E5580ADF1EEC0C87001BEA47 /* IJKMediaPlayerTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = IJKMediaPlayerTests.m; sourceTree = "<group>"; };
 		E5580AE11EEC0C87001BEA47 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		E55AD5E01F7258750041C09A /* ijk_ffplay_decoder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ijk_ffplay_decoder.h; path = IJKMediaPlayer/ijk_ffplay_decoder.h; sourceTree = "<group>"; };
-		E55AD5E11F7258750041C09A /* ijk_ffplay_decoder.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = ijk_ffplay_decoder.mm; path = IJKMediaPlayer/ijk_ffplay_decoder.mm; sourceTree = "<group>"; };
+		E55AD5E11F7258750041C09A /* ijk_ffplay_decoder.mm */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; name = ijk_ffplay_decoder.mm; path = IJKMediaPlayer/ijk_ffplay_decoder.mm; sourceTree = "<group>"; };
 		E55AD5E21F7258750041C09A /* ijk_frame.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ijk_frame.h; path = IJKMediaPlayer/ijk_frame.h; sourceTree = "<group>"; };
 		E55AD5E31F7258750041C09A /* ijk_metadata.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ijk_metadata.h; path = IJKMediaPlayer/ijk_metadata.h; sourceTree = "<group>"; };
 		E55AD5EB1F726DDA0041C09A /* IJKFFMoviePlayerController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = IJKFFMoviePlayerController.h; path = IJKMediaPlayer/IJKFFMoviePlayerController.h; sourceTree = "<group>"; };

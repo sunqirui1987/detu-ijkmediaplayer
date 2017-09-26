@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		E521C0B91F7A10AF009CB14F /* libstdc++.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = E521C0B81F7A10AF009CB14F /* libstdc++.tbd */; };
 		E5555DAA1EFF911B006B619B /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = E5555DA81EFF911B006B619B /* MainMenu.xib */; };
 		E5580AF91EEC0CD8001BEA47 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = E5580AF81EEC0CD8001BEA47 /* AppDelegate.m */; };
 		E5580AFC1EEC0CD8001BEA47 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = E5580AFB1EEC0CD8001BEA47 /* main.m */; };
@@ -93,6 +94,7 @@
 /* Begin PBXFileReference section */
 		E51F3CE01EF24FFB00B1B201 /* libglfw3.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libglfw3.a; path = library/libglfw3.a; sourceTree = "<group>"; };
 		E51F3D6B1EF2795E00B1B201 /* libglfw3.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libglfw3.a; path = ../library/libglfw3.a; sourceTree = "<group>"; };
+		E521C0B81F7A10AF009CB14F /* libstdc++.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libstdc++.tbd"; path = "usr/lib/libstdc++.tbd"; sourceTree = SDKROOT; };
 		E5555DA91EFF911B006B619B /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/MainMenu.xib; sourceTree = "<group>"; };
 		E5580AF41EEC0CD8001BEA47 /* IJKMediaDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = IJKMediaDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E5580AF71EEC0CD8001BEA47 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -158,6 +160,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E521C0B91F7A10AF009CB14F /* libstdc++.tbd in Frameworks */,
 				E5B6F9B61EF8E900004ECDD4 /* libiconv.2.4.0.tbd in Frameworks */,
 				E5B6F9B41EF8E891004ECDD4 /* libxml2.tbd in Frameworks */,
 				E5B6F9AF1EF8E808004ECDD4 /* VideoDecodeAcceleration.framework in Frameworks */,
@@ -296,6 +299,7 @@
 		E5580B341EEC0F91001BEA47 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				E521C0B81F7A10AF009CB14F /* libstdc++.tbd */,
 				E5B6F9B51EF8E900004ECDD4 /* libiconv.2.4.0.tbd */,
 				E5B6F9B31EF8E891004ECDD4 /* libxml2.tbd */,
 				E5B6F9AE1EF8E808004ECDD4 /* VideoDecodeAcceleration.framework */,
