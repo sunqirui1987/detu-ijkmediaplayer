@@ -2601,8 +2601,8 @@ static int read_thread(void *arg)
 		ic->probesize =  30* 1024;//1*1024;
 		ic->max_analyze_duration = 5 * AV_TIME_BASE;
 	} else {
-       ic->probesize = 2147483647;//1*1024;
-       ic->max_analyze_duration = 10 * AV_TIME_BASE;
+       //ic->probesize = 2147483647;//1*1024;
+       //ic->max_analyze_duration = 10 * AV_TIME_BASE;
     }
 
     int64_t s_t =  av_gettime();
