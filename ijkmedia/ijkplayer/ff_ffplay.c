@@ -504,7 +504,7 @@ static int decoder_decode_frame(FFPlayer *ffp, Decoder *d, AVFrame *frame, AVSub
 		//fprintf(fp_log, "%s, frame->pts:%ld, pkt_temp.pts:%ld\n", d->avctx->codec_type == AVMEDIA_TYPE_VIDEO ? "video" : "audio", frame->pts, d->pkt_temp.pts);
         if (ret < 0) {
             d->packet_pending = 0;
-			if (ret == -40){
+			if (ret == -40 || ret == -22){
 				ffp_notify_msg2(ffp, FFP_MSG_ERROR, FFP_MSG_ERROR_CODE_CODEC);
 				av_log(ffp, AV_LOG_DEBUG, "Not support, stop decode in second.");
 				return -1;
