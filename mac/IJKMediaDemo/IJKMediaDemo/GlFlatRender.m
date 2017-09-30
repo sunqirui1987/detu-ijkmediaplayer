@@ -134,7 +134,7 @@ static const char FLAT_FSH_STR[] = RE_GLES_STRINGIZE(
      glClearColor(0.f, 1.f, 1.f, 1.f);
 }
 - (void) render {
-    NSLog(@"render");
+    //NSLog(@"render");
    
     if(overLay == NULL) {
         return;

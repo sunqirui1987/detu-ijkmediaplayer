@@ -44,20 +44,21 @@
 }
 
 static void func_get_frame(void* opaque, IjkVideoFrame *frame_callback) {
-    
+    NSLog(@"this is func_get_frame!");
 }
 
 static void func_state_change(void* opaque, IjkMsgState ijk_msgint, int arg1, int arg2) {
-    
+    NSLog(@"this is func_state_change!");
 }
 
 -(void)testDecoderWrapper{
+    NSLog(@"testDecoderWrappers!");
+    ijkFfplayDecoder_init(); 
     ijkDecoder = ijkFfplayDecoder_create();
-    ijkFfplayDecoder_init();
     IjkFfplayDecoderCallBack callBack;
     callBack.func_get_frame = &func_get_frame;
     callBack.func_state_change = &func_state_change;
-    ijkFfplayDecoder_setDecoderCallBack(ijkDecoder, NULL, &callBack);
+    ijkFfplayDecoder_setDecoderCallBack(ijkDecoder, (__bridge void *) self, &callBack);
     const char* path = "http://media.detu.com/@/17717910-8057-4FDF-2F33-F8B1F68282395/2016-08-22/57baeda5920ea-similar.mp4";
     ijkFfplayDecoder_setHwDecoderName(ijkDecoder, "h264_vtb");
     ijkFfplayDecoder_setDataSource(ijkDecoder, path);
