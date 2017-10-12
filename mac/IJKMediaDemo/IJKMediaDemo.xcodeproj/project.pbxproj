@@ -38,7 +38,6 @@
 		E5B6F8371EF813CC004ECDD4 /* AudioUnit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E5B6F8361EF813CC004ECDD4 /* AudioUnit.framework */; };
 		E5B6F83A1EF813D6004ECDD4 /* CoreAudioKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E5B6F8391EF813D6004ECDD4 /* CoreAudioKit.framework */; };
 		E5B6F83C1EF813E2004ECDD4 /* CoreAudio.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E5B6F83B1EF813E2004ECDD4 /* CoreAudio.framework */; };
-		E5B6F9941EF8C463004ECDD4 /* IJKPlayerMovieDecoder.m in Sources */ = {isa = PBXBuildFile; fileRef = E5B6F9931EF8C463004ECDD4 /* IJKPlayerMovieDecoder.m */; };
 		E5B6F9A01EF8E5C5004ECDD4 /* libavcodec.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E5B6F9961EF8E568004ECDD4 /* libavcodec.a */; };
 		E5B6F9A11EF8E5C5004ECDD4 /* libavdevice.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E5B6F9971EF8E568004ECDD4 /* libavdevice.a */; };
 		E5B6F9A21EF8E5C5004ECDD4 /* libavfilter.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E5B6F9981EF8E568004ECDD4 /* libavfilter.a */; };
@@ -139,8 +138,6 @@
 		E5B6F8361EF813CC004ECDD4 /* AudioUnit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioUnit.framework; path = System/Library/Frameworks/AudioUnit.framework; sourceTree = SDKROOT; };
 		E5B6F8391EF813D6004ECDD4 /* CoreAudioKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreAudioKit.framework; path = System/Library/Frameworks/CoreAudioKit.framework; sourceTree = SDKROOT; };
 		E5B6F83B1EF813E2004ECDD4 /* CoreAudio.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreAudio.framework; path = System/Library/Frameworks/CoreAudio.framework; sourceTree = SDKROOT; };
-		E5B6F9921EF8C463004ECDD4 /* IJKPlayerMovieDecoder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IJKPlayerMovieDecoder.h; sourceTree = "<group>"; };
-		E5B6F9931EF8C463004ECDD4 /* IJKPlayerMovieDecoder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IJKPlayerMovieDecoder.m; sourceTree = "<group>"; };
 		E5B6F9961EF8E568004ECDD4 /* libavcodec.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libavcodec.a; path = ../library/libavcodec.a; sourceTree = "<group>"; };
 		E5B6F9971EF8E568004ECDD4 /* libavdevice.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libavdevice.a; path = ../library/libavdevice.a; sourceTree = "<group>"; };
 		E5B6F9981EF8E568004ECDD4 /* libavfilter.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libavfilter.a; path = ../library/libavfilter.a; sourceTree = "<group>"; };
@@ -235,8 +232,6 @@
 			children = (
 				E5580AF71EEC0CD8001BEA47 /* AppDelegate.h */,
 				E5580AF81EEC0CD8001BEA47 /* AppDelegate.m */,
-				E5B6F9921EF8C463004ECDD4 /* IJKPlayerMovieDecoder.h */,
-				E5B6F9931EF8C463004ECDD4 /* IJKPlayerMovieDecoder.m */,
 				E55B0EEA1EFE0B5F007E2E16 /* GLEssentialsGLView.h */,
 				E55B0EEB1EFE0B5F007E2E16 /* GLEssentialsGLView.m */,
 				E55B0EEC1EFE0B5F007E2E16 /* GlFlatRender.h */,
@@ -501,7 +496,6 @@
 				E5580AF91EEC0CD8001BEA47 /* AppDelegate.m in Sources */,
 				E55B0EF61EFE0B5F007E2E16 /* GlFlatRender.m in Sources */,
 				E55B0EFF1EFE3092007E2E16 /* GLView.m in Sources */,
-				E5B6F9941EF8C463004ECDD4 /* IJKPlayerMovieDecoder.m in Sources */,
 				E55B0EF51EFE0B5F007E2E16 /* GLEssentialsGLView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

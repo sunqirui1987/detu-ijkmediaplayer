@@ -27,6 +27,33 @@
 
 typedef void (^DisplayFrameBlock)(SDL_VoutOverlay* overlay);
 
+typedef enum {
+    MOVICE_STATE_PREPARED,
+    MOVICE_STATE_PLAYING,
+    MOVICE_STATE_STOP,
+    MOVICE_STATE_PAUSE,
+    MOVICE_STATE_FINISH,
+    MOVICE_STATE_SEEK_FINISH,
+    MOVICE_STATE_BUFFER_EMPTY,
+    MOVICE_STATE_START_SEEK,
+    MOVICE_STATE_FAILED,
+    MOVICE_STATE_READYTOPALY,
+    MOVICE_STATE_UNKNOWN
+    
+}MovieDecoderPlayItemState;
+
+@protocol MovieDecoderDelegate <NSObject>
+
+@required
+-(void)movieDecoderError:(int)errorCode;
+-(void)moviceDecoderPlayItemState:(MovieDecoderPlayItemState)state;
+
+@optional
+-(void)movieDecoderOnStatisticsUpdated:(NSDictionary*)dic;
+
+@end
+
+
 
 typedef enum MAC_IJKLogLevel {
     MAC_IJK_LOG_UNKNOWN = 0,
@@ -78,6 +105,7 @@ typedef enum MAC_IJKLogLevel {
 @property(nonatomic, readonly) CGFloat fpsInMeta;
 @property(nonatomic, readonly) CGFloat fpsAtOutput;
 @property(nonatomic) BOOL shouldShowHudView;
+@property (nonatomic,weak) id<MovieDecoderDelegate> delegate;
 
 - (void)setOptionValue:(NSString *)value
                 forKey:(NSString *)key

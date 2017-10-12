@@ -8,18 +8,16 @@
 
 #import "ViewController.h"
 
-#import "IJKPlayerMovieDecoder.h"
 #import "GLEssentialsGLView.h"
 #import "GlRender.h"
 #import "GlFlatRender.h"
 #import "GLView.h"
 #include "ijk_ffplay_decoder.h"
 
-@interface ViewController()<MovieDecoderDelegate> {
+@interface ViewController() {
     bool haveExecute;
     IjkFfplayDecoder* ijkDecoder;
 }
-@property(nonatomic, strong)IJKPlayerMovieDecoder* decoder;
 @property(nonatomic, strong)GLEssentialsGLView* glView;
 @property(nonatomic, strong)GLView* glView0;
 @property(nonatomic, strong)GlRender* render;
@@ -48,19 +46,20 @@ static void func_get_frame(void* opaque, IjkVideoFrame *frame_callback) {
 }
 
 static void func_state_change(void* opaque, IjkMsgState ijk_msgint, int arg1, int arg2) {
-    NSLog(@"this is func_state_change!");
+    NSLog(@"this is func_state_change, %d!", ijk_msgint);
 }
 
 -(void)testDecoderWrapper{
     NSLog(@"testDecoderWrappers!");
-    ijkFfplayDecoder_init(); 
+    ijkFfplayDecoder_init();
     ijkDecoder = ijkFfplayDecoder_create();
     IjkFfplayDecoderCallBack callBack;
     callBack.func_get_frame = &func_get_frame;
     callBack.func_state_change = &func_state_change;
     ijkFfplayDecoder_setDecoderCallBack(ijkDecoder, (__bridge void *) self, &callBack);
-    const char* path = "http://media.detu.com/@/17717910-8057-4FDF-2F33-F8B1F68282395/2016-08-22/57baeda5920ea-similar.mp4";
-    ijkFfplayDecoder_setHwDecoderName(ijkDecoder, "h264_vtb");
+    const char* path = "http://media.qicdn.detu.com//13468647-9359-C8B5-8844-6AD3F83942488/2017-10-12/59df08a9f78b7-test.m3u8";
+    //path = "/Users/chao/Downloads/pano/tb402.MP4";
+    ijkFfplayDecoder_setHwDecoderName(ijkDecoder, "h264_soft");
     ijkFfplayDecoder_setDataSource(ijkDecoder, path);
     ijkFfplayDecoder_prepare(ijkDecoder);
     ijkFfplayDecoder_start(ijkDecoder);
@@ -81,29 +80,12 @@ static void func_state_change(void* opaque, IjkMsgState ijk_msgint, int arg1, in
 //    }
 }
 
--(void)testDecoder{
-    NSString* path = @"http://media.detu.com/@/17717910-8057-4FDF-2F33-F8B1F68282395/2016-08-22/57baeda5920ea-similar.mp4";
-    path = @"http://media.detu.com/@/13711706-6958-9D6C-5D4C-BB75F19844880/2017-07-09/5961f45b072d1-2048x1024.m3u8";
-    self.decoder = [IJKPlayerMovieDecoder movieDecoderWithMovie:path isHardWare:false];
-    self.decoder.delegate = self;
-    [self.decoder start];
-}
-
-
 - (void)setRepresentedObject:(id)representedObject {
     [super setRepresentedObject:representedObject];
 
     // Update the view, if already loaded.
 }
 
--(void)movieDecoderDidFinishDecoding {
-}
--(void)movieDecoderDidSeeked {
-}
--(void)movieDecoderError:(NSError *)error {
-}
--(void)moviceDecoderPlayItemState:(MovieDecoderPlayItemState)state {
-}
 
 -(void)movieDecoderDidDecodeFrameSDL:(SDL_VoutOverlay*)frame {
     //NSLog(@"movieDecoderDidDecodeFrameSDL");

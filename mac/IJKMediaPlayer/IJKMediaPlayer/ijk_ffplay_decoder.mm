@@ -21,43 +21,15 @@ extern "C" {
 #define MAC_DECODER_NAME_VTB "h264_vtb"
 #define MAC_MAX_DECODER_NAME_LENGTH 8
 
-@interface DecoderEventReceiver : NSObject{
+@interface DecoderEventReceiver<MovieDecoderDelegate> : NSObject{
     IjkFfplayDecoder* decoder;
 }
 -(void)setDecoder:(IjkFfplayDecoder*)decoder;
--(void)loadStateDidChange:(NSNotification*)notification;
--(void)moviePlayBackDidFinish:(NSNotification*)notification;
--(void)notifyMovieDecoderError:(int)errorCode withErrorStr:(NSString*)errorStr;
--(void)mediaIsPreparedToPlayDidChange:(NSNotification*)notification;
--(void)moviePlayBackStateDidChange:(NSNotification*)notification;
--(void)mediaPlayOnStatisticsInfoUpdated:(NSNotification*)notification;
-@end
-
-@implementation DecoderEventReceiver
-
--(void)setDecoder:(IjkFfplayDecoder*)ijkDecoder {
-    decoder = ijkDecoder;
-}
-
--(void)loadStateDidChange:(NSNotification*)notification {
-    
-}
-
--(void)moviePlayBackDidFinish:(NSNotification*)notification {
-}
-
--(void)notifyMovieDecoderError:(int)errorCode withErrorStr:(NSString*)errorStr {
-}
-
--(void)mediaIsPreparedToPlayDidChange:(NSNotification*)notification {
-}
-
--(void)moviePlayBackStateDidChange:(NSNotification*)notification {
-}
-
--(void)mediaPlayOnStatisticsInfoUpdated:(NSNotification*)notification {
-}
-
+-(void)movieDecoderDidFinishDecoding;
+-(void)movieDecoderDidSeeked;
+-(void)movieDecoderError:(NSError *)error;
+-(void)moviceDecoderPlayItemState:(MovieDecoderPlayItemState)state;
+-(void)movieDecoderOnStatisticsUpdated:(NSDictionary*)dic;
 @end
 
 struct IjkFfplayDecoder {
@@ -67,6 +39,38 @@ struct IjkFfplayDecoder {
     IjkFfplayDecoderCallBack callBack;
     DecoderEventReceiver* eventReceiver;
 };
+
+@implementation DecoderEventReceiver
+
+-(void)setDecoder:(IjkFfplayDecoder*)ijDecoder {
+    decoder = ijDecoder;
+}
+-(void)movieDecoderError:(int)errorCode {
+    
+}
+-(void)moviceDecoderPlayItemState:(MovieDecoderPlayItemState)state {
+    if(decoder == NULL) {
+        return;
+    }
+    IjkFfplayDecoderCallBack* callBack = &(decoder->callBack);
+    if(callBack->func_state_change != 0) {
+        switch (state) {
+            case MOVICE_STATE_PREPARED:
+                (*callBack->func_state_change)(decoder->opaque, IJK_MSG_PREPARED, 0, 0);
+                break;
+            case MOVICE_STATE_PLAYING:
+                (*callBack->func_state_change)(decoder->opaque, IJK_MSG_PREPARED, 0, 0);
+                break;
+
+            default:
+                break;
+        }
+    }
+}
+-(void)movieDecoderOnStatisticsUpdated:(NSDictionary*)dic {
+}
+
+@end
 
 int ijkFfplayDecoder_init(void) {
     return 0;
@@ -166,6 +170,7 @@ int ijkFfplayDecoder_setDataSource(IjkFfplayDecoder* decoder, const char* file_a
     }
     decoder->controller = [[IJKFFMoviePlayerController alloc]initWithContentURLString:path withOptions:options isVideotoolbox:isVideoToolBox];
     //__weak IJKPlayerMovieDecoder* weakSelf = self;
+    decoder->controller.delegate = decoder->eventReceiver;
     decoder->controller.displayFrameBlock = ^(SDL_VoutOverlay* overlay){
         if (overlay == NULL) {
             return;
@@ -426,40 +431,3 @@ int ijkFfplayDecoder_setHwDecoderName(IjkFfplayDecoder* decoder, const char* dec
     strcpy(decoder->codecName, decoder_name);
     return 0;
 }
-
-void installMovieNotificationObserver(IjkFfplayDecoder* decoder)
-{
-    [[NSNotificationCenter defaultCenter] removeObserver:decoder->eventReceiver];
-    [[NSNotificationCenter defaultCenter] addObserver:decoder->eventReceiver
-                                             selector:@selector(loadStateDidChange:)
-                                                 name:IJKMPMoviePlayerLoadStateDidChangeNotification
-                                               object:decoder->controller];
-    
-    [[NSNotificationCenter defaultCenter] addObserver:decoder->eventReceiver
-                                             selector:@selector(moviePlayBackDidFinish:)
-                                                 name:IJKMPMoviePlayerPlaybackDidFinishNotification
-                                               object:decoder->controller];
-    
-    [[NSNotificationCenter defaultCenter] addObserver:decoder->eventReceiver
-                                             selector:@selector(mediaIsPreparedToPlayDidChange:)
-                                                 name:IJKMPMediaPlaybackIsPreparedToPlayDidChangeNotification
-                                               object:decoder->controller];
-    
-    [[NSNotificationCenter defaultCenter] addObserver:decoder->eventReceiver
-                                             selector:@selector(moviePlayBackStateDidChange:)
-                                                 name:IJKMPMoviePlayerPlaybackStateDidChangeNotification
-                                               object:decoder->controller];
-    [[NSNotificationCenter defaultCenter] addObserver:decoder->eventReceiver
-                                             selector:@selector(mediaPlayOnStatisticsInfoUpdated:)
-                                                 name:IJKMPMoviePlayerDetuStatisticsNotification
-                                               object:decoder->controller];
-}
-
-void removeMovieNotificationObservers(IjkFfplayDecoder* decoder)
-{
-    [[NSNotificationCenter defaultCenter]removeObserver:decoder->eventReceiver name:IJKMPMoviePlayerLoadStateDidChangeNotification object:decoder->controller];
-    [[NSNotificationCenter defaultCenter]removeObserver:decoder->eventReceiver name:IJKMPMoviePlayerPlaybackDidFinishNotification object:decoder->controller];
-    [[NSNotificationCenter defaultCenter]removeObserver:decoder->eventReceiver name:IJKMPMediaPlaybackIsPreparedToPlayDidChangeNotification object:decoder->controller];
-    [[NSNotificationCenter defaultCenter]removeObserver:decoder->eventReceiver name:IJKMPMoviePlayerPlaybackStateDidChangeNotification object:decoder->controller];
-}
-
