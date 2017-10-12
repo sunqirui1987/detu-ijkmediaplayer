@@ -374,8 +374,8 @@ void voutFreeL(SDL_Vout *vout) {
 
 int display_overlay(SDL_Vout *vout, SDL_VoutOverlay *overlay){
     IJKFFMoviePlayerController* controller = (__bridge IJKFFMoviePlayerController *)vout->opaque;
-    if(controller.displayFrameBlock != nil){
-        controller.displayFrameBlock(overlay);
+    if(controller.delegate != nil) {
+        [controller.delegate movieDecoderDidDecodeFrameSDL:overlay];
     }
     return 0;
 }

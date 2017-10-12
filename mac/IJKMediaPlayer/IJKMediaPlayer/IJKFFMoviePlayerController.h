@@ -47,7 +47,7 @@ typedef enum {
 @required
 -(void)movieDecoderError:(int)errorCode;
 -(void)moviceDecoderPlayItemState:(MovieDecoderPlayItemState)state;
-
+-(void)movieDecoderDidDecodeFrameSDL:(SDL_VoutOverlay*)frame;
 @optional
 -(void)movieDecoderOnStatisticsUpdated:(NSDictionary*)dic;
 
@@ -78,7 +78,6 @@ typedef enum MAC_IJKLogLevel {
                    withOptions:(IJKFFOptions *)options;
 
 @property(nonatomic,assign) Boolean isVideotoolbox;
-@property(nonatomic) DisplayFrameBlock displayFrameBlock;
 - (id)initWithContentURLString:(NSString *)aUrlString
                    withOptions:(IJKFFOptions *)options
                 isVideotoolbox:(Boolean)isVideotoolbox;

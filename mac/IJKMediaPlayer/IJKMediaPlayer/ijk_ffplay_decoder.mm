@@ -30,12 +30,13 @@ extern "C" {
 -(void)movieDecoderError:(NSError *)error;
 -(void)moviceDecoderPlayItemState:(MovieDecoderPlayItemState)state;
 -(void)movieDecoderOnStatisticsUpdated:(NSDictionary*)dic;
+-(void)movieDecoderDidDecodeFrameSDL:(SDL_VoutOverlay*)frame;
 @end
 
 struct IjkFfplayDecoder {
     void* opaque;
     IJKFFMoviePlayerController* controller;
-    char codecName[8];
+    char codecName[9];
     IjkFfplayDecoderCallBack callBack;
     DecoderEventReceiver* eventReceiver;
 };
@@ -70,6 +71,45 @@ struct IjkFfplayDecoder {
 -(void)movieDecoderOnStatisticsUpdated:(NSDictionary*)dic {
 }
 
+-(void)movieDecoderDidDecodeFrameSDL:(SDL_VoutOverlay*)overlay {
+    if (overlay == NULL) {
+        return;
+    }
+    IjkFfplayDecoderCallBack* callBack = &decoder->callBack;
+    if(callBack->func_get_frame != 0) {
+        IjkVideoFrame videoFrame = {0};
+        if(overlay->format == SDL_FCC__VTB) {
+            CVPixelBufferRef pixel = SDL_VoutOverlayVideoToolBox_GetCVPixelBufferRef(overlay);
+            size_t count = CVPixelBufferGetPlaneCount(pixel);
+            size_t width = CVPixelBufferGetWidth(pixel);
+            size_t height = CVPixelBufferGetHeight(pixel);
+            videoFrame.w = (int)width;
+            videoFrame.h = (int)height;
+            videoFrame.format = PIX_FMT_NV12;
+            videoFrame.planes = 2;
+            for(int i = 0; i < count; i++) {
+                size_t stride = CVPixelBufferGetBytesPerRowOfPlane(pixel, i);
+                CVPixelBufferLockBaseAddress(pixel, i);
+                void * pb = CVPixelBufferGetBaseAddressOfPlane(pixel, i);
+                videoFrame.data[i] = (uint8_t *)pb;
+                CVPixelBufferUnlockBaseAddress(pixel, i);
+                videoFrame.linesize[i] = (int)stride;
+            }
+        } else {
+            //软解数据,YUV420P
+            videoFrame.w = overlay->w;
+            videoFrame.h = overlay->h;
+            videoFrame.format = PIX_FMT_YUV420P;
+            int planes = 3;
+            for(int i = 0; i< planes; i++) {
+                videoFrame.data[i] = overlay->pixels[i];
+                videoFrame.linesize[i] = overlay->pitches[i];
+            }
+        }
+        callBack->func_get_frame(decoder->opaque, &videoFrame);
+    }
+}
+
 @end
 
 int ijkFfplayDecoder_init(void) {
@@ -100,8 +140,8 @@ int ijkFfplayDecoder_setDecoderCallBack(IjkFfplayDecoder* decoder, void* opaque,
         return -1;
     }
     decoder->opaque = opaque;
-    decoder->callBack.func_get_frame = callback->func_get_frame;
-    decoder->callBack.func_state_change = callback->func_state_change;
+    memset(&decoder->callBack, 0, sizeof(IjkFfplayDecoderCallBack));
+    memcpy(&decoder->callBack, callback, sizeof(IjkFfplayDecoderCallBack));
     return 0;
 }
 
@@ -169,46 +209,7 @@ int ijkFfplayDecoder_setDataSource(IjkFfplayDecoder* decoder, const char* file_a
         //[options setPlayerOptionIntValue:15 forKey:@"limit_packets"];
     }
     decoder->controller = [[IJKFFMoviePlayerController alloc]initWithContentURLString:path withOptions:options isVideotoolbox:isVideoToolBox];
-    //__weak IJKPlayerMovieDecoder* weakSelf = self;
     decoder->controller.delegate = decoder->eventReceiver;
-    decoder->controller.displayFrameBlock = ^(SDL_VoutOverlay* overlay){
-        if (overlay == NULL) {
-            return;
-        }
-        IjkFfplayDecoderCallBack* callBack = &decoder->callBack;
-        if(callBack->func_get_frame != 0) {
-            IjkVideoFrame videoFrame = {0};
-            if(overlay->format == SDL_FCC__VTB) {
-                CVPixelBufferRef pixel = SDL_VoutOverlayVideoToolBox_GetCVPixelBufferRef(overlay);
-                size_t count = CVPixelBufferGetPlaneCount(pixel);
-                size_t width = CVPixelBufferGetWidth(pixel);
-                size_t height = CVPixelBufferGetHeight(pixel);
-                videoFrame.w = (int)width;
-                videoFrame.h = (int)height;
-                videoFrame.format = PIX_FMT_NV12;
-                videoFrame.planes = 2;
-                for(int i = 0; i < count; i++) {
-                    size_t stride = CVPixelBufferGetBytesPerRowOfPlane(pixel, i);
-                    CVPixelBufferLockBaseAddress(pixel, i);
-                    void * pb = CVPixelBufferGetBaseAddressOfPlane(pixel, i);
-                    videoFrame.data[i] = (uint8_t *)pb;
-                    CVPixelBufferUnlockBaseAddress(pixel, i);
-                    videoFrame.linesize[i] = (int)stride;
-                }
-            } else {
-                //软解数据,YUV420P
-                videoFrame.w = overlay->w;
-                videoFrame.h = overlay->h;
-                videoFrame.format = PIX_FMT_YUV420P;
-                int planes = 3;
-                for(int i = 0; i< planes; i++) {
-                    videoFrame.data[i] = overlay->pixels[i];
-                    videoFrame.linesize[i] = overlay->pitches[i];
-                }
-            }
-            callBack->func_get_frame(decoder->opaque, &videoFrame);
-        }
-    };
     return 0;
 }
 
