@@ -179,7 +179,7 @@ int main(int argc, char** argv)
 	}
 	printf("create iLog3 Handle success.\n");
 	SetLogOutputG(LOG_OUTPUT_FILE, "./ijkDemo.log", LOG_NO_OUTPUTFUNC);
-	SetLogLevelG(LOG_LEVEL_INFO);
+	SetLogLevelG(LOG_LEVEL_DEBUG);
 	SetLogStylesG(LOG_STYLE_DEFAULT, LOG_NO_STYLEFUNC);
 
 
