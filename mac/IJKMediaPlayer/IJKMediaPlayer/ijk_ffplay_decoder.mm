@@ -25,13 +25,14 @@ extern "C" {
     IjkFfplayDecoder* decoder;
 }
 -(void)setDecoder:(IjkFfplayDecoder*)decoder;
--(void)movieDecoderDidFinishDecoding;
--(void)movieDecoderDidSeeked;
 -(void)movieDecoderError:(NSError *)error;
--(void)moviceDecoderPlayItemState:(MovieDecoderPlayItemState)state;
+-(void)moviceDecoderPlayItemState:(MovieDecoderPlayItemState)state arg1:(int) arg1 arg2:(int)arg2;
 -(void)movieDecoderOnStatisticsUpdated:(NSDictionary*)dic;
 -(void)movieDecoderDidDecodeFrameSDL:(SDL_VoutOverlay*)frame;
 @end
+
+
+#define MAC_IJK_VTB_MAX_CACHE_FRAME_SIZE 5
 
 struct IjkFfplayDecoder {
     void* opaque;
@@ -39,6 +40,8 @@ struct IjkFfplayDecoder {
     char codecName[9];
     IjkFfplayDecoderCallBack callBack;
     DecoderEventReceiver* eventReceiver;
+    IjkVideoFrame cacheVideoFrames[MAC_IJK_VTB_MAX_CACHE_FRAME_SIZE];
+    int index;
 };
 
 @implementation DecoderEventReceiver
@@ -46,10 +49,18 @@ struct IjkFfplayDecoder {
 -(void)setDecoder:(IjkFfplayDecoder*)ijDecoder {
     decoder = ijDecoder;
 }
+
 -(void)movieDecoderError:(int)errorCode {
-    
+    if(decoder == NULL) {
+        return;
+    }
+    IjkFfplayDecoderCallBack* callBack = &(decoder->callBack);
+    if(callBack->func_state_change != 0) {
+        (*callBack->func_state_change)(decoder->opaque, IJK_MSG_ERROR, 0, 0);
+    }
 }
--(void)moviceDecoderPlayItemState:(MovieDecoderPlayItemState)state {
+
+-(void)moviceDecoderPlayItemState:(MovieDecoderPlayItemState)state arg1:(int) arg1 arg2:(int)arg2{
     if(decoder == NULL) {
         return;
     }
@@ -60,7 +71,16 @@ struct IjkFfplayDecoder {
                 (*callBack->func_state_change)(decoder->opaque, IJK_MSG_PREPARED, 0, 0);
                 break;
             case MOVICE_STATE_PLAYING:
-                (*callBack->func_state_change)(decoder->opaque, IJK_MSG_PREPARED, 0, 0);
+                //(*callBack->func_state_change)(decoder->opaque, IJK_MSG_PREPARED, 0, 0);
+                break;
+            case MOVICE_STATE_FINISH:
+                (*callBack->func_state_change)(decoder->opaque, IJK_MSG_COMPLETED, 0, 0);
+                break;
+            case MOVICE_STATE_SEEK_FINISH:
+                (*callBack->func_state_change)(decoder->opaque, IJK_MSG_SEEK_COMPLETE, arg1, arg2);
+                break;
+            case MOVICE_STATE_PLAYBACK_CHANGED:
+                (*callBack->func_state_change)(decoder->opaque, IJK_MSG_PLAYBACK_STATE_CHANGED, arg1, arg2);
                 break;
 
             default:
@@ -68,7 +88,9 @@ struct IjkFfplayDecoder {
         }
     }
 }
+
 -(void)movieDecoderOnStatisticsUpdated:(NSDictionary*)dic {
+    
 }
 
 -(void)movieDecoderDidDecodeFrameSDL:(SDL_VoutOverlay*)overlay {
@@ -79,22 +101,39 @@ struct IjkFfplayDecoder {
     if(callBack->func_get_frame != 0) {
         IjkVideoFrame videoFrame = {0};
         if(overlay->format == SDL_FCC__VTB) {
+            //mac 硬解需要拷贝数据
             CVPixelBufferRef pixel = SDL_VoutOverlayVideoToolBox_GetCVPixelBufferRef(overlay);
             size_t count = CVPixelBufferGetPlaneCount(pixel);
             size_t width = CVPixelBufferGetWidth(pixel);
             size_t height = CVPixelBufferGetHeight(pixel);
+            IjkVideoFrame* cacheFrame = &decoder->cacheVideoFrames[decoder->index];
+            if(cacheFrame->data[0] == NULL) {
+                int alignWidth = (int)CVPixelBufferGetBytesPerRowOfPlane(pixel, 0);
+                int alignHeight = (int)CVPixelBufferGetHeightOfPlane(pixel, 0);
+                int ySize = alignWidth * alignHeight;
+                unsigned char* cacheData = (unsigned char*)calloc(1, ySize * 3 / 2);
+                cacheFrame->data[0] = cacheData;
+                cacheFrame->data[1] = cacheData + ySize;
+            }
+            
             videoFrame.w = (int)width;
             videoFrame.h = (int)height;
             videoFrame.format = PIX_FMT_NV12;
+            int alignWidth = (int)CVPixelBufferGetBytesPerRowOfPlane(pixel, 0);
+            int alignHeight = (int)CVPixelBufferGetHeightOfPlane(pixel, 0);
             videoFrame.planes = 2;
+            int copySizes[2] = {0};
+            copySizes[0] = alignWidth * alignHeight;
+            copySizes[1] = copySizes[0] / 2;
             for(int i = 0; i < count; i++) {
-                size_t stride = CVPixelBufferGetBytesPerRowOfPlane(pixel, i);
                 CVPixelBufferLockBaseAddress(pixel, i);
                 void * pb = CVPixelBufferGetBaseAddressOfPlane(pixel, i);
-                videoFrame.data[i] = (uint8_t *)pb;
+                memcpy(cacheFrame->data[i], pb, copySizes[i]);
+                videoFrame.data[i] = cacheFrame->data[i];
+                videoFrame.linesize[i] = (int)(int)CVPixelBufferGetBytesPerRowOfPlane(pixel, i);
                 CVPixelBufferUnlockBaseAddress(pixel, i);
-                videoFrame.linesize[i] = (int)stride;
             }
+            decoder->index = (decoder->index++) % MAC_IJK_VTB_MAX_CACHE_FRAME_SIZE;
         } else {
             //软解数据,YUV420P
             videoFrame.w = overlay->w;
@@ -213,10 +252,22 @@ int ijkFfplayDecoder_setDataSource(IjkFfplayDecoder* decoder, const char* file_a
     return 0;
 }
 
+static void releaseCacheFrames(IjkFfplayDecoder* decoder) {
+    IjkVideoFrame* frame = NULL;
+    for(int i = 0; i < MAC_IJK_VTB_MAX_CACHE_FRAME_SIZE; i++) {
+        frame = &decoder->cacheVideoFrames[i];
+        if(frame->data[0] != NULL) {
+            free(frame->data[0]);
+        }
+    }
+    memset(decoder->cacheVideoFrames, 0, sizeof(decoder->cacheVideoFrames));
+}
+
 int ijkFfplayDecoder_prepare(IjkFfplayDecoder* decoder) {
     if(decoder == NULL) {
         return -1;
     }
+    releaseCacheFrames(decoder);
     [decoder->controller prepareToPlay];
     return 0;
 }
@@ -279,6 +330,7 @@ int ijkFfplayDecoder_release(IjkFfplayDecoder* decoder) {
         return -1;
     }
     [decoder->controller shutdown];
+    releaseCacheFrames(decoder);
     return 0;
 }
 

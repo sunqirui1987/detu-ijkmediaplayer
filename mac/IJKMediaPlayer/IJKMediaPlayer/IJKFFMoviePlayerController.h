@@ -38,6 +38,7 @@ typedef enum {
     MOVICE_STATE_START_SEEK,
     MOVICE_STATE_FAILED,
     MOVICE_STATE_READYTOPALY,
+    MOVICE_STATE_PLAYBACK_CHANGED,
     MOVICE_STATE_UNKNOWN
     
 }MovieDecoderPlayItemState;
@@ -46,7 +47,7 @@ typedef enum {
 
 @required
 -(void)movieDecoderError:(int)errorCode;
--(void)moviceDecoderPlayItemState:(MovieDecoderPlayItemState)state;
+-(void)moviceDecoderPlayItemState:(MovieDecoderPlayItemState)state arg1:(int) arg1 arg2:(int)arg2;
 -(void)movieDecoderDidDecodeFrameSDL:(SDL_VoutOverlay*)frame;
 @optional
 -(void)movieDecoderOnStatisticsUpdated:(NSDictionary*)dic;

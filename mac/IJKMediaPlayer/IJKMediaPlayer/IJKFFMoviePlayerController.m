@@ -231,8 +231,8 @@ void voutFreeL(SDL_Vout *vout) {
     {
         case IJKMPMovieFinishReasonPlaybackEnded:
             NSLog(@"playbackStateDidChange: IJKMPMovieFinishReasonPlaybackEnded: %d\n", reason);
-            if(self.delegate != nil && [self.delegate respondsToSelector:@selector(moviceDecoderPlayItemState:)]) {
-                [self.delegate moviceDecoderPlayItemState:MOVICE_STATE_FINISH];
+            if(self.delegate != nil) {
+                [self.delegate moviceDecoderPlayItemState:MOVICE_STATE_FINISH arg1:0 arg2:0];
             }
             break;
             
@@ -290,13 +290,16 @@ void voutFreeL(SDL_Vout *vout) {
             break;
         }
     }
+    if(self.delegate != nil) {
+        [self.delegate moviceDecoderPlayItemState:MOVICE_STATE_PLAYBACK_CHANGED arg1:0 arg2:0];
+    }
 }
 
 - (void)mediaIsPreparedToPlayDidChange
 {
     NSLog(@"mediaIsPreparedToPlayDidChange\n");
-    if(self.delegate != nil && [self.delegate respondsToSelector:@selector(moviceDecoderPlayItemState:)]) {
-        [self.delegate moviceDecoderPlayItemState:MOVICE_STATE_PREPARED];
+    if(self.delegate != nil) {
+        [self.delegate moviceDecoderPlayItemState:MOVICE_STATE_PREPARED arg1:0 arg2:0];
     }
 }
 
@@ -939,11 +942,9 @@ inline static void fillMetaInternal(NSMutableDictionary *meta, IjkMediaMeta *raw
             break;
         case FFP_MSG_SEEK_COMPLETE: {
             NSLog(@"FFP_MSG_SEEK_COMPLETE:\n");
-            [[NSNotificationCenter defaultCenter]
-             postNotificationName:IJKMPMoviePlayerDidSeekCompleteNotification
-             object:self
-             userInfo:@{IJKMPMoviePlayerDidSeekCompleteTargetKey: @(avmsg->arg1),
-                        IJKMPMoviePlayerDidSeekCompleteErrorKey: @(avmsg->arg2)}];
+            if(self.delegate != nil) {
+                [self.delegate moviceDecoderPlayItemState:MOVICE_STATE_SEEK_FINISH arg1:avmsg->arg1 arg2:avmsg->arg2];
+            }
             _seeking = NO;
             break;
         }
