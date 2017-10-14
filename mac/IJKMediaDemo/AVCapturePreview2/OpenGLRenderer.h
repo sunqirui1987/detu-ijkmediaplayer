@@ -9,7 +9,22 @@
 #include "glUtil.h"
 #import <Foundation/Foundation.h>
 #import <AVFoundation/AVFoundation.h>
-#include "ijksdl_vout.h"
+
+typedef enum RcColorFormat {
+    FMT_RGBA,
+    FMT_YUV420P,
+    FMT_NV12,
+    FMT_VTB
+}RcColorFormat;
+
+typedef struct RcFrame {
+    uint8_t *data[3];
+    int width;
+    int height;
+    int linesize[3];
+    int planes;
+    RcColorFormat format;
+} RcFrame;
 
 @interface OpenGLRenderer : NSObject 
 
@@ -20,6 +35,6 @@
 - (void) render;
 - (void) dealloc;
 
-- (void)setImage:(SDL_VoutOverlay*)overlay;
+- (void)setImage:(RcFrame*)overlay;
 
 @end

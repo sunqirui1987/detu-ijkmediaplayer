@@ -239,9 +239,7 @@ static CVReturn MyDisplayLinkCallback(CVDisplayLinkRef displayLink,
     CVDisplayLinkRelease(displayLink);
 }
 
-- (void)setImage:(SDL_VoutOverlay*)overlay {
-    dispatch_sync(dispatch_get_main_queue(), ^{
-        [_renderer setImage:overlay];
-    });
+- (void)setImage:(RcFrame*)overlay {
+    [_renderer setImage:overlay];
 }
 @end

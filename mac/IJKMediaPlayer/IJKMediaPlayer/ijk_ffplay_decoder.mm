@@ -17,9 +17,9 @@ extern "C" {
 }
 #import <Foundation/Foundation.h>
 
-#define MAC_DECODER_NAME_SOFT "soft"
+#define MAC_DECODER_NAME_SOFT "h264_soft"
 #define MAC_DECODER_NAME_VTB "h264_vtb"
-#define MAC_MAX_DECODER_NAME_LENGTH 8
+#define MAC_MAX_DECODER_NAME_LENGTH 9
 
 @interface DecoderEventReceiver<MovieDecoderDelegate> : NSObject{
     IjkFfplayDecoder* decoder;
@@ -133,13 +133,18 @@ struct IjkFfplayDecoder {
                 videoFrame.linesize[i] = (int)(int)CVPixelBufferGetBytesPerRowOfPlane(pixel, i);
                 CVPixelBufferUnlockBaseAddress(pixel, i);
             }
-            decoder->index = (decoder->index++) % MAC_IJK_VTB_MAX_CACHE_FRAME_SIZE;
+            decoder->index +=1;
+            if(decoder->index == MAC_IJK_VTB_MAX_CACHE_FRAME_SIZE) {
+                decoder->index = 0;
+            }
+            //NSLog(@"the cache frame index:%d", decoder->index);
         } else {
             //软解数据,YUV420P
             videoFrame.w = overlay->w;
             videoFrame.h = overlay->h;
             videoFrame.format = PIX_FMT_YUV420P;
             int planes = 3;
+            videoFrame.planes = planes;
             for(int i = 0; i< planes; i++) {
                 videoFrame.data[i] = overlay->pixels[i];
                 videoFrame.linesize[i] = overlay->pitches[i];
@@ -199,7 +204,7 @@ int ijkFfplayDecoder_setDataSource(IjkFfplayDecoder* decoder, const char* file_a
     if(isVideoToolBox){
         [options setPlayerOptionValue:@"fcc-_es2"          forKey:@"overlay-format"];
         [options setPlayerOptionIntValue:1      forKey:@"videotoolbox"];
-        [options setPlayerOptionIntValue:4096    forKey:@"videotoolbox-max-frame-width"];
+        //[options setPlayerOptionIntValue:4096    forKey:@"videotoolbox-max-frame-width"];
     }else{
         //     [options setPlayerOptionValue:@"fcc-rv24"          forKey:@"overlay-format"];
         [options setPlayerOptionValue:@"fcc-i420"          forKey:@"overlay-format"];
@@ -210,9 +215,11 @@ int ijkFfplayDecoder_setDataSource(IjkFfplayDecoder* decoder, const char* file_a
     //disable audio
     //[options setPlayerOptionIntValue:1 forKey:@"an"];
     
-    
+     //[options setPlayerOptionIntValue:60     forKey:@"max-fps"];
     [options setPlayerOptionValue:0        forKey:@"start-on-prepared"];
     [options setCodecOptionIntValue:1 forKey:@"is_avc"];
+    [options setPlayerOptionIntValue:5      forKey:@"video-pictq-size"];
+    //[options setPlayerOptionIntValue:1      forKey:@"framedrop"];
     
     if([path isEqualToString:@"rtsp://192.168.42.1/live"]){
         
@@ -331,6 +338,7 @@ int ijkFfplayDecoder_release(IjkFfplayDecoder* decoder) {
     }
     [decoder->controller shutdown];
     releaseCacheFrames(decoder);
+    NSLog(@"ijk release cache frames!");
     return 0;
 }
 

@@ -361,8 +361,8 @@ void voutFreeL(SDL_Vout *vout) {
 //        NSLog(@"_mediaPlayer->ffplayer->videotoolbox = %d",_mediaPlayer->ffplayer->videotoolbox);
 //        NSLog(@"videotoolbox-max-frame-width = %d",_mediaPlayer->ffplayer->vtb_max_frame_width);
         if(self.isVideotoolbox){
-            _mediaPlayer->ffplayer->videotoolbox = 1;
-            _mediaPlayer->ffplayer->vtb_max_frame_width = 4*1024;
+            //mediaPlayer->ffplayer->videotoolbox = 1;
+            //_mediaPlayer->ffplayer->vtb_max_frame_width = 4*1024;
  //           av_dict_set_int(&tmp_opts, "probesize",         avf->probesize, 0);
         }
 
@@ -437,8 +437,6 @@ int display_overlay(SDL_Vout *vout, SDL_VoutOverlay *overlay){
 {
     if (!_mediaPlayer)
         return;
-
-//    [self stopHudTimer];
     ijkmp_pause(_mediaPlayer);
 }
 

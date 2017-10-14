@@ -52,11 +52,11 @@
 
 #import <Cocoa/Cocoa.h>
 #import <QuartzCore/CVDisplayLink.h>
-#include "ijksdl_vout.h"
+#import"OpenGLRenderer.h"
 
 @interface VideoGLView : NSOpenGLView {
     CVDisplayLinkRef displayLink;
 }
 
-- (void)setImage:(SDL_VoutOverlay*)overlay;
+- (void)setImage:(RcFrame*)overlay;
 @end
