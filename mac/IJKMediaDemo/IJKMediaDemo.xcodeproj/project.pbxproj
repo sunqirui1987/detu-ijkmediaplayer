@@ -7,13 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		91B4931E1D6212FB00F07935 /* OpenGLRenderer.m in Sources */ = {isa = PBXBuildFile; fileRef = 91B4931D1D6212FB00F07935 /* OpenGLRenderer.m */; };
-		91B493211D62139300F07935 /* VideoGLView.m in Sources */ = {isa = PBXBuildFile; fileRef = 91B493201D62139300F07935 /* VideoGLView.m */; };
-		91C738C41CC22743003C6DC9 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 91C738C31CC22743003C6DC9 /* AppDelegate.m */; };
-		91C738C71CC22743003C6DC9 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 91C738C61CC22743003C6DC9 /* main.m */; };
-		91C738C91CC22743003C6DC9 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 91C738C81CC22743003C6DC9 /* Assets.xcassets */; };
-		91C738CC1CC22743003C6DC9 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 91C738CA1CC22743003C6DC9 /* MainMenu.xib */; };
-		91C738D91CC2283C003C6DC9 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 91C738D71CC2283C003C6DC9 /* ViewController.m */; };
 		E5555DB81EFF92B9006B619B /* libiconv.2.4.0.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = E5555DB71EFF92B9006B619B /* libiconv.2.4.0.tbd */; };
 		E5555DBA1EFF92BE006B619B /* libxml2.2.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = E5555DB91EFF92BE006B619B /* libxml2.2.tbd */; };
 		E5555DBC1EFF92CC006B619B /* VideoDecodeAcceleration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E5555DBB1EFF92CC006B619B /* VideoDecodeAcceleration.framework */; };
@@ -39,10 +32,18 @@
 		E5555DE91EFF935E006B619B /* CoreVideo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E5555DE61EFF935E006B619B /* CoreVideo.framework */; };
 		E5555DEB1EFF936E006B619B /* GLKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E5555DEA1EFF936E006B619B /* GLKit.framework */; };
 		E5555DED1EFF9373006B619B /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E5555DEC1EFF9373006B619B /* AVFoundation.framework */; };
-		E5555DFA1EFF9877006B619B /* ProgramTools.m in Sources */ = {isa = PBXBuildFile; fileRef = E5555DF51EFF9877006B619B /* ProgramTools.m */; };
 		E5555DFE1EFFA1A7006B619B /* libbz2.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = E5555DFD1EFFA1A7006B619B /* libbz2.tbd */; };
-		E5612E091F024D0700DFA8DB /* ffmpegutils.c in Sources */ = {isa = PBXBuildFile; fileRef = E5612E071F024D0700DFA8DB /* ffmpegutils.c */; };
 		E5D46F691F91E5A5008EF54F /* libstdc++.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = E5D46F681F91E5A5008EF54F /* libstdc++.tbd */; };
+		E5F8787F1F92012E0074B5AC /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = E5F878701F92012E0074B5AC /* AppDelegate.m */; };
+		E5F878801F92012E0074B5AC /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E5F878711F92012E0074B5AC /* Assets.xcassets */; };
+		E5F878811F92012E0074B5AC /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = E5F878721F92012E0074B5AC /* MainMenu.xib */; };
+		E5F878821F92012E0074B5AC /* ffmpegutils.c in Sources */ = {isa = PBXBuildFile; fileRef = E5F878741F92012E0074B5AC /* ffmpegutils.c */; };
+		E5F878831F92012E0074B5AC /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = E5F878771F92012E0074B5AC /* Info.plist */; };
+		E5F878841F92012E0074B5AC /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = E5F878781F92012E0074B5AC /* main.m */; };
+		E5F878851F92012E0074B5AC /* OpenGLRenderer.m in Sources */ = {isa = PBXBuildFile; fileRef = E5F8787A1F92012E0074B5AC /* OpenGLRenderer.m */; };
+		E5F878861F92012E0074B5AC /* ProgramTools.m in Sources */ = {isa = PBXBuildFile; fileRef = E5F8787C1F92012E0074B5AC /* ProgramTools.m */; };
+		E5F878871F92012E0074B5AC /* VideoGLView.m in Sources */ = {isa = PBXBuildFile; fileRef = E5F8787E1F92012E0074B5AC /* VideoGLView.m */; };
+		E5F8788D1F9202950074B5AC /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E5F8788C1F9202950074B5AC /* ViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -70,19 +71,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		91B4931C1D6212FB00F07935 /* OpenGLRenderer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OpenGLRenderer.h; sourceTree = "<group>"; };
-		91B4931D1D6212FB00F07935 /* OpenGLRenderer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OpenGLRenderer.m; sourceTree = "<group>"; };
-		91B493201D62139300F07935 /* VideoGLView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VideoGLView.m; sourceTree = "<group>"; };
-		91C738BF1CC22743003C6DC9 /* AVCapturePreview2.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AVCapturePreview2.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		91C738C21CC22743003C6DC9 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
-		91C738C31CC22743003C6DC9 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
-		91C738C61CC22743003C6DC9 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
-		91C738C81CC22743003C6DC9 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		91C738CB1CC22743003C6DC9 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/MainMenu.xib; sourceTree = "<group>"; };
-		91C738CD1CC22743003C6DC9 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		91C738D61CC2283C003C6DC9 /* ViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ViewController.h; path = ../ViewController.h; sourceTree = "<group>"; };
-		91C738D71CC2283C003C6DC9 /* ViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ViewController.m; path = ../ViewController.m; sourceTree = "<group>"; };
-		91D49CA01CD42FC4003F7426 /* VideoGLView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = VideoGLView.h; sourceTree = "<group>"; };
+		91C738BF1CC22743003C6DC9 /* IJkMediaDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = IJkMediaDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E5555DAC1EFF929B006B619B /* IJKMediaPlayer.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = IJKMediaPlayer.xcodeproj; path = ../IJKMediaPlayer/IJKMediaPlayer.xcodeproj; sourceTree = "<group>"; };
 		E5555DB71EFF92B9006B619B /* libiconv.2.4.0.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libiconv.2.4.0.tbd; path = usr/lib/libiconv.2.4.0.tbd; sourceTree = SDKROOT; };
 		E5555DB91EFF92BE006B619B /* libxml2.2.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libxml2.2.tbd; path = usr/lib/libxml2.2.tbd; sourceTree = SDKROOT; };
@@ -110,13 +99,25 @@
 		E5555DE61EFF935E006B619B /* CoreVideo.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreVideo.framework; path = System/Library/Frameworks/CoreVideo.framework; sourceTree = SDKROOT; };
 		E5555DEA1EFF936E006B619B /* GLKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GLKit.framework; path = System/Library/Frameworks/GLKit.framework; sourceTree = SDKROOT; };
 		E5555DEC1EFF9373006B619B /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
-		E5555DF11EFF9877006B619B /* glUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = glUtil.h; sourceTree = "<group>"; };
-		E5555DF41EFF9877006B619B /* ProgramTools.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProgramTools.h; sourceTree = "<group>"; };
-		E5555DF51EFF9877006B619B /* ProgramTools.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProgramTools.m; sourceTree = "<group>"; };
 		E5555DFD1EFFA1A7006B619B /* libbz2.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libbz2.tbd; path = usr/lib/libbz2.tbd; sourceTree = SDKROOT; };
-		E5612E071F024D0700DFA8DB /* ffmpegutils.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = ffmpegutils.c; sourceTree = "<group>"; };
-		E5612E081F024D0700DFA8DB /* ffmpegutils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ffmpegutils.h; sourceTree = "<group>"; };
 		E5D46F681F91E5A5008EF54F /* libstdc++.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libstdc++.tbd"; path = "usr/lib/libstdc++.tbd"; sourceTree = SDKROOT; };
+		E5F8786F1F92012E0074B5AC /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
+		E5F878701F92012E0074B5AC /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
+		E5F878711F92012E0074B5AC /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		E5F878731F92012E0074B5AC /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/MainMenu.xib; sourceTree = "<group>"; };
+		E5F878741F92012E0074B5AC /* ffmpegutils.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = ffmpegutils.c; sourceTree = "<group>"; };
+		E5F878751F92012E0074B5AC /* ffmpegutils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ffmpegutils.h; sourceTree = "<group>"; };
+		E5F878761F92012E0074B5AC /* glUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = glUtil.h; sourceTree = "<group>"; };
+		E5F878771F92012E0074B5AC /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		E5F878781F92012E0074B5AC /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		E5F878791F92012E0074B5AC /* OpenGLRenderer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OpenGLRenderer.h; sourceTree = "<group>"; };
+		E5F8787A1F92012E0074B5AC /* OpenGLRenderer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OpenGLRenderer.m; sourceTree = "<group>"; };
+		E5F8787B1F92012E0074B5AC /* ProgramTools.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProgramTools.h; sourceTree = "<group>"; };
+		E5F8787C1F92012E0074B5AC /* ProgramTools.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProgramTools.m; sourceTree = "<group>"; };
+		E5F8787D1F92012E0074B5AC /* VideoGLView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VideoGLView.h; sourceTree = "<group>"; };
+		E5F8787E1F92012E0074B5AC /* VideoGLView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VideoGLView.m; sourceTree = "<group>"; };
+		E5F8788B1F9202950074B5AC /* ViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
+		E5F8788C1F9202950074B5AC /* ViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -161,7 +162,7 @@
 			isa = PBXGroup;
 			children = (
 				E5555DAC1EFF929B006B619B /* IJKMediaPlayer.xcodeproj */,
-				91C738C11CC22743003C6DC9 /* IJKMediaDemo */,
+				E5F8786E1F92012E0074B5AC /* IJKMediaDemo */,
 				91C738C01CC22743003C6DC9 /* Products */,
 				E5555DB61EFF92B9006B619B /* Frameworks */,
 			);
@@ -170,42 +171,9 @@
 		91C738C01CC22743003C6DC9 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				91C738BF1CC22743003C6DC9 /* AVCapturePreview2.app */,
+				91C738BF1CC22743003C6DC9 /* IJkMediaDemo.app */,
 			);
 			name = Products;
-			sourceTree = "<group>";
-		};
-		91C738C11CC22743003C6DC9 /* IJKMediaDemo */ = {
-			isa = PBXGroup;
-			children = (
-				91C738C21CC22743003C6DC9 /* AppDelegate.h */,
-				91C738C31CC22743003C6DC9 /* AppDelegate.m */,
-				91C738D61CC2283C003C6DC9 /* ViewController.h */,
-				E5555DF11EFF9877006B619B /* glUtil.h */,
-				E5555DF41EFF9877006B619B /* ProgramTools.h */,
-				E5555DF51EFF9877006B619B /* ProgramTools.m */,
-				E5612E071F024D0700DFA8DB /* ffmpegutils.c */,
-				E5612E081F024D0700DFA8DB /* ffmpegutils.h */,
-				91C738D71CC2283C003C6DC9 /* ViewController.m */,
-				91B4931C1D6212FB00F07935 /* OpenGLRenderer.h */,
-				91B4931D1D6212FB00F07935 /* OpenGLRenderer.m */,
-				91D49CA01CD42FC4003F7426 /* VideoGLView.h */,
-				91B493201D62139300F07935 /* VideoGLView.m */,
-				91C738C81CC22743003C6DC9 /* Assets.xcassets */,
-				91C738CA1CC22743003C6DC9 /* MainMenu.xib */,
-				91C738CD1CC22743003C6DC9 /* Info.plist */,
-				91C738C51CC22743003C6DC9 /* Supporting Files */,
-			);
-			name = IJKMediaDemo;
-			path = AVCapturePreview2;
-			sourceTree = "<group>";
-		};
-		91C738C51CC22743003C6DC9 /* Supporting Files */ = {
-			isa = PBXGroup;
-			children = (
-				91C738C61CC22743003C6DC9 /* main.m */,
-			);
-			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
 		E5555DAD1EFF929B006B619B /* Products */ = {
@@ -252,12 +220,36 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		E5F8786E1F92012E0074B5AC /* IJKMediaDemo */ = {
+			isa = PBXGroup;
+			children = (
+				E5F8786F1F92012E0074B5AC /* AppDelegate.h */,
+				E5F878701F92012E0074B5AC /* AppDelegate.m */,
+				E5F878711F92012E0074B5AC /* Assets.xcassets */,
+				E5F878721F92012E0074B5AC /* MainMenu.xib */,
+				E5F878741F92012E0074B5AC /* ffmpegutils.c */,
+				E5F8788B1F9202950074B5AC /* ViewController.h */,
+				E5F8788C1F9202950074B5AC /* ViewController.m */,
+				E5F878751F92012E0074B5AC /* ffmpegutils.h */,
+				E5F878761F92012E0074B5AC /* glUtil.h */,
+				E5F878771F92012E0074B5AC /* Info.plist */,
+				E5F878781F92012E0074B5AC /* main.m */,
+				E5F878791F92012E0074B5AC /* OpenGLRenderer.h */,
+				E5F8787A1F92012E0074B5AC /* OpenGLRenderer.m */,
+				E5F8787B1F92012E0074B5AC /* ProgramTools.h */,
+				E5F8787C1F92012E0074B5AC /* ProgramTools.m */,
+				E5F8787D1F92012E0074B5AC /* VideoGLView.h */,
+				E5F8787E1F92012E0074B5AC /* VideoGLView.m */,
+			);
+			path = IJKMediaDemo;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		91C738BE1CC22743003C6DC9 /* AVCapturePreview2 */ = {
+		91C738BE1CC22743003C6DC9 /* IJkMediaDemo */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 91C738D01CC22743003C6DC9 /* Build configuration list for PBXNativeTarget "AVCapturePreview2" */;
+			buildConfigurationList = 91C738D01CC22743003C6DC9 /* Build configuration list for PBXNativeTarget "IJkMediaDemo" */;
 			buildPhases = (
 				91C738BB1CC22743003C6DC9 /* Sources */,
 				91C738BC1CC22743003C6DC9 /* Frameworks */,
@@ -268,9 +260,9 @@
 			dependencies = (
 				E5555DDE1EFF9330006B619B /* PBXTargetDependency */,
 			);
-			name = AVCapturePreview2;
-			productName = AVCapturePreview2;
-			productReference = 91C738BF1CC22743003C6DC9 /* AVCapturePreview2.app */;
+			name = IJkMediaDemo;
+			productName = IJkMediaDemo;
+			productReference = 91C738BF1CC22743003C6DC9 /* IJkMediaDemo.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -306,7 +298,7 @@
 			);
 			projectRoot = "";
 			targets = (
-				91C738BE1CC22743003C6DC9 /* AVCapturePreview2 */,
+				91C738BE1CC22743003C6DC9 /* IJkMediaDemo */,
 			);
 		};
 /* End PBXProject section */
@@ -333,8 +325,9 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				91C738C91CC22743003C6DC9 /* Assets.xcassets in Resources */,
-				91C738CC1CC22743003C6DC9 /* MainMenu.xib in Resources */,
+				E5F878801F92012E0074B5AC /* Assets.xcassets in Resources */,
+				E5F878811F92012E0074B5AC /* MainMenu.xib in Resources */,
+				E5F878831F92012E0074B5AC /* Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -345,13 +338,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				91C738D91CC2283C003C6DC9 /* ViewController.m in Sources */,
-				91B493211D62139300F07935 /* VideoGLView.m in Sources */,
-				E5555DFA1EFF9877006B619B /* ProgramTools.m in Sources */,
-				91C738C71CC22743003C6DC9 /* main.m in Sources */,
-				E5612E091F024D0700DFA8DB /* ffmpegutils.c in Sources */,
-				91C738C41CC22743003C6DC9 /* AppDelegate.m in Sources */,
-				91B4931E1D6212FB00F07935 /* OpenGLRenderer.m in Sources */,
+				E5F8788D1F9202950074B5AC /* ViewController.m in Sources */,
+				E5F878821F92012E0074B5AC /* ffmpegutils.c in Sources */,
+				E5F878871F92012E0074B5AC /* VideoGLView.m in Sources */,
+				E5F878841F92012E0074B5AC /* main.m in Sources */,
+				E5F8787F1F92012E0074B5AC /* AppDelegate.m in Sources */,
+				E5F878861F92012E0074B5AC /* ProgramTools.m in Sources */,
+				E5F878851F92012E0074B5AC /* OpenGLRenderer.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -366,10 +359,10 @@
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
-		91C738CA1CC22743003C6DC9 /* MainMenu.xib */ = {
+		E5F878721F92012E0074B5AC /* MainMenu.xib */ = {
 			isa = PBXVariantGroup;
 			children = (
-				91C738CB1CC22743003C6DC9 /* Base */,
+				E5F878731F92012E0074B5AC /* Base */,
 			);
 			name = MainMenu.xib;
 			sourceTree = "<group>";
@@ -474,7 +467,7 @@
 					../IJKMediaPlayer/IJKMediaPlayer/ijkmedia/ijksdl/ios,
 					../library/GLFW,
 				);
-				INFOPLIST_FILE = AVCapturePreview2/Info.plist;
+				INFOPLIST_FILE = IJkMediaDemo/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
 				LIBRARY_SEARCH_PATHS = ../library;
 				OTHER_LDFLAGS = "-lz";
@@ -501,7 +494,7 @@
 					../IJKMediaPlayer/IJKMediaPlayer/ijkmedia/ijksdl/ios,
 					../library/GLFW,
 				);
-				INFOPLIST_FILE = AVCapturePreview2/Info.plist;
+				INFOPLIST_FILE = IJkMediaDemo/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
 				LIBRARY_SEARCH_PATHS = ../library;
 				OTHER_LDFLAGS = "-lz";
@@ -522,7 +515,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		91C738D01CC22743003C6DC9 /* Build configuration list for PBXNativeTarget "AVCapturePreview2" */ = {
+		91C738D01CC22743003C6DC9 /* Build configuration list for PBXNativeTarget "IJkMediaDemo" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				91C738D11CC22743003C6DC9 /* Debug */,
