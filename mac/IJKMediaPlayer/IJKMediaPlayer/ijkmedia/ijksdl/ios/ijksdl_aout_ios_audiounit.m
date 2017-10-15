@@ -101,6 +101,14 @@ static int aout_get_persecond_callbacks(SDL_Aout *aout)
     return SDL_IOS_AUDIO_MAX_CALLBACKS_PER_SEC;
 }
 
+static void aout_set_playback_volume(SDL_Aout *aout, float left, float right)
+{
+    SDLTRACE("aout_set_volume()\n");
+    SDL_Aout_Opaque *opaque = aout->opaque;
+    [opaque->aoutController setPlaybackVolume:left right:right];
+}
+
+
 static void aout_free_l(SDL_Aout *aout)
 {
     if (!aout)
@@ -132,6 +140,7 @@ SDL_Aout *SDL_AoutIos_CreateForAudioUnit()
     aout->close_audio = aout_close_audio;
 
     aout->func_set_playback_rate = aout_set_playback_rate;
+    aout->set_volume = aout_set_playback_volume;
     aout->func_get_latency_seconds = auout_get_latency_seconds;
     aout->func_get_audio_persecond_callbacks = aout_get_persecond_callbacks;
     return aout;

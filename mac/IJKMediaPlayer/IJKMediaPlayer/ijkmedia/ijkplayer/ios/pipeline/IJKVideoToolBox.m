@@ -566,8 +566,8 @@ VTDecompressionSessionRef vtbsession_create(VideoToolBoxContext* context)
                           kCVPixelBufferWidthKey, width);
     CFDictionarySetSInt32(destinationPixelBufferAttributes,
                           kCVPixelBufferHeightKey, height);
-//    CFDictionarySetBoolean(destinationPixelBufferAttributes,
-//                          kCVPixelBufferOpenGLESCompatibilityKey, YES);
+    CFDictionarySetBoolean(destinationPixelBufferAttributes,
+                          kCVPixelBufferOpenGLCompatibilityKey, YES);
     outputCallback.decompressionOutputCallback = VTDecoderCallback;
     outputCallback.decompressionOutputRefCon = context  ;
     status = VTDecompressionSessionCreate(

@@ -3124,6 +3124,8 @@ static int read_thread(void *arg)
                 <= ((double)ffp->duration / 1000000);
         if (pkt->stream_index == is->audio_stream && pkt_in_play_range) {
             packet_queue_put(&is->audioq, pkt);
+            int ft = frame_queue_nb_remaining(&is->sampq);
+            av_log(ffp, AV_LOG_WARNING, "rtsp av_read_frame audio, qz %d ft %d\n" ,is->audioq.nb_packets, ft);
         } else if (pkt->stream_index == is->video_stream && pkt_in_play_range
                    && !(is->video_st && (is->video_st->disposition & AV_DISPOSITION_ATTACHED_PIC))) {
             
@@ -3150,7 +3152,7 @@ static int read_thread(void *arg)
                 if(pkt->flags & AV_PKT_FLAG_KEY){
                 
                     int ft = frame_queue_nb_remaining(&is->pictq);
-                    av_log(ffp, AV_LOG_WARNING, "rtsp av_read_frame gop_num %d, qz %d ft %d \n" ,gop_num, is->videoq.nb_packets, ft);
+                    //av_log(ffp, AV_LOG_WARNING, "rtsp av_read_frame gop_num %d, qz %d ft %d \n" ,gop_num, is->videoq.nb_packets, ft);
                     
                     //if( (gop_num != is->video_st->codec->gop_size) ){
                      //   packet_queue_flush(&is->videoq);
@@ -3167,7 +3169,7 @@ static int read_thread(void *arg)
             }else{
                 if(pkt->flags & AV_PKT_FLAG_KEY){
                     int ft = frame_queue_nb_remaining(&is->pictq);
-                    av_log(ffp, AV_LOG_WARNING, "av_read_frame AV_PKT_FLAG_KEY gop_num %d, qz %d ft %d \n" ,gop_num, is->videoq.nb_packets, ft);
+//                    av_log(ffp, AV_LOG_WARNING, "av_read_frame AV_PKT_FLAG_KEY gop_num %d, qz %d ft %d \n" ,gop_num, is->videoq.nb_packets, ft);
                 }
                 //    av_log(ffp, AV_LOG_WARNING, "av_read_frame  gop_num %d, packetsize %d  key %ds\n" ,gop_num,pkt->size,pkt->flags);
                 

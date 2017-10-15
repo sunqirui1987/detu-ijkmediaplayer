@@ -466,6 +466,7 @@
 					../../ijkmedia/ijksdl,
 					../IJKMediaPlayer/IJKMediaPlayer/ijkmedia/ijksdl/ios,
 					../library/GLFW,
+					/usr/local/Cellar/ffmpeg/3.3.2/include/libavfilter,
 				);
 				INFOPLIST_FILE = IJkMediaDemo/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
@@ -493,6 +494,7 @@
 					../../ijkmedia/ijksdl,
 					../IJKMediaPlayer/IJKMediaPlayer/ijkmedia/ijksdl/ios,
 					../library/GLFW,
+					/usr/local/Cellar/ffmpeg/3.3.2/include/libavfilter,
 				);
 				INFOPLIST_FILE = IJkMediaDemo/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";

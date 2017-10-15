@@ -20,6 +20,14 @@
 #include <unistd.h>
 #include "ijk_ffplay_decoder.h"
 
+#include "libavcodec/avcodec.h"
+#include "libavformat/avformat.h"
+#include "libswscale/swscale.h"
+#include "libavfilter/avfilter.h"
+#include "libavutil/imgutils.h"
+#include "libavutil/time.h"
+
+
 @interface ViewController ()<AVCaptureVideoDataOutputSampleBufferDelegate>
 @property (weak) IBOutlet NSTextField *timelabel;
 @property (weak) IBOutlet NSButton *timeBut;
@@ -63,6 +71,15 @@ void func_get_frame(void* opaque, IjkVideoFrame *frame_callback) {
 }
 
 void func_state_change(void* opaque, IjkMsgState ijk_msgint, int arg1, int arg2) {
+    ViewController* controller = (__bridge ViewController*)opaque;
+    switch (ijk_msgint) {
+        case IJK_MSG_PREPARED:
+            ijkFfplayDecoder_setVolume(controller->decoder, 0.2f);
+            break;
+            
+        default:
+            break;
+    }
 }
 
 
@@ -76,6 +93,8 @@ void func_state_change(void* opaque, IjkMsgState ijk_msgint, int arg1, int arg2)
     path = @"/Users/chao/Downloads/xihu.mp4";
     path = @"http://media.detu.com/@/41020711-1591-C3CD-78FA-FB2F67437049/2017-06-05/593590081a66b-2048x1024.m3u8";
     path = @"/Users/chao/Desktop/穿梭在法国小镇_injected.mp4";
+    path = @"/Users/chao/Downloads/xihu_cut.mp4";
+    //path = @"/Users/chao/Downloads/IMG_0728.MP4";
     ijkFfplayDecoder_init();
     decoder = ijkFfplayDecoder_create();
     IjkFfplayDecoderCallBack callBack = {0};
@@ -86,6 +105,48 @@ void func_state_change(void* opaque, IjkMsgState ijk_msgint, int arg1, int arg2)
     ijkFfplayDecoder_setDataSource(decoder, [path UTF8String]);
     ijkFfplayDecoder_prepare(decoder);
     ijkFfplayDecoder_start(decoder);
+    
+    //[self testCutVideoPacketNumber];
+}
+
+-(void)testCutVideoPacketNumber{
+    const char* path = "/Users/chao/Downloads/xihu_cut.mp4";
+    av_register_all();
+    AVFormatContext *ic = avformat_alloc_context();
+    avformat_open_input(&ic, path, NULL, NULL);
+    avformat_find_stream_info(ic, NULL);
+    AVPacket *pPacket = (AVPacket *) av_malloc(sizeof(AVPacket));
+    
+    int posVideoStream = -1;
+    int posAudioStream = -1;
+    const int NUMBER_STREAM = ic->nb_streams;
+    for (int i = 0; i < NUMBER_STREAM; i++) {
+        switch (ic->streams[i]->codec->codec_type) {
+            case AVMEDIA_TYPE_VIDEO:
+                posVideoStream = i;
+                break;
+            case AVMEDIA_TYPE_AUDIO:
+                posAudioStream = i;
+                break;
+            default:
+                break;
+        }
+    }
+    
+    int numAudio = 0;
+    int numVideoNum = 0;
+    while (true) {
+        int resultCode = av_read_frame(ic, pPacket);
+        if (resultCode < 0) {
+            break;
+        }
+        if(pPacket->stream_index == posAudioStream) {
+            numAudio++;
+        } else if(pPacket->stream_index == posVideoStream) {
+            numVideoNum++;
+        }
+    }
+    NSLog(@"pakcet size:%d, %d", numAudio, numVideoNum);
 }
 
 - (void)viewDidAppear

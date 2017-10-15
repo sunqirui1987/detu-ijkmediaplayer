@@ -83,6 +83,7 @@
         AudioQueueSetProperty(audioQueueRef, kAudioQueueProperty_EnableTimePitch, &propValue, sizeof(propValue));
         propValue = 1;
         AudioQueueSetProperty(_audioQueueRef, kAudioQueueProperty_TimePitchBypass, &propValue, sizeof(propValue));
+        AudioQueueSetParameter(_audioQueueRef, kAudioQueueParam_PlayRate, 1.0f);
         propValue = kAudioQueueTimePitchAlgorithm_Spectral;
         AudioQueueSetProperty(_audioQueueRef, kAudioQueueProperty_TimePitchAlgorithm, &propValue, sizeof(propValue));
 
@@ -207,6 +208,16 @@
         UInt32 propValue = 0;
         AudioQueueSetProperty(_audioQueueRef, kAudioQueueProperty_TimePitchBypass, &propValue, sizeof(propValue));
         AudioQueueSetParameter(_audioQueueRef, kAudioQueueParam_PlayRate, playbackRate);
+    }
+}
+
+- (void)setPlaybackVolume:(float)leftVolume right:(float) rightVolume;
+{
+    float aq_volume = leftVolume;
+    if (fabsf(aq_volume - 1.0f) <= 0.000001) {
+        AudioQueueSetParameter(_audioQueueRef, kAudioQueueParam_Volume, 1.f);
+    } else {
+        AudioQueueSetParameter(_audioQueueRef, kAudioQueueParam_Volume, aq_volume);
     }
 }
 

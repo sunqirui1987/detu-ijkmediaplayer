@@ -213,12 +213,12 @@ int ijkFfplayDecoder_setDataSource(IjkFfplayDecoder* decoder, const char* file_a
     }
     
     //disable audio
-    //[options setPlayerOptionIntValue:1 forKey:@"an"];
+    //[options setPlayerOptionIntValue:1 forKey:@"vn"];
     
-     //[options setPlayerOptionIntValue:60     forKey:@"max-fps"];
+    
+    //[options setPlayerOptionIntValue:30     forKey:@"max-fps"];
     [options setPlayerOptionValue:0        forKey:@"start-on-prepared"];
-    [options setCodecOptionIntValue:1 forKey:@"is_avc"];
-    [options setPlayerOptionIntValue:5      forKey:@"video-pictq-size"];
+    [options setCodecOptionIntValue:0 forKey:@"is_avc"];
     //[options setPlayerOptionIntValue:1      forKey:@"framedrop"];
     
     if([path isEqualToString:@"rtsp://192.168.42.1/live"]){
