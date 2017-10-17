@@ -404,7 +404,7 @@ int ijkFfplayDecoder_getMediaMeta(IjkFfplayDecoder* decoder, IjkMetadata* metada
     if(decoder == NULL) {
         return -1;
     }
-    NSDictionary * mediaDicts = decoder->controller.monitor.mediaMeta;
+    NSDictionary * mediaDicts = [decoder->controller getMediaMeta];
     if(mediaDicts != nil) {
         metadata->duration_ms = decoder->controller.duration;
         
