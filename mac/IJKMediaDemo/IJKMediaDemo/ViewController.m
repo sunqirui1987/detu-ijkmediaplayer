@@ -27,14 +27,17 @@
 #include "libavutil/imgutils.h"
 #include "libavutil/time.h"
 
+#import "MacVideoToolBoxDecoder.h"
 
-@interface ViewController ()<AVCaptureVideoDataOutputSampleBufferDelegate>
+
+@interface ViewController ()<AVCaptureVideoDataOutputSampleBufferDelegate, VideoToolBoxDecoderDelegate>
 @property (weak) IBOutlet NSTextField *timelabel;
 @property (weak) IBOutlet NSButton *timeBut;
 
 @property (weak) IBOutlet NSImageView *cameraView;
 @property (weak) IBOutlet NSTextField *fpsLabel;
 @property (weak) IBOutlet VideoGLView *openGLView;
+@property(nonatomic, strong)MacVideoToolBoxDecoder* macVideoToolBoxDecoder;
 @end
 
 @implementation ViewController
@@ -95,6 +98,8 @@ void func_state_change(void* opaque, IjkMsgState ijk_msgint, int arg1, int arg2)
     path = @"/Users/chao/Desktop/穿梭在法国小镇_injected.mp4";
     path = @"/Users/chao/Downloads/xihu_cut.mp4";
     //path = @"/Users/chao/Downloads/IMG_0728.MP4";
+    //path = @"/Users/chao/Downloads/pano/tb402.MP4";
+    //path = @"/Users/chao/Downloads/4.09婚礼现场版.mp4";
     ijkFfplayDecoder_init();
     decoder = ijkFfplayDecoder_create();
     IjkFfplayDecoderCallBack callBack = {0};
@@ -107,6 +112,17 @@ void func_state_change(void* opaque, IjkMsgState ijk_msgint, int arg1, int arg2)
     ijkFfplayDecoder_start(decoder);
     
     //[self testCutVideoPacketNumber];
+    //[self testVideoToolBoxDecoder: path];
+}
+
+-(void)videoToolBoxDecoderFrame:(DecodeFrame*) frame identity:(int) identityId {
+}
+
+-(void)testVideoToolBoxDecoder:(NSString*) url{
+    self.macVideoToolBoxDecoder = [[MacVideoToolBoxDecoder alloc]init];
+    self.macVideoToolBoxDecoder.delegate = self;
+    [self.macVideoToolBoxDecoder setDataSource:url];
+    [self.macVideoToolBoxDecoder start];
 }
 
 -(void)testCutVideoPacketNumber{
