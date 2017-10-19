@@ -46,6 +46,8 @@ NSString *const IJKMPMoviePlayerDidSeekCompleteErrorKey = @"IJKMPMoviePlayerDidS
 //detu, 自定义统计数据
 NSString *const IJKMPMoviePlayerDetuStatisticsNotification = @"IJKMPMoviePlayerDetuStatisticsNotification";
 
+NSString *const IJKMPMoviePlayerDetuShutDownNotification = @"IJKMPMoviePlayerDetuShutDownNotification";
+
 @implementation IJKMediaUrlOpenData {
     NSString *_url;
     BOOL _handled;

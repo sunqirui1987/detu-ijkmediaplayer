@@ -537,6 +537,18 @@ inline static int getPlayerOption(IJKFFOptionCategory category)
     [self performSelectorInBackground:@selector(shutdownWaitStop:) withObject:self];
 }
 
+-(void)shutdown_sync{
+
+    if (!_mediaPlayer)
+        return;
+    
+    [self stopHudTimer];
+    [self unregisterApplicationObservers];
+    [self setScreenOn:NO];
+    
+    [self shutdownWaitStop:self];
+}
+
 - (void)shutdownWaitStop:(IJKFFMoviePlayerController *) mySelf
 {
     if (!_mediaPlayer)
@@ -566,6 +578,9 @@ inline static int getPlayerOption(IJKFFOptionCategory category)
 
 - (void)didShutdown
 {
+    [[NSNotificationCenter defaultCenter]
+     postNotificationName:IJKMPMoviePlayerDetuShutDownNotification
+     object:self];
 }
 
 - (IJKMPMoviePlaybackState)playbackState

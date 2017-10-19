@@ -136,6 +136,8 @@ IJK_EXTERN NSString* const IJKMPMoviePlayerIsAirPlayVideoActiveDidChangeNotifica
 //detu
 IJK_EXTERN NSString* const IJKMPMoviePlayerDetuStatisticsNotification;
 
+IJK_EXTERN NSString* const IJKMPMoviePlayerDetuShutDownNotification;
+
 // -----------------------------------------------------------------------------
 // Movie Property Notifications
 

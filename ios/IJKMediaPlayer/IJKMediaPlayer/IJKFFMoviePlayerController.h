@@ -91,6 +91,7 @@ typedef enum IJKLogLevel {
 - (void)play;
 - (void)pause;
 - (void)stop;
+- (void)shutdown_sync;
 - (BOOL)isPlaying;
 -(SDL_VoutOverlay*)getCurrentFrame3;
 -(uint8_t*)getCurrentFrame4:(int*)w:(int*)h;
