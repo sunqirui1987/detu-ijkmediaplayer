@@ -395,6 +395,11 @@ typedef struct VideoState {
 
     volatile int latest_seek_load_serial;
     volatile int64_t latest_seek_load_start_at;
+    
+    //by detu, for control av_read_frame timeout!
+    int64_t ioOperationPreTime;
+    int isForceTimeout;
+    int64_t readTimeOutUs;
 } VideoState;
 
 /* options specified by the user */

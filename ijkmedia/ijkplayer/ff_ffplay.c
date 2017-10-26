@@ -2480,7 +2480,12 @@ out:
 static int decode_interrupt_cb(void *ctx)
 {
     VideoState *is = ctx;
-    return is->abort_request;
+    bool isTimeout = false;
+    if (is->ioOperationPreTime != 0 && is->isForceTimeout && av_gettime() - is->ioOperationPreTime >= is->readTimeOutUs) {
+        av_log(NULL, AV_LOG_ERROR, "ffmpeg operation timeout!");
+        isTimeout = true;
+    }
+    return is->abort_request || (isTimeout && is->isForceTimeout);
 }
 
 static int stream_has_enough_packets(AVStream *st, int stream_id, PacketQueue *queue, int min_frames) {
@@ -2549,6 +2554,7 @@ static int read_thread(void *arg)
 #endif
     is->eof = 0;
 
+    is->ioOperationPreTime = 0;
     ic = avformat_alloc_context();
     if (!ic) {
         av_log(NULL, AV_LOG_FATAL, "Could not allocate context.\n");
@@ -2561,6 +2567,20 @@ static int read_thread(void *arg)
 		av_dict_set(&ffp->format_opts, "scan_all_pmts", "1", AV_DICT_DONT_OVERWRITE);
 		scan_all_pmts_set = 1;
 	}
+    
+    //by detu
+    AVDictionary* dictionary =  ffp->format_opts;
+    if(dictionary != NULL && ffp->format_opts != NULL) {
+        AVDictionaryEntry * entry = av_dict_get(ffp->format_opts, "read_timeout", NULL, AV_DICT_MATCH_CASE);
+        if(entry != NULL) {
+            int timeout = atoi(entry->value);
+            is->isForceTimeout = 1;
+            is->readTimeOutUs = timeout;
+        } else {
+            is->isForceTimeout = 0;
+        }
+    }
+    
     if (av_stristart(is->filename, "rtmp", NULL) ||
         av_stristart(is->filename, "rtsp", NULL)) {
         // There is total different meaning for 'timeout' option in rtmp
@@ -3012,6 +3032,8 @@ static int read_thread(void *arg)
         pkt->flags = 0;
                // int64_t ss = av_gettime();
               //   av_log(ffp, AV_LOG_ERROR, " av_read_frame ret %lld\n",ss);
+                
+        is->ioOperationPreTime = av_gettime();
         ret = av_read_frame(ic, pkt);
                //av_log(ffp, AV_LOG_ERROR, " av_read_frame ret %lld \n", (av_gettime() - ss ) /1000);
                 
