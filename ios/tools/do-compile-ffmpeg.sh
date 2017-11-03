@@ -213,10 +213,10 @@ fi
 
 # with x264
 
-    FFMPEG_CFG_FLAGS="$FFMPEG_CFG_FLAGS --enable-gpl --enable-libx264 "
+    #FFMPEG_CFG_FLAGS="$FFMPEG_CFG_FLAGS --enable-gpl --enable-libx264 "
 
-    FFMPEG_CFLAGS="$FFMPEG_CFLAGS -I$X264/include"
-    FFMPEG_DEP_LIBS="$FFMPEG_DEP_LIBS -L$X264/lib"
+    #FFMPEG_CFLAGS="$FFMPEG_CFLAGS -I$X264/include"
+    #FFMPEG_DEP_LIBS="$FFMPEG_DEP_LIBS -L$X264/lib"
 
 
 
