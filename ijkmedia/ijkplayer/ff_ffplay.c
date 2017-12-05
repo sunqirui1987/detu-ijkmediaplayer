@@ -3142,7 +3142,7 @@ static int read_thread(void *arg)
         if (pkt->stream_index == is->audio_stream && pkt_in_play_range) {
             packet_queue_put(&is->audioq, pkt);
             int ft = frame_queue_nb_remaining(&is->sampq);
-            av_log(ffp, AV_LOG_WARNING, "rtsp av_read_frame audio, qz %d ft %d\n" ,is->audioq.nb_packets, ft);
+			av_log(ffp, AV_LOG_DEBUG, "rtsp av_read_frame audio, qz %d ft %d\n", is->audioq.nb_packets, ft);
         } else if (pkt->stream_index == is->video_stream && pkt_in_play_range
                    && !(is->video_st && (is->video_st->disposition & AV_DISPOSITION_ATTACHED_PIC))) {
             

@@ -9,7 +9,7 @@ extern "C"
 #include "SDL.h"
 }
 
-#include "Log.h"
+#include "logging.h"
 
 IjkFfplayDecoder *ijk_ffplay_decoder;
 
@@ -38,7 +38,7 @@ void video_callback(void* opaque, IjkVideoFrame *frame_callback)
 
 		screen = SDL_CreateWindow("Simplest ffmpeg player Window", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, screen_w, screen_h, SDL_WINDOW_OPENGL);
 		if (!screen) {
-			printf("SDL: could not set video mode - exiting:%s\n", SDL_GetError());
+			Log::Info("SDL: could not set video mode - exiting:%s\n", SDL_GetError());
 			return ;
 		}
 
@@ -145,22 +145,22 @@ static void log_callback(void *, int level, const char * szFmt, va_list varg)
 
 	switch (level) {
 	case k_IJK_LOG_DEBUG:
-		iLogDebug("%s", line);
+		//Log::Debug("%s", line);
 		break;
 	case k_IJK_LOG_INFO:
-		iLogInfo("%s", line);
+		Log::Info("%s", line);
 		break;
 	case k_IJK_LOG_WARN:
-		iLogWarn("%s", line);
+		Log::Warn("%s", line);
 		break;
 	case k_IJK_LOG_ERROR:
-		iLogError("%s", line);
+		Log::Error("%s", line);
 		break;
 	case k_IJK_LOG_FATAL:
-		iLogFata("%s", line);
+		Log::Fatal("%s", line);
 		break;
 	default:
-		iLogInfo("%s", line);
+		Log::Info("%s", line);
 		break;
 	}
 	return;
@@ -170,18 +170,9 @@ int main(int argc, char** argv)
 {
 	nv12_data = (char*)malloc(32*1024*1024);
 
-	//init iLog3 lib
-	LOG		*g = NULL;
-	g = CreateLogHandleG();
-	if (g == NULL) {
-		printf("create iLog3 Handle errno, errno number=[%d]\n", errno);
-		return -1;
-	}
-	printf("create iLog3 Handle success.\n");
-	SetLogOutputG(LOG_OUTPUT_FILE, "./ijkDemo.log", LOG_NO_OUTPUTFUNC);
-	SetLogLevelG(LOG_LEVEL_DEBUG);
-	SetLogStylesG(LOG_STYLE_DEFAULT, LOG_NO_STYLEFUNC);
-
+	std::string url = "./ijkDemo.log";
+	Log::Initialise(url);
+	Log::SetThreshold(Log::LOG_TYPE_DEBUG);
 
 	//init global paraments
 	ijkFfplayDecoder_init();
