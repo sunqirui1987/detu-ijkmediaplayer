@@ -192,6 +192,7 @@
     <ClCompile Include="global\src\win-pthread.c" />
     <ClCompile Include="ijkplayer\ijk_ffplay_decoder.c" />
     <ClCompile Include="ijkplayer\pipeline\ffpipeline_win.c" />
+    <ClCompile Include="ijksdl\ijksdl_aout_mixer.c" />
     <ClCompile Include="ijksdl\ijksdl_aout_win_audio_directsound.c" />
     <ClCompile Include="ijksdl\ijksdl_vout_win_ffmpeg.c" />
     <ClCompile Include="ijksdl\win_directsound.c" />

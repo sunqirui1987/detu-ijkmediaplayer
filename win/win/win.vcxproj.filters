@@ -187,6 +187,9 @@
     <ClCompile Include="dxva2\ffmpeg_dxva2.c">
       <Filter>win\dxva2</Filter>
     </ClCompile>
+    <ClCompile Include="ijksdl\ijksdl_aout_mixer.c">
+      <Filter>win\ijksdl</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\ijkmedia\ijkplayer\ijkplayer.h">

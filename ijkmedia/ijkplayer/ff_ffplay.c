@@ -2126,6 +2126,7 @@ static void sdl_audio_callback(void *opaque, Uint8 *stream, int len)
 {
     FFPlayer *ffp = opaque;
     VideoState *is = ffp->is;
+	SDL_AudioSpec * spec = NULL;
     int audio_size, len1;
     if (!ffp || !is) {
         memset(stream, 0, len);
@@ -2168,8 +2169,8 @@ static void sdl_audio_callback(void *opaque, Uint8 *stream, int len)
             memcpy(stream, (uint8_t *)is->audio_buf + is->audio_buf_index, len1);
         else {
             memset(stream, 0, len1);
-            if (!is->muted && is->audio_buf)
-                SDL_MixAudio(stream, (uint8_t *)is->audio_buf + is->audio_buf_index, len1, is->audio_volume);
+			if (!is->muted && is->audio_buf)
+			SDL_MixAudio(stream, (uint8_t *)is->audio_buf + is->audio_buf_index, len1, is->audio_volume, spec);
         }
         len -= len1;
         stream += len1;
