@@ -47,7 +47,7 @@
 
 //by detu
 #define FFP_MSG_DETU_STATISTICS_DATA        800
-
+#define FFP_MSG_VIDEO_DECODE_FPS			850		/* arg1 = video decode fps */
 
 #define FFP_MSG_VIDEO_DECODER_OPEN          10001
 

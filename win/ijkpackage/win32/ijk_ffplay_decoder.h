@@ -22,7 +22,18 @@ extern "C" {
 #include "ijk_metadata.h"
 
 //get video or audio info 
+#define FLOAT_VIDEO_DECODE_FRAMES_PER_SECOND   10001
 #define FLOAT_VIDEO_OUTPUT_FRAMES_PER_SECOND   10002
+#define FLOAT_PLAYBACK_RATE                    10003
+#define FLOAT_AVDELAY                          10004
+#define FLOAT_AVDIFF                           10005
+
+#define INT64_VIDEO_CACHED_DURATION            20005
+#define INT64_AUDIO_CACHED_DURATION            20006
+#define INT64_VIDEO_CACHED_BYTES               20007
+#define INT64_AUDIO_CACHED_BYTES               20008
+#define INT64_VIDEO_CACHED_PACKETS             20009
+#define INT64_AUDIO_CACHED_PACKETS             20010
 #define INT64_BIT_RATE_TOTAL                   20100
 
 //ijk log level
@@ -57,7 +68,8 @@ typedef enum IjkMsgState{
 	IJK_MSG_BUFFERING_TIME_UPDATE       = 504,     /* arg1 = cached duration in milliseconds, arg2 = high water mark */
 	IJK_MSG_SEEK_COMPLETE               = 600,     /* arg1 = seek position,                   arg2 = error */
 	IJK_MSG_PLAYBACK_STATE_CHANGED      = 700,
-	IJK_MSG_TIMED_TEXT                  = 800,
+	IJK_MSG_TIMED_TEXT					= 800,
+	IJK_MSG_VIDEO_DECODE_FPS			= 850,	   /* arg1 = video decode fps */
 	IJK_MSG_ACCURATE_SEEK_COMPLETE      = 900,     /* arg1 = current position*/
 	IJK_MSG_VIDEO_DECODER_OPEN          = 10001,
 }IjkMsgState;

@@ -441,7 +441,7 @@ static void decoder_init(Decoder *d, AVCodecContext *avctx, PacketQueue *queue, 
     SDL_ProfilerReset(&d->decode_profiler, -1);
 }
 
-static int flag = 1;
+static long counter = 1;
 static int decoder_decode_frame(FFPlayer *ffp, Decoder *d, AVFrame *frame, AVSubtitle *sub) {
     int got_frame = 0;
 
@@ -483,6 +483,15 @@ static int decoder_decode_frame(FFPlayer *ffp, Decoder *d, AVFrame *frame, AVSub
                     } else {
                         frame->pts = frame->pkt_dts;
                     }
+
+					int fps = d->avctx->time_base.den / (d->avctx->time_base.num * d->avctx->ticks_per_frame);
+					if (frame->pts == 0){
+						counter = 1;
+					}
+					if (counter++%fps == 0){
+						ffp_notify_msg2(ffp, FFP_MSG_VIDEO_DECODE_FPS, (int)(ffp->stat.vdps));
+						//av_log(ffp, AV_LOG_INFO, "decode fps:%f, frame pts:%lld", ffp->stat.vdps, frame->pts);
+					}
                 }
                 }
                 break;

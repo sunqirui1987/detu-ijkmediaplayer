@@ -69,6 +69,13 @@ void video_callback(void* opaque, IjkVideoFrame *frame_callback)
 		SDL_UpdateTexture(sdlTexture, NULL, nv12_data, frame_callback->linesize[0]);
 	}
 
+	//float dec_fps = ijkFfplayDecoder_getPropertyFloat(ijk_ffplay_decoder, FLOAT_VIDEO_DECODE_FRAMES_PER_SECOND, 0);
+	//float out_fps = ijkFfplayDecoder_getPropertyFloat(ijk_ffplay_decoder, FLOAT_VIDEO_OUTPUT_FRAMES_PER_SECOND, 0);
+	//float pla_fps = ijkFfplayDecoder_getPropertyFloat(ijk_ffplay_decoder, FLOAT_PLAYBACK_RATE, 0);
+	//float delay = ijkFfplayDecoder_getPropertyFloat(ijk_ffplay_decoder, FLOAT_AVDELAY, 0);
+	//float diff = ijkFfplayDecoder_getPropertyFloat(ijk_ffplay_decoder, FLOAT_AVDIFF, 0);
+	//Log::Info("dec:%f,out:%f,play:%f,delay:%f,diff:%f", dec_fps, out_fps, pla_fps, delay, diff);
+
 	SDL_RenderClear(sdlRenderer);
 	SDL_RenderCopy(sdlRenderer, sdlTexture, NULL, &sdlRect);
 	SDL_RenderPresent(sdlRenderer);
@@ -79,13 +86,15 @@ void msg_callback(void* opaque, IjkMsgState ijk_msgint, int arg1, int arg2)
 	long duration = 0;
 	switch (ijk_msgint)
 	{
+	case IJK_MSG_VIDEO_DECODE_FPS:
+		Log::Info("video decode fps:%d", arg1);
+		break;
 	case IJK_MSG_FLUSH:
 		break;
 	case IJK_MSG_ERROR:
 		printf("ijk error");
 		break;
 	case IJK_MSG_PREPARED:
-		duration = ijkFfplayDecoder_getDuration(ijk_ffplay_decoder);
 		ijkFfplayDecoder_start(ijk_ffplay_decoder);
 		printf("recv ijk msg:prepared\n");
 		break;
@@ -278,9 +287,9 @@ int main(int argc, char** argv)
 			free(videoinfo), free(audioinfo);
 
 			//video info
-			float frame_rate = ijkFfplayDecoder_getPropertyFloat(ijk_ffplay_decoder, FLOAT_VIDEO_OUTPUT_FRAMES_PER_SECOND, 0);
+			float out_frame_rate = ijkFfplayDecoder_getPropertyFloat(ijk_ffplay_decoder, FLOAT_VIDEO_OUTPUT_FRAMES_PER_SECOND, 0);
 			long total_bit_rate = ijkFfplayDecoder_getPropertyLong(ijk_ffplay_decoder, INT64_BIT_RATE_TOTAL, 0);
-			printf("position:%f, total_bit_rate:%d Kb/s.\n", frame_rate, total_bit_rate / 1000);
+			printf("out frame rate:%f, total_bit_rate:%d Kb/s.\n", out_frame_rate, total_bit_rate / 1000);
 
 			//metadata
 			IjkMetadata metadata;

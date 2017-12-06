@@ -40,6 +40,10 @@ static void message_loop_n(IjkMediaPlayer *mp)
 		assert(retval > 0);
 
 		switch (msg.what) {
+		case FFP_MSG_VIDEO_DECODE_FPS:
+			if (s_user_msg_callback)
+				s_user_msg_callback(opaque, IJK_MSG_VIDEO_DECODE_FPS, msg.arg1, 0);
+			break;
 		case FFP_MSG_FLUSH:
 			MPTRACE("FFP_MSG_FLUSH:\n");
 			if (s_user_msg_callback)
