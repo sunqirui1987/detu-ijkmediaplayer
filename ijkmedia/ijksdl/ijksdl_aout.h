@@ -52,6 +52,8 @@ struct SDL_Aout {
 
     // Android only
     int    (*func_get_audio_session_id)(SDL_Aout *aout);
+
+	SDL_AudioSpec* (*get_spec)(SDL_Aout *aout);
 };
 
 int SDL_AoutOpenAudio(SDL_Aout *aout, const SDL_AudioSpec *desired, SDL_AudioSpec *obtained);
@@ -71,5 +73,7 @@ void   SDL_AoutSetPlaybackRate(SDL_Aout *aout, float playbackRate);
 
 // android only
 int    SDL_AoutGetAudioSessionId(SDL_Aout *aout);
+
+SDL_AudioSpec* SDL_AoutGetSpec(SDL_Aout* aout);
 
 #endif

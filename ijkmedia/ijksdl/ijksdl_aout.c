@@ -130,3 +130,12 @@ int SDL_AoutGetAudioPerSecondCallBacks(SDL_Aout *aout)
 	return SDL_AUDIO_MAX_CALLBACKS_PER_SEC;
 #endif
 }
+
+SDL_AudioSpec * SDL_AoutGetSpec(SDL_Aout* aout)
+{
+	if (aout) {
+		if (aout->get_spec) {
+			return aout->get_spec(aout);
+		}
+	}
+}

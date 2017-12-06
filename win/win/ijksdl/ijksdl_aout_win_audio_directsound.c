@@ -215,6 +215,17 @@ static void aout_free_l(SDL_Aout *aout)
 	SDL_Aout_FreeInternal(aout);
 }
 
+static void aout_get_spec(SDL_Aout *aout)
+{
+	SDL_Aout_Opaque *opaque;
+	if (!aout)
+		return;
+
+	opaque = aout->opaque;
+	SDL_AudioSpec* spec = &(opaque->spec);
+	return spec;
+}
+
 static void func_set_playback_rate(SDL_Aout *aout, float speed)
 {
 	SDL_Aout_Opaque *opaque;
@@ -248,6 +259,7 @@ SDL_Aout *SDL_AoutWin_CreateForAudio()
 	aout->set_volume = aout_set_volume;
 	aout->close_audio = aout_close_audio;
 	aout->func_set_playback_rate = func_set_playback_rate;
+	aout->get_spec = aout_get_spec;
 
 	return aout;
 }

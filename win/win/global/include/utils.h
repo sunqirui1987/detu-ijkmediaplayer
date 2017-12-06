@@ -29,6 +29,7 @@
 #define PRId16    "hd"
 #define PRId32    "ld"
 #define PRId64    "lld"
+#define PRIx64	  "llx"
 #endif
 
 #define uint32_t in_addr_t

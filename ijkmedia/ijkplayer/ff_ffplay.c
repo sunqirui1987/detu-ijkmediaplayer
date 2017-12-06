@@ -19,6 +19,11 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
  */
 
+#ifdef WIN32
+#include "def.h"
+#include "utils.h"
+#endif
+
 #include "ff_ffplay.h"
 
 /**
@@ -1593,7 +1598,7 @@ static int configure_audio_filters(FFPlayer *ffp, const char *afilters, int forc
                    1, is->audio_filter_src.freq);
     if (is->audio_filter_src.channel_layout)
         snprintf(asrc_args + ret, sizeof(asrc_args) - ret,
-                 ":channel_layout=0x%"PRIx64,  is->audio_filter_src.channel_layout);
+                 ":channel_layout=0x%llx",  is->audio_filter_src.channel_layout);
 
     ret = avfilter_graph_create_filter(&filt_asrc,
                                        avfilter_get_by_name("abuffer"), "ffplay_abuffer",
@@ -1614,7 +1619,7 @@ static int configure_audio_filters(FFPlayer *ffp, const char *afilters, int forc
         goto end;
 
     if (force_output_format) {
-        channel_layouts[0] = is->audio_tgt.channel_layout;
+		channel_layouts[0] = is->audio_tgt.channel_layout;
         channels       [0] = is->audio_tgt.channels;
         sample_rates   [0] = is->audio_tgt.freq;
         if ((ret = av_opt_set_int(filt_asink, "all_channel_counts", 0, AV_OPT_SEARCH_CHILDREN)) < 0)
@@ -1703,7 +1708,7 @@ static int audio_thread(void *arg)
                     char buf1[1024], buf2[1024];
                     av_get_channel_layout_string(buf1, sizeof(buf1), -1, is->audio_filter_src.channel_layout);
                     av_get_channel_layout_string(buf2, sizeof(buf2), -1, dec_channel_layout);
-                    av_log(NULL, AV_LOG_DEBUG,
+					av_log(NULL, AV_LOG_INFO,
                            "Audio frame changed from rate:%d ch:%d fmt:%s layout:%s serial:%d to rate:%d ch:%d fmt:%s layout:%s serial:%d\n",
                            is->audio_filter_src.freq, is->audio_filter_src.channels, av_get_sample_fmt_name(is->audio_filter_src.fmt), buf1, last_serial,
                            frame->sample_rate, av_frame_get_channels(frame), av_get_sample_fmt_name(frame->format), buf2, is->auddec.pkt_serial);
@@ -2127,6 +2132,7 @@ static void sdl_audio_callback(void *opaque, Uint8 *stream, int len)
     FFPlayer *ffp = opaque;
     VideoState *is = ffp->is;
 	SDL_AudioSpec * spec = NULL;
+	spec = SDL_AoutGetSpec(ffp->aout);
     int audio_size, len1;
     if (!ffp || !is) {
         memset(stream, 0, len);
@@ -2170,7 +2176,7 @@ static void sdl_audio_callback(void *opaque, Uint8 *stream, int len)
         else {
             memset(stream, 0, len1);
 			if (!is->muted && is->audio_buf)
-			SDL_MixAudio(stream, (uint8_t *)is->audio_buf + is->audio_buf_index, len1, is->audio_volume, spec);
+				SDL_MixAudio(stream, (uint8_t *)is->audio_buf + is->audio_buf_index, len1, SDL_MIX_MAXVOLUME, spec);
         }
         len -= len1;
         stream += len1;
@@ -2380,13 +2386,19 @@ static int stream_component_open(FFPlayer *ffp, int stream_index)
             SDL_UnlockMutex(ffp->af_mutex);
             link = is->out_audio_filter->inputs[0];
             sample_rate    = link->sample_rate;
-            nb_channels    = link->channels;
+			nb_channels = link->channels;
             channel_layout = link->channel_layout;
         }
 #else
         sample_rate    = avctx->sample_rate;
-        nb_channels    = avctx->channels;
         channel_layout = avctx->channel_layout;
+
+		//add by chenliang, 4通道音频奔溃
+		if (avctx->channels > 2){
+			nb_channels = 2;
+		} else {
+			nb_channels = avctx->channels;
+		}
 #endif
 
         /* prepare audio output */
