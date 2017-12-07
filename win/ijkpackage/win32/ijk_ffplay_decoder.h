@@ -70,6 +70,7 @@ typedef enum IjkMsgState{
 	IJK_MSG_PLAYBACK_STATE_CHANGED      = 700,
 	IJK_MSG_TIMED_TEXT					= 800,
 	IJK_MSG_VIDEO_DECODE_FPS			= 850,	   /* arg1 = video decode fps */
+	IJK_MSG_VIDEO_GOP_SIZE				= 851,	   /* arg1 = video gop size */
 	IJK_MSG_ACCURATE_SEEK_COMPLETE      = 900,     /* arg1 = current position*/
 	IJK_MSG_VIDEO_DECODER_OPEN          = 10001,
 }IjkMsgState;
@@ -137,6 +138,8 @@ int ijkFfplayDecoder_getMediaMeta(IjkFfplayDecoder* decoder, IjkMetadata* metada
 
 //decoder_name: h264_cuvid, h264_qsv
 int ijkFfplayDecoder_setHwDecoderName(IjkFfplayDecoder* decoder, const char* decoder_name);
+
+int ijkFfplayDecoder_setDropFrameNums(IjkFfplayDecoder* decoder, int nums);
 
 #ifdef  __cplusplus  
 }

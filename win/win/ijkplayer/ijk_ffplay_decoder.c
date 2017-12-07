@@ -44,6 +44,10 @@ static void message_loop_n(IjkMediaPlayer *mp)
 			if (s_user_msg_callback)
 				s_user_msg_callback(opaque, IJK_MSG_VIDEO_DECODE_FPS, msg.arg1, 0);
 			break;
+		case FFP_MSG_VIDEO_GOP_SIZE:
+			if (s_user_msg_callback)
+				s_user_msg_callback(opaque, IJK_MSG_VIDEO_GOP_SIZE, msg.arg1, 0);
+			break;
 		case FFP_MSG_FLUSH:
 			MPTRACE("FFP_MSG_FLUSH:\n");
 			if (s_user_msg_callback)
@@ -709,5 +713,16 @@ int ijkFfplayDecoder_setHwDecoderName(IjkFfplayDecoder* decoder, const char* dec
 	if (decoder_name) {
 		ijkmp_set_decoder_name(decoder->ijk_media_player, decoder_name);
 	}
+	return 0;
+}
+
+int ijkFfplayDecoder_setDropFrameNums(IjkFfplayDecoder* decoder, int nums)
+{
+	if (!decoder->ijk_media_player || !decoder){
+		ALOGE("IjkMediaPlayer is NULL.\n");
+		return -1;
+	}
+
+	ijkmp_set_drop_frame_nums(decoder->ijk_media_player, nums);
 	return 0;
 }

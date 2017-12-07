@@ -89,6 +89,9 @@ void msg_callback(void* opaque, IjkMsgState ijk_msgint, int arg1, int arg2)
 	case IJK_MSG_VIDEO_DECODE_FPS:
 		Log::Info("video decode fps:%d", arg1);
 		break;
+	case IJK_MSG_VIDEO_GOP_SIZE:
+		Log::Info("video gop size:%d", arg1);
+		break;
 	case IJK_MSG_FLUSH:
 		break;
 	case IJK_MSG_ERROR:
@@ -212,6 +215,7 @@ int main(int argc, char** argv)
 		ijkFfplayDecoder_setHwDecoderName(ijk_ffplay_decoder, "h264_qsv");
 		break;
 	}
+	//ijkFfplayDecoder_setDropFrameNums(ijk_ffplay_decoder, 5);
 	print_help_info();
 
 	static float volume = 50.0;

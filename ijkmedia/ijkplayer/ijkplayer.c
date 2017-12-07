@@ -838,3 +838,14 @@ int ijkmp_set_decoder_name(IjkMediaPlayer *mp, const char* decoder_name)
 
 	return 0;
 }
+
+int ijkmp_set_drop_frame_nums(IjkMediaPlayer* mp, int nums)
+{
+	assert(mp);
+
+	pthread_mutex_lock(&mp->mutex);
+	ffp_set_frop_frame_nums(mp->ffplayer, nums);
+	pthread_mutex_unlock(&mp->mutex);
+
+	return 0;
+}

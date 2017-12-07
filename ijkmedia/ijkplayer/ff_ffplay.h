@@ -116,4 +116,6 @@ struct IjkMediaMeta *ffp_get_meta_l(FFPlayer *ffp);
 
 int		  ffp_set_decoder_name(FFPlayer *ffp, const char *name);
 
+int		  ffp_set_frop_frame_nums(FFPlayer* ffp, int nums);
+
 #endif

@@ -478,7 +478,7 @@ static int decoder_decode_frame(FFPlayer *ffp, Decoder *d, AVFrame *frame, AVSub
 					ffp->video_gop_size = ffp->frame_counter;
 				}
 				if (ffp->video_gop_size != VIDEO_MAX_GOP_SIZE){
-					;//ffp_notify_msg2(ffp, FFP_MSG_VIDEO_DECODE_FPS, ffp->video_gop_size);
+					ffp_notify_msg2(ffp, FFP_MSG_VIDEO_GOP_SIZE, ffp->video_gop_size);
 				}
 				ffp->frame_counter = 0;
 			}
@@ -4584,4 +4584,10 @@ int ffp_set_decoder_name(FFPlayer *ffp, const char *name)
 	ffp->video_codec_name = av_strdup(name);
 #endif
 	return 0;
+}
+
+int ffp_set_frop_frame_nums(FFPlayer* ffp, int nums)
+{
+	assert(ffp);
+	ffp->drop_pframe_nums = nums;
 }

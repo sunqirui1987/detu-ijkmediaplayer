@@ -216,4 +216,6 @@ int             ijkmp_get_msg(IjkMediaPlayer *mp, AVMessage *msg, int block);
 
 int				ijkmp_set_decoder_name(IjkMediaPlayer *mp, const char* decoder_name);
 
+int				ijkmp_set_drop_frame_nums(IjkMediaPlayer* mp, int nums);
+
 #endif
