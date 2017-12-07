@@ -175,6 +175,7 @@ typedef struct PacketQueue {
 #define FRAME_QUEUE_SIZE FFMAX(SAMPLE_QUEUE_SIZE, FFMAX(VIDEO_PICTURE_QUEUE_SIZE_MAX, SUBPICTURE_QUEUE_SIZE))
 
 #define VIDEO_MAX_FPS_DEFAULT 30
+#define VIDEO_MAX_GOP_SIZE 300
 
 typedef struct AudioParams {
     int freq;
@@ -683,6 +684,11 @@ typedef struct FFPlayer {
     int gopSize;
     int64_t packetSize;
     int showDetuStatisticsInfo;
+
+	//add by chenlaing 
+	int video_gop_size;
+	int drop_pframe_nums;
+	int frame_counter;
 } FFPlayer;
 
 #define fftime_to_milliseconds(ts) (av_rescale(ts, 1000, AV_TIME_BASE))
@@ -803,6 +809,10 @@ inline static void ffp_reset_internal(FFPlayer *ffp)
     ffp->inject_opaque = NULL;
     ffp_reset_statistic(&ffp->stat);
     ffp_reset_demux_cache_control(&ffp->dcc);
+
+	ffp->video_gop_size = VIDEO_MAX_GOP_SIZE;
+	ffp->drop_pframe_nums = 0;
+	ffp->frame_counter = 0;
 }
 
 //向消息队列中添加消息，指定类型what

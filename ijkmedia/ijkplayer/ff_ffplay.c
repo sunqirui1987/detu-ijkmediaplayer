@@ -441,9 +441,10 @@ static void decoder_init(Decoder *d, AVCodecContext *avctx, PacketQueue *queue, 
     SDL_ProfilerReset(&d->decode_profiler, -1);
 }
 
-static long counter = 1;
 static int decoder_decode_frame(FFPlayer *ffp, Decoder *d, AVFrame *frame, AVSubtitle *sub) {
-    int got_frame = 0;
+	static long counter = 1;
+	
+	int got_frame = 0;
 
     do {
         int ret = -1;
@@ -470,6 +471,39 @@ static int decoder_decode_frame(FFPlayer *ffp, Decoder *d, AVFrame *frame, AVSub
             d->packet_pending = 1;
         }
 
+		//add by chenliang, 丢帧解码
+		if (d->avctx->codec_type == AVMEDIA_TYPE_VIDEO){
+			if (d->pkt_temp.flags == AV_PKT_FLAG_KEY){
+				if (ffp->frame_counter != 0){
+					ffp->video_gop_size = ffp->frame_counter;
+				}
+				if (ffp->video_gop_size != VIDEO_MAX_GOP_SIZE){
+					;//ffp_notify_msg2(ffp, FFP_MSG_VIDEO_DECODE_FPS, ffp->video_gop_size);
+				}
+				ffp->frame_counter = 0;
+			}
+
+			ffp->frame_counter += 1;
+
+			//av_log(ffp, AV_LOG_INFO, "flag:%d, frame counter:%d, drop frame num:%d, video gop size:%d", d->pkt_temp.flags, ffp->frame_counter, ffp->drop_pframe_nums, ffp->video_gop_size);
+
+			if ((d->pkt_temp.flags == 0) && 
+				(ffp->drop_pframe_nums != 0) &&
+				(ffp->frame_counter > (ffp->video_gop_size - ffp->drop_pframe_nums))){
+				d->pkt_temp.dts =
+				d->pkt_temp.pts = AV_NOPTS_VALUE;
+				if (d->pkt_temp.data) {
+					if (d->avctx->codec_type != AVMEDIA_TYPE_AUDIO)
+						ret = d->pkt_temp.size;
+					d->pkt_temp.data += ret;
+					d->pkt_temp.size -= ret;
+					if (d->pkt_temp.size <= 0)
+						d->packet_pending = 0;
+				}
+				continue;
+			}
+		}
+
         switch (d->avctx->codec_type) {
             case AVMEDIA_TYPE_VIDEO: {
                 ret = avcodec_decode_video2(d->avctx, frame, &got_frame, &d->pkt_temp);
@@ -490,8 +524,9 @@ static int decoder_decode_frame(FFPlayer *ffp, Decoder *d, AVFrame *frame, AVSub
 					}
 					if (counter++%fps == 0){
 						ffp_notify_msg2(ffp, FFP_MSG_VIDEO_DECODE_FPS, (int)(ffp->stat.vdps));
-						//av_log(ffp, AV_LOG_INFO, "decode fps:%f, frame pts:%lld", ffp->stat.vdps, frame->pts);
+						//av_log(ffp, AV_LOG_INFO, "gop size:%d, decode fps:%f, frame pts:%lld", d->avctx->gop_size, ffp->stat.vdps, frame->pts);
 					}
+					//av_log(ffp, AV_LOG_INFO, "packet type:%d, packet pts:%lld, packet dts:%lld, frame pts:%lld", d->pkt_temp.flags, d->pkt_temp.pts, d->pkt_temp.dts, frame->pts);
                 }
                 }
                 break;
@@ -2673,7 +2708,7 @@ static int read_thread(void *arg)
     
     //detu.2017-06-26，控制是否输出统计信息
     if(ffp->player_opts != NULL && (t = (av_dict_get(ffp->player_opts, "detu_show_statistics", NULL, AV_DICT_IGNORE_SUFFIX)))) {
-        ffp->showDetuStatisticsInfo = (strcmp("true", t->value) == 0);
+		ffp->showDetuStatisticsInfo = (strcmp("true", t->value) == 0);
         t = NULL;
     }
     
@@ -3951,6 +3986,9 @@ int ffp_is_paused_l(FFPlayer *ffp)
 int ffp_stop_l(FFPlayer *ffp)
 {
     assert(ffp);
+	ffp->video_gop_size	= VIDEO_MAX_GOP_SIZE;
+	ffp->drop_pframe_nums = 0;
+	ffp->frame_counter = 0;
     VideoState *is = ffp->is;
     if (is)
         is->abort_request = 1;
