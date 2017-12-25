@@ -518,7 +518,12 @@ static int decoder_decode_frame(FFPlayer *ffp, Decoder *d, AVFrame *frame, AVSub
                         frame->pts = frame->pkt_dts;
                     }
 
-					int fps = d->avctx->time_base.den / (d->avctx->time_base.num * d->avctx->ticks_per_frame);
+					int fps = 0;
+					if (d->avctx->time_base.num * d->avctx->ticks_per_frame == 0) {
+						fps = 30;
+					} else {
+						fps = d->avctx->time_base.den / (d->avctx->time_base.num * d->avctx->ticks_per_frame);
+					}
 					if (frame->pts == 0){
 						counter = 1;
 					}
@@ -737,6 +742,7 @@ static void decoder_abort(Decoder *d, FrameQueue *fq)
 {
     packet_queue_abort(d->queue);
     frame_queue_signal(fq);
+	av_log(NULL, AV_LOG_INFO, "wait for decoder_tid\n");
     SDL_WaitThread(d->decoder_tid, NULL);
     d->decoder_tid = NULL;
     packet_queue_flush(d->queue);
@@ -847,7 +853,7 @@ static void stream_close(FFPlayer *ffp)
     is->abort_request = 1;
     packet_queue_abort(&is->videoq);
     packet_queue_abort(&is->audioq);
-    av_log(NULL, AV_LOG_DEBUG, "wait for read_tid\n");
+	av_log(NULL, AV_LOG_INFO, "wait for read_tid\n");
     SDL_WaitThread(is->read_tid, NULL);
 
     /* close each stream */
@@ -862,7 +868,7 @@ static void stream_close(FFPlayer *ffp)
 
     avformat_close_input(&is->ic);
 
-    av_log(NULL, AV_LOG_DEBUG, "wait for video_refresh_tid\n");
+	av_log(NULL, AV_LOG_INFO, "wait for video_refresh_tid\n");
     SDL_WaitThread(is->video_refresh_tid, NULL);
 
     packet_queue_destroy(&is->videoq);
