@@ -289,6 +289,8 @@ void ijkmeta_set_avformat_context_l(IjkMediaMeta *meta, AVFormatContext *ic)
                     ijkmeta_set_int64_l(stream_meta, IJKM_KEY_SAMPLE_RATE, codecpar->sample_rate);
                 if (codecpar->channel_layout)
                     ijkmeta_set_int64_l(stream_meta, IJKM_KEY_CHANNEL_LAYOUT, codecpar->channel_layout);
+				if (codecpar->channels)
+					ijkmeta_set_int64_l(stream_meta, IJKM_KEY_CHANNELS, codecpar->channels);
                 break;
             }
             default: {

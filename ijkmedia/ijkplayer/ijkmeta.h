@@ -60,6 +60,7 @@
 // stream: audio
 #define IJKM_KEY_SAMPLE_RATE    "sample_rate"
 #define IJKM_KEY_CHANNEL_LAYOUT "channel_layout"
+#define IJKM_KEY_CHANNELS		"channels"
 
 // reserved for user
 #define IJKM_KEY_STREAMS        "streams"

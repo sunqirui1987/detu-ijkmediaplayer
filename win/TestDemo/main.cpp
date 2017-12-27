@@ -87,10 +87,10 @@ void msg_callback(void* opaque, IjkMsgState ijk_msgint, int arg1, int arg2)
 	switch (ijk_msgint)
 	{
 	case IJK_MSG_VIDEO_DECODE_FPS:
-		Log::Info("video decode fps:%d", arg1);
+		//Log::Info("video decode fps:%d", arg1);
 		break;
 	case IJK_MSG_VIDEO_GOP_SIZE:
-		Log::Info("video gop size:%d", arg1);
+		//Log::Info("video gop size:%d", arg1);
 		break;
 	case IJK_MSG_FLUSH:
 		break;
@@ -330,13 +330,12 @@ int main(int argc, char** argv)
 
 		//open file, default test.flv in current direct
 		if (input == 'O'){	
-			char path[1024] = { 0 };
+			char path[1024] = { 0 };//"rtsp://192.168.31.243/stream12";//{ 0 };
 			printf("\nPlease input file path:\n");
 			scanf("%s", path);
 
 			sdl_init_flag = false;
 			SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO | SDL_INIT_TIMER);
-
 			ijkFfplayDecoder_setDataSource(ijk_ffplay_decoder, path);
 			ijkFfplayDecoder_prepare(ijk_ffplay_decoder);
 		}

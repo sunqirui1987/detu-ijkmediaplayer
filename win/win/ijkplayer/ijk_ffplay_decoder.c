@@ -687,7 +687,7 @@ int ijkFfplayDecoder_getMediaMeta(IjkFfplayDecoder* decoder, IjkMetadata* metada
 						metadata->audio_samples_per_sec = atoi(media_info);
 					}
 
-					media_info = fillMetaInternal(streamRawMeta, IJKM_KEY_CHANNEL_LAYOUT, NULL);
+					media_info = fillMetaInternal(streamRawMeta, IJKM_KEY_CHANNELS, NULL);
 					if (media_info){
 						metadata->audio_channel_layout = atoi(media_info);
 					}
