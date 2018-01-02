@@ -95,7 +95,7 @@ void msg_callback(void* opaque, IjkMsgState ijk_msgint, int arg1, int arg2)
 	case IJK_MSG_FLUSH:
 		break;
 	case IJK_MSG_ERROR:
-		printf("ijk error");
+		printf("ijk error, arg1:%d, arg2:%d\n", arg1, arg2);
 		break;
 	case IJK_MSG_PREPARED:
 		ijkFfplayDecoder_start(ijk_ffplay_decoder);
@@ -338,6 +338,29 @@ int main(int argc, char** argv)
 			SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO | SDL_INIT_TIMER);
 			ijkFfplayDecoder_setDataSource(ijk_ffplay_decoder, path);
 			ijkFfplayDecoder_prepare(ijk_ffplay_decoder);
+		}
+
+		if (input == 'd'){
+			int mode = 0;
+			printf("\nPlease chose your decode mode: \n");
+			printf("1: h264_cuvid for nvida\n");
+			printf("2: h264_qsv for intel\n");
+			printf("3: ffmpeg\n");
+			printf("decode mode: ");
+			scanf("%d", &mode);
+			switch (mode)
+			{
+			case 1:
+				ijkFfplayDecoder_setHwDecoderName(ijk_ffplay_decoder, "h264_cuvid");
+				break;
+			case 2:
+				ijkFfplayDecoder_setHwDecoderName(ijk_ffplay_decoder, "h264_qsv");
+				break;
+			case 3:
+				ijkFfplayDecoder_setHwDecoderName(ijk_ffplay_decoder, NULL);
+				break;
+			}
+			print_help_info();
 		}
 
 		Sleep(500);

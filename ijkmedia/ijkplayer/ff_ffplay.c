@@ -4587,7 +4587,12 @@ int ffp_set_decoder_name(FFPlayer *ffp, const char *name)
 		return -1;
 	}
 
-	ffp->video_codec_name = av_strdup(name);
+	if (name != NULL){
+		ffp->video_codec_name = av_strdup(name);
+	} else {
+		ffp->video_codec_name = NULL;
+	}
+
 #endif
 	return 0;
 }

@@ -710,9 +710,8 @@ int ijkFfplayDecoder_setHwDecoderName(IjkFfplayDecoder* decoder, const char* dec
 		return -1;
 	}
 
-	if (decoder_name) {
-		ijkmp_set_decoder_name(decoder->ijk_media_player, decoder_name);
-	}
+	ijkmp_set_decoder_name(decoder->ijk_media_player, decoder_name);
+
 	return 0;
 }
 
