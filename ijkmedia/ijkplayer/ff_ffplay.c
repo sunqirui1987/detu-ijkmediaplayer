@@ -963,10 +963,13 @@ static int get_master_sync_type(VideoState *is) {
         else
             return AV_SYNC_AUDIO_MASTER;
     } else if (is->av_sync_type == AV_SYNC_AUDIO_MASTER) {
-        if (is->audio_st)
-            return AV_SYNC_AUDIO_MASTER;
-        else
-            return AV_SYNC_EXTERNAL_CLOCK;
+		if (is->audio_st) {
+			//av_log(NULL, AV_LOG_ERROR, "AV_SYNC_AUDIO_MASTER\n");
+			return AV_SYNC_AUDIO_MASTER;
+		} else {
+			//av_log(NULL, AV_LOG_ERROR, "AV_SYNC_VIDEO_MASTER\n");
+			return AV_SYNC_VIDEO_MASTER;
+		}
     } else {
         return AV_SYNC_EXTERNAL_CLOCK;
     }
@@ -3438,7 +3441,7 @@ inline static int log_level_av_to_ijk(int av_level)
     else if (av_level <= AV_LOG_WARNING)    ijk_level = IJK_LOG_WARN;
     else if (av_level <= AV_LOG_INFO)       ijk_level = IJK_LOG_INFO;
     // AV_LOG_VERBOSE means detailed info
-    else if (av_level <= AV_LOG_VERBOSE)    ijk_level = IJK_LOG_INFO;
+	else if (av_level <= AV_LOG_VERBOSE)    ijk_level = IJK_LOG_DEBUG;
     else if (av_level <= AV_LOG_DEBUG)      ijk_level = IJK_LOG_DEBUG;
     else if (av_level <= AV_LOG_TRACE)      ijk_level = IJK_LOG_VERBOSE;
     else                                    ijk_level = IJK_LOG_VERBOSE;
@@ -3472,7 +3475,7 @@ static void ffp_log_callback_brief(void *ptr, int level, const char *fmt, va_lis
     int ffplv __unused = log_level_av_to_ijk(level);
 #else
 	int ffplv = log_level_av_to_ijk(level);
-	if (ijk_log_callback){
+	if (ijk_log_callback && (ffplv >= IJK_LOG_INFO)) {//info级别以下不回调
 		ijk_log_callback(ptr, ffplv, fmt, vl);
 		return;
 	}
