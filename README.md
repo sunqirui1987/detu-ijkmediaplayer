@@ -2,8 +2,37 @@
 
  Platform | Build Status
  -------- | ------------
- Android | [![Build Status](https://travis-ci.org/bbcallen/ci-ijk-ffmpeg-android.svg?branch=master)](https://travis-ci.org/bbcallen/ci-ijk-ffmpeg-android)
- iOS | [![Build Status](https://travis-ci.org/bbcallen/ci-ijk-ffmpeg-ios.svg?branch=master)](https://travis-ci.org/bbcallen/ci-ijk-ffmpeg-ios)
+Android | [![Build Status]]
+iOS | [![Build Status]]
+WIN | [![Build Status]]
+MAC | [![Build Status]]
+
+### directory
+
+IJKMediaDemo 
+IJKMediaPlayer 
+
+
+### ios
+
+detu-ijkmediaplayer/ios/
+
+
+### Android
+
+detu-ijkmediaplayer/Android/
+
+
+### Mac
+
+detu-ijkmediaplayer/mac/
+
+### WIN
+
+detu-ijkmediaplayer/win/
+
+
+
 
 Video player based on [ffplay](http://ffmpeg.org)
 
