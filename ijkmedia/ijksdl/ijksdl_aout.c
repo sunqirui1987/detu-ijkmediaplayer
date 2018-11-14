@@ -138,4 +138,5 @@ SDL_AudioSpec * SDL_AoutGetSpec(SDL_Aout* aout)
 			return aout->get_spec(aout);
 		}
 	}
+    return NULL;
 }

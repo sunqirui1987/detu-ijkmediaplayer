@@ -4604,4 +4604,5 @@ int ffp_set_frop_frame_nums(FFPlayer* ffp, int nums)
 {
 	assert(ffp);
 	ffp->drop_pframe_nums = nums;
+    return 0;
 }
