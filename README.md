@@ -2,34 +2,39 @@
 
  Platform | Build Status
  -------- | ------------
-Android | [![Build Status]]
-iOS | [![Build Status]]
-WIN | [![Build Status]]
-MAC | [![Build Status]]
+Android | YES
+iOS | YES
+WIN | YES
+MAC | YES
 
-### directory
+## code project
 
+#### exec code
 IJKMediaDemo 
+#### static libary
 IJKMediaPlayer 
 
 
-### ios
+## ios
 
 detu-ijkmediaplayer/ios/
 
 
-### Android
+## Android
 
 detu-ijkmediaplayer/Android/
 
 
-### Mac
+## Mac
 
 detu-ijkmediaplayer/mac/
 
-### WIN
+## WIN
 
 detu-ijkmediaplayer/win/
+
+
+
 
 
 
