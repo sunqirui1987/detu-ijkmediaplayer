@@ -109,7 +109,7 @@ basePath;\
    // path =  [[NSBundle mainBundle] pathForResource:@"175601AA" ofType:@"MP4"];
   // path = [NSString stringWithFormat:@"file://%@",path];
     
-//    path =  @"http://192.168.1.254:8192";
+    path =  @"http://192.168.1.254:8192";
     
     
     //  path = @"rtsp://192.168.42.1/tmp/SD0/DCIM/161228000/220330AB.MP4";
@@ -149,6 +149,9 @@ basePath;\
     path = @"http://media.detu.com/@/17717910-8057-4FDF-2F33-F8B1F68282395/2016-08-22/57baeda5920ea-similar.mp4";
     path = @"rtsp://192.168.42.1/tmp/SD0/DCIM/170921000/203945AB.MP4";
     path = @"rtsp://192.168.155.103/live";
+    path =  @"http://192.168.1.254:8192";
+    
+    
     if (decoder!= nil) {
         [decoder cleargc];
         sleep(1);

@@ -20,7 +20,6 @@
 		55E809F91B15A1DB003E98A5 /* IJKDemoLocalFolderViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 55E809F81B15A1DB003E98A5 /* IJKDemoLocalFolderViewController.m */; };
 		764D28231D191740006AE2BA /* ALAssetsLibrary+CustomPhotoAlbum.m in Sources */ = {isa = PBXBuildFile; fileRef = 764D28221D191740006AE2BA /* ALAssetsLibrary+CustomPhotoAlbum.m */; };
 		764D28261D191AE2006AE2BA /* AssetsLibrary.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 764D28251D191AE2006AE2BA /* AssetsLibrary.framework */; };
-		764D282C1D1A32C4006AE2BA /* aaa.png in Resources */ = {isa = PBXBuildFile; fileRef = 764D282B1D1A32C4006AE2BA /* aaa.png */; };
 		764D282D1D1A3B21006AE2BA /* aaa.png in Sources */ = {isa = PBXBuildFile; fileRef = 764D282B1D1A32C4006AE2BA /* aaa.png */; };
 		96DF71041D06DE29007E2A47 /* GLES2Renderer.m in Sources */ = {isa = PBXBuildFile; fileRef = 96DF71031D06DE29007E2A47 /* GLES2Renderer.m */; };
 		96DF71071D06DE6D007E2A47 /* GLESRenderer.m in Sources */ = {isa = PBXBuildFile; fileRef = 96DF71061D06DE6D007E2A47 /* GLESRenderer.m */; };
@@ -30,7 +29,6 @@
 		96DF71131D06DF8D007E2A47 /* IJKPlayerMovieDecoder.m in Sources */ = {isa = PBXBuildFile; fileRef = 96DF71121D06DF8D007E2A47 /* IJKPlayerMovieDecoder.m */; };
 		96DF711A1D07A912007E2A47 /* Texture.m in Sources */ = {isa = PBXBuildFile; fileRef = 96DF71191D07A912007E2A47 /* Texture.m */; };
 		96DF711C1D07A96F007E2A47 /* GLKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 96DF711B1D07A96F007E2A47 /* GLKit.framework */; };
-		E5A821F51EC010E300F60240 /* 2017_0418_140821_002.MP4 in Resources */ = {isa = PBXBuildFile; fileRef = E5A821F41EC010D600F60240 /* 2017_0418_140821_002.MP4 */; };
 		E60E8C2A19EF70BB005B5B6E /* CoreMedia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E60E8C2919EF70BB005B5B6E /* CoreMedia.framework */; };
 		E612EAE517F7E0F800BEE660 /* MediaPlayer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E612EAE417F7E0F800BEE660 /* MediaPlayer.framework */; };
 		E6166C9C17EDA4A20006B956 /* IJKMediaDemo-Prefix.pch in Resources */ = {isa = PBXBuildFile; fileRef = E6166C9B17EDA4A20006B956 /* IJKMediaDemo-Prefix.pch */; };
@@ -119,7 +117,6 @@
 		96DF71181D07A912007E2A47 /* Texture.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Texture.h; sourceTree = "<group>"; };
 		96DF71191D07A912007E2A47 /* Texture.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Texture.m; sourceTree = "<group>"; };
 		96DF711B1D07A96F007E2A47 /* GLKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GLKit.framework; path = System/Library/Frameworks/GLKit.framework; sourceTree = SDKROOT; };
-		E5A821F41EC010D600F60240 /* 2017_0418_140821_002.MP4 */ = {isa = PBXFileReference; lastKnownFileType = file; name = 2017_0418_140821_002.MP4; path = ../../../../../Downloads/2017_0418_140821_002.MP4; sourceTree = "<group>"; };
 		E60E8C2919EF70BB005B5B6E /* CoreMedia.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMedia.framework; path = System/Library/Frameworks/CoreMedia.framework; sourceTree = SDKROOT; };
 		E612EAE417F7E0F800BEE660 /* MediaPlayer.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MediaPlayer.framework; path = System/Library/Frameworks/MediaPlayer.framework; sourceTree = SDKROOT; };
 		E6166C9B17EDA4A20006B956 /* IJKMediaDemo-Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "IJKMediaDemo-Prefix.pch"; sourceTree = "<group>"; };
@@ -270,7 +267,6 @@
 		E6903F0517EAF70200CFD954 /* IJKMediaDemo */ = {
 			isa = PBXGroup;
 			children = (
-				E5A821F41EC010D600F60240 /* 2017_0418_140821_002.MP4 */,
 				96DF71001D06DE0B007E2A47 /* OpenGL */,
 				E6903F0E17EAF70200CFD954 /* IJKAppDelegate.h */,
 				E6903F0F17EAF70200CFD954 /* IJKAppDelegate.m */,
@@ -364,7 +360,7 @@
 				ORGANIZATIONNAME = bilibili;
 				TargetAttributes = {
 					E6903EFB17EAF70200CFD954 = {
-						DevelopmentTeam = YS5EJK97LA;
+						DevelopmentTeam = 7562V8QXVH;
 					};
 				};
 			};
@@ -373,6 +369,7 @@
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
 			knownRegions = (
+				English,
 				en,
 			);
 			mainGroup = E6903EF317EAF70200CFD954;
@@ -413,7 +410,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E5A821F51EC010E300F60240 /* 2017_0418_140821_002.MP4 in Resources */,
 				96DF710E1D06DF3D007E2A47 /* sphere.vsh in Resources */,
 				E6903F0A17EAF70200CFD954 /* InfoPlist.strings in Resources */,
 				E67323AC1B69E76100CB9036 /* MoviePlayerImages.xcassets in Resources */,
@@ -427,7 +423,6 @@
 				55E809E41B143C85003E98A5 /* IJKDemoMainViewController.xib in Resources */,
 				55E809F31B146DE8003E98A5 /* IJKQRCodeScanViewController.xib in Resources */,
 				55E809E61B145B55003E98A5 /* LaunchScreen.xib in Resources */,
-				764D282C1D1A32C4006AE2BA /* aaa.png in Resources */,
 				E67323A81B69E6F800CB9036 /* LaunchImages.xcassets in Resources */,
 				96DF710C1D06DF1B007E2A47 /* sphere.fsh in Resources */,
 			);
@@ -565,7 +560,7 @@
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				DEVELOPMENT_TEAM = YS5EJK97LA;
+				DEVELOPMENT_TEAM = 7562V8QXVH;
 				ENABLE_BITCODE = NO;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "IJKMediaDemo/IJKMediaDemo-Prefix.pch";
@@ -581,7 +576,7 @@
 				INFOPLIST_FILE = "IJKMediaDemo/IJKMediaDemo-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
-				PRODUCT_BUNDLE_IDENTIFIER = tv.danmaku.IJKMediaDemo1234;
+				PRODUCT_BUNDLE_IDENTIFIER = tv.danmaku.IJKMediaDemo2;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				TARGETED_DEVICE_FAMILY = 1;
@@ -597,7 +592,7 @@
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				DEVELOPMENT_TEAM = YS5EJK97LA;
+				DEVELOPMENT_TEAM = 7562V8QXVH;
 				ENABLE_BITCODE = NO;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "IJKMediaDemo/IJKMediaDemo-Prefix.pch";
@@ -613,7 +608,7 @@
 				INFOPLIST_FILE = "IJKMediaDemo/IJKMediaDemo-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
-				PRODUCT_BUNDLE_IDENTIFIER = tv.danmaku.IJKMediaDemo1234;
+				PRODUCT_BUNDLE_IDENTIFIER = tv.danmaku.IJKMediaDemo2;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				TARGETED_DEVICE_FAMILY = 1;

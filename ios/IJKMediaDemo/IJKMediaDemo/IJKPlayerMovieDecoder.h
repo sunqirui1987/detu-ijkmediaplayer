@@ -15,6 +15,7 @@
 #endif
 #import <CoreVideo/CVPixelBuffer.h>
 #import <UIKit/UIKit.h>
+#import <IJKMediaFramework/IJKMediaFramework.h>
 #include "ijksdl.h"
 #include "ijksdl_vout_overlay_videotoolbox.h"
 
