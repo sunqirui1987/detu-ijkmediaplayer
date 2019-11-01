@@ -198,6 +198,7 @@ mkdir -p $FF_SYSROOT
 
 
 FF_TOOLCHAIN_TOUCH="$FF_TOOLCHAIN_PATH/touch"
+echo "FF_TOOLCHAIN_TOUCH $FF_TOOLCHAIN_TOUCH"
 if [ ! -f "$FF_TOOLCHAIN_TOUCH" ]; then
     $ANDROID_NDK/build/tools/make-standalone-toolchain.sh \
         $FF_MAKE_TOOLCHAIN_FLAGS \
@@ -261,8 +262,8 @@ fi
 # with x264
 X264=`pwd`/x264
 FF_CFG_FLAGS="$FF_CFG_FLAGS --enable-gpl --enable-libx264"
-FF_CFLAGS="$FF_CFLAGS -I$X264/include"
-FF_DEP_LIBS="$FF_DEP_LIBS -L$X264/lib/$FF_ARCH -lx264"
+FF_CFLAGS="$FF_CFLAGS -I$X264/$FF_ARCH/include"
+FF_DEP_LIBS="$FF_DEP_LIBS -L$X264/$FF_ARCH/lib -lx264"
 
 FF_CFG_FLAGS="$FF_CFG_FLAGS $COMMON_FF_CFG_FLAGS"
 
@@ -297,7 +298,7 @@ esac
 #--------------------
 echo ""
 echo "--------------------"
-echo "[*] configurate ffmpeg"
+echo "[*] configurate ffmpeg  $CC"
 echo "--------------------"
 cd $FF_SOURCE
 if [ -f "./config.h" ]; then
@@ -307,6 +308,11 @@ else
     ./configure $FF_CFG_FLAGS \
         --extra-cflags="$FF_CFLAGS $FF_EXTRA_CFLAGS" \
         --extra-ldflags="$FF_DEP_LIBS $FF_EXTRA_LDFLAGS"
+
+    echo "./configure $FF_CFG_FLAGS \
+        --extra-cflags="$FF_CFLAGS $FF_EXTRA_CFLAGS" \
+        --extra-ldflags="$FF_DEP_LIBS $FF_EXTRA_LDFLAGS" "
+    
     make clean
 fi
 

@@ -1,9 +1,77 @@
-# ijkplayer
+# detu-ijkmediaplayer
+Android/iOS/MAC/WiN video player base ijkplayer
+
 
  Platform | Build Status
  -------- | ------------
- Android | [![Build Status](https://travis-ci.org/bbcallen/ci-ijk-ffmpeg-android.svg?branch=master)](https://travis-ci.org/bbcallen/ci-ijk-ffmpeg-android)
- iOS | [![Build Status](https://travis-ci.org/bbcallen/ci-ijk-ffmpeg-ios.svg?branch=master)](https://travis-ci.org/bbcallen/ci-ijk-ffmpeg-ios)
+Android | YES
+iOS | YES
+WIN | YES
+MAC | YES
+
+## code project
+
+#### exec code
+IJKMediaDemo 
+#### static libary
+IJKMediaPlayer 
+
+
+###编译多版本x264 
+ https://github.com/suiqirui1987/detu-x264
+
+
+## ios
+
+cd detu-ijkmediaplayer
+sh init-ios.sh
+cd ios
+sh complie-ffmpeg.sh
+
+use XCODE open IJKMediaPlayer 
+
+
+## Android 编译
+
+cd detu-ijkmediaplayer
+sh init-android.sh
+cd android/contrib/
+sh compile-ffmpeg.sh armv7a
+sh compile-ffmpeg.sh arm64
+cd ../
+ sh compile-ijk.sh armv7a
+ sh compile-ijk.sh arm64
+
+## Mac
+
+detu-ijkmediaplayer/mac/
+
+## WIN
+
+detu-ijkmediaplayer/win/
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+-----------------------------------------------------------------------------------
+
+
+# ijkplayer
+
+
 
 Video player based on [ffplay](http://ffmpeg.org)
 
@@ -277,3 +345,7 @@ ijkplayer is licensed under LGPLv2.1 or later, so itself is free for commercial 
 But ijkplayer is also based on other different projects under various licenses, which I have no idea whether they are compatible to each other or to your product.
 
 [IANAL](https://en.wikipedia.org/wiki/IANAL), you should always ask your lawyer for these stuffs before use it in your product.
+
+
+
+
