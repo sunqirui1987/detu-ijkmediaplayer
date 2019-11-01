@@ -23,24 +23,36 @@ IJKMediaPlayer
 
 ## ios
 
+```shell
 cd detu-ijkmediaplayer
 sh init-ios.sh
 cd ios
 sh complie-ffmpeg.sh
 
 use XCODE open IJKMediaPlayer 
+```
+
+
+
+
 
 
 ## Android 编译
 
+```shell
 cd detu-ijkmediaplayer
 sh init-android.sh
 cd android/contrib/
 sh compile-ffmpeg.sh armv7a
 sh compile-ffmpeg.sh arm64
 cd ../
- sh compile-ijk.sh armv7a
- sh compile-ijk.sh arm64
+sh compile-ijk.sh armv7a
+sh compile-ijk.sh arm64
+```
+
+
+
+
 
  查看 detu-ijkmediaplayer/android/ijkplayer/ijkplayer-arm64/src/main/libs
 
