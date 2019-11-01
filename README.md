@@ -42,10 +42,7 @@ detu-ijkmediaplayer/win/
 
 # ijkplayer
 
- Platform | Build Status
- -------- | ------------
- Android | [![Build Status](https://travis-ci.org/bbcallen/ci-ijk-ffmpeg-android.svg?branch=master)](https://travis-ci.org/bbcallen/ci-ijk-ffmpeg-android)
- iOS | [![Build Status](https://travis-ci.org/bbcallen/ci-ijk-ffmpeg-ios.svg?branch=master)](https://travis-ci.org/bbcallen/ci-ijk-ffmpeg-ios)
+
 
 Video player based on [ffplay](http://ffmpeg.org)
 
