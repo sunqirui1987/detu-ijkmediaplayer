@@ -42,6 +42,9 @@ cd ../
  sh compile-ijk.sh armv7a
  sh compile-ijk.sh arm64
 
+ 查看 detu-ijkmediaplayer/android/ijkplayer/ijkplayer-arm64/src/main/libs
+
+
 ## Mac
 
 detu-ijkmediaplayer/mac/
